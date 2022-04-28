@@ -1,6 +1,9 @@
 # Nuxt 3 Minimal Starter
 
-Look at the [nuxt 3 documentation](https://v3.nuxtjs.org) to learn more.
+## Setup
+
+File Drop Tail https://www.youtube.com/watch?v=vaitbHV7TKU
+Styling DnD https://www.youtube.com/watch?v=ozncomQkhPE
 
 ## Setup
 
