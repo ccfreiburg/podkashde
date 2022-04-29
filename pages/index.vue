@@ -1,17 +1,21 @@
 <template>
-  <div class="m-10">
-    <div class="m-5 flex flex-col items-center justify-center">
+  <div class="p-10 w-full h-full">
+    <div class="m-5">
       <div class="mb-5">
         <h1 class="text-2xl text-center">Add Podcast</h1>
       </div>
       <div
-        class="m-5 previewBlock"
+        ref="imgageHldr"
+        class="self-center block cursor-pointer w-60 h-60 border-2 border-dotted rounded-md border-gray-500 bg-center bg-cover"
         @click="chooseFile"
         :style="{ 'background-image': `url(${filePreview})` }"
-      ></div>
+      >
+      <div v-if="file===null" class="text-gray-500 text-center">Drag 'n Drop oder klicken um Bild hinzuzufügen</div>
+      <div v-else @click="removeImage" class="text-red-500 text-right mr-2">X</div>
+      </div>
       <div>
         <input
-          class="form-control form-control-lg"
+          class="invisible"
           ref="fileInput"
           type="file"
           id="formFileLg"
@@ -42,6 +46,10 @@ export default {
         body: fd,
       };
       $fetch("/api/podcast", data);
+    },
+    removeImage(event) {
+      console.log("hi2");
+      event.stopImmediatePropagation();
     },
     chooseFile() {
       this.$refs.fileInput.click();
