@@ -1,0 +1,28 @@
+		<title>Calvary Chapel Freiburg - Alle Predigten</title>
+		<atom:link href="https://ccfreiburg.de/feed/podcast" rel="self" type="application/rss+xml"/>
+		<link>https://ccfreiburg.de/</link>
+		<description>Calvary Chapel Freiburg ist eine christliche Freikirche und Teil des weltweiten Calvary Chapel Netzwerks. Wir lehren die Bibel Vers für Vers, weil wir glauben, dass die Bibel als Gottes Wort lebendig und mächtig ist.</description>
+		<lastBuildDate>Fri, 29 Apr 2022 07:10:28 +0000</lastBuildDate>
+		<language>de-DE</language>
+		<copyright>© 2022 Calvary Chapel Freiburg</copyright>
+		<itunes:subtitle>Gott kennen.</itunes:subtitle>
+		<itunes:author>Calvary Chapel Freiburg</itunes:author>
+		<itunes:type>episodic</itunes:type>
+		<itunes:summary>Calvary Chapel Freiburg ist eine christliche Freikirche und Teil des weltweiten Calvary Chapel Netzwerks. Wir lehren die Bibel Vers für Vers, weil wir glauben, dass die Bibel als Gottes Wort lebendig und mächtig ist.</itunes:summary>
+		<itunes:owner>
+			<itunes:name>Calvary Chapel Freiburg</itunes:name>
+			<itunes:email>ccf@ccfreiburg.de</itunes:email>
+		</itunes:owner>
+		<itunes:explicit>clean</itunes:explicit>
+		<itunes:image href="https://ccfreiburg.de/wp-content/uploads/podcast-ccf.jpg"></itunes:image>
+			<image>
+				<url>https://ccfreiburg.de/wp-content/uploads/podcast-ccf.jpg</url>
+				<title>Calvary Chapel Freiburg - Alle Predigten</title>
+				<link>https://ccfreiburg.de/</link>
+			</image>
+		<itunes:category text="Religion &amp; Spirituality">
+			<itunes:category text="Christianity"></itunes:category>
+		</itunes:category>
+		<podcast:locked owner="ccf@ccfreiburg.de">yes</podcast:locked>
+		<podcast:guid>bd4f4ece-3d3d-5b3d-9f24-4a081ee0d63d</podcast:guid>
+		<generator>https://wordpress.org/?v=5.9.3</generator>
