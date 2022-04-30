@@ -4,14 +4,29 @@
       <div class="mb-5">
         <h1 class="text-2xl text-center">Add Podcast</h1>
       </div>
+      <!-- Image Area -->
       <div
         ref="imgageHldr"
-        class="self-center block cursor-pointer w-60 h-60 border-2 border-dotted rounded-md border-gray-500 bg-center bg-cover"
+        class="
+          self-center
+          block
+          cursor-pointer
+          w-60
+          h-60
+          border-2 border-dotted
+          rounded-md
+          border-gray-500
+          bg-center bg-cover
+        "
         @click="chooseFile"
         :style="{ 'background-image': `url(${filePreview})` }"
       >
-      <div v-if="file===null" class="text-gray-500 text-center">Drag 'n Drop oder klicken um Bild hinzuzufügen</div>
-      <div v-else @click="removeImage" class="text-red-500 text-right mr-2">X</div>
+        <div v-if="filePreview === null" class="text-gray-500 text-center">
+          klicken um Bild hinzuzufügen
+        </div>
+        <div v-else @click="removeImage" class="text-red-500 text-right mr-2">
+          X
+        </div>
       </div>
       <div>
         <input
@@ -22,7 +37,20 @@
           @change="selectImgFile"
         />
       </div>
-      <button @click="submit">Submit</button>
+      <!-- Fields-->
+      <div class="flex flex-col">
+        <label class="text-sm text-gray-500" for="title">Title</label>
+        <input
+          class="border-2 h-8 p-2 rounded-md shadow-inner text-gray-800"
+          type="text"
+          name="title"
+          id=""
+          v-model="title"
+        />
+        <button class="mt-5 border-2 bg-slate-200" @click="submit">
+          Submit
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -33,12 +61,27 @@ export default {
     return {
       file: null,
       filePreview: null,
+      title: "",
+      subtitle: "",
+      author: "",
+      type: "",
+      summary: "",
+      link: "",
+      description: "",
+      language: "", // enum
+      copyright: "",
+      owner: {
+        name: "",
+        email: "",
+      },
+      categories: [],
+      explicit: "", //enum
     };
   },
   methods: {
     submit() {
       var fd = new FormData();
-      fd.append("cover", this.file, this.file.name);
+      if (this.file) fd.append("cover", this.file, this.file.name);
       fd.append("name", "Alex R");
       console.log(fd);
       var data = {
@@ -48,7 +91,7 @@ export default {
       $fetch("/api/podcast", data);
     },
     removeImage(event) {
-      console.log("hi2");
+      this.filePreview = null;
       event.stopImmediatePropagation();
     },
     chooseFile() {
