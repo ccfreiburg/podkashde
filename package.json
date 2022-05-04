@@ -8,6 +8,7 @@
     "lint": "eslint --ext .ts,.js,.vue ."
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.16.7",
     "@nuxtjs/eslint-config-typescript": "^9.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^8.14.0",
@@ -16,7 +17,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.7.1",
     "nuxt": "3.0.0-rc.1",
-    "prettier": "^2.6.2"
+    "prettier": "^2.6.2",
+    "typescript": "^4.6.4"
   },
   "dependencies": {
     "@nuxtjs/tailwindcss": "5.0.0-4",

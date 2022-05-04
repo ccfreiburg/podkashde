@@ -2,12 +2,10 @@
   <div>
     <div class="fixed inset-x-0 top-0 z-10 bg-opacity-90 bg-gray-50">
       <nav id="nav" class="flex flex-row justify-between items-center">
-        <img src="../assets/logo.png" class="h-10 m-3" />
-        <!-- Nav Items Working on Tablet & Bigger Sceen -->
+        <img src="~/assets/logo.png" class="h-10 m-3" />
         <div
           class="p-4 hidden md:flex flex-row justify-between items-center"
         ></div>
-        <!-- Burger Nav Button on Mobile -->
         <div id="burger" class="p-4 md:hidden">
           <svg
             xmlns="http://www.w3.org/2000/svg"

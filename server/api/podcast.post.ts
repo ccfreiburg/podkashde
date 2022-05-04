@@ -4,7 +4,7 @@ const coverParser = upload.single("cover");
 
 export default defineEventHandler( async (event) => {
     await coverParser(event.req, event.res, () => {
-            console.log(event.req["body"].name);
+            console.log(event.req["body"]);
             console.log(event.req["file"].path);
             });
     return {
