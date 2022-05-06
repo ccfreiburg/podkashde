@@ -2,6 +2,12 @@
   // https://v3.nuxtjs.org/concepts/typescript
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
-    "types": ["@types/node", "@nuxt/vue-app", "@types/jest", ""]
-  }
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "types": ["@types/node", "@nuxt/vue-app", "@types/jest", ""],
+    "lib": ["es5", "es6", "dom"],  
+  },
+  "experimentalDecorators": true,
+  "emitDecoratorMetadata": true,
+  "lib": ["es5", "es6", "dom"],  
 }

@@ -93,7 +93,6 @@ export default defineComponent({
       Object.keys(this.fields).forEach((key) => {
         fd.append(key, this.fields[key]);
       });
-      fd.append("title", this.fields.title);
       return fd;
     },
     submit() {
