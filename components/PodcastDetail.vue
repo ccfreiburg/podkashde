@@ -44,16 +44,178 @@
       </div>
       <!-- Fields-->
       <div class="flex flex-col">
-        <label class="text-sm text-gray-500" for="title">Title</label>
-        <input
-          class="border-2 h-8 p-2 rounded-md shadow-inner text-gray-800"
-          type="text"
-          name="title"
-          id=""
-          v-model="fields.title"
-        />
-        <button class="mt-5 border-2 bg-slate-200" @click="submit">
-          Submit
+        <div class="flex flex-col">
+          <label class="pl-2 text-sm text-gray-500" for="title">Title</label>
+          <input
+            class="
+              border-2
+              h-10
+              px-3
+              py-1
+              mt-1
+              rounded-md
+              text-gray-600
+              border-gray-200
+              focus:outline-none focus:ring-1 focus:ring-orange-300
+            "
+            type="text"
+            name="title"
+            v-model="fields.title"
+          />
+        </div>
+        <div class="flex flex-col mt-3">
+          <label class="pl-2 text-sm text-gray-500" for="subtitle"
+            >Sub Title</label
+          >
+          <input
+            class="
+              border-2
+              h-10
+              px-3
+              py-1
+              mt-1
+              rounded-md
+              text-gray-600
+              border-gray-200
+              focus:outline-none focus:ring-1 focus:ring-orange-300
+            "
+            type="text"
+            name="subtitle"
+            v-model="fields.subtitle"
+          />
+        </div>
+        <div class="flex flex-col mt-3">
+          <label class="pl-2 text-sm text-gray-500" for="author">Author</label>
+          <input
+            class="
+              border-2
+              h-10
+              px-3
+              py-1
+              mt-1
+              rounded-md
+              text-gray-600
+              border-gray-200
+              focus:outline-none focus:ring-1 focus:ring-orange-300
+            "
+            type="text"
+            name="author"
+            v-model="fields.author"
+          />
+        </div>
+        <div class="flex flex-col mt-3">
+          <label class="pl-2 text-sm text-gray-500" for="summary"
+            >Summary</label
+          >
+          <textarea
+            class="
+              border-2
+              h-20
+              px-3
+              py-1
+              mt-1
+              rounded-md
+              text-gray-600
+              border-gray-200
+              focus:outline-none focus:ring-1 focus:ring-orange-300
+            "
+            type="text"
+            name="summary"
+            v-model="fields.summary"
+          />
+        </div>
+        <div class="flex flex-col mt-3">
+          <label class="pl-2 text-sm text-gray-500" for="description"
+            >Description</label
+          >
+          <textarea
+            class="
+              border-2
+              h-28
+              px-3
+              py-1
+              mt-1
+              rounded-md
+              text-gray-600
+              border-gray-200
+              focus:outline-none focus:ring-1 focus:ring-orange-300
+            "
+            type="text"
+            name="description"
+            v-model="fields.description"
+          />
+        </div>
+        <div class="flex flex-col mt-3">
+          <label class="pl-2 text-sm text-gray-500" for="description"
+            >Language</label
+          >
+          <select
+            class="
+              border-2
+              h-10
+              px-3
+              py-1
+              mt-1
+              rounded-md
+              text-gray-600
+              border-gray-200
+              focus:outline-none focus:ring-1 focus:ring-orange-300
+            "
+            type="text"
+            name="description"
+            v-model="fields.language"
+          >
+            <option
+              v-for="langOption in languages"
+              :key="langOption.id"
+              :value="langOption.shorttext"
+            >
+              {{ langOption.displaytext }}
+            </option>
+          </select>
+        </div>
+        <div class="flex flex-col mt-3">
+          <label class="pl-2 text-sm text-gray-500" for="description"
+            >Category</label
+          >
+          <select
+            class="
+              border-2
+              h-10
+              px-3
+              py-1
+              mt-1
+              rounded-md
+              text-gray-600
+              border-gray-200
+              focus:outline-none focus:ring-1 focus:ring-orange-300
+            "
+            type="text"
+            name="description"
+            v-model="fields.category"
+          >
+            <option
+              v-for="categoryOption in categories"
+              :key="categoryOption.id"
+              :value="categoryOption.shorttext"
+            >
+              {{ categoryOption.parentCategory }} -
+              {{ categoryOption.displaytext }}
+            </option>
+          </select>
+        </div>
+        <button
+          class="
+            mt-5
+            h-10
+            border-2
+            rounded-md
+            bg-orange-300
+            hover:bg-orange-400
+          "
+          @click="submit"
+        >
+          Podcast anlegen
         </button>
       </div>
     </div>
@@ -69,22 +231,31 @@ export default defineComponent({
     return {
       file: null,
       filePreview: null,
+      languages: [],
+      categories: [],
       fields: {
         title: "",
         subtitle: "",
         author: "",
-        type: "",
         summary: "",
-        link: "",
         description: "",
-        language: "", // enum
+        language: "",
+        category: "",
+
+        explicit: "", //enum
+        type: "",
+        link: "",
         copyright: "",
         owner_name: "",
         owner_email: "",
-        categories: [],
-        explicit: "", //enum
       },
     };
+  },
+  async mounted() {
+    var enums = await $fetch("/api/enums");
+    this.languages = enums.filter((item) => item.enum_id === 0);
+    this.categories = enums.filter((item) => item.enum_id === 1);
+    console.log(this.languages);
   },
   methods: {
     getFormData() {

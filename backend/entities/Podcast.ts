@@ -7,4 +7,13 @@ export class Podcast extends BaseEntity{
 
     @Column("text")
     title: string
+
+    @Column("text")
+    subtitle: string
+
+    @Column("text")
+    author: string
+
+    @Column("text")
+    summary: string
 }
