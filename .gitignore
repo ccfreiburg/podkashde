@@ -8,3 +8,4 @@ node_modules
 upload
 coverage
 yarn.lock
+data

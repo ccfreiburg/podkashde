@@ -1,7 +1,8 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { Podcast } from "./entities/Podcast";
-import { Enumerator, fillDefaultEnums } from "./entities/Enumerator";
+import  Podcast from "./entities/Podcast";
+import  Enumerator from "./entities/Enumerator";
+import  fillDefaultEnums from "./initdata";
 
 var defaultFilename = "data/podcasts.sqlite"
 var dataSource = undefined;
@@ -21,7 +22,6 @@ export default async function getDataSource(filename?) {
   if (dataSource.isInitialized)
     return dataSource;
   else {
-    console.log("Initializing Data "+ JSON.stringify(dataSource.options));  
     var ds  = await dataSource.initialize();  
     const german = await ds.manager.findOneBy(Enumerator, {shorttext: "de-DE"})
     if (!german)
