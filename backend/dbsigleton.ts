@@ -5,27 +5,33 @@ import  Enumerator from "./entities/Enumerator";
 import  fillDefaultEnums from "./initdata";
 
 var defaultFilename = "data/podcasts.sqlite"
-var dataSource = undefined;
 
-export default async function getDataSource(filename?) {
-  if (!dataSource)
-    var filepath = defaultFilename;
-    if (filename)
-      filepath = filename;
-    dataSource = new DataSource({
-      type: "sqlite",
-      database: filepath,
-      entities: [Podcast, Enumerator],
-      logging: true,
-      synchronize: true
-    });
+var dataSource = new DataSource({
+  type: "sqlite",
+  database: defaultFilename,
+  entities: [Podcast, Enumerator],
+  logging: true,
+  synchronize: true
+});
+
+export function setAnotherFilename(filename) {
+  dataSource = new DataSource({
+    type: "sqlite",
+    database: filename,
+    entities: [Podcast, Enumerator],
+    logging: true,
+    synchronize: true
+  });
+}
+
+export default async function getDataSource(): Promise<DataSource> {
   if (dataSource.isInitialized)
     return dataSource;
   else {
-    var ds  = await dataSource.initialize();  
-    const german = await ds.manager.findOneBy(Enumerator, {shorttext: "de-DE"})
+    await dataSource.initialize();  
+    const german = await dataSource.manager.findOneBy(Enumerator, {shorttext: "de-DE"})
     if (!german)
-      await fillDefaultEnums(ds);
-    return ds;
+      await fillDefaultEnums(dataSource);
+    return dataSource;
   }
 }

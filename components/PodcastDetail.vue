@@ -146,33 +146,55 @@
             </option>
           </select>
         </div>
-        <div class="mt-3 flex">
-          <label
-            for="toggle-example"
-            class="flex items-center cursor-pointer relative mb-4"
+        <div class="flex flex-row mt-3">
+          <div
+            class="
+              relative
+              w-12
+              h-6
+              transition
+              duration-200
+              ease-linear
+              rounded-2xl
+            "
+            :class="[fields.explicit ? 'bg-orange-300' : 'bg-gray-200']"
           >
+            <label
+              for="toggle"
+              class="
+                absolute
+                left-0
+                w-6
+                h-6
+                mb-2
+                transition
+                duration-100
+                ease-linear
+                transform
+                bg-white
+                border-2
+                rounded-2xl
+                cursor-pointer
+              "
+              :class="[
+                fields.explicit
+                  ? 'translate-x-full border-orange-300'
+                  : 'translate-x-0 border-gray-300',
+              ]"
+            ></label>
             <input
               type="checkbox"
-              id="toggle-example"
-              class="sr-only"
-              v-model="fields.explicit"
+              id="toggle"
+              name="toggle"
+              class="w-full h-full appearance-none focus:outline-none"
+              @click="fields.explicit = !fields.explicit"
             />
-            <div
-              class="
-                toggle-bg
-                bg-gray-200
-                border-2 border-gray-200
-                h-8
-                w-14
-                rounded-full
-              "
-            ></div>
-            <span class="ml-3 text-gray-500 text-sm font-medium">{{
-              fields.explicit
-                ? "Contains explicit content"
-                : "Is clean from explicit content"
-            }}</span>
-          </label>
+          </div>
+          <span class="ml-3 text-gray-500 text-sm font-medium">{{
+            fields.explicit
+              ? "Contains explicit content"
+              : "Is clean from explicit content"
+          }}</span>
         </div>
         <div class="flex flex-col mt-3">
           <label class="pl-2 text-sm text-gray-500" for="author">Link</label>
@@ -312,19 +334,6 @@ export default defineComponent({
 });
 </script>
 <style lang="postcss" scoped>
-.toggle-bg:after {
-  content: "";
-  @apply absolute top-0.5 left-0.5 bg-white border border-gray-300 rounded-full h-7 w-6 transition shadow-sm;
-}
-
-input:checked + .toggle-bg:after {
-  transform: translateX(100%);
-  @apply border-white;
-}
-
-input:checked + .toggle-bg {
-  @apply bg-orange-300 border-orange-300;
-}
 .field {
   @apply border-2
               h-10

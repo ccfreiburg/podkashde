@@ -112,15 +112,17 @@ export default async function fillDefaultEnums(db: DataSource) {
         ["series", 	       "series", 	    "Type",	2,	2 ],
     ];
 
-        return await db.manager.transaction( async (manager) => { 
-            await list.forEach(async (item) => {
+    return await db.manager.transaction( async (manager) => { 
+        return await manager.save(
+          list.map<Enumerator>( (item) => {
             const enumerator = new Enumerator();
             enumerator.displaytext = item[0] as string;
             enumerator.shorttext = item[1] as string;
             enumerator.parentCategory = item[2] as string;
             enumerator.enum_id = item[3] as number;
             enumerator.order_id = item[4] as number;
-            await manager.save(enumerator);
-        })
+            return enumerator;
+          })
+        )
     })
 }
