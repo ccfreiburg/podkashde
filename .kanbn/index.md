@@ -21,10 +21,11 @@ sprints:
 
 ## Todo
 
-- [new-podcast-form-validations](tasks/new-podcast-form-validations.md)
 - [create-new-podcast-with-image](tasks/create-new-podcast-with-image.md)
 
 ## In Progress
+
+- [new-podcast-form-validations](tasks/new-podcast-form-validations.md)
 
 ## Done
 

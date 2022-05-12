@@ -19,8 +19,5 @@ export default defineNuxtConfig({
       tailwindcss: {},
       autoprefixer: {},
     }
-  },
-  vite: {
-    base: ".",
   }
 });

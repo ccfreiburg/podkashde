@@ -4,10 +4,6 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "types": ["@types/node", "@nuxt/vue-app", "@types/jest", ""],
-    "lib": ["es5", "es6", "dom"],  
+    "types": ["@types/node", "@nuxt/vue-app", "@types/jest", "vitest/importMeta"],
   },
-  "experimentalDecorators": true,
-  "emitDecoratorMetadata": true,
-  "lib": ["es5", "es6", "dom"],  
 }
