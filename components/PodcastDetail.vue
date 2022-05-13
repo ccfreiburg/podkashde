@@ -1,6 +1,6 @@
 <template>
   <div class="p-10 w-full h-full">
-    <div class="m-5">
+    <form class="m-5" @submit.prevent="submit">
       <div class="mb-5">
         <h1 class="text-2xl text-center">Add Podcast</h1>
       </div>
@@ -47,7 +47,7 @@
         <div class="flex flex-col">
           <label class="pl-2 text-sm text-gray-500" for="title">Title</label>
           <input
-            class="field"
+            :class="getClass('title')"
             type="text"
             name="title"
             v-model="fields.title"
@@ -67,7 +67,7 @@
         <div class="flex flex-col mt-3">
           <label class="pl-2 text-sm text-gray-500" for="author">Author</label>
           <input
-            class="field"
+            :class="getClass('title')"
             type="text"
             name="author"
             v-model="fields.author"
@@ -227,11 +227,17 @@
             >Owner email</label
           >
           <input
-            class="field"
+            :class="getClass('title')"
             type="text"
             name="owner_email"
             v-model="fields.owner_email"
           />
+        </div>
+        <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
+          <P>Pleas correct the following issues:</P>
+          <ul class="ml-5">
+            <li class="list-disc" v-for="err in errors">{{ err.text }}</li>
+          </ul>
         </div>
         <button
           class="
@@ -247,7 +253,7 @@
           Podcast anlegen
         </button>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
@@ -263,6 +269,7 @@ export default defineComponent({
       languages: [],
       categories: [],
       types: [],
+      errors: [],
       category_id: 0,
       fields: {
         title: "",
@@ -296,6 +303,34 @@ export default defineComponent({
     },
   },
   methods: {
+    hasError(fieldname) {
+      return this.errors.find((e) => e.field === fieldname);
+    },
+    getClass(fieldname) {
+      var cssclass = "field";
+      if (this.hasError(fieldname)) {
+        cssclass = "field error";
+      }
+      return cssclass;
+    },
+    validation() {
+      this.errors = [];
+      if (this.fields.title.length < 1)
+        this.errors.push({ field: "title", text: "Please enter a title" });
+      if (this.fields.author.length < 1)
+        this.errors.push({ field: "author", text: "Please enter an author" });
+      var re =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (
+        this.fields.owner_email.length < 1 ||
+        re.test(this.fields.owner_email) == false
+      )
+        this.errors.push({
+          field: "owner_email",
+          text: "Please enter a valid email address",
+        });
+      return this.errors.length == 0;
+    },
     getFormData() {
       var fd = new FormData();
       if (this.file) fd.append("cover", this.file, this.file.name);
@@ -304,13 +339,15 @@ export default defineComponent({
       });
       return fd;
     },
-    submit() {
-      var fd = this.getFormData();
-      var data = {
-        method: "post",
-        body: fd,
-      };
-      $fetch("/api/podcast", data);
+    async submit() {
+      if (this.validation()) {
+        var fd = this.getFormData();
+        var data = {
+          method: "post",
+          body: fd,
+        };
+        $fetch("/api/podcast", data);
+      }
     },
     removeImage(event) {
       this.filePreview = null;
@@ -342,8 +379,11 @@ export default defineComponent({
               mt-1
               rounded-md
               text-gray-600
-              border-gray-200
+              valid:border-gray-200
               focus:outline-none focus:ring-1 focus:ring-orange-300;
+}
+.error {
+  @apply ring-orange-700 ring-1;
 }
 .textarea {
   @apply border-2
