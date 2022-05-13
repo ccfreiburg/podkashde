@@ -13,20 +13,21 @@ sprints:
 
 ## Backlog
 
-- [add-series](tasks/add-series.md)
-- [upload-mp3-and-read-id3-tags-into-form](tasks/upload-mp3-and-read-id3-tags-into-form.md)
 - [create-episode](tasks/create-episode.md)
+- [upload-mp3-and-read-id3-tags-into-form](tasks/upload-mp3-and-read-id3-tags-into-form.md)
+- [add-series](tasks/add-series.md)
 - [drag-n-drop-image](tasks/drag-n-drop-image.md)
 - [fix-build-warnings](tasks/fix-build-warnings.md)
 
 ## Todo
 
-- [create-new-podcast-with-image](tasks/create-new-podcast-with-image.md)
+- [i18n](tasks/i18n.md)
+- [generate-rss-xml](tasks/generate-rss-xml.md)
 
 ## In Progress
-
-- [new-podcast-form-validations](tasks/new-podcast-form-validations.md)
 
 ## Done
 
 - [remove-database-warnings](tasks/remove-database-warnings.md)
+- [create-new-podcast-with-image](tasks/create-new-podcast-with-image.md)
+- [new-podcast-form-validations](tasks/new-podcast-form-validations.md)

@@ -100,7 +100,7 @@
             >Language</label
           >
           <select
-            class="field"
+            :class="getClass('language')"
             type="text"
             name="language"
             v-model="fields.language"
@@ -119,7 +119,7 @@
             >Category</label
           >
           <select
-            class="field"
+            :class="getClass('category')"
             type="text"
             name="category"
             v-model="category_id"
@@ -136,7 +136,12 @@
         </div>
         <div class="flex flex-col mt-3">
           <label class="pl-2 text-sm text-gray-500" for="type">Type</label>
-          <select class="field" type="text" name="type" v-model="fields.type">
+          <select
+            :class="getClass('type')"
+            type="text"
+            name="type"
+            v-model="fields.type"
+          >
             <option
               v-for="typeOption in types"
               :key="typeOption.id"
@@ -198,7 +203,12 @@
         </div>
         <div class="flex flex-col mt-3">
           <label class="pl-2 text-sm text-gray-500" for="author">Link</label>
-          <input class="field" type="text" name="link" v-model="fields.link" />
+          <input
+            :class="getClass('link')"
+            type="text"
+            name="link"
+            v-model="fields.link"
+          />
         </div>
         <div class="flex flex-col mt-3">
           <label class="pl-2 text-sm text-gray-500" for="copyright"
@@ -216,7 +226,7 @@
             >Owner name</label
           >
           <input
-            class="field"
+            :class="getClass('owner_name')"
             type="text"
             name="owner_name"
             v-model="fields.owner_name"
@@ -266,6 +276,8 @@ export default defineComponent({
     return {
       file: null,
       filePreview: null,
+      imgWidth: 0,
+      imgHeight: 0,
       languages: [],
       categories: [],
       types: [],
@@ -315,11 +327,40 @@ export default defineComponent({
     },
     validation() {
       this.errors = [];
+      if (!(this.imgWidth == 1400 && this.imgHeight == 1400))
+        this.errors.push({
+          field: "img",
+          text: "Please select an image with the exact dimensions of 1400x1400 pixel",
+        });
       if (this.fields.title.length < 1)
         this.errors.push({ field: "title", text: "Please enter a title" });
       if (this.fields.author.length < 1)
         this.errors.push({ field: "author", text: "Please enter an author" });
+      if (this.fields.language.length < 1)
+        this.errors.push({
+          field: "language",
+          text: "Please select the language",
+        });
+      if (this.fields.category.length < 1)
+        this.errors.push({
+          field: "category",
+          text: "Please select a category for your content",
+        });
+      if (this.fields.type.length < 1)
+        this.errors.push({
+          field: "type",
+          text: "Please select the publishing type",
+        });
       var re =
+        /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+      if (this.fields.link.length < 1 || re.test(this.fields.link) == false)
+        this.errors.push({ field: "link", text: "Please enter the link" });
+      if (this.fields.owner_name.length < 1)
+        this.errors.push({
+          field: "owner_name",
+          text: "Please enter the owners name",
+        });
+      re =
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       if (
         this.fields.owner_email.length < 1 ||
@@ -351,6 +392,8 @@ export default defineComponent({
     },
     removeImage(event) {
       this.filePreview = null;
+      this.imgWidth = 0;
+      this.imgHeight = 0;
       event.stopImmediatePropagation();
     },
     chooseFile() {
@@ -359,9 +402,15 @@ export default defineComponent({
     selectImgFile(event) {
       this.file = event.target.files[0];
       if (this.file) {
+        let img = new Image();
         let reader = new FileReader();
         reader.onload = (e) => {
           this.filePreview = e.target.result;
+          img.onload = () => {
+            this.imgWidth = img.naturalWidth;
+            this.imgHeight = img.naturalHeight;
+          };
+          img.src = e.target.result as any;
         };
         reader.readAsDataURL(this.file);
         this.$emit("fileInput", this.file);

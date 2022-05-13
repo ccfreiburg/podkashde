@@ -6,6 +6,9 @@ export default class Podcast extends BaseEntity{
     id: number
 
     @Column("text")
+    cover_file: string
+
+    @Column("text")
     title: string
 
     @Column("text")

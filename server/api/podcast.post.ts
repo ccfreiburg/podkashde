@@ -1,3 +1,4 @@
+import fs from "fs";
 import multer from "multer";
 import Podcast from "~~/backend/entities/Podcast";
 import getDataSource from "~~/backend/dbsigleton";
@@ -7,13 +8,14 @@ const coverParser = upload.single("cover");
 
 export default defineEventHandler( async (event) => {   
     await coverParser(event.req, event.res, async() => {
-        //console.log(event.req["file"].path);
         const podcast = new Podcast();
         for(const key in (event.req as any).body) {
-          console.log(key + " -> " + (event.req as any).body[key])
           podcast[key] = (event.req as any).body[key];
        }
-       getDataSource().then((db) => {
+       podcast.cover_file = event.req["file"].originalname
+       fs.renameSync(event.req["file"].path, "data/img/"+ podcast.cover_file);
+
+       getDataSource().then((db) => {          
            db.manager.save(podcast);
        })
     })
