@@ -234,7 +234,7 @@
           />
         </div>
         <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
-          <P>Pleas correct the following issues:</P>
+          <p>Pleas correct the following issues:</p>
           <ul class="ml-5">
             <li class="list-disc" v-for="err in errors">{{ err.text }}</li>
           </ul>
