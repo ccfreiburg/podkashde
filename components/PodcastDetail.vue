@@ -103,7 +103,7 @@
             :class="getClass('language')"
             type="text"
             name="language"
-            v-model="fields.language"
+            v-model="language_id"
           >
             <option
               v-for="langOption in languages"
@@ -140,7 +140,7 @@
             :class="getClass('type')"
             type="text"
             name="type"
-            v-model="fields.type"
+            v-model="type_id"
           >
             <option
               v-for="typeOption in types"
@@ -249,19 +249,37 @@
             <li class="list-disc" v-for="err in errors">{{ err.text }}</li>
           </ul>
         </div>
-        <button
-          class="
-            mt-5
-            h-10
-            border-2
-            rounded-md
-            bg-orange-300
-            hover:bg-orange-400
-          "
-          @click="submit"
-        >
-          Podcast anlegen
-        </button>
+        <div class="flex flex-row justify-end">
+          <button
+            class="
+              mt-5
+              px-5
+              h-10
+              border-2
+              rounded-md
+              bg-gray-300
+              hover:bg-gray-400
+            "
+            @click="cancel"
+          >
+            Cancel
+          </button>
+          <button
+            class="
+              mt-5
+              ml-5
+              px-5
+              h-10
+              border-2
+              rounded-md
+              bg-orange-300
+              hover:bg-orange-400
+            "
+            @click="submit"
+          >
+            Save Podcast
+          </button>
+        </div>
       </div>
     </form>
   </div>
@@ -269,8 +287,10 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import Podcast from "~~/backend/entities/Podcast";
 
 export default defineComponent({
+  props: ["podcast"],
   name: "PodcastDetail",
   data: () => {
     return {
@@ -282,7 +302,9 @@ export default defineComponent({
       categories: [],
       types: [],
       errors: [],
+      language_id: 0,
       category_id: 0,
+      type_id: 0,
       fields: {
         title: "",
         subtitle: "",
@@ -302,16 +324,31 @@ export default defineComponent({
     };
   },
   async mounted() {
-    var enums = await $fetch("/api/enums");
-    this.languages = enums.filter((item) => item.enum_id === 0);
-    this.categories = enums.filter((item) => item.enum_id === 1);
-    this.types = enums.filter((item) => item.enum_id === 2);
+    if (this.languages.length == 0) {
+      var enums = await $fetch("/api/enums");
+      this.languages = enums.filter((item) => item.enum_id === 0);
+      this.categories = enums.filter((item) => item.enum_id === 1);
+      this.types = enums.filter((item) => item.enum_id === 2);
+    }
   },
   watch: {
     category_id(nVal, oVal) {
       var cat = this.categories.find((item) => item.id == nVal);
       this.fields.category = cat.parentCategory;
       this.fields.subcategory = cat.displaytext;
+    },
+    type_id(nVal, oVal) {
+      var typ = this.types.find((item) => item.id == nVal);
+      this.fields.type = typ.displaytext;
+    },
+    language_id(nVal, oVal) {
+      var lang = this.languages.find((item) => item.id == nVal);
+      this.fields.language = lang.displaytext;
+    },
+    podcast(newVal, _) {
+      //this.fields = { ...newVal };
+      console.log("oid");
+      this.fields.title = this.currentPodcast.title;
     },
   },
   methods: {
@@ -382,13 +419,21 @@ export default defineComponent({
     },
     async submit() {
       if (this.validation()) {
-        var fd = this.getFormData();
-        var data = {
+        var formData = this.getFormData();
+        var postData = {
           method: "post",
-          body: fd,
+          body: formData,
         };
-        $fetch("/api/podcast", data);
+        var postResult = await $fetch("/api/podcast", postData);
+        if (postResult.status == 201) {
+          this.clearAll(this);
+          this.$emit("onsaved", this.fields.title);
+        }
       }
+    },
+    cancel() {
+      this.clearAll(this);
+      this.$emit("oncancel");
     },
     removeImage(event) {
       this.filePreview = null;
@@ -416,9 +461,33 @@ export default defineComponent({
         this.$emit("fileInput", this.file);
       }
     },
+    clearAll(self) {
+      this.file = null;
+      this.filePreview = null;
+      this.imgWidth = 0;
+      this.imgHeight = 0;
+
+      this.errors = [];
+      this.fields.title = "";
+      this.fields.subtitle = "";
+      this.fields.author = "";
+      this.fields.summary = "";
+      this.fields.description = "";
+      this.fields.language = "";
+      this.fields.category = "";
+      this.fields.subcategory = "";
+      this.fields.explicit = false;
+      this.fields.type = "";
+      this.fields.link = "";
+      this.fields.copyright = "";
+      this.fields.owner_name = "";
+      this.fields.owner_email = "";
+      //this.category_id = 0;
+    },
   },
 });
 </script>
+
 <style lang="postcss" scoped>
 .field {
   @apply border-2

@@ -29,5 +29,6 @@ sprints:
 ## Done
 
 - [remove-database-warnings](tasks/remove-database-warnings.md)
+- [go-to-a-success-page-incl-list-of-podcasts-after-create-podcast](tasks/go-to-a-success-page-incl-list-of-podcasts-after-create-podcast.md)
 - [create-new-podcast-with-image](tasks/create-new-podcast-with-image.md)
 - [new-podcast-form-validations](tasks/new-podcast-form-validations.md)
