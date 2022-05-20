@@ -1,6 +1,6 @@
 ---
 created: 2022-05-19T07:16:49.241Z
-updated: 2022-05-19T07:34:32.815Z
+updated: 2022-05-20T12:04:55.494Z
 assigned: ""
 progress: 0
 tags: []
@@ -11,5 +11,6 @@ tags: []
 ## Sub-tasks
 
 - [ ] Use composition API
-- [ ] type PodcastDetail
-- [ ] Extract Constants
+- [x] type PodcastDetail
+- [x] Extract Constants
+- [ ] Enable Enter and Esc Keys

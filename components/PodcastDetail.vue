@@ -1,5 +1,9 @@
 <template>
-  <div class="p-10 w-full h-full">
+  <div
+    class="p-10 w-full h-full"
+    v-on:keyup.enter="submitPodcast"
+    v-on:keyup.esc="cancel"
+  >
     <!--form class="m-5" @submit="submitPodcast"-->
     <div class="mb-5">
       <h1 class="text-2xl text-center">Add Podcast</h1>
@@ -456,7 +460,6 @@ export default defineComponent({
           this.calcImageSizePx(e.target.result as any);
         };
         reader.readAsDataURL(this.imgMetadata.selectedFile);
-        //this.$emit("fileInput", this.imgMetadata.selectedFile);
       }
     },
   },
