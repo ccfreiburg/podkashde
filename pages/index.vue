@@ -20,7 +20,7 @@
             bg-orange-300
             hover:bg-orange-400
           "
-          @click="listview = false"
+          @click="newPodcast"
         >
           New Podcast
         </button>
@@ -57,7 +57,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Podcast from "~~/backend/entities/Podcast";
+import Podcast, { clonePodcastFromObject } from "~~/backend/entities/Podcast";
 
 export default defineComponent({
   name: "PodcastDetail",
@@ -74,18 +74,23 @@ export default defineComponent({
   },
   methods: {
     async fetchPodcastList() {
-      this.podcasts = (await $fetch("/api/podcasts")) as Array<Podcast>;
-      console.log(this.podcasts);
+      const result = await $fetch("/api/podcasts");
+      if (!result) return;
+      this.podcasts = result;
     },
     onsaved(title) {
       this.message = "Successfully saved podcast " + title;
       this.fetchPodcastList();
       this.listview = true;
     },
-    openPodcast(podcastid) {
-      var found = this.podcasts.find((p) => p.id == podcastid);
-      this.currentPodcast = found as Podcast;
+    newPodcast() {
       this.listview = false;
+      this.currentPodcast = new Podcast();
+    },
+    openPodcast(podcastid) {
+      var found = this.podcasts.find((podcast) => podcast.id == podcastid);
+      this.listview = false;
+      if (found) this.currentPodcast = found;
     },
   },
 });

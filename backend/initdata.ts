@@ -119,8 +119,8 @@ export default async function fillDefaultEnums(db: DataSource) {
             enumerator.displaytext = item[0] as string;
             enumerator.shorttext = item[1] as string;
             enumerator.parentCategory = item[2] as string;
-            enumerator.enum_id = item[3] as number;
-            enumerator.order_id = item[4] as number;
+            enumerator.enumkey_id = item[3] as number;
+            enumerator.enumvalue_id = item[4] as number;
             return enumerator;
           })
         )

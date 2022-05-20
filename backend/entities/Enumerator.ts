@@ -15,8 +15,8 @@ export default class Enumerator extends BaseEntity{
     parentCategory: string
 
     @Column("int")
-    enum_id: number
+    enumkey_id: number
 
     @Column("int")
-    order_id: number
+    enumvalue_id: number
 }
