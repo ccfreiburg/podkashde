@@ -22,16 +22,16 @@ sprints:
 
 ## Todo
 
-- [remove-database-warnings](tasks/remove-database-warnings.md)
-- [i18n](tasks/i18n.md)
+- [beautify-design-of-podcast-list-and-toaster](tasks/beautify-design-of-podcast-list-and-toaster.md)
 - [generate-rss-xml](tasks/generate-rss-xml.md)
 
 ## In Progress
 
-- [clean-up](tasks/clean-up.md)
-
 ## Done
 
 - [go-to-a-success-page-incl-list-of-podcasts-after-create-podcast](tasks/go-to-a-success-page-incl-list-of-podcasts-after-create-podcast.md)
+- [i18n](tasks/i18n.md)
+- [clean-up](tasks/clean-up.md)
 - [create-new-podcast-with-image](tasks/create-new-podcast-with-image.md)
+- [remove-database-warnings](tasks/remove-database-warnings.md)
 - [new-podcast-form-validations](tasks/new-podcast-form-validations.md)

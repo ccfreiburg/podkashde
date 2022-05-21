@@ -6,7 +6,7 @@
   >
     <!--form class="m-5" @submit="submitPodcast"-->
     <div class="mb-5">
-      <h1 class="text-2xl text-center">Add Podcast</h1>
+      <h1 class="text-2xl text-center">{{ $t("podcastDetail.newPodcast") }}</h1>
     </div>
     <!-- Image Area -->
     <div
@@ -22,7 +22,7 @@
         border-gray-500
         bg-center bg-cover
       "
-      @click="chooseFile"
+      @click="chooseImageFile"
       :style="{ 'background-image': `url(${imgMetadata.preview})` }"
     >
       <div
@@ -30,7 +30,7 @@
         class="flex flex-col h-full w-full justify-center bg-slate-200"
       >
         <div class="text-gray-500 text-center">
-          klicken um Bild hinzuzufügen
+          {{ $t("podcastDetail.label.img") }}
         </div>
       </div>
       <div v-else @click="removeImage" class="text-red-500 text-right mr-2">
@@ -43,13 +43,15 @@
         ref="fileInput"
         type="file"
         id="formFileLg"
-        @change="selectImgFile"
+        @change="imageFileSelected"
       />
     </div>
     <!-- Fields-->
     <div class="flex flex-col">
       <div class="flex flex-col">
-        <label class="pl-2 text-sm text-gray-500" for="title">Title</label>
+        <label class="pl-2 text-sm text-gray-500" for="title">{{
+          $t("podcastDetail.label.title")
+        }}</label>
         <input
           :class="getClass('title')"
           type="text"
@@ -69,7 +71,9 @@
         />
       </div>
       <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="author">Author</label>
+        <label class="pl-2 text-sm text-gray-500" for="author">{{
+          $t("podcastDetail.label.author")
+        }}</label>
         <input
           :class="getClass('title')"
           type="text"
@@ -78,7 +82,9 @@
         />
       </div>
       <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="summary">Summary</label>
+        <label class="pl-2 text-sm text-gray-500" for="summary">{{
+          $t("podcastDetail.label.summary")
+        }}</label>
         <textarea
           class="textarea h-28"
           type="text"
@@ -87,9 +93,9 @@
         />
       </div>
       <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="description"
-          >Description</label
-        >
+        <label class="pl-2 text-sm text-gray-500" for="description">{{
+          $t("podcastDetail.label.description")
+        }}</label>
         <textarea
           class="textarea h-28"
           type="text"
@@ -98,9 +104,9 @@
         />
       </div>
       <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="language"
-          >Language</label
-        >
+        <label class="pl-2 text-sm text-gray-500" for="language">{{
+          $t("podcastDetail.label.language")
+        }}</label>
         <select
           :class="getClass('language')"
           name="language_id"
@@ -116,9 +122,9 @@
         </select>
       </div>
       <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="category"
-          >Category</label
-        >
+        <label class="pl-2 text-sm text-gray-500" for="category">{{
+          $t("podcastDetail.label.category")
+        }}</label>
         <select
           :class="getClass('category')"
           name="category_id"
@@ -135,7 +141,9 @@
         </select>
       </div>
       <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="type">Type</label>
+        <label class="pl-2 text-sm text-gray-500" for="type">{{
+          $t("podcastDetail.label.type")
+        }}</label>
         <select
           :class="getClass('type')"
           name="type_id"
@@ -196,12 +204,14 @@
         </div>
         <span class="ml-3 text-gray-500 text-sm font-medium">{{
           fields.explicit
-            ? "Contains explicit content"
-            : "Is clean from explicit content"
+            ? $t("podcastDetail.label.explicit_true")
+            : $t("podcastDetail.label.explicit_false")
         }}</span>
       </div>
       <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="author">Link</label>
+        <label class="pl-2 text-sm text-gray-500" for="author">{{
+          $t("podcastDetail.label.link")
+        }}</label>
         <input
           :class="getClass('link')"
           type="text"
@@ -210,9 +220,9 @@
         />
       </div>
       <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="copyright"
-          >Copyright</label
-        >
+        <label class="pl-2 text-sm text-gray-500" for="copyright">{{
+          $t("podcastDetail.label.copyright")
+        }}</label>
         <input
           class="field"
           type="text"
@@ -221,9 +231,9 @@
         />
       </div>
       <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="owner_name"
-          >Owner name</label
-        >
+        <label class="pl-2 text-sm text-gray-500" for="owner_name">{{
+          $t("podcastDetail.label.owner_name")
+        }}</label>
         <input
           :class="getClass('owner_name')"
           type="text"
@@ -232,9 +242,9 @@
         />
       </div>
       <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="owner_email"
-          >Owner email</label
-        >
+        <label class="pl-2 text-sm text-gray-500" for="owner_email">{{
+          $t("podcastDetail.label.owner_email")
+        }}</label>
         <input
           :class="getClass('title')"
           type="text"
@@ -243,9 +253,11 @@
         />
       </div>
       <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
-        <p>Pleas correct the following issues:</p>
+        <p>{{ $t("podcastDetail.label.errors") }}</p>
         <ul class="ml-5">
-          <li class="list-disc" v-for="err in errors">{{ err.text }}</li>
+          <li class="list-disc" v-for="err in errors">
+            {{ $t("podcastDetail.validation." + err.text) }}
+          </li>
         </ul>
       </div>
       <div class="flex flex-row justify-end">
@@ -261,7 +273,7 @@
           "
           @click="cancel"
         >
-          Cancel
+          {{ $t("cancel") }}
         </button>
         <button
           class="
@@ -276,7 +288,7 @@
           "
           @click="submitPodcast"
         >
-          Save Podcast
+          {{ $t("podcastDetail.savePodcast") }}
         </button>
       </div>
     </div>
@@ -287,10 +299,9 @@
 import { defineComponent, PropType } from "vue";
 import Podcast from "~~/backend/entities/Podcast";
 import { Enumerations } from "~~/backend/Enumerations";
+import validation from "~~/backend/PodcastDetailValidation";
 import {
   IMAGES_BASE_URL,
-  REQUIRED_IMG_WIDTH,
-  REQUIRED_IMG_HEIGHT,
   PODCAST_AP,
   ENUMERATIONS_AP,
 } from "~~/backend/Constants";
@@ -348,59 +359,7 @@ export default defineComponent({
       }
       return cssclass;
     },
-    validation() {
-      this.errors = [];
-      if (
-        !(
-          this.imgMetadata.imgWidth == REQUIRED_IMG_WIDTH &&
-          this.imgMetadata.imgHeight == REQUIRED_IMG_HEIGHT
-        ) ||
-        this.fields.cover_file.length < 1
-      )
-        this.errors.push({
-          field: "img",
-          text: "Please select an image with the exact dimensions of 1400x1400 pixel",
-        });
-      if (this.fields.title.length < 1)
-        this.errors.push({ field: "title", text: "Please enter a title" });
-      if (this.fields.author.length < 1)
-        this.errors.push({ field: "author", text: "Please enter an author" });
-      if (this.fields.language_id < 0)
-        this.errors.push({
-          field: "language",
-          text: "Please select the language",
-        });
-      if (this.fields.category_id < 0)
-        this.errors.push({
-          field: "category",
-          text: "Please select a category for your content",
-        });
-      if (this.fields.type_id < 0)
-        this.errors.push({
-          field: "type",
-          text: "Please select the publishing type",
-        });
-      var re =
-        /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
-      if (this.fields.link.length < 1 || re.test(this.fields.link) == false)
-        this.errors.push({ field: "link", text: "Please enter the link" });
-      if (this.fields.owner_name.length < 1)
-        this.errors.push({
-          field: "owner_name",
-          text: "Please enter the owners name",
-        });
-      re =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if (
-        this.fields.owner_email.length < 1 ||
-        re.test(this.fields.owner_email) == false
-      )
-        this.errors.push({
-          field: "owner_email",
-          text: "Please enter a valid email address",
-        });
-      return this.errors.length == 0;
-    },
+
     getFormData() {
       const fd = new FormData();
       Object.keys(this.fields).forEach((key) => {
@@ -418,13 +377,17 @@ export default defineComponent({
     async submitPodcast(event) {
       event.preventDefault();
       event.stopImmediatePropagation();
-      if (this.validation()) {
+      this.errors = validation(
+        this.fields,
+        this.imgMetadata.imgWidth,
+        this.imgMetadata.imgHeight
+      );
+      if (this.errors.length == 0) {
         const postData = {
           method: "post",
           body: this.getFormData(),
         };
         var postResult = await $fetch(PODCAST_AP, postData);
-        console.log(postResult);
         if (postResult.status == 201) {
           this.$emit("onsaved", this.fields.title);
         }
@@ -447,10 +410,10 @@ export default defineComponent({
       this.imgMetadata.imgHeight = 0;
       event.stopImmediatePropagation();
     },
-    chooseFile() {
+    chooseImageFile() {
       this.$refs.fileInput.click();
     },
-    selectImgFile(event) {
+    imageFileSelected(event) {
       this.imgMetadata.selectedFile = event.target.files[0];
       if (this.imgMetadata.selectedFile) {
         this.fields.cover_file = this.imgMetadata.selectedFile.name;

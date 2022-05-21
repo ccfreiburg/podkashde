@@ -1,0 +1,37 @@
+{
+  "podcastDetail": {
+    "newPodcast": "New Podcast",
+    "editPodcast": "Edit Podcast",
+    "addImage": "klicken um Bild hinzuzufügen",
+    "label": {
+      "img": "klicken um Bild hinzuzufügen",
+      "title": "Title",
+      "author": "Author",
+      "summary": "Summary",
+      "description": "Description",
+      "language": "Language",
+      "category": "Category",
+      "type": "Type",
+      "explicit_true": "Contains explicit content",
+      "explicit_false": "Is clean from explicit content",
+      "copyright": "Copyright",
+      "link": "Url",
+      "owner_email": "Owners email address",
+      "owner_name": "Owners name",
+      "errors": "Pleas correct the following issues:"
+    },
+    "validation": {
+      "img": "Please select an image with the exact dimensions of 1400x1400 pixel",
+      "title": "Please enter a title",
+      "author": "Please enter an author",
+      "language": "Please select the language",
+      "category": "Please select a category for your content",
+      "type": "Please select the publishing type",
+      "link": "Please enter the link",
+      "owner_email": "Please enter a valid email address",
+      "owner_name": "Please enter the owners name"
+    },
+    "savePodcast": "Save Podcast"
+  },
+  "cancel": "Cancel"
+}
