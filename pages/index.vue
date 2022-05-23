@@ -2,11 +2,16 @@
   <div class="w-full h-full">
     <podcast-detail
       :podcast="currentPodcast"
-      v-if="!listview"
+      v-if="view == PodcastView.PodcastDetail"
       @onsaved="onsaved"
-      @oncancel="listview = true"
+      @oncancel="view = PodcastView.PodcastList"
+      @ondeleted="ondeleted"
     />
-    <div v-else>
+    <podcast-episodes
+      v-else-if="view == PodcastView.PodcastEpisodes"
+      :podcast="currentPodcast"
+    />
+    <div v-else-if="view == PodcastView.PodcastList">
       <div class="flex flex-col">
         <div>
           {{ message }}
@@ -47,6 +52,20 @@
             >
               <div class="p-3 text-2xl">{{ podcast.title }}</div>
               <div class="pl-3">{{ podcast.author }}</div>
+              <button
+                class="
+                  mt-5
+                  h-10
+                  border-2
+                  rounded-md
+                  bg-orange-300
+                  hover:bg-orange-400
+                "
+                :value="podcast.id"
+                @click="newEpisode"
+              >
+                Add Episode
+              </button>
             </div>
           </div>
         </div>
@@ -57,15 +76,23 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Podcast, { clonePodcastFromObject } from "~~/backend/entities/Podcast";
+import Podcast from "~~/backend/entities/Podcast";
+
+enum PodcastView {
+  PodcastDetail,
+  PodcastList,
+  PodcastEpisodes,
+  EpisodeDetail,
+}
 
 export default defineComponent({
-  name: "PodcastDetail",
+  name: "Podcast",
   data: () => {
     return {
       podcasts: [] as Array<Podcast>,
       currentPodcast: new Podcast(),
-      listview: false,
+      PodcastView,
+      view: PodcastView.PodcastList,
       message: "",
     };
   },
@@ -81,16 +108,30 @@ export default defineComponent({
     onsaved(title) {
       this.message = "Successfully saved podcast " + title;
       this.fetchPodcastList();
-      this.listview = true;
+      this.view = PodcastView.PodcastList;
+    },
+    ondeleted(title) {
+      this.message = "Deleted podcast " + title;
+      this.fetchPodcastList();
+      this.view = PodcastView.PodcastList;
     },
     newPodcast() {
-      this.listview = false;
+      this.view = PodcastView.PodcastDetail;
       this.currentPodcast = new Podcast();
     },
     openPodcast(podcastid) {
       var found = this.podcasts.find((podcast) => podcast.id == podcastid);
-      this.listview = false;
+      this.view = PodcastView.PodcastDetail;
       if (found) this.currentPodcast = found;
+    },
+    newEpisode(event) {
+      event.stopImmediatePropagation();
+      const podcastid = event.target.value;
+      var found = this.podcasts.find((podcast) => podcast.id == podcastid);
+      if (found) {
+        this.currentPodcast = found;
+        this.view = PodcastView.PodcastEpisodes;
+      }
     },
   },
 });

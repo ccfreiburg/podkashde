@@ -3,6 +3,7 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 export function initPodcast(podcast) {
   podcast.cover_file = "";
   podcast.title = "";
+  podcast.slug = "";
   podcast.subtitle = "";
   podcast.author = "";
   podcast.summary = "";
@@ -22,6 +23,7 @@ export function clonePodcastFromObject(from) {
   podcast.id = from.id;
   podcast.cover_file = from.cover_file;
   podcast.title = from.title;
+  podcast.slug = form.slug;
   podcast.subtitle = from.subtitle;
   podcast.author = from.author;
   podcast.summary = from.summary;
@@ -52,6 +54,9 @@ export default class Podcast extends BaseEntity {
 
   @Column("text")
   title: string;
+
+  @Column("text")
+  slug: string;
 
   @Column("text")
   subtitle: string;

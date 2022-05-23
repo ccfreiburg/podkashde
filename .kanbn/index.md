@@ -13,7 +13,6 @@ sprints:
 
 ## Backlog
 
-- [create-episode](tasks/create-episode.md)
 - [upload-mp3-and-read-id3-tags-into-form](tasks/upload-mp3-and-read-id3-tags-into-form.md)
 - [add-series](tasks/add-series.md)
 - [drag-n-drop-image](tasks/drag-n-drop-image.md)
@@ -22,14 +21,18 @@ sprints:
 
 ## Todo
 
-- [beautify-design-of-podcast-list-and-toaster](tasks/beautify-design-of-podcast-list-and-toaster.md)
+- [create-episode](tasks/create-episode.md)
 - [generate-rss-xml](tasks/generate-rss-xml.md)
+- [beautify-design-of-podcast-list-and-toaster](tasks/beautify-design-of-podcast-list-and-toaster.md)
 
 ## In Progress
+
+- [refactor-into-pages](tasks/refactor-into-pages.md)
 
 ## Done
 
 - [go-to-a-success-page-incl-list-of-podcasts-after-create-podcast](tasks/go-to-a-success-page-incl-list-of-podcasts-after-create-podcast.md)
+- [delete-podcast](tasks/delete-podcast.md)
 - [i18n](tasks/i18n.md)
 - [clean-up](tasks/clean-up.md)
 - [create-new-podcast-with-image](tasks/create-new-podcast-with-image.md)

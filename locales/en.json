@@ -6,6 +6,8 @@
     "label": {
       "img": "klicken um Bild hinzuzufügen",
       "title": "Title",
+      "subtitle": "Sub Title",
+      "slug": "Slug",
       "author": "Author",
       "summary": "Summary",
       "description": "Description",
@@ -33,5 +35,6 @@
     },
     "savePodcast": "Save Podcast"
   },
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "delete": "Delete"
 }

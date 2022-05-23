@@ -1,12 +1,17 @@
 <template>
   <div
     class="p-10 w-full h-full"
-    v-on:keyup.enter="submitPodcast"
+    v-on:keyup.enter="savePodcast"
     v-on:keyup.esc="cancel"
   >
-    <!--form class="m-5" @submit="submitPodcast"-->
     <div class="mb-5">
-      <h1 class="text-2xl text-center">{{ $t("podcastDetail.newPodcast") }}</h1>
+      <h1 class="text-2xl text-center">
+        {{
+          isEdit
+            ? $t("podcastDetail.newPodcast")
+            : $t("podcastDetail.editPodcast")
+        }}
+      </h1>
     </div>
     <!-- Image Area -->
     <div
@@ -60,15 +65,21 @@
         />
       </div>
       <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="subtitle"
-          >Sub Title</label
-        >
+        <label class="pl-2 text-sm text-gray-500" for="subtitle">{{
+          $t("podcastDetail.label.subtitle")
+        }}</label>
         <input
           class="field"
           type="text"
           name="subtitle"
           v-model="fields.subtitle"
         />
+      </div>
+      <div class="flex flex-col mt-3">
+        <label class="pl-2 text-sm text-gray-500" for="slug">{{
+          $t("podcastDetail.label.slug")
+        }}</label>
+        <input class="field" type="text" name="slug" v-model="fields.slug" />
       </div>
       <div class="flex flex-col mt-3">
         <label class="pl-2 text-sm text-gray-500" for="author">{{
@@ -260,6 +271,7 @@
           </li>
         </ul>
       </div>
+      <!-- Buttons -->
       <div class="flex flex-row justify-end">
         <button
           class="
@@ -276,6 +288,13 @@
           {{ $t("cancel") }}
         </button>
         <button
+          v-if="fields.id && fields.id > 0"
+          class="mt-5 px-5 h-10 border-2 rounded-md bg-red-200 hover:bg-red-400"
+          @click="deletePodcast"
+        >
+          {{ $t("delete") }}
+        </button>
+        <button
           class="
             mt-5
             ml-5
@@ -286,7 +305,7 @@
             bg-orange-300
             hover:bg-orange-400
           "
-          @click="submitPodcast"
+          @click="savePodcast"
         >
           {{ $t("podcastDetail.savePodcast") }}
         </button>
@@ -339,13 +358,19 @@ export default defineComponent({
         this.fields = { ...newValue };
         if (this.fields.cover_file && this.fields.cover_file.length > 0) {
           this.imgMetadata.preview = IMAGES_BASE_URL + this.fields.cover_file;
-          this.calcImageSizePx(this.imgMetadata.preview as any);
+          this.imgMetadata.imgWidth = 1400; // Workaround satisfying validation later
+          this.imgMetadata.imgHeight = 1400;
         } else {
           this.imgMetadata.preview = null;
           this.imgMetadata.imgWidth = 0;
           this.imgMetadata.imgHeight = 0;
         }
       },
+    },
+  },
+  computed: {
+    isEdit() {
+      return this.fields.id && this.fields.id;
     },
   },
   methods: {
@@ -374,7 +399,7 @@ export default defineComponent({
       }
       return fd;
     },
-    async submitPodcast(event) {
+    async savePodcast(event) {
       event.preventDefault();
       event.stopImmediatePropagation();
       this.errors = validation(
@@ -395,6 +420,19 @@ export default defineComponent({
     },
     cancel() {
       this.$emit("oncancel");
+    },
+    async deletePodcast() {
+      const postData = {
+        method: "delete",
+        body: {
+          id: this.fields.id,
+          title: this.fields.title,
+        },
+      };
+      var postResult = await $fetch(PODCAST_AP, postData);
+      if (postResult.status == 201) {
+        this.$emit("ondeleted", this.fields.title);
+      }
     },
     calcImageSizePx(source) {
       var img = new Image();
