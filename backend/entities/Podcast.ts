@@ -1,4 +1,11 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import Episode from "./Episode";
 
 export function initPodcast(podcast) {
   podcast.cover_file = "";
@@ -93,4 +100,7 @@ export default class Podcast extends BaseEntity {
 
   @Column("text")
   owner_email: string;
+
+  @OneToMany(() => Episode, (episode) => episode.podcast)
+  episodes: Episode[];
 }

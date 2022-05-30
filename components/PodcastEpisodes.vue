@@ -1,12 +1,6 @@
 <template>
-  <div>
-    <div class="flex flex-row m-10">
-      <img class="w-1/4 h-32" :src="imgUrl" />
-      <div class="flex flex-col flex-grow rounded-r-md flex-shrink-0">
-        <div class="p-3 text-2xl">{{ podcast.title }}</div>
-        <div class="pl-3">{{ podcast.author }}</div>
-      </div>
-    </div>
+  <div class="m-10">
+    <div class="flex flex-row">Liste</div>
   </div>
 </template>
 
@@ -21,13 +15,13 @@ import {
 
 export default {
   props: {
-    podcast: Object as PropType<Podcast>,
+    podcastid: Number,
   },
   name: "PodcastEpisodes",
   setup(props) {
-    var imgUrl = computed(() => IMAGES_BASE_URL + props.podcast.cover_file);
+    const list = [];
     return {
-      imgUrl,
+      list,
     };
   },
 };

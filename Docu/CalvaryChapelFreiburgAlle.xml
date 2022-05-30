@@ -27,98 +27,32 @@
 		<podcast:guid>bd4f4ece-3d3d-5b3d-9f24-4a081ee0d63d</podcast:guid>
 		<generator>https://wordpress.org/?v=5.9.3</generator>
 
-    Government
-    History 
+ 
 
-    Health & Fitness
-        Alternative Health
-        Fitness 
-        Medicine 
-        Mental Health 
-        Nutrition 
-        Sexuality
 
-    Kids & Family
-        Education for Kids 
-        Parenting 
-        Pets & Animals 
-        Stories for Kids 
-
-    Leisure 
-        Animation & Manga 
-        Automotive 
-        Aviation 
-        Crafts 
-        Games 
-        Hobbies 
-        Home & Garden 
-        Video Games 
-
-    Music
-        Music Commentary 
-        Music History 
-        Music Interviews 
-
-    News 
-        Business News 
-        Daily News 
-        Entertainment News 
-        News Commentary 
-        Politics 
-        Sports News 
-        Tech News 
-
-    Religion & Spirituality
-        Buddhism
-        Christianity
-        Hinduism
-        Islam
-        Judaism
-        Religion
-        Spirituality
-
-    Science
-        Astronomy 
-        Chemistry 
-        Earth Sciences 
-        Life Sciences 
-        Mathematics 
-        Natural Sciences 
-        Nature 
-        Physics 
-        Social Sciences 
-
-    Society & Culture
-        Documentary 
-        Personal Journals
-        Philosophy
-        Places & Travel
-        Relationships 
-
-    Sports 
-        Baseball 
-        Basketball 
-        Cricket 
-        Fantasy Sports 
-        Football 
-        Golf 
-        Hockey 
-        Rugby 
-        Running 
-        Soccer 
-        Swimming 
-        Tennis 
-        Volleyball 
-        Wilderness 
-        Wrestling 
-
-    Technology
-
-    True Crime 
-
-    TV & Film
-        After Shows 
-        Film History 
-        Film Interviews 
-        Film Reviews 
-        TV Reviews 
+ <item>
+	<title>Dankbarkeit / Thankfulness</title>
+	<link>https://ccfreiburg.de/jahresabschlussgottesdienst-dankbarkeit-end-of-the-year-service-thankfulness/</link>
+	<pubDate>Sun, 31 Dec 2017 00:00:00 +0000</pubDate>
+	<dc:creator><![CDATA[Calvary Chapel Freiburg]]></dc:creator>
+	<guid isPermaLink="false">https://ccfreiburg.de/?p=7558</guid>
+	<description><![CDATA[Ausgewählte Bibelstellen / Selected Scriptures // Alexander Röhm]]></description>
+	<itunes:subtitle><![CDATA[Ausgewählte Bibelstellen / Selected Scriptures // Alexander Röhm]]></itunes:subtitle>
+			<itunes:keywords>Eigenständige Predigten 2018,Kirchenjahr / Church Year 2017-18</itunes:keywords>
+								<content:encoded><![CDATA[Ausgewählte Bibelstellen / Selected Scriptures // Alexander Röhm]]></content:encoded>
+		<enclosure url="https://ccfreiburg.de/podcast-download/7558/jahresabschlussgottesdienst-dankbarkeit-end-of-the-year-service-thankfulness.mp3" length="16525282"
+			   type="audio/mpeg"></enclosure>
+			<itunes:summary><![CDATA[Ausgewählte Bibelstellen / Selected Scriptures // Alexander Röhm]]></itunes:summary>
+				<itunes:image href="https://ccfreiburg.de/wp-content/uploads/Kirchenjahr2017-18_Podcast_Titel_1024x1024.jpg"></itunes:image>
+		<image>
+			<url>https://ccfreiburg.de/wp-content/uploads/Kirchenjahr2017-18_Podcast_Titel_1024x1024.jpg</url>
+			<title>Dankbarkeit / Thankfulness</title>
+		</image>
+		<itunes:explicit>clean</itunes:explicit>
+	<itunes:block>no</itunes:block>
+	<itunes:duration>45:00</itunes:duration>
+	<itunes:author><![CDATA[Calvary Chapel Freiburg]]></itunes:author>		<googleplay:description><![CDATA[Ausgewählte Bibelstellen / Selected Scriptures // Alexander Röhm]]></googleplay:description>
+					<googleplay:image href="https://ccfreiburg.de/wp-content/uploads/Kirchenjahr2017-18_Podcast_Titel_1024x1024.jpg"></googleplay:image>
+				<googleplay:explicit>No</googleplay:explicit>
+		<googleplay:block>no</googleplay:block>
+</item>

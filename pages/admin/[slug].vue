@@ -1,6 +1,11 @@
 <template>
   <div class="w-full h-full">
-    <podcast-detail :podcast="podcast" />
+    <podcast-detail
+      :podcast="podcast"
+      @onsaved="oncancel"
+      @ondeleted="oncancel"
+      @oncancel="oncancel"
+    />
   </div>
 </template>
 
@@ -9,11 +14,16 @@
 export default defineComponent({
   setup() {
     const route = useRoute();
+    const router = useRouter();
     const apiUrl = "/api/podcasts?slug=" + route.params.slug;
-    console.log(apiUrl);
     const { data: podcast } = useFetch(apiUrl);
+
+    function oncancel() {
+      router.go(-1);
+    }
     return {
       podcast,
+      oncancel,
     };
   },
 });
