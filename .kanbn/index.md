@@ -21,6 +21,7 @@ sprints:
 
 ## Todo
 
+- [podcast-page](tasks/podcast-page.md)
 - [add-episodes-list-to-podcast](tasks/add-episodes-list-to-podcast.md)
 - [generate-rss-xml](tasks/generate-rss-xml.md)
 - [beautify-design-of-podcast-list-and-toaster](tasks/beautify-design-of-podcast-list-and-toaster.md)
