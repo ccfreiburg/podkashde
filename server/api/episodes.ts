@@ -6,14 +6,8 @@ export default defineEventHandler(async (event) => {
   return getDataSource().then(async (db) => {
     const repo = db.getRepository(Podcast);
     var result = {};
-    if (query.id || query.slug) {
-      var tmpQuery = { 
-        where: query,
-        relations: ["episodes"],
-      };
-      result = await repo.findOne(tmpQuery);
-      console.log(result)
-    } else result = await repo.find();
+    if (query.id || query.slug) result = await repo.findOneBy(query);
+    else result = await repo.find();
     return result;
   });
 });

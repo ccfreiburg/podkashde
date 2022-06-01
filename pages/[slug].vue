@@ -46,6 +46,20 @@
         </div>
       </div>
       <div v-if="view == PodcastView.PodcastEpisodes" class="mt-2">
+        <NuxtLink :to="'/admin/episode'">
+          <button
+            class="
+              p-1
+              border-1 border-gray-700
+              text-orange-300
+              bg-gray-200
+              rounded-2xl
+              hover:bg-orange-800
+            "
+          >
+            +
+          </button>
+        </NuxtLink>
         <podcast-episodes podcastid="podcast.id" />
       </div>
       <div v-else class="pt-2 w-full text-xs">{{ podcast.description }}</div>

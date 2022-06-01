@@ -35,6 +35,30 @@
     },
     "savePodcast": "Save Podcast"
   },
+  "episodeDetail": {
+    "newEpisode": "New Episode",
+    "editEpisode": "Edit Episode",
+    "addImage": "klicken um Bild hinzuzufügen",
+    "label": {
+      "img": "klicken um Bild hinzuzufügen",
+      "title": "Title",
+      "subtitle": "Sub Title",
+      "slug": "Slug",
+      "creator": "Author",
+      "summary": "Summary",
+      "description": "Description",
+      "keyword": "Keyword",
+      "explicit_true": "Contains explicit content",
+      "explicit_false": "Is clean from explicit content",
+      "block_true": "This is blocked",
+      "block_false": "This is not blocked",
+      "duration": "Duration",
+      "pubdate": "Publication Date",
+      "link": "Mp3 Url",
+      "errors": "Pleas correct the following issues:"
+    },
+    "saveEpisode": "Save Episode"
+  },
   "cancel": "Cancel",
   "delete": "Delete"
 }
