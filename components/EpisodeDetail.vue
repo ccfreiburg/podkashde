@@ -14,6 +14,7 @@
       </h1>
     </div>
     <image-selector @imageSelected="imageSelected" />
+    <audiofile-selector />
     <!-- Fields-->
     <div class="flex flex-col">
       <div class="flex flex-col">
@@ -248,7 +249,7 @@
         <button
           v-if="fields.id && fields.id > 0"
           class="mt-5 px-5 h-10 border-2 rounded-md bg-red-200 hover:bg-red-400"
-          @click="deletePodcast"
+          @click="delete"
         >
           {{ $t("delete") }}
         </button>
@@ -263,7 +264,7 @@
             bg-orange-300
             hover:bg-orange-400
           "
-          @click="saveEpisode"
+          @click="save"
         >
           {{ $t("episodeDetail.saveEpisode") }}
         </button>
@@ -345,29 +346,29 @@ export default defineComponent({
       }
       return fd;
     },
-    async saveEpisode(event) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      this.errors = validation(
-        this.fields,
-        this.imgMetadata.imgWidth,
-        this.imgMetadata.imgHeight
-      );
-      if (this.errors.length == 0) {
-        const postData = {
-          method: "post",
-          body: this.getFormData(),
-        };
-        var postResult = await $fetch("", postData);
-        if (postResult.status == 201) {
-          this.$emit("onsaved", this.fields.title);
-        }
-      }
+    async save(event) {
+      // event.preventDefault();
+      // event.stopImmediatePropagation();
+      // this.errors = validation(
+      //   this.fields,
+      //   this.imgMetadata.imgWidth,
+      //   this.imgMetadata.imgHeight
+      // );
+      // if (this.errors.length == 0) {
+      //   const postData = {
+      //     method: "post",
+      //     body: this.getFormData(),
+      //   };
+      //   //var postResult = await $fetch("", postData);
+      //   if (postResult.status == 201) {
+      //     this.$emit("onsaved", this.fields.title);
+      //   }
+      // }
     },
     cancel() {
       this.$emit("oncancel");
     },
-    async deletePodcast() {
+    async delete() {
       const postData = {
         method: "delete",
         body: {
@@ -375,10 +376,10 @@ export default defineComponent({
           title: this.fields.title,
         },
       };
-      var postResult = await $fetch(PODCAST_AP, postData);
-      if (postResult.status == 201) {
-        this.$emit("ondeleted", this.fields.title);
-      }
+      //var postResult = await $fetch(PODCAST_AP, postData);
+      // if (postResult.status == 201) {
+      //   this.$emit("ondeleted", this.fields.title);
+      // }
     },
     imageSelected(data: ImageMetadata) {
       this.imgMetadata.preview = data.preview;

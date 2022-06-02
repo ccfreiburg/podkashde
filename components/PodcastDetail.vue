@@ -372,7 +372,7 @@ export default defineComponent({
           method: "post",
           body: this.getFormData(),
         };
-        var postResult = await $fetch(PODCAST_AP, postData);
+        var postResult: Response = await $fetch(PODCAST_AP, postData);
         if (postResult.status == 201) {
           this.$emit("onsaved", this.fields.title);
         }
@@ -389,12 +389,13 @@ export default defineComponent({
           title: this.fields.title,
         },
       };
-      var postResult = await $fetch(PODCAST_AP, postData);
+      var postResult: Response = await $fetch(PODCAST_AP, postData);
       if (postResult.status == 201) {
         this.$emit("ondeleted", this.fields.title);
       }
     },
     imageSelected(data: ImageMetadata) {
+      this.fields.cover_file = data.selectedFile.name;
       this.imgMetadata.preview = data.preview;
       this.imgMetadata.selectedFile = data.selectedFile;
       this.imgMetadata.imgWidth = data.imgWidth;

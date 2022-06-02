@@ -7,12 +7,11 @@ export default defineEventHandler(async (event) => {
     const repo = db.getRepository(Podcast);
     var result = {};
     if (query.id || query.slug) {
-      var tmpQuery = { 
+      var tmpQuery = {
         where: query,
         relations: ["episodes"],
       };
       result = await repo.findOne(tmpQuery);
-      console.log(result)
     } else result = await repo.find();
     return result;
   });

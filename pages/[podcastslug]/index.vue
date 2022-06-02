@@ -60,16 +60,16 @@
             +
           </button>
         </NuxtLink>
-        <podcast-episodes podcastid="podcast.id" />
+        <podcast-episodes :podcastid="podcast.id" />
       </div>
       <div v-else class="pt-2 w-full text-xs">{{ podcast.description }}</div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { ref, Ref } from "vue";
-import Podcast from "~~/backend/entities/Podcast";
+<script setup lang="ts">
+import { ref } from "vue";
+import { clonePodcastFromObject } from "~~/backend/entities/Podcast";
 import {
   IMAGES_BASE_URL,
   PODCAST_AP,
@@ -81,30 +81,23 @@ enum PodcastView {
   PodcastEpisodes,
 }
 
-export default defineComponent({
-  async setup() {
-    const route = useRoute();
-    var podcast = ref(new Podcast());
-    var result = {};
-    var view = ref(PodcastView.PodcastEpisodes);
-    result = await useFetch("/api/podcasts?slug=" + route.params.podcastslug);
-    podcast = ref(result.data);
-    if (!podcast.value) {
-      return navigateTo({
-        path: "/",
-      });
-    }
-    var imgUrl = computed(() =>
-      podcast.value.id ? IMAGES_BASE_URL + podcast.value.cover_file : ""
-    );
-    return {
-      imgUrl,
-      podcast,
-      PodcastView,
-      view,
-    };
-  },
-});
+const route = useRoute();
+const view = ref(PodcastView.PodcastEpisodes);
+
+const result = await useFetch(
+  PODCAST_AP + "s?slug=" + route.params.podcastslug
+);
+
+if (!result.data) {
+  navigateTo({
+    path: "/",
+  });
+}
+const podcast = ref(clonePodcastFromObject(result.data.value));
+
+const imgUrl = computed(() =>
+  podcast.value.id ? IMAGES_BASE_URL + podcast.value.cover_file : ""
+);
 </script>
 
 <style>

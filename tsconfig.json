@@ -4,6 +4,6 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "types": ["@types/node", "@nuxt/vue-app", "@types/jest", "vitest/importMeta"],
+    "types": ["@types/node", "vitest/importMeta"], //jest and vue??
   },
 }

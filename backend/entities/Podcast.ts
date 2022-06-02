@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 import Episode from "./Episode";
 
-export function initPodcast(podcast) {
+export function initPodcast(podcast: Podcast) {
   podcast.cover_file = "";
   podcast.title = "";
   podcast.slug = "";
@@ -25,12 +25,12 @@ export function initPodcast(podcast) {
   podcast.owner_email = "";
 }
 
-export function clonePodcastFromObject(from) {
+export function clonePodcastFromObject(from): Podcast {
   var podcast = new Podcast();
   podcast.id = from.id;
   podcast.cover_file = from.cover_file;
   podcast.title = from.title;
-  podcast.slug = form.slug;
+  podcast.slug = from.slug;
   podcast.subtitle = from.subtitle;
   podcast.author = from.author;
   podcast.summary = from.summary;

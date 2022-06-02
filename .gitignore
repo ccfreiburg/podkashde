@@ -6,6 +6,7 @@ node_modules
 .cache
 .output
 .env
+yarn.lock
 upload
 coverage
-yarn.lock
+secret
