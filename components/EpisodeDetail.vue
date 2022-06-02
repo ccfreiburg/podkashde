@@ -1,7 +1,7 @@
 <template>
   <div
     class="p-10 w-full h-full"
-    v-on:keyup.enter="savePodcast"
+    v-on:keyup.enter="save"
     v-on:keyup.esc="cancel"
   >
     <div class="mb-5">
@@ -13,44 +13,7 @@
         }}
       </h1>
     </div>
-    <!-- Image Area -->
-    <div
-      ref="imgageHldr"
-      class="
-        self-center
-        block
-        cursor-pointer
-        w-60
-        h-60
-        border-2 border-dotted
-        rounded-md
-        border-gray-500
-        bg-center bg-cover
-      "
-      @click="chooseImageFile"
-      :style="{ 'background-image': `url(${imgMetadata.preview})` }"
-    >
-      <div
-        v-if="imgMetadata.preview === null"
-        class="flex flex-col h-full w-full justify-center bg-slate-200"
-      >
-        <div class="text-gray-500 text-center">
-          {{ $t("episodeDetail.label.img") }}
-        </div>
-      </div>
-      <div v-else @click="removeImage" class="text-red-500 text-right mr-2">
-        X
-      </div>
-    </div>
-    <div>
-      <input
-        class="invisible"
-        ref="fileInput"
-        type="file"
-        id="formFileLg"
-        @change="imageFileSelected"
-      />
-    </div>
+    <image-selector @imageSelected="imageSelected" />
     <!-- Fields-->
     <div class="flex flex-col">
       <div class="flex flex-col">
@@ -313,6 +276,7 @@
 import { defineComponent, PropType } from "vue";
 import { IMAGES_BASE_URL } from "~~/backend/Constants";
 import Episode from "~~/backend/entities/Episode";
+import { ImageMetadata } from "~~/backend/ImageMetadata";
 
 export default defineComponent({
   props: {
@@ -321,12 +285,11 @@ export default defineComponent({
   name: "EpisodeDetail",
   data: () => {
     return {
-      imgMetadata: {
-        preview: null,
+      mp3Data: {
         selectedFile: null,
-        imgWidth: 0,
-        imgHeight: 0,
       },
+      imgMetadata: new ImageMetadata(),
+      currentWizzardStep: 0,
       errors: [],
       fields: new Episode(),
     };
@@ -417,34 +380,11 @@ export default defineComponent({
         this.$emit("ondeleted", this.fields.title);
       }
     },
-    calcImageSizePx(source) {
-      var img = new Image();
-      img.onload = () => {
-        this.imgMetadata.imgWidth = img.naturalWidth;
-        this.imgMetadata.imgHeight = img.naturalHeight;
-      };
-      img.src = source;
-    },
-    removeImage(event) {
-      this.imgMetadata.preview = null;
-      this.imgMetadata.imgWidth = 0;
-      this.imgMetadata.imgHeight = 0;
-      event.stopImmediatePropagation();
-    },
-    chooseImageFile() {
-      this.$refs.fileInput.click();
-    },
-    imageFileSelected(event) {
-      this.imgMetadata.selectedFile = event.target.files[0];
-      if (this.imgMetadata.selectedFile) {
-        this.fields.cover_file = this.imgMetadata.selectedFile.name;
-        let reader = new FileReader();
-        reader.onload = (e) => {
-          this.imgMetadata.preview = e.target.result;
-          this.calcImageSizePx(e.target.result as any);
-        };
-        reader.readAsDataURL(this.imgMetadata.selectedFile);
-      }
+    imageSelected(data: ImageMetadata) {
+      this.imgMetadata.preview = data.preview;
+      this.imgMetadata.selectedFile = data.selectedFile;
+      this.imgMetadata.imgWidth = data.imgWidth;
+      this.imgMetadata.imgHeight = data.imgHeight;
     },
   },
 });
