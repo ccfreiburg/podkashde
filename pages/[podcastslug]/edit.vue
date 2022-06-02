@@ -1,7 +1,7 @@
 <template>
   <div class="w-full h-full">
-    <episode-detail
-      :episode="episode"
+    <podcast-detail
+      :podcast="podcast"
       @onsaved="oncancel"
       @ondeleted="oncancel"
       @oncancel="oncancel"
@@ -10,19 +10,19 @@
 </template>
 
 <script lang="ts">
-import Episode from "~~/backend/entities/Episode";
+//import Podcast from "~~/backend/entities/Podcast";
 export default defineComponent({
   setup() {
-    // const route = useRoute();
+    const route = useRoute();
     const router = useRouter();
-    // const apiUrl = "/api/podcasts?slug=" + route.params.slug;
-    // const { data: podcast } = useFetch(apiUrl);
-    const episode = ref(new Episode());
+    const apiUrl = "/api/podcasts?slug=" + route.params.podcastslug;
+    const { data: podcast } = useFetch(apiUrl);
+
     function oncancel() {
       router.go(-1);
     }
     return {
-      episode,
+      podcast,
       oncancel,
     };
   },

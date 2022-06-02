@@ -6,7 +6,7 @@
         <div class="h-32 pl-3 flex flex-col rounded-r-md">
           <div class="flex flex-row">
             <div class="text-xl flex-grow">{{ podcast.title }}</div>
-            <NuxtLink :to="'/admin/' + podcast.slug">
+            <NuxtLink :to="'/' + podcast.slug + '/edit'">
               <button
                 class="
                   p-1
@@ -46,7 +46,7 @@
         </div>
       </div>
       <div v-if="view == PodcastView.PodcastEpisodes" class="mt-2">
-        <NuxtLink :to="'/admin/episode'">
+        <NuxtLink :to="'/' + podcast.slug + '/newepisode'">
           <button
             class="
               p-1
@@ -87,7 +87,7 @@ export default defineComponent({
     var podcast = ref(new Podcast());
     var result = {};
     var view = ref(PodcastView.PodcastEpisodes);
-    result = await useFetch("/api/podcasts?slug=" + route.params.slug);
+    result = await useFetch("/api/podcasts?slug=" + route.params.podcastslug);
     podcast = ref(result.data);
     if (!podcast.value) {
       return navigateTo({
