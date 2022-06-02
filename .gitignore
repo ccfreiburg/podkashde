@@ -1,3 +1,4 @@
+data
 node_modules
 *.log*
 .nuxt
@@ -8,4 +9,3 @@ node_modules
 upload
 coverage
 yarn.lock
-data
