@@ -6,12 +6,12 @@ export default defineEventHandler(async (event) => {
   return getDataSource().then(async (db) => {
     const repo = db.getRepository(Episode);
     var result = {};
-    if (query.id || query.slug) result = await repo.findOneBy(query);
-    if (query.podcastId) {
+    if (query.id || query.slug) {
       var tmpQuery = {
         where: query,
+        relations: ["podcast", "serie"],
       };
-      result = await repo.findBy(query);
+      result = await repo.findOne(tmpQuery);
     } else result = await repo.find();
     return result;
   });

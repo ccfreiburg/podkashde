@@ -71,7 +71,7 @@ export class Enumerations {
   }
 
   public static byIdOne(enums: Array<Enumerator>, id: number): Enumerator {
-    let result = enums.find((item) => item.id == id);
+    let result = enums.find((item) => item.enumvalue_id == id);
 
     if (result) return result;
     else return new Enumerator();

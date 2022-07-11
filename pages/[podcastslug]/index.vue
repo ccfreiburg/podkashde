@@ -60,7 +60,10 @@
             +
           </button>
         </NuxtLink>
-        <podcast-episodes :episodes="podcast.episodes" />
+        <podcast-episodes
+          :episodes="podcast.episodes"
+          :podcastSlug="podcast.slug"
+        />
       </div>
       <div v-else class="pt-2 w-full text-xs">{{ podcast.description }}</div>
     </div>
