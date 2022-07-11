@@ -23,21 +23,21 @@ sprints:
 
 ## Todo
 
-- [bug-set-language-and-popdcast-category-id-from-text](tasks/bug-set-language-and-popdcast-category-id-from-text.md)
-- [bug-set-relation-on-episode-import](tasks/bug-set-relation-on-episode-import.md)
-- [podcast-page](tasks/podcast-page.md)
-- [add-episodes-list-to-podcast](tasks/add-episodes-list-to-podcast.md)
 - [create-episode-from-ui](tasks/create-episode-from-ui.md)
+- [podcast-page](tasks/podcast-page.md)
 
 ## In Progress
 
 ## Done
 
 - [refactor-into-pages](tasks/refactor-into-pages.md)
+- [add-episodes-list-to-podcast](tasks/add-episodes-list-to-podcast.md)
 - [load-image-on-podcast-edit-page](tasks/load-image-on-podcast-edit-page.md)
 - [go-to-a-success-page-incl-list-of-podcasts-after-create-podcast](tasks/go-to-a-success-page-incl-list-of-podcasts-after-create-podcast.md)
 - [delete-podcast](tasks/delete-podcast.md)
+- [bug-set-relation-on-episode-import](tasks/bug-set-relation-on-episode-import.md)
 - [i18n](tasks/i18n.md)
+- [bug-set-language-and-popdcast-category-id-from-text](tasks/bug-set-language-and-popdcast-category-id-from-text.md)
 - [clean-up](tasks/clean-up.md)
 - [create-new-podcast-with-image](tasks/create-new-podcast-with-image.md)
 - [remove-database-warnings](tasks/remove-database-warnings.md)
