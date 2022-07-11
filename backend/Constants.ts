@@ -1,6 +1,12 @@
-export const BASE_URL = "http://localhost:3000"
-export const IMAGES_BASE_URL = BASE_URL + "/data/img/"
-export const REQUIRED_IMG_WIDTH = 1400
-export const REQUIRED_IMG_HEIGHT = 1400
-export const PODCAST_AP = "/api/podcast"
-export const ENUMERATIONS_AP = "/api/enums"
+export const BASE_URL = "http://localhost:3000";
+export const IMAGES_BASE_URL = BASE_URL + "/data/img/";
+export const REQUIRED_IMG_WIDTH = 1400;
+export const REQUIRED_IMG_HEIGHT = 1400;
+export const SERIES_AP = "/api/series";
+export const PODCAST_AP = "/api/podcast";
+export const PODCASTS_AP = "/api/podcasts";
+export const EPISODES_AP = "/api/episodes";
+export const WPEPISODES_AP = "/api/wpepisodes";
+export const ENUMERATIONS_AP = "/api/enums";
+export const WP_API_SLUG = "wp-json/wp/v2/";
+export const WP_PER_PAGE = "?per_page=100";

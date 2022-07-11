@@ -3699,10 +3699,12 @@ icss-utils@^5.0.0, icss-utils@^5.1.0:
   resolved "https://registry.yarnpkg.com/icss-utils/-/icss-utils-5.1.0.tgz#c6be6858abd013d768e98366ae47e25d5887b1ae"
   integrity sha512-soFhflCVWLfRNOPU3iv5Z9VUdT44xFRbzjLsEzSr5AQmgqPMTHdU3PMT1Cf1ssx8fLNJDA1juftYl+PUcv3MqA==
 
-id3js@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/id3js/-/id3js-2.1.1.tgz#0c307d0d2f194bc5fa7a809bbed0b1a93577f16d"
-  integrity sha512-9Gi+sG0RHSa5qn8hkwi2KCl+2jV8YrtiZidXbOO3uLfRAxc2jilRg0fiQ3CbeoAmR7G7ap3RVs1kqUVhIyZaog==
+id3-parser@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/id3-parser/-/id3-parser-2.0.0.tgz#e1de845af0943dbefacad9fd7c037f50671d714f"
+  integrity sha512-bkGeAtUX70rC9sq2mjzIrkmPZjUsGuqCjZKGFJnugKXqYVDuJgfWDa8MehUZaCqlkoCaXkYevYeaRxkHOJsv9w==
+  dependencies:
+    promise-a-plus "^0.7.0"
 
 ieee754@^1.1.13, ieee754@^1.2.1:
   version "1.2.1"
@@ -5855,6 +5857,11 @@ progress@2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
+
+promise-a-plus@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/promise-a-plus/-/promise-a-plus-0.7.0.tgz#3d3cad69271dba462554c66b7d35bbd46e752a62"
+  integrity sha512-cWbWdSKaHiNGWP3aUSAq5nkZFYL1A6glTMgGc/LpFZ6DEJ5FRXzu7T2k4mmi+cD/R5EJ9DHHzWezXnO1IMPb5w==
 
 promise-inflight@^1.0.1:
   version "1.0.1"

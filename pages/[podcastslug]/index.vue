@@ -60,7 +60,7 @@
             +
           </button>
         </NuxtLink>
-        <podcast-episodes :podcastid="podcast.id" />
+        <podcast-episodes :episodes="podcast.episodes" />
       </div>
       <div v-else class="pt-2 w-full text-xs">{{ podcast.description }}</div>
     </div>
@@ -69,12 +69,8 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { clonePodcastFromObject } from "~~/backend/entities/Podcast";
-import {
-  IMAGES_BASE_URL,
-  PODCAST_AP,
-  ENUMERATIONS_AP,
-} from "~~/backend/Constants";
+import { getPodcast } from "~~/backend/entities/Podcast";
+import { IMAGES_BASE_URL, PODCASTS_AP } from "~~/backend/Constants";
 
 enum PodcastView {
   PodcastDetail,
@@ -85,7 +81,7 @@ const route = useRoute();
 const view = ref(PodcastView.PodcastEpisodes);
 
 const result = await useFetch(
-  PODCAST_AP + "s?slug=" + route.params.podcastslug
+  PODCASTS_AP + "?slug=" + route.params.podcastslug
 );
 
 if (!result.data) {
@@ -93,11 +89,18 @@ if (!result.data) {
     path: "/",
   });
 }
-const podcast = ref(clonePodcastFromObject(result.data.value));
+const podcast = ref(getPodcast(result.data.value));
 
-const imgUrl = computed(() =>
-  podcast.value.id ? IMAGES_BASE_URL + podcast.value.cover_file : ""
-);
+const imgUrl = computed(() => {
+  if (podcast.value.id) {
+    if (
+      podcast.value.cover_file.startsWith("http://") ||
+      podcast.value.cover_file.startsWith("https://")
+    )
+      return podcast.value.cover_file;
+    else return IMAGES_BASE_URL + podcast.value.cover_file;
+  } else return "";
+});
 </script>
 
 <style>

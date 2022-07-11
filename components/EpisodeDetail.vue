@@ -13,8 +13,7 @@
         }}
       </h1>
     </div>
-    <image-selector @imageSelected="imageSelected" />
-    <audiofile-selector />
+    <audiofile-selector @fileSelected="fileSelected" />
     <!-- Fields-->
     <div class="flex flex-col">
       <div class="flex flex-col">
@@ -274,6 +273,7 @@
 </template>
 
 <script lang="ts">
+import { IID3Tag } from "id3-parser/lib/interface";
 import { defineComponent, PropType } from "vue";
 import { IMAGES_BASE_URL } from "~~/backend/Constants";
 import Episode from "~~/backend/entities/Episode";
@@ -382,10 +382,28 @@ export default defineComponent({
       // }
     },
     imageSelected(data: ImageMetadata) {
+      this.fields.cover_file = data.selectedFile.name;
       this.imgMetadata.preview = data.preview;
       this.imgMetadata.selectedFile = data.selectedFile;
       this.imgMetadata.imgWidth = data.imgWidth;
       this.imgMetadata.imgHeight = data.imgHeight;
+    },
+    fileSelected(data: IID3Tag) {
+      this.fields.title = data.title;
+      this.fields.keyword = "";
+      this.fields.slug = "";
+      this.fields.subtitle = data.album;
+      this.fields.creator = data.artist;
+      this.fields.summary = data["set-part"];
+      this.fields.description = "";
+      this.fields.explicit = "";
+      this.fields.block = "";
+      this.fields.link = data["original-filename"];
+      // url-publisher
+      // initial-key
+
+      this.fields.duration = data.length;
+      this.fields.pubdate = data.date;
     },
   },
 });

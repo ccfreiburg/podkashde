@@ -14,7 +14,7 @@
       </h1>
     </div>
 
-    <image-selector @imageSelected="imageSelected" />
+    <image-selector :value="imgMetadata" @imageSelected="imageSelected" />
     <!-- Fields-->
     <div class="flex flex-col">
       <div class="flex flex-col">
@@ -317,7 +317,13 @@ export default defineComponent({
         if (!newValue) return;
         this.fields = { ...newValue };
         if (this.fields.cover_file && this.fields.cover_file.length > 0) {
-          this.imgMetadata.preview = IMAGES_BASE_URL + this.fields.cover_file;
+          if (
+            this.fields.cover_file.startsWith("http://") ||
+            this.fields.cover_file.startsWith("https://")
+          )
+            this.imgMetadata.preview = this.fields.cover_file;
+          else
+            this.imgMetadata.preview = IMAGES_BASE_URL + this.fields.cover_file;
           this.imgMetadata.imgWidth = 1400; // Workaround satisfying validation later
           this.imgMetadata.imgHeight = 1400;
         } else {

@@ -13,6 +13,7 @@
         bg-center bg-cover
       "
       @click="chooseFile"
+      :style="{ 'background-image': `url(${preview})` }"
     >
       <div
         v-if="isFileSelected"
@@ -22,7 +23,6 @@
         X
       </div>
     </div>
-    <p>{{ tags }}</p>
     <div>
       <input
         class="invisible"
@@ -41,32 +41,49 @@ import { ref } from "vue";
 //Der ID3 reader geht nicht wirklich :(
 //Stattdessen:
 //https://github.com/creeperyang/id3-parser
-import * as id3 from "id3js";
+// import { parse } from "id3-parser";
+// import {
+//   convertFileToBuffer,
+//   fetchFileAsBuffer,
+// } from "id3-parser/lib/universal/helpers";
+import universalParse from "id3-parser/lib/universal";
 
 export default defineComponent({
   setup(_, { emit }) {
     const fileInput = ref(null);
     const selectedFile = ref(null);
-    const tags = ref("");
+    const tags = ref(null);
+    const preview = ref(null);
+
     function chooseFile() {
       fileInput.value.click();
     }
     const isFileSelected = computed(() => {
       return selectedFile.value != null;
     });
+    function array2base64(data, format) {
+      let base64String = "";
+      for (let i = 0; i < data.length; i++) {
+        base64String += String.fromCharCode(data[i]);
+      }
+      return `data:${format};base64,${window.btoa(base64String)}`;
+    }
 
     async function fileSelected(event) {
-      var id3tags = await id3.fromFile(event.target.files[0]);
-      // tags now contains v1, v2 and merged tags
-      console.log(id3tags);
       selectedFile.value = event.target.files[0];
-      //emit
+      universalParse(event.target.files[0]).then((id3tags) => {
+        tags.value = id3tags;
+        emit("fileSelected", tags.value);
+        preview.value = array2base64(id3tags.image.data, id3tags.image.mime);
+      });
     }
+
     function removeFile(event) {
       selectedFile.value = null;
       event.stopImmediatePropagation();
       //emit
     }
+
     return {
       tags,
       fileInput,
@@ -74,6 +91,7 @@ export default defineComponent({
       fileSelected,
       removeFile,
       isFileSelected,
+      preview,
     };
   },
 });

@@ -5,7 +5,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import Episode from "./Episode";
+import Episode, { getEpisode } from "./Episode";
+import Serie from "./Serie";
 
 export function initPodcast(podcast: Podcast) {
   podcast.cover_file = "";
@@ -23,9 +24,12 @@ export function initPodcast(podcast: Podcast) {
   podcast.copyright = "";
   podcast.owner_name = "";
   podcast.owner_email = "";
+  podcast.state = -1;
+  podcast.lastbuild = "";
+  podcast.external_id = -1;
 }
 
-export function clonePodcastFromObject(from): Podcast {
+export function getPodcast(from): Podcast {
   var podcast = new Podcast();
   podcast.id = from.id;
   podcast.cover_file = from.cover_file;
@@ -43,6 +47,13 @@ export function clonePodcastFromObject(from): Podcast {
   podcast.copyright = from.copyright;
   podcast.owner_name = from.owner_name;
   podcast.owner_email = from.owner_email;
+  if (from.hasOwnProperty("state")) podcast.state = from.state;
+  if (from.hasOwnProperty("lastbuild")) podcast.lastbuild = from.lastbuild;
+  if (from.hasOwnProperty("external_id"))
+    podcast.external_id = from.external_id;
+  if (from.episodes) {
+    podcast.episodes = from.episodes.map((element) => getEpisode(element));
+  }
   return podcast;
 }
 
@@ -101,6 +112,18 @@ export default class Podcast extends BaseEntity {
   @Column("text")
   owner_email: string;
 
+  @Column("text")
+  lastbuild: string;
+
+  @Column("int")
+  state: number;
+
+  @Column("int")
+  external_id: number;
+
   @OneToMany(() => Episode, (episode) => episode.podcast)
   episodes: Episode[];
+
+  @OneToMany(() => Serie, (serie) => serie.podcast)
+  series: Serie[];
 }

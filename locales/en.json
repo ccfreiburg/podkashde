@@ -59,6 +59,21 @@
     },
     "saveEpisode": "Save Episode"
   },
+  "import": {
+    "title": "Import",
+    "label": {
+      "wpurl": "Url to Wordpress"
+    },
+    "metadata": "Load meta data",
+    "preview": "Load for preview",
+    "selectPodcasts": "Select as Podcasts",
+    "importEnums": "Import Speakers and Tags",
+    "importPodcasts": "Import Podcasts",
+    "importSeries": "Import Series",
+    "importEposides": "Import Episodes",
+    "importCoverImages": "Import Cover Images",
+    "importMp3s": "Import Mp3s"
+  },
   "cancel": "Cancel",
   "delete": "Delete"
 }

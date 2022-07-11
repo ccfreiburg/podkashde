@@ -35,7 +35,7 @@
               <div class="flex flex-row m-2">
                 <img
                   class="w-32 h-32 rounded-l-md"
-                  :src="'data/img/' + podcast.cover_file"
+                  :src="imgUrl(podcast.cover_file)"
                 />
                 <div
                   class="
@@ -75,6 +75,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { IMAGES_BASE_URL } from "~~/backend/Constants";
 import Podcast from "~~/backend/entities/Podcast";
 
 enum PodcastView {
@@ -131,6 +132,16 @@ export default defineComponent({
         this.currentPodcast = found;
         this.view = PodcastView.PodcastEpisodes;
       }
+    },
+    imgUrl(cover_file) {
+      if (cover_file && cover_file.length > 0) {
+        if (
+          cover_file.startsWith("http://") ||
+          cover_file.startsWith("https://")
+        )
+          return cover_file;
+        else return IMAGES_BASE_URL + cover_file;
+      } else return "";
     },
   },
 });

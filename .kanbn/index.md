@@ -13,6 +13,8 @@ sprints:
 
 ## Backlog
 
+- [generate-rss-xml](tasks/generate-rss-xml.md)
+- [beautify-design-of-podcast-list-and-toaster](tasks/beautify-design-of-podcast-list-and-toaster.md)
 - [upload-mp3-and-read-id3-tags-into-form](tasks/upload-mp3-and-read-id3-tags-into-form.md)
 - [add-series](tasks/add-series.md)
 - [drag-n-drop-image](tasks/drag-n-drop-image.md)
@@ -21,18 +23,18 @@ sprints:
 
 ## Todo
 
+- [bug-set-language-and-popdcast-category-id-from-text](tasks/bug-set-language-and-popdcast-category-id-from-text.md)
+- [bug-set-relation-on-episode-import](tasks/bug-set-relation-on-episode-import.md)
 - [podcast-page](tasks/podcast-page.md)
 - [add-episodes-list-to-podcast](tasks/add-episodes-list-to-podcast.md)
-- [generate-rss-xml](tasks/generate-rss-xml.md)
-- [beautify-design-of-podcast-list-and-toaster](tasks/beautify-design-of-podcast-list-and-toaster.md)
+- [create-episode-from-ui](tasks/create-episode-from-ui.md)
 
 ## In Progress
-
-- [create-episode](tasks/create-episode.md)
 
 ## Done
 
 - [refactor-into-pages](tasks/refactor-into-pages.md)
+- [load-image-on-podcast-edit-page](tasks/load-image-on-podcast-edit-page.md)
 - [go-to-a-success-page-incl-list-of-podcasts-after-create-podcast](tasks/go-to-a-success-page-incl-list-of-podcasts-after-create-podcast.md)
 - [delete-podcast](tasks/delete-podcast.md)
 - [i18n](tasks/i18n.md)

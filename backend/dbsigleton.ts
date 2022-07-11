@@ -4,13 +4,14 @@ import Podcast from "./entities/Podcast";
 import Enumerator from "./entities/Enumerator";
 import fillDefaultEnums from "./initdata";
 import Episode from "./entities/Episode";
+import Serie from "./entities/Serie";
 
 var defaultFilename = "data/podcasts.sqlite";
 
 var dataSource = new DataSource({
   type: "sqlite",
   database: defaultFilename,
-  entities: [Podcast, Episode, Enumerator],
+  entities: [Podcast, Serie, Episode, Enumerator],
   logging: true,
   synchronize: true,
 });
@@ -19,7 +20,7 @@ export function setAnotherFilename(filename) {
   dataSource = new DataSource({
     type: "sqlite",
     database: filename,
-    entities: [Podcast, Episode, Enumerator],
+    entities: [Podcast, Serie, Episode, Enumerator],
     logging: true,
     synchronize: true,
   });

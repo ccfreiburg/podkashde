@@ -1,7 +1,6 @@
 <template>
   <div>
     <div
-      ref="imgageHldr"
       class="
         self-center
         block
@@ -44,8 +43,11 @@
 import { ImageMetadata } from "~~/backend/ImageMetadata";
 
 export default defineComponent({
-  setup(_, { emit }) {
-    const imgMetadata = ref(new ImageMetadata());
+  props: {
+    value: ImageMetadata,
+  },
+  setup(props, { emit }) {
+    const imgMetadata = ref(props.value);
     const fileInput = ref(null);
 
     function calcImageSizePx(source, callback) {
