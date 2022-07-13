@@ -1,5 +1,5 @@
 import getDataSource from "~~/backend/dbsigleton";
-import Podcast, { getPodcast } from "~~/backend/entities/Podcast";
+import { getPodcast } from "~~/backend/entities/Podcast";
 
 export default defineEventHandler(async (event) => {
   var retCode = {
@@ -12,8 +12,8 @@ export default defineEventHandler(async (event) => {
       const db = await getDataSource();
       db.manager.save(body.map((item) => getPodcast(item)));
       resolve({
-        status: 201,
-        message: "Saved enums successfully",
+        status: 200,
+        message: "Saved Podcasts successfully",
       });
     } catch (err) {
       if (err) retCode.message = err.message;

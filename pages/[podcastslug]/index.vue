@@ -92,7 +92,7 @@ if (!result.data) {
     path: "/",
   });
 }
-const podcast = ref(getPodcast(result.data.value));
+const podcast = ref(getPodcast(result.data.value[0]));
 
 const imgUrl = computed(() => {
   if (podcast.value.id) {

@@ -4,6 +4,7 @@ import Episode, { getEpisode } from "./entities/Episode";
 import Podcast, { getPodcast } from "./entities/Podcast";
 import Serie, { getSerie } from "./entities/Serie";
 import Enumerator, { getEnumerator } from "./entities/Enumerator";
+import getDataSource from "./dbsigleton";
 
 export function enumsfromWpMetadata(
   wpMetadataList,
@@ -79,6 +80,14 @@ export function podcastsFromWpMetadata(
   return list;
 }
 
+const datePattern =
+  /^(0?[1-9]|[1-2][0-9]|3[01])([-\/.])(0?[1-9]|1[012])\2(19|20)?(\d\d)$/gm;
+function getDate(str: string): Date {
+  var result = str;
+  if (str.match(datePattern)) result = str.replace(datePattern, "$4$5-$3-$1");
+  return new Date(result);
+}
+
 export function episodeFromWpMetadata(
   wpMetadataList,
   wpPodcastId,
@@ -87,6 +96,18 @@ export function episodeFromWpMetadata(
   var list = [] as Array<Episode>;
   wpMetadataList.forEach((episode) => {
     var seriesId = episode.series.find((serieId) => serieId != wpPodcastId);
+    var pubdate = getDate(episode.meta.date_recorded);
+    var image = episode.meta.cover_image;
+    if (image.length < 1) image = episode.episode_featured_image;
+    var keyword = Enumerations.byIdTextList(
+      enumerations.tags,
+      episode.tags.map((item) => item.id)
+    );
+    var creator = Enumerations.byIdOne(
+      enumerations.authors,
+      episode.speaker[0]
+    ).displaytext;
+
     list.push(
       getEpisode({
         title: episode.title.rendered,
@@ -97,20 +118,16 @@ export function episodeFromWpMetadata(
         explicit: episode.meta.explicit,
         block: episode.meta.block,
         link: episode.meta.audio_file,
-        pubdate: episode.meta.date_recorded,
+        pubdate,
         duration: episode.meta.duration,
-        image: episode.meta.cover_image,
+        image,
         rawsize: episode.meta.filesize_raw,
         state: 0,
         external_id: episode.id,
-        keyword: Enumerations.byIdTextList(
-          enumerations.tags,
-          episode.tags.map((item) => item.id)
-        ),
-        creator: Enumerations.byIdOne(enumerations.authors, episode.speaker[0])
-          .displaytext,
         ext_podcast_id: wpPodcastId,
         ext_series_id: seriesId,
+        keyword,
+        creator,
       })
     );
   });

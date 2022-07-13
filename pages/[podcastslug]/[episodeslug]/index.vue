@@ -27,6 +27,9 @@
       </div>
     </div>
     <div class="text-sm mt-10 flex-grow" v-html="episode.description"></div>
+    <div class="text sm">
+      {{ JSON.stringify(episode) }}
+    </div>
   </div>
 </template>
 

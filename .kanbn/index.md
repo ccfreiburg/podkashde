@@ -17,7 +17,6 @@ sprints:
 - [beautify-design-of-podcast-list-and-toaster](tasks/beautify-design-of-podcast-list-and-toaster.md)
 - [anmeldung-und-admins-für-podcasts](tasks/anmeldung-und-admins-für-podcasts.md)
 - [veröffentlichungsstatus-für-podcasts-serien-und-episoden](tasks/veröffentlichungsstatus-für-podcasts-serien-und-episoden.md)
-- [bibelstellen-erkennen-und-suchen-evtl-plugin-konzeot](tasks/bibelstellen-erkennen-und-suchen-evtl-plugin-konzeot.md)
 - [upload-mp3-and-read-id3-tags-into-form](tasks/upload-mp3-and-read-id3-tags-into-form.md)
 - [schöner-wp-import](tasks/schöner-wp-import.md)
 - [drag-n-drop-image](tasks/drag-n-drop-image.md)
@@ -26,11 +25,16 @@ sprints:
 
 ## Todo
 
+- [images-importiern](tasks/images-importiern.md)
 - [podcast-page](tasks/podcast-page.md)
-- [leere-images-placeholder-anzeigen](tasks/leere-images-placeholder-anzeigen.md)
 - [create-episode-from-ui](tasks/create-episode-from-ui.md)
+- [bibelstellen-erkennen-und-suchen-evtl-plugin-konzeot](tasks/bibelstellen-erkennen-und-suchen-evtl-plugin-konzeot.md)
+- [mp3s-von-wp-importieren](tasks/mp3s-von-wp-importieren.md)
+- [neue-episoden-aus-wp-importieren](tasks/neue-episoden-aus-wp-importieren.md)
 
 ## In Progress
+
+- [leere-images](tasks/leere-images.md)
 
 ## Done
 

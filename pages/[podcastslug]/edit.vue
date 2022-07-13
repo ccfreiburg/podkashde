@@ -6,9 +6,9 @@ import Podcast from "~~/backend/entities/Podcast";
   <div class="w-full h-full">
     <podcast-detail
       :podcast="podcast"
-      @onsaved="onSaved"
-      @ondeleted="oncancel"
-      @oncancel="oncancel"
+      @onsaved="goBack"
+      @ondeleted="goRoot"
+      @oncancel="goBack"
     />
   </div>
 </template>
@@ -22,17 +22,20 @@ export default defineComponent({
     const router = useRouter();
     const apiUrl = "/api/podcasts?slug=" + route.params.podcastslug;
     const data = await $fetch(apiUrl);
-    const podcast = ref(data as Podcast);
+    const podcast = ref(data[0] as Podcast);
 
-    function onSaved() {}
-
-    function oncancel() {
+    function goBack() {
       router.go(-1);
     }
+
+    function goRoot() {
+      router.push("/");
+    }
+
     return {
       podcast,
-      onSaved,
-      oncancel,
+      goBack,
+      goRoot,
     };
   },
 });

@@ -46,7 +46,8 @@ export default {
       return "/" + props.podcastSlug + "/" + episode.slug;
     };
     const sortedList = computed(() => {
-      return episodes.value.sort((a, b) => a.pubdate - b.pubdate);
+      if (!episodes) return [];
+      return episodes.value.sort((a, b) => b.pubdate - a.pubdate);
     });
     return {
       sortedList,

@@ -29,9 +29,8 @@ export function initPodcast(podcast: Podcast) {
   podcast.external_id = -1;
 }
 
-export function getPodcast(from): Podcast {
-  var podcast = new Podcast();
-  podcast.id = from.id;
+export function setPodcast(podcast, from): Podcast {
+  if ("id" in from) podcast.id = from.id;
   podcast.cover_file = from.cover_file;
   podcast.title = from.title;
   podcast.slug = from.slug;
@@ -51,6 +50,11 @@ export function getPodcast(from): Podcast {
   if (from.hasOwnProperty("lastbuild")) podcast.lastbuild = from.lastbuild;
   if (from.hasOwnProperty("external_id"))
     podcast.external_id = from.external_id;
+  return podcast;
+}
+
+export function getPodcast(from): Podcast {
+  var podcast = setPodcast(new Podcast(), from);
   if (from.episodes) {
     podcast.episodes = from.episodes.map((element) => getEpisode(element));
   }

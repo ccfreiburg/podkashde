@@ -43,7 +43,7 @@ export function getEpisode(from) {
   episode.block = from.block;
   episode.link = from.link;
   episode.duration = from.duration;
-  episode.pubdate = from.pubdate;
+  episode.pubdate = new Date(from.pubdate);
   if (from.hasOwnProperty("rawsize")) episode.rawsize = from.rawsize;
   if (from.hasOwnProperty("summary")) episode.description = from.summary;
   if (from.hasOwnProperty("description"))

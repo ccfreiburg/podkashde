@@ -287,6 +287,7 @@ import {
   IMAGES_BASE_URL,
   PODCAST_AP,
   ENUMERATIONS_AP,
+  UPLOAD_AP,
 } from "~~/backend/Constants";
 import { ImageMetadata } from "~~/backend/ImageMetadata";
 
@@ -351,12 +352,10 @@ export default defineComponent({
       return cssclass;
     },
 
-    getFormData() {
+    getImageInFormData() {
       const fd = new FormData();
-      Object.keys(this.fields).forEach((key) => {
-        fd.append(key, this.fields[key].toString());
-      });
       if (this.imgMetadata.selectedFile) {
+        fd.append("filename", this.fields.cover_file);
         fd.append(
           "cover",
           this.imgMetadata.selectedFile,
@@ -364,6 +363,11 @@ export default defineComponent({
         );
       }
       return fd;
+    },
+    getFields() {
+      var tmp = { ...this.fields };
+      delete tmp.episodes;
+      return tmp;
     },
     async savePodcast(event) {
       event.preventDefault();
@@ -376,12 +380,14 @@ export default defineComponent({
       if (this.errors.length == 0) {
         const postData = {
           method: "post",
-          body: this.getFormData(),
+          body: this.getFields(),
         };
         var postResult: Response = await $fetch(PODCAST_AP, postData);
-        if (postResult.status == 201) {
-          this.$emit("onsaved", this.fields.title);
+        if (postResult.status == 201 && this.imgMetadata.selectedFile) {
+          postData.body = this.getImageInFormData();
+          postResult = await $fetch(UPLOAD_AP, postData);
         }
+        if (postResult.status == 201) this.$emit("onsaved", this.fields.title);
       }
     },
     cancel() {

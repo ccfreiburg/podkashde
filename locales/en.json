@@ -75,5 +75,6 @@
     "importMp3s": "Import Mp3s"
   },
   "cancel": "Cancel",
-  "delete": "Delete"
+  "delete": "Delete",
+  "newPodcast": "New Podcast"
 }
