@@ -165,7 +165,7 @@
   </div>
 </template>
 <script lang="ts">
-import Podcast from "~~/backend/entities/Podcast";
+import Podcast, { getPodcast } from "~~/backend/entities/Podcast";
 import {
   SERIES_AP,
   PODCASTS_AP,
@@ -173,6 +173,11 @@ import {
   WP_API_SLUG,
   WP_PER_PAGE,
   WPEPISODES_AP,
+  FETCHLOCAL_AP,
+  PODCAST_AP,
+  EPISODE_AP,
+  SERVER_IMG_PATH,
+  SERVER_MP3_PATH,
 } from "~~/backend/Constants";
 import { ContentState, Enumerations, EnumKey } from "~~/backend/Enumerations";
 import Episode from "~~/backend/entities/Episode";
@@ -185,6 +190,7 @@ import {
 } from "~~/backend/WpImport";
 import { type } from "os";
 import Enumerator from "~~/backend/entities/Enumerator";
+import { ContentFile } from "~~/backend/ContentFile";
 
 const CCF = "https://ccfreiburg.de/";
 
@@ -224,6 +230,7 @@ export default defineComponent({
           var typedEpisodeList = episodeFromWpMetadata(
             list,
             podcast.id,
+            podcast.cover_file,
             enumerations
           );
           const postData = {
@@ -275,8 +282,84 @@ export default defineComponent({
       }
     }
 
-    async function importCoverImages() {}
-    async function importMp3s() {}
+    async function fetchFile(
+      serverPath: string,
+      slug: string,
+      cover_file: string
+    ) {
+      const newpath = ContentFile.getPathFromUrl(serverPath, slug, cover_file);
+      const newfile = ContentFile.getFilename(cover_file);
+      const returnVal = { status: 403, path: newpath + "/" + newfile };
+      if (ContentFile.isQualifiedUrl(cover_file)) {
+        const postData = {
+          method: "post",
+          body: {
+            orgurl: cover_file,
+            newpath,
+            newfile,
+            type: "Podcast",
+          } as Object,
+        };
+        const ret = await $fetch(FETCHLOCAL_AP, postData);
+        console.log(ret);
+        returnVal.status = ret.status;
+      }
+      return returnVal;
+    }
+
+    async function importCoverImages() {
+      podcasts.value.forEach(async (podc) => {
+        const result = await useFetch(PODCASTS_AP + "?slug=" + podc.slug);
+        const podcast = getPodcast(result.data.value[0]);
+        var ret = await fetchFile(
+          SERVER_IMG_PATH,
+          podcast.slug,
+          podcast.cover_file
+        );
+        if (ret.status == 201) {
+          const postData = {
+            method: "post",
+            body: { id: podcast.id, cover_file: ret.path },
+          };
+          await $fetch(PODCAST_AP, postData);
+        }
+        for await (var episode of podcast.episodes) {
+          var ret = await fetchFile(
+            SERVER_IMG_PATH,
+            podcast.slug,
+            episode.image
+          );
+          if (ret.status == 201 || ret.status == 423) {
+            const postData = {
+              method: "post",
+              body: { id: episode.id, image: ret.path },
+            };
+            await $fetch(EPISODE_AP, postData);
+          }
+        }
+      });
+    }
+    async function importMp3s() {
+      podcasts.value.forEach(async (podc) => {
+        const result = await useFetch(PODCASTS_AP + "?slug=" + podc.slug);
+        const podcast = getPodcast(result.data.value[0]);
+        for await (var episode of podcast.episodes) {
+          var ret = await fetchFile(
+            SERVER_MP3_PATH,
+            podcast.slug,
+            episode.link
+          );
+          console.log(ret);
+          if (ret.status == 201 || ret.status == 423) {
+            const postData = {
+              method: "post",
+              body: { id: episode.id, link: ret.path },
+            };
+            await $fetch(EPISODE_AP, postData);
+          }
+        }
+      });
+    }
 
     function onCheckSeries(value) {
       checkedSeries = value;

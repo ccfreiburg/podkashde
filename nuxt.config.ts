@@ -9,6 +9,9 @@ export default defineNuxtConfig({
    */
   mode: "universal",
   css: ["~/assets/css/tailwind.css"],
+  nitro: {
+    preset: "node-server",
+  },
   intlify: {
     localeDir: "locales",
     vueI18n: {

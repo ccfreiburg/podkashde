@@ -2,10 +2,10 @@
   <div class="w-full h-full">
     <div v-if="podcast" class="m-10 flex flex-col">
       <div class="flex flex-row">
-        <img class="h-32 shrink-0" :src="imgUrl" />
-        <div class="h-32 pl-3 flex flex-col rounded-r-md">
+        <img class="h-40 shrink-0" :src="imgUrl" />
+        <div class="h-40 pl-3 flex flex-col rounded-r-md">
           <div class="flex flex-row">
-            <div class="text-xl flex-grow">{{ podcast.title }}</div>
+            <div class="text-2xl flex-grow">{{ podcast.title }}</div>
             <NuxtLink :to="'/' + podcast.slug + '/edit'">
               <button
                 class="
@@ -34,10 +34,20 @@
               </button>
             </NuxtLink>
           </div>
-          <div class="text-xl">{{ podcast.author }}</div>
+          <div class="text-xl flex-grow">{{ podcast.subtitle }}</div>
+          <div class="text-ml">{{ podcast.author }}</div>
           <div class="flex flex-row">
-            <div class="text-sm text-white rounded-md bg-orange-300 px-1">
-              Religion - Christianity
+            <div class="text-sm text-white rounded-md bg-orange-300 px-1 mr-1">
+              {{ podcastGenre.parentCategory }} - {{ podcastGenre.displaytext }}
+            </div>
+            <div
+              v-if="podcast.explicit"
+              class="text-sm text-white rounded-md bg-orange-900 px-1 mr-1"
+            >
+              explicit
+            </div>
+            <div class="text-sm text-white rounded-md bg-orange-300 px-1 mr-1">
+              {{ language.displaytext }}
             </div>
           </div>
           <div class="pt-2 w-full text-sm break-normal overflow-y-auto">
@@ -73,7 +83,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { getPodcast } from "~~/backend/entities/Podcast";
-import { IMAGES_BASE_URL, PODCASTS_AP } from "~~/backend/Constants";
+import { ENUMERATIONS_AP, PODCASTS_AP } from "~~/backend/Constants";
+import { Enumerations } from "~~/backend/Enumerations";
+import Enumerator from "~~/backend/entities/Enumerator";
 
 enum PodcastView {
   PodcastDetail,
@@ -94,17 +106,17 @@ if (!result.data) {
 }
 const podcast = ref(getPodcast(result.data.value[0]));
 
+const enumerations = new Enumerations();
+const enums: Array<Enumerator> = await $fetch(ENUMERATIONS_AP);
+enumerations.init(enums);
+const podcastGenre = ref(
+  Enumerations.byIdOne(enumerations.podcastGenres, podcast.value.category_id)
+);
+const language = ref(
+  Enumerations.byIdOne(enumerations.languages, podcast.value.language_id)
+);
+
 const imgUrl = computed(() => {
-  if (podcast.value.id) {
-    if (
-      podcast.value.cover_file.startsWith("http://") ||
-      podcast.value.cover_file.startsWith("https://")
-    )
-      return podcast.value.cover_file;
-    else return IMAGES_BASE_URL + podcast.value.cover_file;
-  } else return "";
+  return podcast.value.cover_file;
 });
 </script>
-
-<style>
-</style>

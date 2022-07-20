@@ -46,7 +46,7 @@ import { ref } from "vue";
 //   convertFileToBuffer,
 //   fetchFileAsBuffer,
 // } from "id3-parser/lib/universal/helpers";
-import universalParse from "id3-parser/lib/universal";
+import universalParse from "id3-parser/lib/universal/index.js";
 
 export default defineComponent({
   setup(_, { emit }) {
@@ -71,11 +71,13 @@ export default defineComponent({
 
     async function fileSelected(event) {
       selectedFile.value = event.target.files[0];
-      universalParse(event.target.files[0]).then((id3tags) => {
-        tags.value = id3tags;
-        emit("fileSelected", tags.value);
-        preview.value = array2base64(id3tags.image.data, id3tags.image.mime);
-      });
+      try {
+        universalParse(event.target.files[0]).then((id3tags) => {
+          tags.value = id3tags;
+          emit("fileSelected", tags.value);
+          preview.value = array2base64(id3tags.image.data, id3tags.image.mime);
+        });
+      } catch {}
     }
 
     function removeFile(event) {

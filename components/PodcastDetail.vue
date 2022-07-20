@@ -284,12 +284,13 @@ import Podcast from "~~/backend/entities/Podcast";
 import { Enumerations } from "~~/backend/Enumerations";
 import validation from "~~/backend/PodcastDetailValidation";
 import {
-  IMAGES_BASE_URL,
   PODCAST_AP,
   ENUMERATIONS_AP,
   UPLOAD_AP,
+  SERVER_IMG_PATH,
 } from "~~/backend/Constants";
 import { ImageMetadata } from "~~/backend/ImageMetadata";
+import { ContentFile } from "~~/backend/ContentFile";
 
 export default defineComponent({
   props: {
@@ -318,13 +319,7 @@ export default defineComponent({
         if (!newValue) return;
         this.fields = { ...newValue };
         if (this.fields.cover_file && this.fields.cover_file.length > 0) {
-          if (
-            this.fields.cover_file.startsWith("http://") ||
-            this.fields.cover_file.startsWith("https://")
-          )
-            this.imgMetadata.preview = this.fields.cover_file;
-          else
-            this.imgMetadata.preview = IMAGES_BASE_URL + this.fields.cover_file;
+          this.imgMetadata.preview = this.fields.cover_file;
           this.imgMetadata.imgWidth = 1400; // Workaround satisfying validation later
           this.imgMetadata.imgHeight = 1400;
         } else {
@@ -355,7 +350,7 @@ export default defineComponent({
     getImageInFormData() {
       const fd = new FormData();
       if (this.imgMetadata.selectedFile) {
-        fd.append("filename", this.fields.cover_file);
+        fd.append("path", SERVER_IMG_PATH + this.fields.slug);
         fd.append(
           "cover",
           this.imgMetadata.selectedFile,
@@ -372,6 +367,13 @@ export default defineComponent({
     async savePodcast(event) {
       event.preventDefault();
       event.stopImmediatePropagation();
+      if (this.imgMetadata.selectedFile) {
+        this.fields.cover_file =
+          SERVER_IMG_PATH +
+          this.fields.slug +
+          "/" +
+          this.imgMetadata.selectedFile.name;
+      }
       this.errors = validation(
         this.fields,
         this.imgMetadata.imgWidth,
@@ -407,7 +409,6 @@ export default defineComponent({
       }
     },
     imageSelected(data: ImageMetadata) {
-      this.fields.cover_file = data.selectedFile.name;
       this.imgMetadata.preview = data.preview;
       this.imgMetadata.selectedFile = data.selectedFile;
       this.imgMetadata.imgWidth = data.imgWidth;

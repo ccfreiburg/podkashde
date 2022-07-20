@@ -1,7 +1,3 @@
-import Podcast from "~~/backend/entities/Podcast";
-
-import Podcast from "~~/backend/entities/Podcast";
-
 <template>
   <div class="w-full h-full">
     <podcast-detail
@@ -25,7 +21,7 @@ export default defineComponent({
     const podcast = ref(data[0] as Podcast);
 
     function goBack() {
-      router.go(-1);
+      router.push("/" + route.params.podcastslug);
     }
 
     function goRoot() {

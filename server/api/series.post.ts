@@ -1,23 +1,17 @@
 import getDataSource from "~~/backend/dbsigleton";
 import { getSerie } from "~~/backend/entities/Serie";
+import {
+  returnCodeReject,
+  returnCodeResolve,
+} from "~~/backend/server/returncode";
 
 export default defineEventHandler(async (event) => {
-  var retCode = {
-    status: 500,
-    message: "Some uncaught internal error",
-  };
-  return new Promise(async (resolve, reject) => {
-    try {
-      const body = await useBody(event);
-      const db = await getDataSource();
-      db.manager.save(body.map((item) => getSerie(item)));
-      resolve({
-        status: 201,
-        message: "Saved series successfully",
-      });
-    } catch (err) {
-      if (err) retCode.message = err.message;
-    }
-    reject(retCode);
-  });
+  try {
+    const body = await useBody(event);
+    const db = await getDataSource();
+    db.manager.save(body.map((item) => getSerie(item)));
+    return returnCodeResolve(201, "Saved series successfully");
+  } catch (err) {
+    return returnCodeReject(500, err.message);
+  }
 });

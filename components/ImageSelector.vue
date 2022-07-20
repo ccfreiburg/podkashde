@@ -13,7 +13,7 @@
         bg-center bg-cover
       "
       @click="chooseImageFile"
-      :style="{ 'background-image': `url(${imgMetadata.preview})` }"
+      :style="{ 'background-image': `url(${preview()})` }"
     >
       <div
         v-if="imgMetadata.preview === null"
@@ -59,6 +59,11 @@ export default defineComponent({
       };
       img.src = source;
     }
+    function preview() {
+      if (imgMetadata.value && imgMetadata.value.preview)
+        return imgMetadata.value.preview;
+      return "";
+    }
     function removeImage(event) {
       imgMetadata.value.preview = null;
       imgMetadata.value.imgWidth = 0;
@@ -83,6 +88,7 @@ export default defineComponent({
       }
     }
     return {
+      preview,
       imgMetadata,
       fileInput,
       imageFileSelected,

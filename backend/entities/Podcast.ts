@@ -4,9 +4,12 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
+  DeleteDateColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import Episode, { getEpisode } from "./Episode";
-import Serie from "./Serie";
+import Serie, { getSerie } from "./Serie";
 
 export function initPodcast(podcast: Podcast) {
   podcast.cover_file = "";
@@ -30,6 +33,7 @@ export function initPodcast(podcast: Podcast) {
 }
 
 export function setPodcast(podcast, from): Podcast {
+  if (!from) return podcast;
   if ("id" in from) podcast.id = from.id;
   podcast.cover_file = from.cover_file;
   podcast.title = from.title;
@@ -57,6 +61,9 @@ export function getPodcast(from): Podcast {
   var podcast = setPodcast(new Podcast(), from);
   if (from.episodes) {
     podcast.episodes = from.episodes.map((element) => getEpisode(element));
+  }
+  if (from.series) {
+    podcast.series = from.series.map((element) => getSerie(element));
   }
   return podcast;
 }
@@ -125,9 +132,24 @@ export default class Podcast extends BaseEntity {
   @Column("int")
   external_id: number;
 
-  @OneToMany(() => Episode, (episode) => episode.podcast)
+  @OneToMany(() => Episode, (episode) => episode.podcast, {
+    cascade: true,
+    onDelete: "CASCADE",
+  })
   episodes: Episode[];
 
-  @OneToMany(() => Serie, (serie) => serie.podcast)
+  @OneToMany(() => Serie, (serie) => serie.podcast, {
+    cascade: true,
+    onDelete: "CASCADE",
+  })
   series: Serie[];
+
+  @CreateDateColumn({ type: "datetime" })
+  public createdAt: Date;
+
+  @UpdateDateColumn({ type: "datetime" })
+  public updatedAt: Date;
+
+  @DeleteDateColumn({ type: "datetime" })
+  public deletedAt: Date;
 }

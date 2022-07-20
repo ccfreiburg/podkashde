@@ -1,4 +1,4 @@
-<template id="MultiSelect">
+<template id="SingleSelect">
   <div>
     <div
       class="
@@ -47,7 +47,7 @@
       :class="showAllways ? 'h-80' : 'fixed h-1/3'"
       v-if="show || showAllways"
     >
-      <div class="p-2">
+      <div>
         <ul>
           <li
             class="whitespace-nowrap"
@@ -97,7 +97,7 @@ export default defineComponent({
     select(val) {
       this.selected = val;
       this.hideDropdown();
-      this.$emit("checked", this.selected);
+      this.$emit("selected", this.selected);
     },
     selectbg(val) {
       if (val == this.selected) return "bg-orange-400";

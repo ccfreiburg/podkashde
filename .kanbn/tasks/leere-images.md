@@ -1,15 +1,17 @@
 ---
 created: 2022-07-11T16:40:28.152Z
-updated: 2022-07-13T12:52:01.998Z
+updated: 2022-07-19T08:38:34.837Z
 assigned: ""
 progress: 0
 tags: []
+completed: 2022-07-19T08:38:34.837Z
 ---
 
 # Leere Images
 
 ## Sub-tasks
 
-- [ ] distinguisch post image from episode image
-- [ ] Use Series / Podcast Image fpr Episode
-- [ ] Find out whether episodes need imgae in RSS
+- [x] distinguisch post image from episode image
+- [x] Use Series / Podcast Image fpr Episode
+- [x] Find out whether episodes need imgae in RSS! Antwort ist JA!
+- [x] save all of it in a structure under assets

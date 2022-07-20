@@ -4,12 +4,16 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
+  DeleteDateColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import Podcast from "./Podcast";
 import Serie from "./Serie";
 
 export function initEpisode(episode) {
   episode.image = "";
+  episode.postimage = "";
   episode.title = "";
   episode.slug = "";
   episode.keyword = "";
@@ -21,7 +25,7 @@ export function initEpisode(episode) {
   episode.explicit = false;
   episode.link = "";
   episode.duration = "";
-  episode.pubdate = "";
+  episode.pubdate = new Date();
   episode.state = -1;
   episode.external_id = -1;
   episode.ext_series_id = -1;
@@ -34,6 +38,7 @@ export function getEpisode(from) {
   var episode = new Episode();
   episode.id = from.id;
   episode.image = from.image;
+  episode.postimage = from.postimage;
   episode.title = from.title;
   episode.keyword = from.keyword;
   episode.slug = from.slug;
@@ -99,6 +104,9 @@ export default class Episode extends BaseEntity {
   @Column("text")
   image: string;
 
+  @Column("text")
+  postimage: string;
+
   @Column("boolean")
   block: boolean;
 
@@ -131,4 +139,13 @@ export default class Episode extends BaseEntity {
 
   @ManyToOne(() => Serie, (serie) => serie.episodes)
   serie: Serie;
+
+  @CreateDateColumn({ type: "datetime" })
+  public createdAt: Date;
+
+  @UpdateDateColumn({ type: "datetime" })
+  public updatedAt: Date;
+
+  @DeleteDateColumn({ type: "datetime" })
+  public deletedAt: Date;
 }

@@ -1,9 +1,10 @@
 ---
 created: 2022-05-10T07:12:28.489Z
-updated: 2022-07-11T20:09:26.040Z
+updated: 2022-07-20T14:52:56.549Z
 assigned: ""
 progress: 0
 tags: []
+completed: 2022-07-20T14:52:56.549Z
 ---
 
 # Create Episode from ui

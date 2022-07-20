@@ -1,23 +1,17 @@
 import getDataSource from "~~/backend/dbsigleton";
 import { getPodcast } from "~~/backend/entities/Podcast";
+import {
+  returnCodeReject,
+  returnCodeResolve,
+} from "~~/backend/server/returncode";
 
 export default defineEventHandler(async (event) => {
-  var retCode = {
-    status: 500,
-    message: "Some uncaught internal error",
-  };
-  return new Promise(async (resolve, reject) => {
-    try {
-      const body = await useBody(event);
-      const db = await getDataSource();
-      db.manager.save(body.map((item) => getPodcast(item)));
-      resolve({
-        status: 200,
-        message: "Saved Podcasts successfully",
-      });
-    } catch (err) {
-      if (err) retCode.message = err.message;
-    }
-    reject(retCode);
-  });
+  try {
+    const body = await useBody(event);
+    const db = await getDataSource();
+    await db.manager.save(body.map((item) => getPodcast(item)));
+    return returnCodeResolve(201, "Podcast saved");
+  } catch (err) {
+    return returnCodeReject(500, err.message);
+  }
 });

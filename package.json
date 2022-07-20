@@ -6,7 +6,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "lint": "eslint --ext .ts,.js,.vue .",
-    "test": "vitest"
+    "test": "vitest",
+    "typeorm": "typeorm-ts-node-commonjs"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.16.7",
@@ -36,6 +37,7 @@
     "postcss": "^8.4.12",
     "reflect-metadata": "^0.1.13",
     "sqlite3": "^5.0.6",
+    "ts-node": "^10.9.1",
     "typeorm": "^0.3.6"
   }
 }

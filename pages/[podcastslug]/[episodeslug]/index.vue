@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { EPISODES_AP, IMAGES_BASE_URL } from "~~/backend/Constants";
+import { EPISODES_AP } from "~~/backend/Constants";
 import { getEpisode } from "~~/backend/entities/Episode";
 
 const route = useRoute();
@@ -48,13 +48,6 @@ const pubDateFmt = computed(() => {
   return d.toLocaleDateString();
 });
 const imgUrl = computed(() => {
-  if (episode.value.id) {
-    if (
-      episode.value.image.startsWith("http://") ||
-      episode.value.image.startsWith("https://")
-    )
-      return episode.value.image;
-    else return IMAGES_BASE_URL + episode.value.image;
-  } else return "";
+  return episode.value.image;
 });
 </script>

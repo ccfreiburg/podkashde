@@ -5,6 +5,9 @@ import {
   OneToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
+  DeleteDateColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import { ContentState } from "../Enumerations";
 import Episode from "./Episode";
@@ -73,4 +76,13 @@ export default class Serie extends BaseEntity {
 
   @ManyToOne(() => Podcast, (podcast) => podcast.series)
   podcast: Podcast;
+
+  @CreateDateColumn({ type: "datetime" })
+  public createdAt: Date;
+
+  @UpdateDateColumn({ type: "datetime" })
+  public updatedAt: Date;
+
+  @DeleteDateColumn({ type: "datetime" })
+  public deletedAt: Date;
 }

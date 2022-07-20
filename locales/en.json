@@ -40,6 +40,8 @@
     "editEpisode": "Edit Episode",
     "addImage": "klicken um Bild hinzuzufügen",
     "label": {
+      "file": "Audio File",
+      "serie": "Series",
       "img": "klicken um Bild hinzuzufügen",
       "title": "Title",
       "subtitle": "Sub Title",
@@ -56,6 +58,13 @@
       "pubdate": "Publication Date",
       "link": "Mp3 Url",
       "errors": "Pleas correct the following issues:"
+    },
+    "validation": {
+      "img": "Please select an image with the exact dimensions of 1400x1400 pixel",
+      "title": "Please enter a title",
+      "creator": "Please enter an author",
+      "duration": "Please enter duration of episode",
+      "slug": "Please enter an unique slug for the static episode Url"
     },
     "saveEpisode": "Save Episode"
   },

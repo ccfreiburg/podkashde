@@ -69,7 +69,7 @@
       :class="showAllways ? 'h-80' : 'fixed h-1/3'"
       v-if="show || showAllways"
     >
-      <div>
+      <div class="p-2">
         <ul>
           <li
             class="whitespace-nowrap"

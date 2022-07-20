@@ -4,7 +4,7 @@
       <div class="flex flex-row" v-for="episode in sortedList">
         <NuxtLink :to="getEpisodeUrl(episode)">
           <div class="flex flex-row m-2">
-            <img class="w-16 h-16 rounded-l-md" :src="getImageUrl(episode)" />
+            <img class="w-16 h-16 rounded-l-md" :src="episode.image" />
             <div class="text-sm flex flex-col ml-3">
               <div v-html="episode.title"></div>
               <div class="mt-1" v-html="episode.creator"></div>
@@ -21,7 +21,6 @@
 
 <script lang="ts">
 import { PropType } from "vue";
-import { IMAGES_BASE_URL } from "~~/backend/Constants";
 import Episode from "~~/backend/entities/Episode";
 
 export default {
@@ -32,16 +31,6 @@ export default {
   name: "PodcastEpisodes",
   async setup(props) {
     var episodes = ref(props.episodes);
-    var getImageUrl = function (episode: Episode): string {
-      if (episode.image && episode.image.length > 0) {
-        if (
-          episode.image.startsWith("http://") ||
-          episode.image.startsWith("https://")
-        )
-          return episode.image;
-        else return IMAGES_BASE_URL + episode.image;
-      }
-    };
     var getEpisodeUrl = function (episode: Episode): string {
       return "/" + props.podcastSlug + "/" + episode.slug;
     };
@@ -51,7 +40,6 @@ export default {
     });
     return {
       sortedList,
-      getImageUrl,
       getEpisodeUrl,
     };
   },

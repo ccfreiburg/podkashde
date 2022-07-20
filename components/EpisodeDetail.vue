@@ -13,10 +13,49 @@
         }}
       </h1>
     </div>
-    <audiofile-selector @fileSelected="fileSelected" />
-    <!-- Fields-->
     <div class="flex flex-col">
-      <div class="flex flex-col">
+      <div class="flex flex-row">
+        <div>
+          <image-selector :value="imgMetadata" @imageSelected="imageSelected" />
+        </div>
+        <div class="flex flex-col">
+          <div class="flex flex-col mt-3" @click="chooseMp3File">
+            <label class="pl-2 text-sm text-gray-500" for="file">{{
+              $t("episodeDetail.label.file")
+            }}</label>
+            <input
+              :class="getClass('file')"
+              type="text"
+              name="file"
+              readonly
+              v-model="audiofilename"
+            />
+            <input
+              class="invisible"
+              type="file"
+              ref="mp3FileInput"
+              name="fileChoser"
+              @change="mp3FileSelected"
+            />
+          </div>
+          <div class="flex flex-col mt-3">
+            <label class="pl-2 text-sm text-gray-500" for="serie">{{
+              $t("episodeDetail.label.serie")
+            }}</label>
+            <select
+              :class="getClass('serie')"
+              name="serie_id"
+              v-model="serie_id"
+            >
+              <option v-for="serie in series" :key="serie.id" :value="serie.id">
+                {{ serie.title }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <!-- Fields-->
+      <div class="flex flex-col mt-3">
         <label class="pl-2 text-sm text-gray-500" for="title">{{
           $t("episodeDetail.label.title")
         }}</label>
@@ -24,6 +63,7 @@
           :class="getClass('title')"
           type="text"
           name="title"
+          @change="generateSlug()"
           v-model="fields.title"
         />
       </div>
@@ -53,12 +93,7 @@
         <label class="pl-2 text-sm text-gray-500" for="pubdate">{{
           $t("episodeDetail.label.pubdate")
         }}</label>
-        <input
-          class="field"
-          type="text"
-          name="pubdate"
-          v-model="fields.pubdate"
-        />
+        <input class="field" type="date" name="pubdate" v-model="pubdatetext" />
       </div>
       <div class="flex flex-col mt-3">
         <label class="pl-2 text-sm text-gray-500" for="duration">{{
@@ -68,7 +103,7 @@
           class="field"
           type="text"
           name="duration"
-          v-model="fields.duration"
+          v-model="durationText"
         />
       </div>
       <div class="flex flex-col mt-3">
@@ -85,6 +120,7 @@
           :class="getClass('creator')"
           type="text"
           name="creator"
+          @change="generateSlug()"
           v-model="fields.creator"
         />
       </div>
@@ -210,17 +246,6 @@
             : $t("episodeDetail.label.explicit_false")
         }}</span>
       </div>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="author">{{
-          $t("episodeDetail.label.link")
-        }}</label>
-        <input
-          :class="getClass('link')"
-          type="text"
-          name="link"
-          v-model="fields.link"
-        />
-      </div>
       <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
         <p>{{ $t("episodeDetail.label.errors") }}</p>
         <ul class="ml-5">
@@ -248,7 +273,7 @@
         <button
           v-if="fields.id && fields.id > 0"
           class="mt-5 px-5 h-10 border-2 rounded-md bg-red-200 hover:bg-red-400"
-          @click="delete"
+          @click="remove"
         >
           {{ $t("delete") }}
         </button>
@@ -273,138 +298,271 @@
 </template>
 
 <script lang="ts">
+import { ref } from "vue";
 import { IID3Tag } from "id3-parser/lib/interface";
 import { defineComponent, PropType } from "vue";
-import { IMAGES_BASE_URL } from "~~/backend/Constants";
-import Episode from "~~/backend/entities/Episode";
+import Episode, { getEpisode } from "~~/backend/entities/Episode";
+import Serie from "~~/backend/entities/Serie";
 import { ImageMetadata } from "~~/backend/ImageMetadata";
+import universalParse from "id3-parser/lib/universal/index.js";
+import {
+  durationInSecToStr,
+  strToDurationInSec,
+  strToDate,
+  dateToIsoString,
+  saveSlugFormText,
+} from "~~/backend/Converters";
+import validation from "~~/backend/EpisodeDetailValidation";
+import {
+  COUNT_AP,
+  EPISODE_AP,
+  SERVER_IMG_PATH,
+  SERVER_MP3_PATH,
+  UPLOAD_AP,
+} from "~~/backend/Constants";
+import Podcast from "~~/backend/entities/Podcast";
 
 export default defineComponent({
   props: {
     episode: Object as PropType<Episode>,
+    series: Object as PropType<Array<Serie>>,
+    podcast: Object as PropType<Podcast>,
   },
   name: "EpisodeDetail",
-  data: () => {
-    return {
-      mp3Data: {
-        selectedFile: null,
-      },
-      imgMetadata: new ImageMetadata(),
-      currentWizzardStep: 0,
-      errors: [],
-      fields: new Episode(),
+  setup(props, ctx) {
+    const imgMetadata = ref(new ImageMetadata());
+    const serie_id = ref(-1);
+    const errors = ref([]);
+    const fields = ref(new Episode());
+    const serie = ref(new Serie());
+
+    watch(props.episode, (newValue, oldValue) => {
+      // immediate: true,
+      // deep: true,
+      if (!newValue) return;
+      fields.value = getEpisode(newValue);
+      durationText.value = durationInSecToStr(fields.value.duration);
+      if (fields.value.image && fields.value.image.length > 0) {
+        imgMetadata.value.preview = fields.value.image;
+        imgMetadata.value.imgWidth = 1400; // Workaround satisfying validation later
+        imgMetadata.value.imgHeight = 1400;
+      } else {
+        //PODCAST image als defailt
+        imgMetadata.value.preview = null;
+        imgMetadata.value.imgWidth = 0;
+        imgMetadata.value.imgHeight = 0;
+      }
+    });
+
+    const isEdit = computed(() => fields.value.id != undefined);
+
+    const hasError = (fieldname) => {
+      return errors.value.find((error) => error.field === fieldname);
     };
-  },
-  async mounted() {},
-  watch: {
-    episode: {
-      immediate: true,
-      deep: true,
-      handler(newValue) {
-        if (!newValue) return;
-        this.fields = { ...newValue };
-        if (this.fields.cover_file && this.fields.cover_file.length > 0) {
-          this.imgMetadata.preview = IMAGES_BASE_URL + this.fields.cover_file;
-          this.imgMetadata.imgWidth = 1400; // Workaround satisfying validation later
-          this.imgMetadata.imgHeight = 1400;
-        } else {
-          this.imgMetadata.preview = null;
-          this.imgMetadata.imgWidth = 0;
-          this.imgMetadata.imgHeight = 0;
-        }
-      },
-    },
-  },
-  computed: {
-    isEdit() {
-      return this.fields.id != undefined;
-    },
-  },
-  methods: {
-    hasError(fieldname) {
-      return this.errors.find((error) => error.field === fieldname);
-    },
-    getClass(fieldname) {
+    const getClass = (fieldname) => {
       var cssclass = "field";
-      if (this.hasError(fieldname)) {
+      if (hasError(fieldname)) {
         cssclass = "field error";
       }
       return cssclass;
-    },
+    };
 
-    getFormData() {
+    const generateSlug = () => {
+      fields.value.slug = saveSlugFormText(fields.value.title);
+    };
+
+    const getFileInFormData = (path: string, fileObj: File) => {
       const fd = new FormData();
-      Object.keys(this.fields).forEach((key) => {
-        fd.append(key, this.fields[key].toString());
-      });
-      if (this.imgMetadata.selectedFile) {
-        fd.append(
-          "cover",
-          this.imgMetadata.selectedFile,
-          this.imgMetadata.selectedFile.name
-        );
+      if (fileObj) {
+        fd.append("path", path + props.podcast.slug);
+        fd.append("cover", fileObj, fileObj.name);
       }
       return fd;
-    },
-    async save(event) {
-      // event.preventDefault();
-      // event.stopImmediatePropagation();
-      // this.errors = validation(
-      //   this.fields,
-      //   this.imgMetadata.imgWidth,
-      //   this.imgMetadata.imgHeight
-      // );
-      // if (this.errors.length == 0) {
-      //   const postData = {
-      //     method: "post",
-      //     body: this.getFormData(),
-      //   };
-      //   //var postResult = await $fetch("", postData);
-      //   if (postResult.status == 201) {
-      //     this.$emit("onsaved", this.fields.title);
-      //   }
-      // }
-    },
-    cancel() {
-      this.$emit("oncancel");
-    },
-    async delete() {
-      const postData = {
-        method: "delete",
-        body: {
-          id: this.fields.id,
-          title: this.fields.title,
-        },
-      };
-      //var postResult = await $fetch(PODCAST_AP, postData);
-      // if (postResult.status == 201) {
-      //   this.$emit("ondeleted", this.fields.title);
-      // }
-    },
-    imageSelected(data: ImageMetadata) {
-      this.fields.cover_file = data.selectedFile.name;
-      this.imgMetadata.preview = data.preview;
-      this.imgMetadata.selectedFile = data.selectedFile;
-      this.imgMetadata.imgWidth = data.imgWidth;
-      this.imgMetadata.imgHeight = data.imgHeight;
-    },
-    fileSelected(data: IID3Tag) {
-      this.fields.title = data.title;
-      this.fields.keyword = "";
-      this.fields.slug = "";
-      this.fields.subtitle = data.album;
-      this.fields.creator = data.artist;
-      this.fields.summary = data["set-part"];
-      this.fields.description = "";
-      this.fields.explicit = "";
-      this.fields.block = "";
-      this.fields.link = data["original-filename"];
-      // url-publisher
-      // initial-key
+    };
 
-      this.fields.duration = data.length;
-      this.fields.pubdate = data.date;
-    },
+    const getFields = () => {
+      var tmp = { ...fields.value };
+      delete tmp.podcast.episodes;
+      delete tmp.podcast.series;
+      if (!fields.value.serie) delete tmp.serie;
+      return tmp;
+    };
+
+    const save = async (event) => {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+
+      // collect fields
+      fields.value.duration = strToDurationInSec(durationText.value);
+      fields.value.pubdate = strToDate(pubdatetext.value);
+
+      // validate fields
+      errors.value = validation(
+        fields.value,
+        imgMetadata.value.imgWidth,
+        imgMetadata.value.imgHeight
+      );
+
+      // server validation (if slug is unique)
+      var count = await $fetch(COUNT_AP + "?slug=" + fields.value.slug);
+      if (count > 0) errors.value.push({ field: "slug", text: "slug" });
+
+      if (errors.value.length > 0) return;
+
+      // set relations
+      fields.value.serie =
+        serie.value && "id" in serie.value ? serie.value : null;
+      fields.value.podcast = props.podcast;
+
+      // Upload Mp3
+      var postResult = null;
+      var postData = {
+        method: "post",
+        body: null,
+      };
+      if (audiofile.value) {
+        postData.body = getFileInFormData(SERVER_MP3_PATH, audiofile.value);
+        postResult = await $fetch(UPLOAD_AP, postData);
+      }
+      if (postResult.status == 201 && imgMetadata.value.selectedFile) {
+        fields.value.link =
+          SERVER_MP3_PATH + props.podcast.slug + "/" + audiofile.value.name;
+
+        // Upload Image
+        postData.body = getFileInFormData(
+          SERVER_IMG_PATH,
+          imgMetadata.value.selectedFile
+        );
+        postResult = await $fetch(UPLOAD_AP, postData);
+      }
+      if (postResult.status == 201) {
+        fields.value.image =
+          SERVER_IMG_PATH +
+          props.podcast.slug +
+          "/" +
+          imgMetadata.value.selectedFile.name;
+
+        // Episode Metadata
+        postData.body = getFields();
+        postResult = await $fetch(EPISODE_AP, postData);
+      }
+      if (postResult.status == 201) ctx.emit("onsaved", fields.value.title);
+    };
+
+    const cancel = async (event) => {
+      ctx.emit("oncancel");
+    };
+
+    const remove = async (event) => {};
+
+    watch(serie_id, (newVal, oldVal) => {
+      serie.value = props.series.find((item) => item.id == newVal);
+      fields.value.image = serie.value.cover_file;
+      fields.value.keyword = serie.value.title;
+      imgMetadata.value.preview = serie.value.cover_file;
+    });
+
+    const pubdatetext = ref(dateToIsoString(new Date()));
+
+    watch(pubdatetext, (newVal, oldVal) => {
+      fields.value.pubdate = strToDate(newVal);
+    });
+
+    const imageSelected = (data: ImageMetadata) => {
+      fields.value.image = data.selectedFile.name;
+      imgMetadata.value.preview = data.preview;
+      imgMetadata.value.selectedFile = data.selectedFile;
+      imgMetadata.value.imgWidth = data.imgWidth;
+      imgMetadata.value.imgHeight = data.imgHeight;
+    };
+
+    function array2base64(data, format) {
+      let base64String = "";
+      for (let i = 0; i < data.length; i++) {
+        base64String += String.fromCharCode(data[i]);
+      }
+      return `data:${format};base64,${window.btoa(base64String)}`;
+    }
+
+    const durationText = ref("");
+
+    watch(durationText, (newVal, oldVal) => {
+      fields.value.duration = strToDurationInSec(newVal);
+    });
+
+    const mp3FileInput = ref(null);
+    const chooseMp3File = () => {
+      mp3FileInput.value.click();
+    };
+
+    var audiofile = ref(null);
+    const audiofilename = computed(() => {
+      if (audiofile.value) return audiofile.value.name;
+      else return "";
+    });
+
+    const mp3FileSelected = async (event) => {
+      audiofile.value = event.target.files[0];
+      fields.value.duration = await getDuration(
+        URL.createObjectURL(audiofile.value)
+      );
+      fields.value.pubdate = strToDate(audiofile.value.name);
+      pubdatetext.value = dateToIsoString(fields.value.pubdate);
+      try {
+        durationText.value = durationInSecToStr(fields.value.duration);
+        const id3tags = await universalParse(event.target.files[0]);
+        if (id3tags.title) fileSelected(id3tags);
+        if (id3tags.image)
+          imgMetadata.value.preview = array2base64(
+            id3tags.image.data,
+            id3tags.image.mime
+          );
+      } catch {}
+    };
+
+    function getDuration(file) {
+      return new Promise<number>((resolve, reject) => {
+        var audio = new Audio();
+        audio.addEventListener("loadeddata", () => {
+          resolve(audio.duration);
+        });
+        audio.src = file;
+      });
+    }
+
+    const fileSelected = (data: IID3Tag) => {
+      fields.value.title = data.title;
+      fields.value.keyword = data.album;
+      fields.value.creator = data.artist;
+      fields.value.summary = data["set-part"];
+      generateSlug();
+      if ("initial-key" in data)
+        fields.value.external_id = Number(data["initial-key"]);
+      serie.value = props.series.find(
+        (item) => item.title === fields.value.keyword
+      );
+    };
+    return {
+      fields,
+      series: props.series,
+      getClass,
+      hasError,
+      errors,
+      isEdit,
+      save,
+      cancel,
+      remove,
+      pubdatetext,
+      durationText,
+      generateSlug,
+      imgMetadata,
+      imageSelected,
+      chooseMp3File,
+      mp3FileInput,
+      mp3FileSelected,
+      audiofilename,
+      serie_id,
+    };
   },
 });
 </script>

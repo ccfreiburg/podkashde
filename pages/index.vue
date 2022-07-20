@@ -1,9 +1,7 @@
 <template>
   <div class="w-full h-full">
     <div class="flex flex-col">
-      <div>
-        {{ message }}
-      </div>
+      <div></div>
       <NuxtLink :to="newPodcast">
         <div
           class="
@@ -22,10 +20,7 @@
         <div v-for="podcast in podcasts" :key="podcast.id">
           <NuxtLink :to="podcast.slug">
             <div class="flex flex-row m-2">
-              <img
-                class="w-32 h-32 rounded-l-md"
-                :src="imgUrl(podcast.cover_file)"
-              />
+              <img class="w-32 h-32 rounded-l-md" :src="podcast.cover_file" />
               <div
                 class="
                   flex flex-col
@@ -47,39 +42,14 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-import { IMAGES_BASE_URL, ROUTE_NEWPODCAST } from "~~/backend/Constants";
+<script setup lang="ts">
+import { ref } from "vue";
+import { PODCASTS_AP, ROUTE_NEWPODCAST } from "~~/backend/Constants";
 import Podcast from "~~/backend/entities/Podcast";
+import { ImageMetadata } from "~~/backend/ImageMetadata";
 
-export default defineComponent({
-  name: "Podcast",
-  data: () => {
-    return {
-      podcasts: [] as Array<Podcast>,
-      message: "",
-      newPodcast: ROUTE_NEWPODCAST,
-    };
-  },
-  mounted() {
-    this.fetchPodcastList();
-  },
-  methods: {
-    async fetchPodcastList() {
-      const result = await $fetch("/api/podcasts");
-      if (!result) return;
-      this.podcasts = result;
-    },
-    imgUrl(cover_file) {
-      if (cover_file && cover_file.length > 0) {
-        if (
-          cover_file.startsWith("http://") ||
-          cover_file.startsWith("https://")
-        )
-          return cover_file;
-        else return IMAGES_BASE_URL + cover_file;
-      } else return "";
-    },
-  },
-});
+const newPodcast = ref(ROUTE_NEWPODCAST);
+const result = await useFetch(PODCASTS_AP);
+
+const podcasts = ref(result.data.value as Array<Podcast>);
 </script>

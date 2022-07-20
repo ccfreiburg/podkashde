@@ -5,6 +5,7 @@ import Podcast, { getPodcast } from "./entities/Podcast";
 import Serie, { getSerie } from "./entities/Serie";
 import Enumerator, { getEnumerator } from "./entities/Enumerator";
 import getDataSource from "./dbsigleton";
+import { strToDate } from "./Converters";
 
 export function enumsfromWpMetadata(
   wpMetadataList,
@@ -80,25 +81,24 @@ export function podcastsFromWpMetadata(
   return list;
 }
 
-const datePattern =
-  /^(0?[1-9]|[1-2][0-9]|3[01])([-\/.])(0?[1-9]|1[012])\2(19|20)?(\d\d)$/gm;
-function getDate(str: string): Date {
-  var result = str;
-  if (str.match(datePattern)) result = str.replace(datePattern, "$4$5-$3-$1");
-  return new Date(result);
-}
-
 export function episodeFromWpMetadata(
   wpMetadataList,
   wpPodcastId,
+  podcastImage,
   enumerations
 ): Array<Episode> {
   var list = [] as Array<Episode>;
   wpMetadataList.forEach((episode) => {
     var seriesId = episode.series.find((serieId) => serieId != wpPodcastId);
-    var pubdate = getDate(episode.meta.date_recorded);
+    var pubdate = strToDate(episode.meta.date_recorded);
     var image = episode.meta.cover_image;
-    if (image.length < 1) image = episode.episode_featured_image;
+    if (image.length < 1) image = podcastImage;
+    var postimage = image;
+    if (
+      episode.episode_featured_image &&
+      episode.episode_featured_image.length > 0
+    )
+      postimage = episode.episode_featured_image;
     var keyword = Enumerations.byIdTextList(
       enumerations.tags,
       episode.tags.map((item) => item.id)
@@ -121,6 +121,7 @@ export function episodeFromWpMetadata(
         pubdate,
         duration: episode.meta.duration,
         image,
+        postimage,
         rawsize: episode.meta.filesize_raw,
         state: 0,
         external_id: episode.id,
