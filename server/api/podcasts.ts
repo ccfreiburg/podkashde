@@ -28,6 +28,8 @@ function mockreadPodcast(query) : Array<IPodcast> {
 
 export default defineEventHandler((event) => {
     const query = useQuery(event);
+    console.log("Scope called "+calls)
     return readPodcast(query);
+    //return mockreadPodcast(query)
   });
   

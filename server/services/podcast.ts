@@ -12,7 +12,7 @@ export const readPodcast = async function (query): Promise<Array<IPodcast>> {
       relations: ["episodes", "series"],
     };
     return await repo.find(tmpQuery);
-  } else return await repo.find();
+  } else return await repo.find({relations: ["episodes", "series"]});
 };
 
 export const nuxtPath = (path) => {

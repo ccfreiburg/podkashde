@@ -18,7 +18,7 @@
       </NuxtLink-->
       <div class="flex felx-col flex-wrap text-sm">
         <div v-for="podcast in podcasts" :key="podcast.id">
-          <NuxtLink :to="podcast.slug">
+          <NuxtLink :to="'/podcast/'+podcast.slug">
             <div class="flex flex-row m-2">
               <img class="w-32 h-32 rounded-l-md" :src="podcast.cover_file" />
               <div
@@ -39,15 +39,11 @@
         </div>
       </div>
     </div>
-    <!--button class="ml-2 p-3 bg-orange-300 rounded-md" @click="refresh">Hallo</button-->
+    <button class="ml-2 p-3 bg-orange-300 rounded-md" @click="refresh">Hallo</button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { PODCASTS_AP } from "~~/base/Constants";
-
-const { pending, data: podcasts } = useLazyAsyncData('podcasts', () => $fetch(PODCASTS_AP))
-
-const refresh = () => refreshNuxtData('podcasts')
-
+import { usePodcasts } from '~~/composables/data';
+const { refresh, podcasts } = await usePodcasts()
 </script>
