@@ -1,34 +1,34 @@
 import { describe, expect, it, afterEach } from "vitest";
-import Enumerator, { getEnumerator } from "../../backend/entities/Enumerator";
-import { Enumerations } from "../../backend/Enumerations";
-
-const dbFileName = "./data/testdb.sqlite";
+import IEnumerator from "../../base/types/IEnumerator";
+import { Enumerations } from "../../base/Enumerations";
 
 describe.only("enumerations", async () => {
-  const list = new Array<Enumerator>();
+  const list = new Array<IEnumerator>();
   list.push(
-    getEnumerator({
-      id: 1,
+    {
       displaytext: "-1-",
+      shorttext: "",
+      parentCategory: "",
       enumkey_id: 1,
       enumvalue_id: 1,
     })
-  );
   list.push(
-    getEnumerator({
-      id: 3,
+    {
       displaytext: "-3-",
+      shorttext: "",
+      parentCategory: "",
       enumkey_id: 2,
       enumvalue_id: 3,
-    })
+    }
   );
   list.push(
-    getEnumerator({
-      id: 4,
+    {
       displaytext: "-4-",
+      shorttext: "",
+      parentCategory: "",
       enumkey_id: 1,
       enumvalue_id: 4,
-    })
+    }
   );
 
   it("getEnumeration returns only selected list", () => {
@@ -36,7 +36,7 @@ describe.only("enumerations", async () => {
     enums.init(list);
     const actual = enums.getEnumeration(2);
     expect(actual.length).toBe(1);
-    expect(actual[0].id).toBe(3);
+    expect(actual[0].enumvalue_id).toBe(3);
   });
 
   it("byIdTextList returns only selected list", () => {

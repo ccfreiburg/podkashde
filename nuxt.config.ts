@@ -1,32 +1,16 @@
-import { defineNuxtConfig } from "nuxt";
+import { defineNuxtConfig } from 'nuxt'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  telemetry: false,
-  /*
-   ** Nuxt rendering mode
-   ** See https://nuxtjs.org/api/configuration-mode
-   */
-  mode: "universal",
-  css: ["~/assets/css/tailwind.css"],
-  nitro: {
-    preset: "node-server",
-  },
-  intlify: {
-    localeDir: "locales",
-    vueI18n: {
-      legacy: false,
-      locale: "en",
-      fallbackLocale: "en",
-      globalInjection: true,
-    },
-  },
-  buildModules: ["@intlify/nuxt3"],
-  modules: ["@nuxtjs/tailwindcss", "@intlify/nuxt3"],
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-    },
-  },
-});
+    modules: ['@nuxtjs/tailwindcss', '@nuxtjs/color-mode'],
+    tailwindcss: {
+     cssPath: '~/assets/css/tailwind.css',
+     configPath: 'tailwind.config.js',
+     exposeConfig: false,
+     injectPosition: 0,
+     viewer: true,
+   },
+   colorMode: {
+    classSuffix: ''
+   },
+})

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   durationInSecToStr,
   strToDurationInSec,
-} from "../../backend/Converters";
+} from "../../base/Converters";
 
 describe.only("Converters", async () => {
   it("strToDurationInSec -1 on empty string", () => {
