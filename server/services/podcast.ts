@@ -3,17 +3,22 @@ import getDataSource from "~~/server/db/dbsigleton";
 import Podcast from "~~/server/db/entities/Podcast";
 import { IPodcast } from "~~/base/types/IPodcast";
 
-export const readPodcast = async function (query): Promise<Array<IPodcast>> {
+export const readPodcasts = async function (): Promise<Array<IPodcast>> {
   const db = await getDataSource();
   const repo = db.getRepository(Podcast);
-  if (query.id || query.slug) {
-    var tmpQuery = {
+  return await repo.find();
+}
+
+export const readPodcast = async function (query): Promise<IPodcast> {
+  const db = await getDataSource();
+  const repo = db.getRepository(Podcast);
+  var tmpQuery = {
       where: query,
       relations: ["episodes", "series"],
-    };
-    return await repo.find(tmpQuery);
-  } else return await repo.find({relations: ["episodes", "series"]});
-};
+  };
+  var result:Array<IPodcast> = await repo.find(tmpQuery);
+  return result.pop()
+}
 
 export const nuxtPath = (path) => {
   return "public" + path;

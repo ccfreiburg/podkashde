@@ -1,6 +1,6 @@
-import { PODCASTS_AP } from "~~/base/Constants";
+import { PODCASTS_AP, PODCAST_AP } from "~~/base/Constants";
+import IEpisode from "~~/base/types/IEpisode";
 import { IPodcast } from "~~/base/types/IPodcast";
-import podcasts from "~~/server/api/podcasts";
 
 export async function usePodcasts() {
     const podcasts = useState<Array<IPodcast>>('podcasts', () => [] )
@@ -19,16 +19,12 @@ export async function usePodcasts() {
 }
 
 export async function usePodcast(slug:string) {
-    const podcast = useState<IPodcast>(slug, () => null)
-    const { refresh: prefrsh,  podcasts } = await usePodcasts();
-
-    const findSlug = () => podcasts.value.find( (p) => p.slug === slug )
-    const refresh = () => {
-        prefrsh()
-        podcast.value = findSlug()
+    const podcast = useState<IPodcast>(slug, () => null )
+    const refresh = async () => {
+        podcast.value = await $fetch(PODCAST_AP+"?slug="+slug)     
     }
     if (!podcast.value) {
-        podcast.value = findSlug()
+       await refresh()
     }
     return {
         podcast,

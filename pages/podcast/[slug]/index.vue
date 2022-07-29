@@ -1,6 +1,6 @@
 <template>
   <div>
-        <div class="flex flex-row">
+      <div class="flex flex-row">
         <img class="h-40 shrink-0" :src="podcast.cover_file" />
         <div class="h-40 pl-3 flex flex-col rounded-r-md">
           <div class="flex flex-row">
@@ -54,24 +54,14 @@
           </div>
         </div>
       </div>
+        <podcast-episodes :episodes="podcast.episodes"/>
     <button class="ml-2 p-3 bg-orange-300 rounded-md" @click="refresh">Hallo</button>
   </div>
 </template>
-<script lang="ts">
-import { ref } from 'vue'
-import { PODCASTS_AP } from '~~/base/Constants'
-import { usePodcast } from '~~/composables/data';
+<script setup lang="ts">
+import { usePodcast } from '~~/composables/podcastdata';
 
-export default { 
-  async setup() {
-    const route = useRoute();
-    const slug = route.params.slug as string
-    const { refresh, podcast } = await usePodcast(slug)
-    return {
-      slug,
-      podcast,
-      refresh
-    }
-  }
-}
+const route = useRoute();
+const slug = route.params.slug as string
+const { refresh, podcast } = await usePodcast(slug)
 </script>

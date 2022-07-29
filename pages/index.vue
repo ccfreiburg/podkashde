@@ -1,7 +1,8 @@
 <template>
   <div class="w-full h-full">
     <div class="flex flex-col">
-      <div></div>
+      <div>
+      </div>
       <!--NuxtLink :to="newPodcast">
         <div
           class="
@@ -44,6 +45,6 @@
 </template>
 
 <script setup lang="ts">
-import { usePodcasts } from '~~/composables/data';
+import { usePodcasts } from '~~/composables/podcastdata';
 const { refresh, podcasts } = await usePodcasts()
 </script>
