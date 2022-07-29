@@ -24,22 +24,36 @@
                 </div>
               </div>
             </div>
+            <div class="text-sm mt-10 flex-grow" v-html="episode.description"></div>
           </div>
         </div>
       </div>
-      <div class="text-sm mt-10 flex-grow" v-html="episode.description"></div>
-      <div class="text sm">
-        {{ JSON.stringify(episode) }}
       </div>
-      <button class="ml-2 p-3 bg-orange-300 rounded-md" @click="refresh">
-        Hallo
-      </button>
+      <div class="text-sm mx-10">
+        <div class="text-orange-600" @click="showdetail=!showdetail">{{ (showdetail?"less details":"more details")}}</div>
+        <div v-if="showdetail">
+        <table class="border-separate border-spacing-3">
+          <thead>
+            <tr>
+              <th class="bg-orange-200">Label</th>
+              <th class="bg-orange-200">Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(objectkey, index) in Object.keys(episode)" :key="index">
+              <td>{{ objectkey }}</td>
+              <td>{{ (["podcast","serie"].includes(objectkey)?episode[objectkey].title:episode[objectkey]) }}</td>
+            </tr>
+          </tbody>
+        </table>
     </div>
+  </div>
   </div>
 </template>
 <script setup lang="ts">
-import { useEpisode } from '~~/composables/episodedata';
+import { useEpisode } from "~~/composables/episodedata";
 const route = useRoute();
 const slug = route.params.episodeslug as string;
+const showdetail = ref(false)
 const { refresh, episode } = await useEpisode(slug);
 </script>
