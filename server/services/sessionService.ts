@@ -35,7 +35,8 @@ export async function getSessionByAuthToken(authToken: string): Promise<ISession
 }
 
 export async function makeSession(user: IUser, event: CompatibilityEvent): Promise<IUser> {
-    const authToken = uuidv4().replaceAll('-', '')
+    const regex = /-/g;
+    const authToken = uuidv4().replace(regex, '')
     const session = await createSession({ authToken, userId: user.id })
     const userId = session.userId
 

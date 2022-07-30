@@ -7,35 +7,19 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   UpdateDateColumn,
-} from "typeorm";
-import { IPodcast } from "../../../base/types/IPodcast";
-import Episode from "./Episode";
-import Serie from "./Serie";
+} from 'typeorm';
+import IPodcast, { emptyIPodcastFactory } from '../../../base/types/IPodcast';
+import Episode from './Episode';
+import Serie from './Serie';
 
-export function initPodcast(podcast: IPodcast) {
-  podcast.cover_file = "";
-  podcast.title = "";
-  podcast.slug = "";
-  podcast.subtitle = "";
-  podcast.author = "";
-  podcast.summary = "";
-  podcast.description = "";
-  podcast.language_id = -1;
-  podcast.category_id = -1; 
-  podcast.type_id = -1;
-  podcast.explicit = false;
-  podcast.link = "";
-  podcast.copyright = "";
-  podcast.owner_name = "";
-  podcast.owner_email = "";
-  podcast.state = -1;
-  podcast.lastbuild = "";
-  podcast.external_id = -1;
+export function initPodcast(podcast: Podcast): IPodcast {
+  setPodcast(podcast, emptyIPodcastFactory());
+  return podcast;
 }
 
-export function setPodcast(podcast : Podcast, from: IPodcast): Podcast {
+export function setPodcast(podcast: Podcast, from: IPodcast): Podcast {
   if (!from) return podcast;
-  if ("id" in from) podcast.id = from.id;
+  if ('id' in from) podcast.id = from.id;
   podcast.cover_file = from.cover_file;
   podcast.title = from.title;
   podcast.slug = from.slug;
@@ -51,9 +35,9 @@ export function setPodcast(podcast : Podcast, from: IPodcast): Podcast {
   podcast.copyright = from.copyright;
   podcast.owner_name = from.owner_name;
   podcast.owner_email = from.owner_email;
-  if (from.hasOwnProperty("state")) podcast.state = from.state;
-  if (from.hasOwnProperty("lastbuild")) podcast.lastbuild = from.lastbuild;
-  if (from.hasOwnProperty("external_id"))
+  if (from.hasOwnProperty('state')) podcast.state = from.state;
+  if (from.hasOwnProperty('lastbuild')) podcast.lastbuild = from.lastbuild;
+  if (from.hasOwnProperty('external_id'))
     podcast.external_id = from.external_id;
   return podcast;
 }
@@ -70,83 +54,82 @@ export function setPodcast(podcast : Podcast, from: IPodcast): Podcast {
 // }
 
 @Entity()
-export default class Podcast extends BaseEntity implements IPodcast{
-
+export default class Podcast extends BaseEntity implements IPodcast {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column("text")
+  @Column('text')
   cover_file: string;
 
-  @Column("text")
+  @Column('text')
   title: string;
 
-  @Column("text")
+  @Column('text')
   slug: string;
 
-  @Column("text")
+  @Column('text')
   subtitle: string;
 
-  @Column("text")
+  @Column('text')
   author: string;
 
-  @Column("text")
+  @Column('text')
   summary: string;
 
-  @Column("text")
+  @Column('text')
   description: string;
 
-  @Column("int")
+  @Column('int')
   language_id: number;
 
-  @Column("int")
+  @Column('int')
   category_id: number;
 
-  @Column("int")
+  @Column('int')
   type_id: number;
 
-  @Column("boolean")
+  @Column('boolean')
   explicit: boolean;
 
-  @Column("text")
+  @Column('text')
   link: string;
 
-  @Column("text")
+  @Column('text')
   copyright: string;
 
-  @Column("text")
+  @Column('text')
   owner_name: string;
 
-  @Column("text")
+  @Column('text')
   owner_email: string;
 
-  @Column("text")
+  @Column('text')
   lastbuild: string;
 
-  @Column("int")
+  @Column('int')
   state: number;
 
-  @Column("int")
+  @Column('int')
   external_id: number;
 
   @OneToMany(() => Episode, (episode) => episode.podcast, {
     cascade: true,
-    onDelete: "CASCADE",
+    onDelete: 'CASCADE',
   })
   episodes: Episode[];
 
   @OneToMany(() => Serie, (serie) => serie.podcast, {
     cascade: true,
-    onDelete: "CASCADE",
+    onDelete: 'CASCADE',
   })
   series: Serie[];
 
-  @CreateDateColumn({ type: "datetime" })
+  @CreateDateColumn({ type: 'datetime' })
   public createdAt: Date;
 
-  @UpdateDateColumn({ type: "datetime" })
+  @UpdateDateColumn({ type: 'datetime' })
   public updatedAt: Date;
 
-  @DeleteDateColumn({ type: "datetime" })
+  @DeleteDateColumn({ type: 'datetime' })
   public deletedAt: Date;
 }

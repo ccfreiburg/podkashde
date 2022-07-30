@@ -13,6 +13,7 @@ server/db/data
 .cache
 .env
 yarn.lock
-upload
+upload/
 coverage
 secret
+public/

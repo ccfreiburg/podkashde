@@ -9,7 +9,7 @@ export enum EnumKey {
   Tags = 5,
 }
 
-export class Enumerations {
+export default class Enumerations {
   private list = [] as Array<IEnumerator>;
 
   init(list: Array<IEnumerator>) {

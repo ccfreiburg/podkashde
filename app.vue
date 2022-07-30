@@ -1,17 +1,16 @@
 <script setup lang="ts">
-
 // import { IUser } from "~/types/IUser";
-// import { useUser } from "~/composables/useAuth";
+import { useUser } from "./composables/authentication";
 
-const nuxtApp = useNuxtApp()
+const nuxtApp = useNuxtApp();
 
 nuxtApp.hook("page:finish", () => {
-  window.scrollTo(0, 0)
-})
+  window.scrollTo(0, 0);
+});
 
-// await useUser()
+await useUser();
 </script>
 <template>
   <NavBar />
-  <NuxtPage/>
+  <NuxtPage />
 </template>

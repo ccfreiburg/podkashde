@@ -2,7 +2,7 @@ import { defineNuxtConfig } from 'nuxt'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/color-mode'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/color-mode', "@intlify/nuxt3"],
   tailwindcss: {
     cssPath: '~/assets/css/tailwind.css',
     configPath: 'tailwind.config.js',
@@ -12,5 +12,21 @@ export default defineNuxtConfig({
   },
   colorMode: {
     classSuffix: ''
+  },
+  intlify: {
+    localeDir: "locales",
+    vueI18n: {
+      legacy: false,
+      locale: "en",
+      fallbackLocale: "en",
+      globalInjection: true,
+    },
+  },
+  buildModules: ["@intlify/nuxt3"],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
   },
 })

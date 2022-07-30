@@ -1,6 +1,6 @@
 export function strToDurationInSec(durationStr: string) {
   if (!durationStr) return -1;
-  const parts = durationStr.replaceAll(".", ":").split(":");
+  const parts = durationStr.replace(/./g, ':').split(":");
   var pos = 0;
   var sum = 0;
   while (parts.length > 0 && parts[0].length > 0) {

@@ -1,7 +1,7 @@
-import IEpisode from "./IEpisode";
+import IEpisode from './IEpisode';
 
-export interface IPodcast {
-  id: number;
+export default interface IPodcast {
+  id?: number;
   cover_file: string;
   title: string;
   author: string;
@@ -20,5 +20,29 @@ export interface IPodcast {
   explicit: boolean;
   state: number;
   external_id: number;
-  episodes: Array<IEpisode>;
+  episodes?: Array<IEpisode>;
+}
+
+export function emptyIPodcastFactory(): IPodcast {
+  var pod: IPodcast = {
+    cover_file: '',
+    title: '',
+    slug: '',
+    subtitle: '',
+    author: '',
+    summary: '',
+    description: '',
+    language_id: -1,
+    category_id: -1,
+    type_id: -1,
+    explicit: false,
+    link: '',
+    copyright: '',
+    owner_name: '',
+    owner_email: '',
+    state: -1,
+    lastbuild: '',
+    external_id: -1,
+  };
+  return pod;
 }
