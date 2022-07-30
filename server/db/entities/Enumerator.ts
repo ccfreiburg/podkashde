@@ -1,5 +1,5 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import IEnumerator, { emptyEnum } from "~~/base/types/IEnumerator";
+import IEnumerator, { emptyEnum } from "../../../base/types/IEnumerator";
 
 export function getEnumerator(json: Object): Enumerator {
   const enumerator = new Enumerator();
@@ -14,10 +14,6 @@ export function getEnumerator(json: Object): Enumerator {
 
 @Entity()
 export default class Enumerator extends BaseEntity implements IEnumerator{
-  constructor() {
-    super();
-    emptyEnum(this);
-  }
 
   @PrimaryGeneratedColumn()
   id: number;

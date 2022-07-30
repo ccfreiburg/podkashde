@@ -16,3 +16,6 @@ export const ENUMERATIONS_AP = "/api/enums";
 export const WP_API_SLUG = "wp-json/wp/v2/";
 export const WP_PER_PAGE = "?per_page=100";
 export const ROUTE_NEWPODCAST = "newpodcast";
+export const SESSION_AP = "/api/session";
+export const LOGIN_AP = "/api/login";
+export const LOGOUT_AP = "/api/logout";

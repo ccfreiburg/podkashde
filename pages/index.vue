@@ -1,9 +1,8 @@
 <template>
   <div class="w-full h-full">
     <div class="flex flex-col">
-      <div>
-      </div>
-      <!--NuxtLink :to="newPodcast">
+      <div v-show="user!=null">
+      <NuxtLink :to="'/admin/new-podcast'">
         <div
           class="
             mt-5
@@ -14,9 +13,11 @@
             hover:bg-orange-400
           "
         >
-          {{ $t("newPodcast") }}
+        New
+          <!-- {{ $t("newPodcast") }} -->
         </div>
-      </NuxtLink-->
+      </NuxtLink>
+      </div>
       <div class="flex felx-col flex-wrap text-sm">
         <div v-for="podcast in podcasts" :key="podcast.id">
           <NuxtLink :to="'/podcast/'+podcast.slug">
@@ -41,10 +42,16 @@
       </div>
     </div>
     <button class="ml-2 p-3 bg-orange-300 rounded-md" @click="refresh">Hallo</button>
+    <button class="ml-2 p-3 bg-orange-300 rounded-md" @click="login">Login</button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { usePodcasts } from '~~/composables/podcastdata';
+import { loginWithEmail } from '../composables/authentication';
 const { refresh, podcasts } = await usePodcasts()
+const login = async () => {
+  await loginWithEmail("ar@3ar.de", "0test0++") 
+}
+const user = useState('user')
 </script>

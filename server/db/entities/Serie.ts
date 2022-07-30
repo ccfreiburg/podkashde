@@ -9,9 +9,9 @@ import {
   DeleteDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { ContentState } from "~~/base/types/ContentState";
-import Episode from "~~/server/db/entities/Episode";
-import Podcast from "~~/server/db/entities/Podcast";
+import { ContentState } from "../../../base/types/ContentState";
+import Episode from "./Episode";
+import Podcast from "./Podcast";
 
 export function initSerie(serie: Serie) {
   serie.cover_file = "";
@@ -39,10 +39,6 @@ export function getSerie(from): Serie {
 
 @Entity()
 export default class Serie extends BaseEntity {
-  constructor() {
-    super();
-    initSerie(this);
-  }
 
   @PrimaryGeneratedColumn()
   id: number;

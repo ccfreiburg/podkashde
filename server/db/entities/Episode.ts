@@ -8,9 +8,9 @@ import {
   DeleteDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import IEpisode, { initEpisode } from "~~/base/types/IEpisode";
-import Podcast from "~~/server/db/entities/Podcast";
-import Serie from "~~/server/db/entities/Serie";
+import IEpisode, { initEpisode } from "../../../base/types/IEpisode";
+import Podcast from "./Podcast";
+import Serie from "./Serie";
 
 
 export function getEpisode(from) {
@@ -45,10 +45,6 @@ export function getEpisode(from) {
 
 @Entity()
 export default class Episode extends BaseEntity implements IEpisode {
-  constructor() {
-    super();
-    initEpisode(this);
-  }
 
   @PrimaryGeneratedColumn()
   id: number;

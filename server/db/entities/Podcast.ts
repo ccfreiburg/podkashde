@@ -8,9 +8,9 @@ import {
   DeleteDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { IPodcast } from "~~/base/types/IPodcast";
-import Episode, { getEpisode } from "~~/server/db/entities/Episode";
-import Serie, { getSerie } from "~~/server/db/entities/Serie";
+import { IPodcast } from "../../../base/types/IPodcast";
+import Episode from "./Episode";
+import Serie from "./Serie";
 
 export function initPodcast(podcast: IPodcast) {
   podcast.cover_file = "";
@@ -71,10 +71,6 @@ export function setPodcast(podcast : Podcast, from: IPodcast): Podcast {
 
 @Entity()
 export default class Podcast extends BaseEntity implements IPodcast{
-  constructor() {
-    super();
-    initPodcast(this);
-  }
 
   @PrimaryGeneratedColumn()
   id: number;

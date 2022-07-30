@@ -1,7 +1,20 @@
 import { DataSource } from "typeorm";
-import Enumerator, { getEnumerator } from "~/server/db/entities/Enumerator";
+import Enumerator, { getEnumerator } from "./entities/Enumerator";
+import User from "./entities/User";
 
-export default async function fillDefaultEnums(db: DataSource) {
+export async function addAdmin(db: DataSource) {
+  const user = await db.manager.find(User, { where: { email: "ar@3ar.de" }})
+  if (user.length>0)
+    return;
+  const adminuser = new User();
+  adminuser.username="alex";
+  adminuser.name='Alex'
+  adminuser.email='ar@3ar.de'
+  adminuser.password='$2a$12$tpXheqh.MBK/GsFJkUUzE.X.NwyPp3Yb3ZLC.dEoV.vQyTWJvS3sO'
+  return await db.manager.save(adminuser);
+}
+
+export async function fillDefaultEnums(db: DataSource) {
   const list = [
     ["deutsch", "de-DE", "language", 0, 1],
     ["english", "en-US", "language", 0, 2],

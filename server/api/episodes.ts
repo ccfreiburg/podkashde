@@ -1,4 +1,4 @@
-import { readEpisodes } from "../services/episode";
+import { readEpisodes } from "../services/episodeService";
 
 export default defineEventHandler((event) => {
   return readEpisodes();
