@@ -5,7 +5,7 @@
         <div class="h-40 pl-3 flex flex-col rounded-r-md">
           <div class="flex flex-row">
             <div class="text-2xl flex-grow">{{ podcast.title }}</div>
-            <!--NuxtLink :to="'/' + podcast.slug + '/edit'">
+            <NuxtLink :to="'/admin/podcast/' + podcast.slug">
               <button
                 class="
                   p-1
@@ -31,7 +31,7 @@
                   />
                 </svg>
               </button>
-            </NuxtLink-->
+            </NuxtLink>
           </div>
           <div class="text-xl flex-grow">{{ podcast.subtitle }}</div>
           <div class="text-ml">{{ podcast.author }}</div>

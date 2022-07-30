@@ -362,6 +362,7 @@ export default defineComponent({
     getFields() {
       var tmp = { ...this.fields };
       delete tmp.episodes;
+      delete tmp.series;
       return tmp;
     },
     async savePodcast(event) {

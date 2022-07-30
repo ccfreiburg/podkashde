@@ -27,6 +27,7 @@ sprints:
 
 ## Todo
 
+- [api-testing-konzept](tasks/api-testing-konzept.md)
 - [differentiate-url-file-po-k-url](tasks/differentiate-url-file-po-k-url.md)
 - [veröffentlichungsstatus-für-podcasts-serien-und-episoden](tasks/veröffentlichungsstatus-für-podcasts-serien-und-episoden.md)
 - [add-player-to-episode-page](tasks/add-player-to-episode-page.md)
@@ -34,8 +35,9 @@ sprints:
 
 ## In Progress
 
-- [authentication](tasks/authentication.md)
 - [refactoring](tasks/refactoring.md)
+- [authentication](tasks/authentication.md)
+- [404-page](tasks/404-page.md)
 
 ## Done
 
