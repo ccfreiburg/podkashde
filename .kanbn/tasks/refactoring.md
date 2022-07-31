@@ -1,6 +1,6 @@
 ---
 created: 2022-07-30T17:54:33.389Z
-updated: 2022-07-31T07:20:48.346Z
+updated: 2022-07-31T17:27:01.839Z
 assigned: ""
 progress: 0
 tags: []
@@ -13,7 +13,7 @@ tags: []
 - [x] Podcast list
 - [x] Podcast detail
 - [x] new Podcast
-- [ ] edit Podcast
-- [ ] add new Episode
-- [ ] edit Episode
+- [x] edit Podcast
+- [x] add new Episode
+- [x] edit Episode
 - [ ] WP import

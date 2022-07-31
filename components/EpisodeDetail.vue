@@ -249,7 +249,7 @@
       <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
         <p>{{ $t("episodeDetail.label.errors") }}</p>
         <ul class="ml-5">
-          <li class="list-disc" v-for="err in errors">
+          <li class="list-disc" v-for="(err, index) in errors" :key="index">
             {{ $t("episodeDetail.validation." + err.text) }}
           </li>
         </ul>
@@ -271,7 +271,7 @@
           {{ $t("cancel") }}
         </button>
         <button
-          v-if="fields.id && fields.id > 0"
+          v-if="'id' in fields && fields['id'] > 0"
           class="mt-5 px-5 h-10 border-2 rounded-md bg-red-200 hover:bg-red-400"
           @click="remove"
         >
@@ -299,8 +299,6 @@
 
 <script lang="ts">
 import { ref } from "vue";
-import { IID3Tag } from "id3-parser/lib/interface";
-import universalParse from "id3-parser/lib/universal/index.js";
 import { defineComponent, PropType } from "vue";
 import Episode, { getEpisode } from "~~/server/db/entities/Episode";
 import Serie from "~~/server/db/entities/Serie";
@@ -321,6 +319,7 @@ import {
   UPLOAD_AP,
 } from "~~/base/Constants";
 import Podcast from "~~/server/db/entities/Podcast";
+import IEpisode, { initEpisode } from "~~/base/types/IEpisode";
 
 export default defineComponent({
   props: {
@@ -333,8 +332,9 @@ export default defineComponent({
     const imgMetadata = ref(new ImageMetadata());
     const serie_id = ref(-1);
     const errors = ref([]);
-    const fields = ref(new Episode());
+    const fields = ref(initEpisode(new Episode()));
     const serie = ref(new Serie());
+    
 
     watch(props.episode, (newValue, oldValue) => {
       // immediate: true,
@@ -354,7 +354,7 @@ export default defineComponent({
       }
     });
 
-    const isEdit = computed(() => fields.value.id != undefined);
+    const isEdit = computed(() => (fields.value as any).id != undefined);
 
     const hasError = (fieldname) => {
       return errors.value.find((error) => error.field === fieldname);
@@ -381,10 +381,10 @@ export default defineComponent({
     };
 
     const getFields = () => {
-      var tmp = { ...fields.value };
+      var tmp = { ...fields.value } as any;
       delete tmp.podcast.episodes;
       delete tmp.podcast.series;
-      if (!fields.value.serie) delete tmp.serie;
+      if (!(fields.value as any).serie) delete tmp.serie;
       return tmp;
     };
 
@@ -410,9 +410,9 @@ export default defineComponent({
       if (errors.value.length > 0) return;
 
       // set relations
-      fields.value.serie =
+      (fields.value as any).serie =
         serie.value && "id" in serie.value ? serie.value : null;
-      fields.value.podcast = props.podcast;
+      (fields.value as any).podcast = props.podcast;
 
       // Upload Mp3
       var postResult = null;
@@ -510,13 +510,13 @@ export default defineComponent({
       pubdatetext.value = dateToIsoString(fields.value.pubdate);
       try {
         durationText.value = durationInSecToStr(fields.value.duration);
-        const id3tags = await universalParse(event.target.files[0]);
-        if (id3tags.title) fileSelected(id3tags);
-        if (id3tags.image)
-          imgMetadata.value.preview = array2base64(
-            id3tags.image.data,
-            id3tags.image.mime
-          );
+        // const id3tags = await universalParse(event.target.files[0]);
+        // if (id3tags.title) fileSelected(id3tags);
+        // if (id3tags.image)
+        //   imgMetadata.value.preview = array2base64(
+        //     id3tags.image.data,
+        //     id3tags.image.mime
+        //   );
       } catch {}
     };
 
@@ -530,18 +530,18 @@ export default defineComponent({
       });
     }
 
-    const fileSelected = (data: IID3Tag) => {
-      fields.value.title = data.title;
-      fields.value.keyword = data.album;
-      fields.value.creator = data.artist;
-      fields.value.summary = data["set-part"];
-      generateSlug();
-      if ("initial-key" in data)
-        fields.value.external_id = Number(data["initial-key"]);
-      serie.value = props.series.find(
-        (item) => item.title === fields.value.keyword
-      );
-    };
+    // const fileSelected = (data: IID3Tag) => {
+    //   fields.value.title = data.title;
+    //   fields.value.keyword = data.album;
+    //   fields.value.creator = data.artist;
+    //   fields.value.summary = data["set-part"];
+    //   generateSlug();
+    //   if ("initial-key" in data)
+    //     fields.value.external_id = Number(data["initial-key"]);
+    //   serie.value = props.series.find(
+    //     (item) => item.title === fields.value.keyword
+    //   );
+    // };
     return {
       fields,
       series: props.series,

@@ -36,13 +36,13 @@ sprints:
 
 ## In Progress
 
-- [authentication](tasks/authentication.md)
 - [404-page](tasks/404-page.md)
 - [refactoring](tasks/refactoring.md)
 
 ## Done
 
 - [leere-images](tasks/leere-images.md)
+- [authentication](tasks/authentication.md)
 - [set-migration-state-correctly](tasks/set-migration-state-correctly.md)
 - [cascading-delete-bug](tasks/cascading-delete-bug.md)
 - [testing](tasks/testing.md)

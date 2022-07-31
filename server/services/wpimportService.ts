@@ -1,7 +1,7 @@
-import getDataSource from "../dbsigleton";
-import Episode from "../entities/Episode";
-import Podcast from "../entities/Podcast";
-import Serie from "../entities/Serie";
+import getDataSource from "../db/dbsigleton";
+import Episode from "../db/entities/Episode";
+import Podcast from "../db/entities/Podcast";
+import Serie from "../db/entities/Serie";
 
 export const migrateEpisodes = async (episodes: Array<Episode>) => {
   const db = await getDataSource();

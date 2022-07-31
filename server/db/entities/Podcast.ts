@@ -12,6 +12,10 @@ import IPodcast, { emptyIPodcastFactory } from '../../../base/types/IPodcast';
 import Episode from './Episode';
 import Serie from './Serie';
 
+export function getPodcast(from: IPodcast) {
+  return setPodcast(from, new Podcast())
+}
+
 export function initPodcast(podcast: Podcast): IPodcast {
   setPodcast(podcast, emptyIPodcastFactory());
   return podcast;

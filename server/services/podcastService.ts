@@ -38,7 +38,6 @@ export const moveUploadedImage = function (path, imageFile) {
   createDir(dir);
   const target_path = dir + '/' + imageFile.originalname;
   fs.renameSync(upload_path, target_path);
-  console.log(target_path);
   return true;
 };
 

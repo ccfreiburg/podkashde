@@ -21,7 +21,7 @@ export default interface IEpisode {
     rawsize: number;
   }
 
-  export function initEpisode(episode :IEpisode) {
+  export function initEpisode(episode :IEpisode) : IEpisode {
     episode.image = "";
     episode.postimage = "";
     episode.title = "";
@@ -42,5 +42,6 @@ export default interface IEpisode {
     episode.ext_podcast_id = -1;
     episode.lastbuild = "";
     episode.rawsize = 0;
+    return episode
   }
   

@@ -23,6 +23,7 @@ export function getEpisode(from) {
   episode.slug = from.slug;
   episode.subtitle = from.subtitle;
   episode.creator = from.creator;
+  episode.summary = from.summary;
   episode.explicit = from.explicit;
   episode.block = from.block;
   episode.link = from.link;

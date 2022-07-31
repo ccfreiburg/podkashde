@@ -22,7 +22,7 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const result = await useFetch(
-      PODCASTS_AP + "?slug=" + route.params.podcastslug
+      PODCASTS_AP + "?slug=" + route.params.slug
     );
 
     if (!result.data) {
@@ -35,7 +35,7 @@ export default defineComponent({
     const episode = ref(new Episode());
 
     function onsave() {
-      router.push("/" + route.params.podcastslug);
+      router.push("/podcast/" + route.params.slug);
     }
     function oncancel() {
       router.go(-1);

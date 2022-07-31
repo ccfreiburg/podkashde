@@ -1,7 +1,9 @@
+import IReturnCode from "~~/base/types/IReturnCode";
+
 export const returnCode = function (
   statuscode: number,
   textmessage: string
-): Object {
+): IReturnCode {
   return {
     status: statuscode,
     message: textmessage,
@@ -11,7 +13,7 @@ export const returnCode = function (
 export const returnCodeReject = function (
   statuscode: number,
   textmessage: string
-): Promise<Object> {
+): Promise<IReturnCode> {
   return Promise.reject({
     status: statuscode,
     message: textmessage,
@@ -20,7 +22,7 @@ export const returnCodeReject = function (
 export const returnCodeResolve = function (
   statuscode: number,
   textmessage: string
-): Promise<Object> {
+): Promise<IReturnCode> {
   return Promise.resolve({
     status: statuscode,
     message: textmessage,
