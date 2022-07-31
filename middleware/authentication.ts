@@ -1,4 +1,4 @@
-import {defineNuxtRouteMiddleware, useNuxtApp} from "#app";
+import {defineNuxtRouteMiddleware} from "#app";
 import {useUser} from "~~/composables/authentication";
 
 export default defineNuxtRouteMiddleware(async(to) => {

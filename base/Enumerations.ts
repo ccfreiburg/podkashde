@@ -12,7 +12,7 @@ export enum EnumKey {
 export default class Enumerations {
   private list = [] as Array<IEnumerator>;
 
-  init(list: Array<IEnumerator>) {
+  public init(list: Array<IEnumerator>) {
     this.list = list;
   }
 

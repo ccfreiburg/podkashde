@@ -32,12 +32,13 @@ sprints:
 - [veröffentlichungsstatus-für-podcasts-serien-und-episoden](tasks/veröffentlichungsstatus-für-podcasts-serien-und-episoden.md)
 - [add-player-to-episode-page](tasks/add-player-to-episode-page.md)
 - [podcast-page](tasks/podcast-page.md)
+- [logging](tasks/logging.md)
 
 ## In Progress
 
-- [refactoring](tasks/refactoring.md)
 - [authentication](tasks/authentication.md)
 - [404-page](tasks/404-page.md)
+- [refactoring](tasks/refactoring.md)
 
 ## Done
 

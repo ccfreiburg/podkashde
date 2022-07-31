@@ -2925,6 +2925,13 @@ icss-utils@^5.0.0, icss-utils@^5.1.0:
   resolved "https://registry.npmjs.org/icss-utils/-/icss-utils-5.1.0.tgz"
   integrity sha512-soFhflCVWLfRNOPU3iv5Z9VUdT44xFRbzjLsEzSr5AQmgqPMTHdU3PMT1Cf1ssx8fLNJDA1juftYl+PUcv3MqA==
 
+id3-parser@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/id3-parser/-/id3-parser-2.0.0.tgz#e1de845af0943dbefacad9fd7c037f50671d714f"
+  integrity sha512-bkGeAtUX70rC9sq2mjzIrkmPZjUsGuqCjZKGFJnugKXqYVDuJgfWDa8MehUZaCqlkoCaXkYevYeaRxkHOJsv9w==
+  dependencies:
+    promise-a-plus "^0.7.0"
+
 ieee754@^1.1.13, ieee754@^1.2.1:
   version "1.2.1"
   resolved "https://registry.npmjs.org/ieee754/-/ieee754-1.2.1.tgz"
@@ -4658,6 +4665,11 @@ process-nextick-args@~2.0.0:
   version "2.0.1"
   resolved "https://registry.npmjs.org/process-nextick-args/-/process-nextick-args-2.0.1.tgz"
   integrity sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
+
+promise-a-plus@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/promise-a-plus/-/promise-a-plus-0.7.0.tgz#3d3cad69271dba462554c66b7d35bbd46e752a62"
+  integrity sha512-cWbWdSKaHiNGWP3aUSAq5nkZFYL1A6glTMgGc/LpFZ6DEJ5FRXzu7T2k4mmi+cD/R5EJ9DHHzWezXnO1IMPb5w==
 
 promise-inflight@^1.0.1:
   version "1.0.1"
