@@ -54,6 +54,23 @@
           </div>
         </div>
       </div>
+            <div v-if="user!=null"> 
+        <NuxtLink :to="'/admin/podcast/' + podcast.slug + '/new-episode'">
+          <button
+            class="
+              p-1
+              border-1 border-gray-700
+              text-orange-300
+              bg-gray-200
+              rounded-2xl
+              hover:bg-orange-800
+            "
+          >
+            +
+          </button>
+        </NuxtLink>
+        </div>
+
         <podcast-episodes :episodes="podcast.episodes"/>
     <button class="ml-2 p-3 bg-orange-300 rounded-md" @click="refresh">Hallo</button>
   </div>
@@ -64,6 +81,8 @@ import { usePodcast } from '~~/composables/podcastdata';
 
 const route = useRoute();
 const slug = route.params.slug as string
+const user = useState('user')
+
 const {getLanguage, getGenre} = await useEnumerations()
 const { refresh, podcast } = await usePodcast(slug)
 const language = ref(getLanguage(podcast.value.language_id))
