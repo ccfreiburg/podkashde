@@ -1,28 +1,27 @@
-import fs from 'fs';
-import getDataSource from '~~/server/db/dbsigleton';
-import Podcast, { setPodcast } from '~~/server/db/entities/Podcast';
-import IPodcast from '~~/base/types/IPodcast';
-import { PUBLIC_RESOURCES } from '~~/base/Constants';
+import fs from "fs";
+import getDataSource from "~~/server/db/dbsigleton";
+import Podcast from "~~/server/db/entities/Podcast";
+import { IPodcast } from "~~/base/types/IPodcast";
 
 export const readPodcasts = async function (): Promise<Array<IPodcast>> {
   const db = await getDataSource();
   const repo = db.getRepository(Podcast);
   return await repo.find();
-};
+}
 
 export const readPodcast = async function (query): Promise<IPodcast> {
   const db = await getDataSource();
   const repo = db.getRepository(Podcast);
   var tmpQuery = {
-    where: query,
-    relations: ['episodes', 'series'],
+      where: query,
+      relations: ["episodes", "series"],
   };
-  var result: Array<IPodcast> = await repo.find(tmpQuery);
-  return result.pop();
-};
+  var result:Array<IPodcast> = await repo.find(tmpQuery);
+  return result.pop()
+}
 
 export const nuxtPath = (path) => {
-  return PUBLIC_RESOURCES + path;
+  return "public" + path;
 };
 
 export const createDir = (dir) => {
@@ -36,23 +35,21 @@ export const moveUploadedImage = function (path, imageFile) {
   const upload_path = imageFile.path;
   var dir = nuxtPath(path);
   createDir(dir);
-  const target_path = dir + '/' + imageFile.originalname;
+  const target_path = dir + "/" + imageFile.originalname;
   fs.renameSync(upload_path, target_path);
   console.log(target_path);
   return true;
 };
 
-export const isUpdate = function (podcastObject: IPodcast): Boolean {
+export const isUpdate = function (podcastObject): Boolean {
   if (!podcastObject) return false;
-  var isupdate: Boolean = 'id' in podcastObject;
+  var isupdate: Boolean = "id" in podcastObject;
   if (isupdate) isupdate = podcastObject.id > 0;
   return isupdate;
 };
 
-export const saveNewPodcast = async function (
-  podcastObject: IPodcast
-): Promise<IPodcast> {
-  var podcast = setPodcast(new Podcast(), podcastObject);
+export const saveNewPodcast = async function (podcastObject : IPodcast): Promise<IPodcast> {
+  var podcast = podcastObject as Podcast;
   const db = await getDataSource();
   await db.manager.save(podcast);
   return podcast;

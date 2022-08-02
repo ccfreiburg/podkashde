@@ -9,24 +9,33 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import { PODCAST_AP } from "~~/base/Constants";
 import IPodcast from "~~/base/types/IPodcast";
 
-definePageMeta({
-  middleware: "authentication",
+export default defineComponent({
+  async setup() {
+    const route = useRoute();
+    const router = useRouter();
+    const apiUrl = PODCAST_AP + "?slug=" + route.params.slug;
+    const data = await $fetch(apiUrl);
+    const podcast = ref(data as IPodcast);
+
+    function goBack() {
+      router.push("/podcast/" + route.params.slug);
+    }
+
+    function goRoot() {
+      router.push("/");
+    }
+
+    return {
+      podcast,
+      goBack,
+      goRoot,
+    };
+  },
 });
-const route = useRoute();
-const router = useRouter();
-const apiUrl = PODCAST_AP + "?slug=" + route.params.slug;
-const data = await $fetch(apiUrl);
-const podcast = ref(data as IPodcast);
-function goBack() {
-  router.push("/podcast/" + route.params.slug);
-}
-function goRoot() {
-  router.push("/");
-}
 </script>
 
 <style>

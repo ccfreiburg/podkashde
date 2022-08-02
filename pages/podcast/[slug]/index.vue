@@ -36,53 +36,36 @@
           <div class="text-xl flex-grow">{{ podcast.subtitle }}</div>
           <div class="text-ml">{{ podcast.author }}</div>
           <div class="flex flex-row">
-            <!-- <div class="text-sm text-white rounded-md bg-orange-300 px-1 mr-1">
+            <div class="text-sm text-white rounded-md bg-orange-300 px-1 mr-1">
               {{ podcastGenre.parentCategory }} - {{ podcastGenre.displaytext }}
-            </div> -->
+            </div>
             <div
               v-if="podcast.explicit"
               class="text-sm text-white rounded-md bg-orange-900 px-1 mr-1"
             >
               explicit
             </div>
-            <!-- <div class="text-sm text-white rounded-md bg-orange-300 px-1 mr-1">
+            <div class="text-sm text-white rounded-md bg-orange-300 px-1 mr-1">
               {{ language.displaytext }}
-            </div> -->
+            </div>
           </div>
           <div class="pt-2 w-full text-sm break-normal overflow-y-auto">
             {{ podcast.summary }}
           </div>
         </div>
       </div>
-      <div v-if="user!=null"> 
-        <NuxtLink :to="'/admin/podcast/' + podcast.slug + '/new-episode'">
-          <button
-            class="
-              p-1
-              border-1 border-gray-700
-              text-orange-300
-              bg-gray-200
-              rounded-2xl
-              hover:bg-orange-800
-            "
-          >
-            +
-          </button>
-        </NuxtLink>
-        </div>
         <podcast-episodes :episodes="podcast.episodes"/>
     <button class="ml-2 p-3 bg-orange-300 rounded-md" @click="refresh">Hallo</button>
   </div>
 </template>
 <script setup lang="ts">
-//import { useEnumerations } from '~~/composables/enumerationdata';
+import { useEnumerations } from '~~/composables/enumerationdata';
 import { usePodcast } from '~~/composables/podcastdata';
 
-const user = useState('user')
 const route = useRoute();
 const slug = route.params.slug as string
-// const {getLanguage, getGenre} = await useEnumerations()
+const {getLanguage, getGenre} = await useEnumerations()
 const { refresh, podcast } = await usePodcast(slug)
-// const language = ref(getLanguage(podcast.value.language_id))
-// const podcastGenre = ref(getGenre(podcast.value.category_id))
+const language = ref(getLanguage(podcast.value.language_id))
+const podcastGenre = ref(getGenre(podcast.value.category_id))
 </script>

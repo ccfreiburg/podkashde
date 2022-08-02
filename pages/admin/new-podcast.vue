@@ -13,9 +13,9 @@
 import { ref } from "vue";
 import { emptyIPodcastFactory } from "~~/base/types/IPodcast";
 
-definePageMeta({
-   middleware: "authentication",
-});
+// definePageMeta({
+//   middleware: "authentication",
+// });
 
 const podcast = ref(emptyIPodcastFactory());
 

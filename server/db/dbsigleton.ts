@@ -24,12 +24,16 @@ export function setAnotherFilename(filename) {
 export default async function getDataSource(): Promise<DataSource> {
   if (dataSource.isInitialized) return dataSource;
   else {
+    console.log("init db")
     await dataSource.initialize();
+    console.log("db initialized")
     await dataSource.runMigrations();
+    console.log("db migrated")
     const german = await dataSource.manager.findOneBy(Enumerator, {
       shorttext: "de-DE",
     });
     if (!german) {
+      console.log("init enums")
       await fillDefaultEnums(dataSource);
     }
     addAdmin(dataSource);

@@ -1,12 +1,11 @@
-import Enumerations, { EnumKey } from "~~/base/Enumerations";
+import { ContentState, Enumerations, EnumKey } from "~~/backend/Enumerations";
 import { ENUMERATIONS_AP } from "./Constants";
-import Episode, { getEpisode } from "~~/server/db/entities/Episode";
-import Podcast, { getPodcast } from "~~/server/db/entities/Podcast";
-import Serie, { getSerie } from "~~/server/db/entities/Serie";
-import Enumerator, { getEnumerator } from "~~/server/db/entities/Enumerator";
-import getDataSource from "~~/server/db/dbsigleton";
+import Episode, { getEpisode } from "./entities/Episode";
+import Podcast, { getPodcast } from "./entities/Podcast";
+import Serie, { getSerie } from "./entities/Serie";
+import Enumerator, { getEnumerator } from "./entities/Enumerator";
+import getDataSource from "./dbsigleton";
 import { strToDate } from "./Converters";
-import { ContentState } from "./types/ContentState";
 
 export function enumsfromWpMetadata(
   wpMetadataList,

@@ -8,6 +8,7 @@ import IPodcast from '~~/base/types/IPodcast';
 
 export default defineEventHandler(async (event) => {
   try {
+    console.log(event)
     const data: IPodcast = await useBody(event);
     if (isUpdate(data)) {
       await updatePodcast(data);

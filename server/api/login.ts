@@ -2,26 +2,25 @@ import { getUserByEmail, sanitizeUserForFrontend } from '~~/server/services/user
 import bcrypt from 'bcrypt'
 import { CompatibilityEvent, sendError } from "h3"
 import { makeSession } from '~~/server/services/sessionService';
-import { returnCode } from '../returncode';
 
-export default defineEventHandler( async (event) => {
+export default async (event: CompatibilityEvent) => {
   const body = await useBody(event)
   const email: string = body.email
   const password: string = body.password
   const user = await getUserByEmail(email)
 
   if (user === null) {
-    return returnCode( 401, 'Unauthenticated' )
+    sendError(event, createError({ statusCode: 401, statusMessage: 'Unauthenticated' }))
   }
 
   const isPasswordCorrect = bcrypt.compare(password, user.password)
 
   if (!isPasswordCorrect) {
-    return returnCode( 401, 'Unauthenticated' )
+    sendError(event, createError({ statusCode: 401, statusMessage: 'Unauthenticated' }))
   }
 
 
   await makeSession(user, event)
 
   return sanitizeUserForFrontend(user)
-})
+}
