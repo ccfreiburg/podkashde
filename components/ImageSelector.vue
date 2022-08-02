@@ -30,9 +30,9 @@
     <div>
       <input
         class="invisible"
-        ref="fileInput"
+        ref="imageFileInput"
         type="file"
-        id="fileInput"
+        id="imageFileInput"
         @change="imageFileSelected"
       />
     </div>
@@ -48,7 +48,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const imgMetadata = ref(props.value);
-    const fileInput = ref(null);
+    const imageFileInput = ref(null);
 
     function calcImageSizePx(source, callback) {
       var img = new Image();
@@ -72,7 +72,7 @@ export default defineComponent({
       emit("imageSelected", imgMetadata.value);
     }
     function chooseImageFile() {
-      fileInput.value.click();
+      imageFileInput.value.click();
     }
     function imageFileSelected(event) {
       imgMetadata.value.selectedFile = event.target.files[0];
@@ -90,7 +90,7 @@ export default defineComponent({
     return {
       preview,
       imgMetadata,
-      fileInput,
+      imageFileInput,
       imageFileSelected,
       chooseImageFile,
       removeImage,

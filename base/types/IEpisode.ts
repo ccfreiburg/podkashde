@@ -1,6 +1,10 @@
+import IPodcast from "./IPodcast";
+import ISerie from "./ISerie";
+
 export default interface IEpisode {
+    id?: number;
     image: string;
-    postimage: string;
+    postimage?: string;
     title: string;
     slug: string;
     keyword: string;
@@ -14,33 +18,38 @@ export default interface IEpisode {
     duration: number;
     pubdate: Date;
     state: number;
-    external_id: number;
-    ext_series_id: number;
-    ext_podcast_id: number;
-    lastbuild: string;
     rawsize: number;
-  }
+    external_id?: number;
+    ext_series_id?: number;
+    ext_podcast_id?: number;
+    lastbuild?: string;
+    podcast?: IPodcast;
+    serie?: ISerie;
+}
 
-  export function initEpisode(episode :IEpisode) {
-    episode.image = "";
-    episode.postimage = "";
-    episode.title = "";
-    episode.slug = "";
-    episode.keyword = "";
-    episode.subtitle = "";
-    episode.creator = "";
-    episode.summary = "";
-    episode.description = "";
-    episode.block = false;
-    episode.explicit = false;
-    episode.link = "";
-    episode.duration = 0;
-    episode.pubdate = new Date();
-    episode.state = -1;
-    episode.external_id = -1;
-    episode.ext_series_id = -1;
-    episode.ext_podcast_id = -1;
-    episode.lastbuild = "";
-    episode.rawsize = 0;
+export function emptyIEpisodeFactory(): IEpisode {
+  var episode: IEpisode = {    
+    image: "",
+    postimage: "",
+    title: "",
+    slug: "",
+    keyword: "",
+    subtitle: "",
+    creator: "",
+    summary: "",
+    description: "",
+    block: false,
+    explicit: false,
+    link: "",
+    duration: 0,
+    pubdate: new Date(),
+    state: -1,
+    external_id: -1,
+    ext_series_id: -1,
+    ext_podcast_id: -1,
+    lastbuild: "",
+    rawsize: 0,
   }
+  return episode;
+}
   
