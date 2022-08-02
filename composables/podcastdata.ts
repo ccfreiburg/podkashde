@@ -1,6 +1,5 @@
 import { PODCASTS_AP, PODCAST_AP } from "~~/base/Constants";
-import IEpisode from "~~/base/types/IEpisode";
-import { IPodcast } from "~~/base/types/IPodcast";
+import IPodcast from "~~/base/types/IPodcast";
 
 export async function usePodcasts() {
     const podcasts = useState<Array<IPodcast>>('podcasts', () => [] )
