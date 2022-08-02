@@ -12,7 +12,9 @@
 <script lang="ts">
 import { PODCAST_AP } from "~~/base/Constants";
 import IPodcast from "~~/base/types/IPodcast";
-
+definePageMeta({
+  middleware: "authentication",
+});
 export default defineComponent({
   async setup() {
     const route = useRoute();

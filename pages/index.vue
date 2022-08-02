@@ -43,6 +43,7 @@
     </div>
     <button class="ml-2 p-3 bg-orange-300 rounded-md" @click="refresh">Hallo</button>
     <button class="ml-2 p-3 bg-orange-300 rounded-md" @click="login">Login</button>
+    <button class="ml-2 p-3 bg-orange-300 rounded-md" @click="logout">Logut</button>
   </div>
 </template>
 
@@ -52,6 +53,9 @@ import { loginWithEmail } from '../composables/authentication';
 const { refresh, podcasts } = await usePodcasts()
 const login = async () => {
   await loginWithEmail("ar@3ar.de", "0test0++") 
+}
+const logout = async () => {
+  userLogout();
 }
 const user = useState('user')
 </script>

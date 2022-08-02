@@ -52,3 +52,14 @@ export async function getUserBySessionToken(authToken: string): Promise<IUser> {
     const session = await getSessionByAuthToken(authToken)
     return sanitizeUserForFrontend(session.user)
 }
+
+export async function checkAuthentication(authToken: string, maxAgeInMin) : Promise<boolean> {
+    const session = await readSession({authToken: authToken})
+    if (!session)
+        return false;
+    if (maxAgeInMin<1)
+        return true;
+    const creation = new Date(session.createdAt);
+    const age = Date.now().valueOf() - creation.valueOf();
+    return (age/60000) < maxAgeInMin;
+}
