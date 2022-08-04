@@ -40,6 +40,7 @@
 </template>
 
 <script lang="ts">
+import { REQUIRED_IMG_HEIGHT, REQUIRED_IMG_WIDTH } from "~~/base/Constants";
 import ImageMetadata from "~~/base/types/ImageMetadata";
 export default defineComponent({
   props: {
@@ -50,15 +51,20 @@ export default defineComponent({
     const imageFileInput = ref(null);
 
     watch( ()=>props.filename, (newVal) => {
-      imgMetadata.value.preview=props.filename;
+      setImageMetaString(props.filename,REQUIRED_IMG_WIDTH,REQUIRED_IMG_HEIGHT)
     })
     onMounted(()=>{
       if (props.filename && props.filename.length>0) {
-        imgMetadata.value.preview=props.filename;
-        imgMetadata.value.imgWidth = 1400;
-        imgMetadata.value.imgHeight = 1400;
+        setImageMetaString(props.filename,REQUIRED_IMG_WIDTH,REQUIRED_IMG_HEIGHT)
       }
     })
+
+    const setImageMetaString = ( filename: string, width: number, height: number )=>{
+        imgMetadata.value.preview=filename;
+        imgMetadata.value.imgWidth = width;
+        imgMetadata.value.imgHeight = height;
+        emit("imageSelected", imgMetadata.value)
+    }
 
     const preview = computed(() => {
       if (imgMetadata.value && imgMetadata.value.preview)

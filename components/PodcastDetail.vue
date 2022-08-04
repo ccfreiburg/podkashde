@@ -285,6 +285,7 @@ import { PODCAST_AP, UPLOAD_AP, SERVER_IMG_PATH } from "~~/base/Constants";
 import IPodcast from "~~/base/types/IPodcast";
 import validation from "~~/base/PodcastDetailValidation";
 import ImageMetadata from "~~/base/types/ImageMetadata";
+import IValidationError from "~~/base/types/IValidationError";
 
 export default defineComponent({
   props: {
@@ -293,7 +294,7 @@ export default defineComponent({
   name: "PodcastDetail",
   async setup(props, ctx) {
     const imgMetadata = ref(new ImageMetadata());
-    const errors = ref([]);
+    const errors = ref([] as Array<IValidationError>);
     const { enumerations } = await useEnumerations();
     const fields = ref({...props.podcast} as IPodcast);
 
@@ -302,12 +303,12 @@ export default defineComponent({
     })
 
     function hasError(fieldname) {
-      return this.errors.find((error) => error.field === fieldname);
+      return errors.value.find((error) => error.field === fieldname);
     }
 
     function getClass(fieldname) {
       var cssclass = "field";
-      if (this.hasError(fieldname)) {
+      if (hasError(fieldname)) {
         cssclass = "field error";
       }
       return cssclass;
@@ -343,22 +344,22 @@ export default defineComponent({
           "/" +
           imgMetadata.value.selectedFile.name;
       }
-      this.errors = validation(
+      errors.value = validation(
         fields.value,
         imgMetadata.value.imgWidth,
         imgMetadata.value.imgHeight
       )
-      if (this.errors.length == 0) {
+      if (errors.value.length == 0) {
         const postData = {
           method: "post",
-          body: this.getFields(),
+          body: getFields(),
         };
         var postResult: Response = await $fetch(PODCAST_AP, postData);
         if (postResult.status == 201 && imgMetadata.value.selectedFile) {
-          postData.body = this.getImageInFormData();
+          postData.body = getImageInFormData();
           postResult = await $fetch(UPLOAD_AP, postData);
         }
-        if (postResult.status == 201) this.$emit("onsaved", fields.value.title);
+        if (postResult.status == 201) ctx.emit("onsaved", fields.value.title);
       }
     }
 
@@ -395,6 +396,7 @@ export default defineComponent({
       deletePodcast,
       cancel,
       savePodcast,
+      imgMetadata
     };
   },
 });

@@ -100,7 +100,7 @@
         <label class="pl-2 text-sm text-gray-500" for="slug">{{
           $t("episodeDetail.label.slug")
         }}</label>
-        <input class="field" type="text" name="slug" v-model="fields.slug" />
+        <input :class="getClass('slug')" type="text" name="slug" v-model="fields.slug" />
       </div>
       <div class="flex flex-col mt-3">
         <label class="pl-2 text-sm text-gray-500" for="creator">{{
@@ -287,6 +287,7 @@
   </div>
 </template>
 <script lang="ts">
+import { PropType } from "vue";
 import {
   dateToIsoString,
   strToDurationInSec,
@@ -296,10 +297,12 @@ import {
 import IPodcast from "~~/base/types/IPodcast";
 import IEpisode, { emptyIEpisodeFactory } from "~~/base/types/IEpisode";
 import validation from "~~/base/EpisodeDetailValidation";
-import { emptyISerieFactory } from "../base/types/ISerie";
+import ISerie, { emptyISerieFactory } from "../base/types/ISerie";
 import AudioFileSelector from "./AudioFileSelector.vue";
 import AudioFileMetadata from "~~/base/types/AudioFileMetadata";
 import ImageMetadata from "~~/base/types/ImageMetadata";
+import IValidationError from "~~/base/types/IValidationError";
+import { COUNT_AP, EPISODE_AP, SERVER_IMG_PATH, SERVER_MP3_PATH, UPLOAD_AP } from "~~/base/Constants";
 
 export default defineComponent({
   props: {
@@ -308,9 +311,9 @@ export default defineComponent({
     podcast: Object as PropType<IPodcast>,
   },
   name: "EpisodeDetail",
-  setup(props, ctx) {
+  async setup(props, ctx) {
     const fields = ref(emptyIEpisodeFactory());
-    const errors = ref([]);
+    const errors = ref([] as Array<IValidationError>);
     const generateSlug = () => {
       fields.value.slug = saveSlugFormText(fields.value.title);
     };
@@ -340,28 +343,111 @@ export default defineComponent({
       fields.value.pubdate = strToDate(newVal);
     });
     const imgMetadata = ref(new ImageMetadata());
-    const imageSelected = (data: ImageMetadata) => {
-      fields.value.image = data.selectedFile.name;
+    function imageSelected(data: ImageMetadata) {
       imgMetadata.value = { ...data };
     };
-    function save() {
+    
+    function getFields() {
+      var tmp = { ...fields.value };
+      delete tmp.podcast.episodes;
+      delete tmp.podcast.series;
+      if (!fields.value.serie) delete tmp.serie;
+      return tmp;
+    };
+
+    function getFileInFormData(path: string, fileObj: File) {
+      const fd = new FormData();
+      if (fileObj) {
+        fd.append("path", path + props.podcast.slug);
+        fd.append("cover", fileObj, fileObj.name);
+      }
+      return fd;
+    }
+
+    async function upload(server_path: string, fileObj: File) {
+      var linkToContent = "";
+      var postResult = null;
+      var postData = {
+        method: "post",
+        body: null,
+      };
+      if (fileObj) {
+        postData.body = getFileInFormData(server_path, fileObj);
+        postResult = await $fetch(UPLOAD_AP, postData);
+      }
+      if (postResult.status == 201 && fileObj) {
+        linkToContent =
+          server_path + props.podcast.slug + "/" + fileObj.name;
+      }
+      return {
+        link: linkToContent,
+        result: postResult
+      }
+    }
+
+    async function save(event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+
+      // collect fields
+      fields.value.duration = strToDurationInSec(durationText.value);
+      fields.value.pubdate = strToDate(pubdateText.value);
+
+      // validate fields
       errors.value = validation(
         fields.value,
         imgMetadata.value.imgWidth,
         imgMetadata.value.imgHeight
       );
+
+      // server validation (if slug is unique)
+      var count = await $fetch(COUNT_AP + "?slug=" + fields.value.slug);
+      if (count > 0) errors.value.push({ field: "slug", text: "slug" });
+
       if (errors.value.length > 0) return;
-      ctx.emit("onsaved");
+
+      // set relations
+      fields.value.serie =
+        serie.value && "id" in serie.value ? serie.value : null;
+      fields.value.podcast = props.podcast;
+
+      // Upload Mp3
+      var {result, link} = await upload(SERVER_MP3_PATH, audioMetadata.value.selectedFile)
+      if (result.status != 201) {
+        errors.value.push({field:"", text:"upload"})
+        return
+      }
+      fields.value.link = link;
+
+      // Upload Image
+      var {result, link} = await upload(SERVER_IMG_PATH, imgMetadata.value.selectedFile)
+      if (result.status != 201) {
+        errors.value.push({field:"", text:"upoad"})
+        return
+      }
+      fields.value.image = link;
+
+      // Episode Metadata
+      const postData = {
+        method: "post",
+        body: getFields()
+      }
+      result = await $fetch(EPISODE_AP, postData);
+      if (result.status != 201) {
+        errors.value.push({field:"", text:"saving"})
+        return
+      }
+      ctx.emit("onsaved", fields.value.title);
     }
     function remove() {}
     function cancel() {
       ctx.emit("oncancel");
     }
     const isEdit = computed(() => (fields.value as any).id != undefined);
-    const hasError = (fieldname) => {
+    function hasError(fieldname) {
       return errors.value.find((error) => error.field === fieldname);
     };
-    const getClass = (fieldname) => {
+    function getClass(fieldname) {
       var cssclass = "field";
       if (hasError(fieldname)) {
         cssclass = "field error";
@@ -384,9 +470,8 @@ export default defineComponent({
       remove,
       cancel,
     };
-  },
-  components: { AudioFileSelector },
-});
+  }
+})
 </script>   
 <style lang="postcss" scoped>
 .field {

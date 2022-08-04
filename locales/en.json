@@ -64,7 +64,9 @@
       "title": "Please enter a title",
       "creator": "Please enter an author",
       "duration": "Please enter duration of episode",
-      "slug": "Please enter an unique slug for the static episode Url"
+      "slug": "Please enter an unique slug for the static episode Url",
+      "upload": "There was a problem uplaoding files",
+      "saving": "Could not save the episode"
     },
     "saveEpisode": "Save Episode"
   },

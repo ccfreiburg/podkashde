@@ -28,10 +28,10 @@
           </div>
         </div>
       </div>
-      </div>
-      <div class="text-sm mx-10">
-        <div class="text-orange-600" @click="showdetail=!showdetail">{{ (showdetail?"less details":"more details")}}</div>
-        <div v-if="showdetail">
+    </div>
+    <div class="text-sm mx-10">
+      <div class="text-orange-600" @click="showdetail = !showdetail">{{ (showdetail ? "less details" : "more details") }}</div>
+      <div v-if="showdetail">
         <table class="border-separate border-spacing-3">
           <thead>
             <tr>
@@ -42,12 +42,16 @@
           <tbody>
             <tr v-for="(objectkey, index) in Object.keys(episode)" :key="index">
               <td>{{ objectkey }}</td>
-              <td>{{ (["podcast","serie"].includes(objectkey)?episode[objectkey].title:episode[objectkey]) }}</td>
+              <td>
+                <div v-if="episode[objectkey]">
+                  {{ (["podcast", "serie"].includes(objectkey) ? episode[objectkey].title : episode[objectkey]) }}
+                </div>
+                </td>
             </tr>
           </tbody>
         </table>
+      </div>
     </div>
-  </div>
   </div>
 </template>
 <script setup lang="ts">

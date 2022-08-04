@@ -9,8 +9,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import IPodcast, { emptyIPodcastFactory } from '../../../base/types/IPodcast';
-import Episode from './Episode';
-import Serie from './Serie';
+import Episode, { getEpisode } from './Episode';
+import Serie, { getSerie } from './Serie';
 
 export function initPodcast(podcast: Podcast): IPodcast {
   setPodcast(podcast, emptyIPodcastFactory());
@@ -42,16 +42,16 @@ export function setPodcast(podcast: Podcast, from: IPodcast): Podcast {
   return podcast;
 }
 
-//  export function getPodcast(from : Podcast): Podcast {
-//   var podcast = setPodcast(new Podcast(), from);
-//   if (from.episodes) {
-//     podcast.episodes = from.episodes.map((element) => getEpisode(element));
-//   }
-//   if (from.series) {
-//     podcast.series = from.series.map((element) => getSerie(element));
-//   }
-//   return podcast;
-// }
+ export function getPodcast(from : Podcast): Podcast {
+  var podcast = setPodcast(new Podcast(), from);
+  if (from.episodes) {
+    podcast.episodes = from.episodes.map((element) => getEpisode(element));
+  }
+  if (from.series) {
+    podcast.series = from.series.map((element) => getSerie(element));
+  }
+  return podcast;
+}
 
 @Entity()
 export default class Podcast extends BaseEntity implements IPodcast {

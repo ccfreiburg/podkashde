@@ -65,21 +65,35 @@ export default class Episode extends BaseEntity implements IEpisode {
   creator: string;
 
   @Column("text")
+
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
   description: string;
 
-  @Column("text")
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
   subtitle: string;
 
   @Column("text")
   keyword: string;
 
-  @Column("text")
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
   summary: string;
 
   @Column("text")
   image: string;
 
-  @Column("text")
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
   postimage: string;
 
   @Column("boolean")
