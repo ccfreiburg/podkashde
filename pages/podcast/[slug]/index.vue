@@ -81,7 +81,7 @@ import { usePodcast } from '~~/composables/podcastdata';
 
 const route = useRoute();
 const slug = route.params.slug as string
-const user = useState('user')
+const user = await useState('user')
 
 const {getLanguage, getGenre} = await useEnumerations()
 const { refresh, podcast } = await usePodcast(slug)

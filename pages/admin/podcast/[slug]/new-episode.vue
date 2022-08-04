@@ -5,11 +5,12 @@ definePageMeta({
 });
 const route = useRoute();
 const router = useRouter();
-const {podcast} = await usePodcast(route.params.slug as string);
+const slug = route.params.slug as string
+const {podcast} = await usePodcast(slug);
 const episode = ref(emptyIEpisodeFactory());
 episode.value.title = "Hallo"
 function onsave() {
-router.push("/podcast/" + route.params.slug);
+router.push("/podcast/" + slug);
 }
 function oncancel() {
 router.go(-1);

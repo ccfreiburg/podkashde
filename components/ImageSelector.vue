@@ -13,10 +13,10 @@
         bg-center bg-cover
       "
       @click="chooseImageFile"
-      :style="{ 'background-image': `url(${preview()})` }"
+      :style="{ 'background-image': `url(${preview})` }"
     >
       <div
-        v-if="imgMetadata.preview === null"
+        v-if="preview.length<1"
         class="flex flex-col h-full w-full justify-center bg-slate-200"
       >
         <div class="text-gray-500 text-center">
@@ -41,14 +41,30 @@
 
 <script lang="ts">
 import ImageMetadata from "~~/base/types/ImageMetadata";
-
 export default defineComponent({
   props: {
-    value: ImageMetadata,
+    filename: String,
   },
   setup(props, { emit }) {
-    const imgMetadata = ref(props.value);
+    const imgMetadata = ref(new ImageMetadata());
     const imageFileInput = ref(null);
+
+    watch( ()=>props.filename, (newVal) => {
+      imgMetadata.value.preview=props.filename;
+    })
+    onMounted(()=>{
+      if (props.filename && props.filename.length>0) {
+        imgMetadata.value.preview=props.filename;
+        imgMetadata.value.imgWidth = 1400;
+        imgMetadata.value.imgHeight = 1400;
+      }
+    })
+
+    const preview = computed(() => {
+      if (imgMetadata.value && imgMetadata.value.preview)
+        return imgMetadata.value.preview;
+      return "";
+    })
 
     function calcImageSizePx(source, callback) {
       var img = new Image();
@@ -59,11 +75,7 @@ export default defineComponent({
       };
       img.src = source;
     }
-    function preview() {
-      if (imgMetadata.value && imgMetadata.value.preview)
-        return imgMetadata.value.preview;
-      return "";
-    }
+
     function removeImage(event) {
       imgMetadata.value.preview = null;
       imgMetadata.value.imgWidth = 0;
@@ -98,4 +110,5 @@ export default defineComponent({
     };
   },
 });
+
 </script>

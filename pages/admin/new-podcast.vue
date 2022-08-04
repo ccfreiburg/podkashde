@@ -10,8 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { emptyIPodcastFactory } from "~~/base/types/IPodcast";
+import { emptyIPodcastFactory } from '~~/base/types/IPodcast.js';
 
 definePageMeta({
   middleware: "authentication",

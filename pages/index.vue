@@ -13,8 +13,7 @@
             hover:bg-orange-400
           "
         >
-        New
-          <!-- {{ $t("newPodcast") }} -->
+          {{ $t("newPodcast") }}
         </div>
       </NuxtLink>
       </div>
@@ -51,10 +50,10 @@
 import { usePodcasts } from '~~/composables/podcastdata';
 import { loginWithEmail } from '../composables/authentication';
 const { refresh, podcasts } = await usePodcasts()
-const login = async () => {
-  await loginWithEmail("ar@3ar.de", "0test0++") 
+const login = () => {
+  loginWithEmail("ar@3ar.de", "0test0++") 
 }
-const logout = async () => {
+const logout = () => {
   userLogout();
 }
 const user = useState('user')

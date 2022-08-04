@@ -21,6 +21,7 @@ export default interface IPodcast {
   state: number;
   external_id: number;
   episodes?: Array<IEpisode>;
+  series?: Array<IEpisode>;
 }
 
 export function emptyIPodcastFactory(): IPodcast {

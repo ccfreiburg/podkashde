@@ -15,7 +15,7 @@
       </h1>
     </div>
 
-    <image-selector :value="imgMetadata" @imageSelected="imageSelected" />
+    <image-selector :filename="fields.cover_file" @imageSelected="imageSelected" />
     <!-- Fields-->
     <div class="flex flex-col">
       <div class="flex flex-col">
@@ -231,7 +231,7 @@
       <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
         <p>{{ $t("podcastDetail.label.errors") }}</p>
         <ul class="ml-5">
-          <li class="list-disc" v-for="err in errors">
+          <li class="list-disc" v-for="(err, index) in errors" :key="index">
             {{ $t("podcastDetail.validation." + err.text) }}
           </li>
         </ul>
@@ -281,14 +281,8 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import {
-  PODCAST_AP,
-  ENUMERATIONS_AP,
-  UPLOAD_AP,
-  SERVER_IMG_PATH,
-} from "~~/base/Constants";
+import { PODCAST_AP, UPLOAD_AP, SERVER_IMG_PATH } from "~~/base/Constants";
 import IPodcast from "~~/base/types/IPodcast";
-import Enumerations from "~~/base/Enumerations";
 import validation from "~~/base/PodcastDetailValidation";
 import ImageMetadata from "~~/base/types/ImageMetadata";
 
@@ -297,124 +291,111 @@ export default defineComponent({
     podcast: Object as PropType<IPodcast>,
   },
   name: "PodcastDetail",
-  data: () => {
-    return {
-      imgMetadata: new ImageMetadata(),
-      errors: [],
-      fields: null,
-      enumerations: new Enumerations(),
-    };
-  },
-  async mounted() {
-    if (!this.enumerations.isInitialized) {
-      var enums = await $fetch(ENUMERATIONS_AP);
-      this.enumerations.init(enums);
-    }
-  },
-  watch: {
-    podcast: {
-      immediate: true,
-      deep: true,
-      handler(newValue) {
-        if (!newValue) return;
-        this.fields = { ...newValue };
-        if (this.fields.cover_file && this.fields.cover_file.length > 0) {
-          this.imgMetadata.preview = this.fields.cover_file;
-          this.imgMetadata.imgWidth = 1400; // Workaround satisfying validation later
-          this.imgMetadata.imgHeight = 1400;
-        } else {
-          this.imgMetadata.preview = null;
-          this.imgMetadata.imgWidth = 0;
-          this.imgMetadata.imgHeight = 0;
-        }
-      },
-    },
-  },
-  computed: {
-    isEdit() {
-      return this.fields.id && this.fields.id;
-    },
-  },
-  methods: {
-    hasError(fieldname) {
+  async setup(props, ctx) {
+    const imgMetadata = ref(new ImageMetadata());
+    const errors = ref([]);
+    const { enumerations } = await useEnumerations();
+    const fields = ref({...props.podcast} as IPodcast);
+
+    const isEdit = computed(() => {
+      return fields.value.id && fields.value.id;
+    })
+
+    function hasError(fieldname) {
       return this.errors.find((error) => error.field === fieldname);
-    },
-    getClass(fieldname) {
+    }
+
+    function getClass(fieldname) {
       var cssclass = "field";
       if (this.hasError(fieldname)) {
         cssclass = "field error";
       }
       return cssclass;
-    },
+    }
 
-    getImageInFormData() {
+    function getImageInFormData() {
       const fd = new FormData();
-      if (this.imgMetadata.selectedFile) {
-        fd.append("path", SERVER_IMG_PATH + this.fields.slug);
+      if (imgMetadata.value.selectedFile) {
+        fd.append("path", SERVER_IMG_PATH + fields.value.slug);
         fd.append(
           "cover",
-          this.imgMetadata.selectedFile,
-          this.imgMetadata.selectedFile.name
+          imgMetadata.value.selectedFile,
+          imgMetadata.value.selectedFile.name
         );
       }
       return fd;
-    },
-    getFields() {
-      var tmp = { ...this.fields };
+    }
+
+    function getFields() {
+      var tmp = { ...fields.value };        
       delete tmp.episodes;
       delete tmp.series;
       return tmp;
-    },
-    async savePodcast(event) {
+    }
+
+    async function savePodcast(event) {
       event.preventDefault();
       event.stopImmediatePropagation();
-      if (this.imgMetadata.selectedFile) {
-        this.fields.cover_file =
+      if (imgMetadata.value.selectedFile) {
+        fields.value.cover_file =
           SERVER_IMG_PATH +
-          this.fields.slug +
+          fields.value.slug +
           "/" +
-          this.imgMetadata.selectedFile.name;
+          imgMetadata.value.selectedFile.name;
       }
       this.errors = validation(
-        this.fields,
-        this.imgMetadata.imgWidth,
-        this.imgMetadata.imgHeight
-      );
+        fields.value,
+        imgMetadata.value.imgWidth,
+        imgMetadata.value.imgHeight
+      )
       if (this.errors.length == 0) {
         const postData = {
           method: "post",
           body: this.getFields(),
         };
         var postResult: Response = await $fetch(PODCAST_AP, postData);
-        if (postResult.status == 201 && this.imgMetadata.selectedFile) {
+        if (postResult.status == 201 && imgMetadata.value.selectedFile) {
           postData.body = this.getImageInFormData();
           postResult = await $fetch(UPLOAD_AP, postData);
         }
-        if (postResult.status == 201) this.$emit("onsaved", this.fields.title);
+        if (postResult.status == 201) this.$emit("onsaved", fields.value.title);
       }
-    },
-    cancel() {
-      this.$emit("oncancel");
-    },
-    async deletePodcast() {
+    }
+
+    function cancel() {
+      ctx.emit("oncancel");
+    }
+
+    async function deletePodcast() {
       const postData = {
         method: "delete",
         body: {
-          id: this.fields.id,
-          title: this.fields.title,
+          id: fields.value.id,
+          title: fields.value.title,
         },
       };
       var postResult: Response = await $fetch(PODCAST_AP, postData);
       if (postResult.status == 201) {
-        this.$emit("ondeleted", this.fields.title);
+        ctx.emit("ondeleted", fields.value.title);
       }
-    },
-    imageSelected(data: ImageMetadata) {
-      this.imgMetadata.preview = data.preview;
-      this.imgMetadata.selectedFile = data.selectedFile;
-      this.imgMetadata.imgWidth = data.imgWidth;
-      this.imgMetadata.imgHeight = data.imgHeight;
-    },
+    }
+
+    function imageSelected(data: ImageMetadata) {
+      imgMetadata.value = { ...data };
+    }
+    
+    return {
+      errors,
+      fields,
+      enumerations,
+      hasError,
+      isEdit,
+      getClass,
+      imageSelected,
+      deletePodcast,
+      cancel,
+      savePodcast,
+    };
   },
 });
 </script>
