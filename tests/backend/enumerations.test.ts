@@ -32,24 +32,18 @@ describe.only("enumerations", async () => {
   );
 
   it("getEnumeration returns only selected list", () => {
-    const enums = new Enumerations();
-    enums.init(list);
-    const actual = enums.getEnumeration(2);
+    const actual = Enumerations.getEnumeration(2,list);
     expect(actual.length).toBe(1);
     expect(actual[0].enumvalue_id).toBe(3);
   });
 
   it("byIdTextList returns only selected list", () => {
-    const enums = new Enumerations();
-    enums.init(list);
     const actual = Enumerations.byIdTextList(list, [3, 4]);
     expect(actual).toContain("-3-");
     expect(actual).toContain("-4-");
   });
 
   it("byIdOne returns only selected list", () => {
-    const enums = new Enumerations();
-    enums.init(list);
     const actual = Enumerations.byIdOne(list, 3);
     expect(actual.displaytext).toBe("-3-");
   });

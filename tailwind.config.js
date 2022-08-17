@@ -3,5 +3,12 @@ module.exports = {
   content: [],
   theme: {
     plugins: []
-  }
+  },
+  variants: {
+    extend: {
+      ring: ['focus'],
+      outline: ['focus'],
+      border: ['valid'],
+    }
+  },
  }
