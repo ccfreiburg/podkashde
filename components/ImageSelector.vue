@@ -46,6 +46,7 @@ export default defineComponent({
   props: {
     filename: String,
   },
+  name: "ImageSelector",
   setup(props, { emit }) {
     const imgMetadata = ref(new ImageMetadata());
     const imageFileInput = ref(null);

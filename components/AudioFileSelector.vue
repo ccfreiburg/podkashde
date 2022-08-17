@@ -28,6 +28,7 @@ export default defineComponent({
         audioFileName: String,
         cssclass: String
     },
+    name: "AudioFileSelector",
     setup(props, ctx) {
         const audioFileInput = ref(null);
         var audioFile = ref(new AudioFileMetadata());
