@@ -2,8 +2,8 @@
   <div class="w-full h-full">
     <podcast-detail
       :podcast="podcast"
-      @onsaved="goBack"
-      @ondeleted="goRoot"
+      @onsaved="goBackSaved"
+      @ondeleted="ondelete"
       @oncancel="goBack"
     />
   </div>
@@ -18,20 +18,26 @@ export default defineComponent({
   async setup() {
     const route = useRoute();
     const router = useRouter();
-    const {podcast} = await usePodcast(route.params.slug as string)
+    const {podcast, remove} = await usePodcast(route.params.slug as string)
+
+    function goBackSaved() {
+      router.push("/podcast/" + route.params.slug+"?refresh=true");
+    }
 
     function goBack() {
       router.push("/podcast/" + route.params.slug);
     }
 
-    function goRoot() {
+    function ondelete() {
+      remove();
       router.push("/");
     }
 
     return {
       podcast,
+      goBackSaved,
       goBack,
-      goRoot,
+      ondelete,
     };
   },
 });

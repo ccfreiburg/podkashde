@@ -1,7 +1,7 @@
 <template>
   <div class="w-full h-full">
     <div class="flex flex-col">
-      <div v-show="user!=null">
+      <div v-if="user!=null">
       <NuxtLink :to="'/admin/new-podcast'">
         <div
           class="
@@ -50,6 +50,9 @@
 import { usePodcasts } from '~~/composables/podcastdata';
 import { loginWithEmail } from '../composables/authentication';
 const { refresh, podcasts } = await usePodcasts()
+const route = useRoute();
+if (route.query.refresh)
+  refresh();
 const login = () => {
   loginWithEmail("ar@3ar.de", "0test0++") 
 }

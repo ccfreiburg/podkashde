@@ -13,8 +13,10 @@ export async function useUser(): Promise<IUser> {
     const { data } = await useFetch(SESSION_AP, {
       headers: useRequestHeaders(['cookie'])
     })
-
-    user.value = data.value as IUser
+    if (data.value)
+      user.value = data.value as IUser
+    else
+      user.value = null
   }
 
   return user.value
