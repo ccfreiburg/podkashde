@@ -26,6 +26,7 @@ export function initSerie(serie: Serie) {
 
 export function getSerie(from): Serie {
   var serie = new Serie();
+  initSerie(serie);
   serie.cover_file = from.cover_file;
   serie.title = from.title;
   serie.slug = from.slug;

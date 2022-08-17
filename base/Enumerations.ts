@@ -10,39 +10,13 @@ export enum EnumKey {
 }
 
 export default class Enumerations {
-  private list = [] as Array<IEnumerator>;
 
-  init(list: Array<IEnumerator>) {
-    this.list = list;
-  }
+  public static isInitialized(list: Array<IEnumerator>) :boolean {
+    return list.length>0
+  } 
 
-  add(
-    displaytext: string,
-    shorttext: string,
-    parentCategory: string,
-    enumkey_id: number,
-    enumvalue_id: number
-  ) {
-    this.list.push(
-      {
-        displaytext,
-        shorttext,
-        parentCategory,
-        enumkey_id,
-        enumvalue_id,
-      })
-  }
-
-  public addList(list: Array<IEnumerator>) {
-    list.forEach((item) => this.list.push(item));
-  }
-
-  getEnumeration(enumKey: EnumKey): Array<IEnumerator> {
-    return this.list.filter((item) => item.enumkey_id === enumKey);
-  }
-
-  get isInitialized(): boolean {
-    return this.list.length > 0;
+  public static getEnumeration(enumKey: EnumKey, list: Array<IEnumerator>): Array<IEnumerator> {
+    return list.filter((item) => item.enumkey_id === enumKey);
   }
 
   public static byIdTextList(
@@ -74,19 +48,19 @@ export default class Enumerations {
     else return getEmptyEnum();
   }
 
-  get languages(): Array<IEnumerator> {
-    return this.getEnumeration(EnumKey.Language);
+  public static languages(list: Array<IEnumerator>): Array<IEnumerator> {
+    return Enumerations.getEnumeration(EnumKey.Language, list);
   }
-  get podcastGenres(): Array<IEnumerator> {
-    return this.getEnumeration(EnumKey.PodcastGenres);
+  public static podcastGenres(list: Array<IEnumerator>): Array<IEnumerator> {
+    return Enumerations.getEnumeration(EnumKey.PodcastGenres, list);
   }
-  get podcastTypes(): Array<IEnumerator> {
-    return this.getEnumeration(EnumKey.PodcastTypes);
+  public static podcastTypes(list: Array<IEnumerator>): Array<IEnumerator> {
+    return Enumerations.getEnumeration(EnumKey.PodcastTypes, list);
   }
-  get authors(): Array<IEnumerator> {
-    return this.getEnumeration(EnumKey.Authors);
+  public static authors(list: Array<IEnumerator>): Array<IEnumerator> {
+    return Enumerations.getEnumeration(EnumKey.Authors, list);
   }
-  get tags(): Array<IEnumerator> {
-    return this.getEnumeration(EnumKey.Tags);
+  public static tags(list: Array<IEnumerator>): Array<IEnumerator> {
+    return Enumerations.getEnumeration(EnumKey.Tags, list);
   }
 }

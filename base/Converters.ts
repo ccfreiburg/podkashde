@@ -1,6 +1,6 @@
 export function strToDurationInSec(durationStr: string) {
   if (!durationStr) return -1;
-  const parts = durationStr.replace(/./g, ':').split(":");
+  const parts = durationStr.replace(/[\.-\/\\]/g, ':').split(":");
   var pos = 0;
   var sum = 0;
   while (parts.length > 0 && parts[0].length > 0) {
@@ -9,9 +9,11 @@ export function strToDurationInSec(durationStr: string) {
     pos++;
     if (pos == parts.length) return sum;
   }
-  return -1;
+  return sum;
 }
-export function durationInSecToStr(duration: number) {
+export function durationInSecToStr(duration: number | string) {
+  if (typeof(duration)=="string")
+    return duration;
   if (duration <= 0) return "0:00";
   var result = [
     Math.floor(duration / 60 / 60),

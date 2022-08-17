@@ -1,6 +1,6 @@
 import { describe, expect, it, afterEach } from "vitest";
 import IEnumerator from "../../base/types/IEnumerator";
-import { Enumerations } from "../../base/Enumerations";
+import Enumerations from "../../base/Enumerations";
 
 describe.only("enumerations", async () => {
   const list = new Array<IEnumerator>();

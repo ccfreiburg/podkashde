@@ -56,10 +56,7 @@ export default {
     function sortList(list : Array<IDisplayEpisode>) : Array<IDisplayEpisode> {
       return list.sort((a : IDisplayEpisode, b : IDisplayEpisode) => (b.sortdate.valueOf() - a.sortdate.valueOf()))
     }
-    const sortedFilteredList = ref([]);
-    onMounted(() => {
-      sortedFilteredList.value = sortList(expandAndFilter(props.episodes))
-    })
+    const sortedFilteredList = computed(() => sortList(expandAndFilter(props.episodes)))
     return {
       sortedFilteredList,
     };

@@ -29,9 +29,14 @@ export async function readSession(query): Promise<ISession> {
 }
 
 export async function getSessionByAuthToken(authToken: string): Promise<ISession> {
-  const session = await readSession({authToken: authToken})
-
-  return { authToken, user: session.user }
+  return new Promise( async ( resolve, reject ) => {
+    const session = await readSession({authToken: authToken})
+    if (session) {
+       resolve({ authToken, user: session.user })
+     } else {
+       resolve(null)
+    }
+  })
 }
 
 export async function makeSession(user: IUser, event: CompatibilityEvent): Promise<IUser> {
@@ -50,6 +55,8 @@ export async function makeSession(user: IUser, event: CompatibilityEvent): Promi
 
 export async function getUserBySessionToken(authToken: string): Promise<IUser> {
     const session = await getSessionByAuthToken(authToken)
+    if (!session)
+        return null
     return sanitizeUserForFrontend(session.user)
 }
 

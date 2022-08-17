@@ -1,11 +1,12 @@
-import { ContentState, Enumerations, EnumKey } from "~~/backend/Enumerations";
-import { ENUMERATIONS_AP } from "./Constants";
-import Episode, { getEpisode } from "./entities/Episode";
-import Podcast, { getPodcast } from "./entities/Podcast";
-import Serie, { getSerie } from "./entities/Serie";
-import Enumerator, { getEnumerator } from "./entities/Enumerator";
-import getDataSource from "./dbsigleton";
+import Enumerations, { EnumKey } from "./Enumerations";
+import {ContentState} from "./types/ContentState"
+import Episode, { getEpisode } from "~~/server/db/entities/Episode";
+import Podcast, { setPodcast } from "~~/server/db/entities/Podcast";
+import Serie, { getSerie } from "~~/server/db/entities/Serie";
+import Enumerator, { getEnumerator } from "~~/server/db/entities/Enumerator";
 import { strToDate } from "./Converters";
+import IPodcast from "./types/IPodcast";
+import IEpisode from "./types/IEpisode";
 
 export function enumsfromWpMetadata(
   wpMetadataList,
@@ -43,14 +44,22 @@ export function seriesfromWpMetadata(wpMetadataList): Array<Serie> {
   return list;
 }
 
-export function podcastsFromWpMetadata(
+export function allPodcastsFromWpMetadata(
   wpMetadataList,
   enumerations
-): Array<Podcast> {
-  var list = [] as Array<Podcast>;
+): Array<IPodcast> {
+  var list = [] as Array<IPodcast>;
   wpMetadataList.forEach((series) => {
-    list.push(
-      getPodcast({
+    list.push(podcastFromWpMetadata(series,enumerations))
+  })
+  return list;
+}
+
+export function podcastFromWpMetadata(
+  series,
+  enumerations
+): IPodcast {
+  return {
         cover_file: series.image,
         title: series.name,
         slug: series.slug,
@@ -75,20 +84,29 @@ export function podcastsFromWpMetadata(
         lastbuild: "0",
         state: ContentState.metadata,
         external_id: series.id,
-      })
-    );
-  });
-  return list;
+      }
 }
 
-export function episodeFromWpMetadata(
+
+export function allEpisodesFromWpMetadata(
   wpMetadataList,
   wpPodcastId,
   podcastImage,
   enumerations
-): Array<Episode> {
-  var list = [] as Array<Episode>;
+): Array<IEpisode> {
+  var list = [] as Array<IEpisode>;
   wpMetadataList.forEach((episode) => {
+    list.push(episodeFromWpMetadata(episode,wpPodcastId,podcastImage,enumerations))
+  })
+  return list;
+}
+
+export function episodeFromWpMetadata(
+  episode,
+  wpPodcastId,
+  podcastImage,
+  enumerations
+): IEpisode {
     var seriesId = episode.series.find((serieId) => serieId != wpPodcastId);
     var pubdate = strToDate(episode.meta.date_recorded);
     var image = episode.meta.cover_image;
@@ -108,8 +126,7 @@ export function episodeFromWpMetadata(
       episode.speaker[0]
     ).displaytext;
 
-    list.push(
-      getEpisode({
+    return {
         title: episode.title.rendered,
         slug: episode.slug,
         subtitle: episode.excerpt.rendered,
@@ -129,8 +146,5 @@ export function episodeFromWpMetadata(
         ext_series_id: seriesId,
         keyword,
         creator,
-      })
-    );
-  });
-  return list;
+      }
 }
