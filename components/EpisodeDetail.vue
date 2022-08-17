@@ -1,3 +1,4 @@
+import { booleanLiteral } from "@babel/types";
 <template>
   <div
     class="p-10 w-full h-full"
@@ -23,7 +24,7 @@
         </div>
         <div class="flex flex-col">
           <audio-file-selector
-            :filename="fields.link"
+            :audioFileName="fields.link"
             @audioFileSelected="audioFileSelected"
             :cssclass="getClass('file')"
           />
@@ -100,7 +101,7 @@
         <label class="pl-2 text-sm text-gray-500" for="slug">{{
           $t("episodeDetail.label.slug")
         }}</label>
-        <input :class="getClass('slug')" type="text" name="slug" v-model="fields.slug" />
+        <input :disabled="isEdit" :class="getClass('slug')" type="text" name="slug" v-model="fields.slug" />
       </div>
       <div class="flex flex-col mt-3">
         <label class="pl-2 text-sm text-gray-500" for="creator">{{
@@ -136,106 +137,19 @@
           v-model="fields.description"
         />
       </div>
-      <div class="flex flex-row mt-3">
-        <div
-          class="
-            relative
-            w-12
-            h-6
-            transition
-            duration-200
-            ease-linear
-            rounded-2xl
-          "
-          :class="[fields.block ? 'bg-orange-300' : 'bg-gray-200']"
-        >
-          <label
-            for="block"
-            class="
-              absolute
-              left-0
-              w-6
-              h-6
-              mb-2
-              transition
-              duration-100
-              ease-linear
-              transform
-              bg-white
-              border-2
-              rounded-2xl
-              cursor-pointer
-            "
-            :class="[
-              fields.block
-                ? 'translate-x-full border-orange-300'
-                : 'translate-x-0 border-gray-300',
-            ]"
-          ></label>
-          <input
-            type="checkbox"
-            id="block"
-            name="block"
-            class="w-full h-full appearance-none focus:outline-none"
-            @click="fields.block = !fields.block"
-          />
-        </div>
-        <span class="ml-3 text-gray-500 text-sm font-medium">{{
-          fields.block
-            ? $t("episodeDetail.label.block_true")
-            : $t("episodeDetail.label.block_false")
-        }}</span>
-      </div>
-      <div class="flex flex-row mt-3">
-        <div
-          class="
-            relative
-            w-12
-            h-6
-            transition
-            duration-200
-            ease-linear
-            rounded-2xl
-          "
-          :class="[fields.explicit ? 'bg-orange-300' : 'bg-gray-200']"
-        >
-          <label
-            for="toggle"
-            class="
-              absolute
-              left-0
-              w-6
-              h-6
-              mb-2
-              transition
-              duration-100
-              ease-linear
-              transform
-              bg-white
-              border-2
-              rounded-2xl
-              cursor-pointer
-            "
-            :class="[
-              fields.explicit
-                ? 'translate-x-full border-orange-300'
-                : 'translate-x-0 border-gray-300',
-            ]"
-          ></label>
-          <input
-            type="checkbox"
-            id="toggle"
-            name="toggle"
-            class="w-full h-full appearance-none focus:outline-none"
-            @click="fields.explicit = !fields.explicit"
-          />
-        </div>
-        <span class="ml-3 text-gray-500 text-sm font-medium">{{
-          fields.explicit
-            ? $t("episodeDetail.label.explicit_true")
-            : $t("episodeDetail.label.explicit_false")
-        }}</span>
-      </div>
+      <switch-box 
+          :checked="fields.block" 
+          @checkedChanged="(val)=>fields.block=val" 
+          :labelChecked="$t('episodeDetail.label.block_true')"
+          :labelUnChecked="$t('episodeDetail.label.block_false')"
+       />
+      <switch-box 
+          :checked="fields.explicit" 
+          @checkedChanged="(val)=>fields.explicit=val" 
+          :labelChecked="$t('episodeDetail.label.explicit_true')"
+          :labelUnChecked="$t('episodeDetail.label.explicit_false')"
+       />
+
       <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
         <p>{{ $t("episodeDetail.label.errors") }}</p>
         <ul class="ml-5">
@@ -293,12 +207,12 @@ import {
   strToDurationInSec,
   strToDate,
   saveSlugFormText,
+  durationInSecToStr,
 } from "~~/base/Converters";
 import IPodcast from "~~/base/types/IPodcast";
-import IEpisode, { emptyIEpisodeFactory } from "~~/base/types/IEpisode";
+import IEpisode from "~~/base/types/IEpisode";
 import validation from "~~/base/EpisodeDetailValidation";
 import ISerie, { emptyISerieFactory } from "../base/types/ISerie";
-import AudioFileSelector from "./AudioFileSelector.vue";
 import AudioFileMetadata from "~~/base/types/AudioFileMetadata";
 import ImageMetadata from "~~/base/types/ImageMetadata";
 import IValidationError from "~~/base/types/IValidationError";
@@ -307,24 +221,28 @@ import { COUNT_AP, EPISODE_AP, SERVER_IMG_PATH, SERVER_MP3_PATH, UPLOAD_AP } fro
 export default defineComponent({
   props: {
     episode: Object as PropType<IEpisode>,
-    series: Object as PropType<Array<ISerie>>,
     podcast: Object as PropType<IPodcast>,
+    series: Object as PropType<Array<ISerie>>,
   },
   name: "EpisodeDetail",
-  async setup(props, ctx) {
-    const fields = ref(emptyIEpisodeFactory());
+  async setup(props, { emit }) {
     const errors = ref([] as Array<IValidationError>);
     const generateSlug = () => {
-      fields.value.slug = saveSlugFormText(fields.value.title);
+      if (!isEdit)
+        fields.value.slug = saveSlugFormText(fields.value.title);
     };
 
-    const serie = ref(emptyISerieFactory());
-    const serie_id = ref(-1);
+    const fields = ref({...props.episode} as IEpisode);
+
+    const serie = ref<ISerie>((props.episode.serie?props.episode.serie:emptyISerieFactory()));
+    const serie_id = ref(serie.value.id);
     watch(serie_id, (newVal, oldVal) => {
-      serie.value = props.series.find((item) => item.id == newVal);
-      fields.value.image = serie.value.cover_file;
+      serie.value = props.podcast.series.find((item) => item.id == newVal);
       fields.value.keyword = serie.value.title;
-      imgMetadata.value.preview = serie.value.cover_file;
+      if (fields.value.image.length<1){
+        fields.value.image = serie.value.cover_file;
+        imgMetadata.value.preview = serie.value.cover_file;
+      }
     });
 
     const audioMetadata = ref(new AudioFileMetadata())
@@ -333,9 +251,9 @@ export default defineComponent({
       audioMetadata.value = { ...data };
     };
 
-    const durationText = ref("");
-    watch(durationText, (newVal, oldVal) => {
-      fields.value.duration = strToDurationInSec(newVal);
+    const durationText = ref(durationInSecToStr( fields.value.duration));
+    watch(durationText, () => {
+      fields.value.duration = strToDurationInSec(durationText.value);
     });
 
     const pubdateText = ref(dateToIsoString(new Date()));
@@ -346,7 +264,7 @@ export default defineComponent({
     function imageSelected(data: ImageMetadata) {
       imgMetadata.value = { ...data };
     };
-    
+  
     function getFields() {
       var tmp = { ...fields.value };
       delete tmp.podcast.episodes;
@@ -381,7 +299,8 @@ export default defineComponent({
       }
       return {
         link: linkToContent,
-        result: postResult
+        result: postResult,
+        nothingToDo: !fileObj,
       }
     }
 
@@ -401,8 +320,10 @@ export default defineComponent({
       );
 
       // server validation (if slug is unique)
-      var count = await $fetch(COUNT_AP + "?slug=" + fields.value.slug);
-      if (count > 0) errors.value.push({ field: "slug", text: "slug" });
+      if (!isEdit) {
+        var count = await $fetch(COUNT_AP + "?slug=" + fields.value.slug);
+        if (count > 0) errors.value.push({ field: "slug", text: "slug" });
+      }
 
       if (errors.value.length > 0) return;
 
@@ -412,20 +333,24 @@ export default defineComponent({
       fields.value.podcast = props.podcast;
 
       // Upload Mp3
+      if (audioMetadata.value.selectedFile) {
       var {result, link} = await upload(SERVER_MP3_PATH, audioMetadata.value.selectedFile)
-      if (result.status != 201) {
-        errors.value.push({field:"", text:"upload"})
-        return
+        if (result.status != 201) {
+          errors.value.push({field:"", text:"upload"})
+          return
+        }
+        fields.value.link = link;
       }
-      fields.value.link = link;
 
       // Upload Image
-      var {result, link} = await upload(SERVER_IMG_PATH, imgMetadata.value.selectedFile)
-      if (result.status != 201) {
-        errors.value.push({field:"", text:"upoad"})
-        return
+      if (imgMetadata.value.selectedFile) {
+      var {result, link, nothingToDo} = await upload(SERVER_IMG_PATH, imgMetadata.value.selectedFile)
+        if (result.status != 201) {
+          errors.value.push({field:"", text:"upoad"})
+          return
+        }
+        fields.value.image = link;
       }
-      fields.value.image = link;
 
       // Episode Metadata
       const postData = {
@@ -437,11 +362,13 @@ export default defineComponent({
         errors.value.push({field:"", text:"saving"})
         return
       }
-      ctx.emit("onsaved", fields.value.title);
+      emit("onsaved", fields.value.title);
     }
-    function remove() {}
+    function remove() {
+      emit("ondelete");
+    }
     function cancel() {
-      ctx.emit("oncancel");
+      emit("oncancel");
     }
     const isEdit = computed(() => (fields.value as any).id != undefined);
     function hasError(fieldname) {
