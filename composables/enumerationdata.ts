@@ -10,7 +10,7 @@ export async function useEnumerations() {
 
   const refresh = async () => {
     const list = await $fetch(ENUMERATIONS_AP);
-    enums.value = list;
+    enums.value = list as Array<IEnumerator>;
   };
   // if not init fetch and init
   if (!Enumerations.isInitialized(enums.value)) {
