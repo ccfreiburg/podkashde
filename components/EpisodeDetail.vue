@@ -55,7 +55,6 @@ import { booleanLiteral } from "@babel/types";
           :class="getClass('title')"
           type="text"
           name="title"
-          @change="generateSlug()"
           v-model="fields.title"
         />
       </div>
@@ -228,12 +227,16 @@ export default defineComponent({
   name: "EpisodeDetail",
   async setup(props, { emit }) {
     const errors = ref([] as Array<IValidationError>);
-    const generateSlug = () => {
-      if (!isEdit)
+
+    const fields = ref({...props.episode} as IEpisode);
+    const isEdit = computed(() => (fields.value as any).id != undefined);
+
+    function generateSlug(){
+      if (!isEdit && fields.value.title)
         fields.value.slug = saveSlugFormText(fields.value.title);
     };
 
-    const fields = ref({...props.episode} as IEpisode);
+    watch(() => fields.value.title, () => generateSlug())
 
     const serie = ref<ISerie>((props.episode.serie?props.episode.serie:emptyISerieFactory()));
     const serie_id = ref(serie.value.id);
@@ -249,8 +252,16 @@ export default defineComponent({
     const audioMetadata = ref(new AudioFileMetadata())
     const audioFileSelected = (data: AudioFileMetadata) => {
       fields.value.link = data.selectedFile.name;
+      fields.value.duration = data.duration;
+      durationText.value = durationInSecToStr( fields.value.duration);
+      fields.value.rawsize = data.size;
+      for( var key in data.fields) {
+        if (data.fields[key])
+          fields.value[key] = data.fields[key]
+      }
       imgMetadata.value.preview = data.cover_preview;
       audioMetadata.value = { ...data };
+      generateSlug();
     };
 
     const durationText = ref(durationInSecToStr( fields.value.duration));
@@ -265,6 +276,9 @@ export default defineComponent({
     const imgMetadata = ref(new ImageMetadata());
     function imageSelected(data: ImageMetadata) {
       imgMetadata.value = { ...data };
+      if (data.imgWidth==0) {
+        fields.value.image = "";
+      }
     };
   
     function getFields() {
@@ -372,7 +386,6 @@ export default defineComponent({
     function cancel() {
       emit("oncancel");
     }
-    const isEdit = computed(() => (fields.value as any).id != undefined);
     function hasError(fieldname) {
       return errors.value.find((error) => error.field === fieldname);
     };

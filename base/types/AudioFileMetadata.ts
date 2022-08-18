@@ -1,3 +1,5 @@
+import IEpisode from "./IEpisode";
+
 export default class AudioFileMetadata {
     selectedFile = null;
     duration = 0;

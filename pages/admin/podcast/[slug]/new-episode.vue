@@ -8,7 +8,6 @@ const router = useRouter();
 const slug = route.params.slug as string
 const {podcast, series} = await usePodcast(slug);
 const episode = ref(emptyIEpisodeFactory());
-episode.value.title = "Hallo"
 function onsave() {
   router.push("/podcast/" + slug+ "?refresh=true");
 }

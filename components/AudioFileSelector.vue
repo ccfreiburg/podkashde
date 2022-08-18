@@ -15,6 +15,7 @@
       type="file"
       ref="audioFileInput"
       name="audioFileInput"
+      accept=".mp3,.mpeg"
       @change="audioFileSelected"
     />
   </div>
@@ -56,11 +57,14 @@ export default defineComponent({
     }
 
     async function audioFileSelected(event) {
+      if (!event.target.files[0].type.split("/").includes("audio"))
+        return;
       audioFile.value.selectedFile = event.target.files[0];
       audioInputValue.value = event.target.files[0].name;
       audioFile.value.duration = await getDuration(
         URL.createObjectURL(audioFile.value.selectedFile)
       );
+      audioFile.value.size = event.target.files[0].size;
       try {
         var id3tag = await universalParse(event.target.files[0]);
         if (id3tag.title)  

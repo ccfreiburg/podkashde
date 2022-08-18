@@ -33,6 +33,7 @@
         ref="imageFileInput"
         type="file"
         id="imageFileInput"
+        accept=".jpg,.jpeg,.png,.gif"
         @change="imageFileSelected"
       />
     </div>
@@ -94,6 +95,8 @@ export default defineComponent({
       imageFileInput.value.click();
     }
     function imageFileSelected(event) {
+      if (!event.target.files[0].type.split("/").includes("image"))
+        return;
       imgMetadata.value.selectedFile = event.target.files[0];
       if (imgMetadata.value.selectedFile) {
         let reader = new FileReader();
