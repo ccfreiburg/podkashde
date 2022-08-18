@@ -12,7 +12,7 @@ server/db/data
 .nitro
 .cache
 .env
-yarn.lock
+*.lock
 upload/
 coverage
 secret

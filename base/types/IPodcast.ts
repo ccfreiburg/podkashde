@@ -1,4 +1,5 @@
 import IEpisode from './IEpisode';
+import ISerie from './ISerie';
 
 export default interface IPodcast {
   id?: number;
@@ -21,7 +22,7 @@ export default interface IPodcast {
   state: number;
   external_id: number;
   episodes?: Array<IEpisode>;
-  series?: Array<IEpisode>;
+  series?: Array<ISerie>;
 }
 
 export function emptyIPodcastFactory(): IPodcast {

@@ -17,6 +17,10 @@ describe.only("Converters", async () => {
     const actual = strToDurationInSec("0:12");
     expect(actual).toBe(12);
   });
+  it("strToDurationInSec with leading zero 0:12 returns sec", () => {
+    const actual = strToDurationInSec("10:00");
+    expect(actual).toBe(600);
+  });
   it("strToDurationInSec with leading 2 2:12 returns sec + 2*60", () => {
     const actual = strToDurationInSec("2:12");
     expect(actual).toBe(132);

@@ -1,6 +1,7 @@
 import { returnCodeReject, returnCodeResolve } from "../returncode";
 import { saveNewEpisode, updateEpisode } from "../services/episodeService";
 import { isUpdate } from "../services/podcastService";
+import { migrateEpisode } from "../services/wpMigrationService";
 
 export default defineEventHandler(async (event) => {
   try {
@@ -8,7 +9,12 @@ export default defineEventHandler(async (event) => {
     if (isUpdate(data)) {
       await updateEpisode(data);
     } else {
-      await saveNewEpisode(data);
+      if (!data.podcast && data.external_id>-1) {
+        await migrateEpisode(data)
+      }
+      else {
+        await saveNewEpisode(data)
+      }
     }
   } catch (err) {
     console.log(err);

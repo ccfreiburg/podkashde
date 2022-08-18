@@ -46,18 +46,10 @@ export default defineComponent({
   props: {
     filename: String,
   },
+  name: "ImageSelector",
   setup(props, { emit }) {
     const imgMetadata = ref(new ImageMetadata());
     const imageFileInput = ref(null);
-
-    watch( ()=>props.filename, (newVal) => {
-      setImageMetaString(props.filename,REQUIRED_IMG_WIDTH,REQUIRED_IMG_HEIGHT)
-    })
-    onMounted(()=>{
-      if (props.filename && props.filename.length>0) {
-        setImageMetaString(props.filename,REQUIRED_IMG_WIDTH,REQUIRED_IMG_HEIGHT)
-      }
-    })
 
     const setImageMetaString = ( filename: string, width: number, height: number )=>{
         imgMetadata.value.preview=filename;
@@ -65,6 +57,11 @@ export default defineComponent({
         imgMetadata.value.imgHeight = height;
         emit("imageSelected", imgMetadata.value)
     }
+    watch( ()=>props.filename, (newVal) => {
+      setImageMetaString(props.filename,REQUIRED_IMG_WIDTH,REQUIRED_IMG_HEIGHT)
+    })
+    if (props.filename && props.filename.length>0)
+      setImageMetaString(props.filename,REQUIRED_IMG_WIDTH,REQUIRED_IMG_HEIGHT)
 
     const preview = computed(() => {
       if (imgMetadata.value && imgMetadata.value.preview)

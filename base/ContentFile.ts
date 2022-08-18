@@ -9,10 +9,8 @@ export class ContentFile {
   }
   public static getPathFromUrl(
     serverPath: string,
-    slug: string,
-    target: string
+    slug: string
   ): string {
-    const url = new URL(target);
     return serverPath + slug;
   }
 

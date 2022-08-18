@@ -47,5 +47,5 @@ export const updateEpisode = async function (episodeObject) {
     episode.serie = serie;
   }
   const db = await getDataSource();
-  await db.manager.update(Episode, episodeObject.id, episode);
+  return await db.manager.update(Episode, episodeObject.id, episode);
 };

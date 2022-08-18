@@ -134,56 +134,13 @@
           </option>
         </select>
       </div>
-      <div class="flex flex-row mt-3">
-        <div
-          class="
-            relative
-            w-12
-            h-6
-            transition
-            duration-200
-            ease-linear
-            rounded-2xl
-          "
-          :class="[fields.explicit ? 'bg-orange-300' : 'bg-gray-200']"
-        >
-          <label
-            for="toggle"
-            class="
-              absolute
-              left-0
-              w-6
-              h-6
-              mb-2
-              transition
-              duration-100
-              ease-linear
-              transform
-              bg-white
-              border-2
-              rounded-2xl
-              cursor-pointer
-            "
-            :class="[
-              fields.explicit
-                ? 'translate-x-full border-orange-300'
-                : 'translate-x-0 border-gray-300',
-            ]"
-          ></label>
-          <input
-            type="checkbox"
-            id="toggle"
-            name="toggle"
-            class="w-full h-full appearance-none focus:outline-none"
-            @click="fields.explicit = !fields.explicit"
-          />
-        </div>
-        <span class="ml-3 text-gray-500 text-sm font-medium">{{
-          fields.explicit
-            ? $t("podcastDetail.label.explicit_true")
-            : $t("podcastDetail.label.explicit_false")
-        }}</span>
-      </div>
+        <switch-box 
+          :checked="fields.explicit" 
+          @checkedChanged="(val)=>fields.explicit=val" 
+          :labelChecked="$t('podcastDetail.label.explicit_true')"
+          :labelUnChecked="$t('podcastDetail.label.explicit_false')"
+        />
+
       <div class="flex flex-col mt-3">
         <label class="pl-2 text-sm text-gray-500" for="author">{{
           $t("podcastDetail.label.link")
@@ -283,6 +240,7 @@
 import { defineComponent, PropType } from "vue";
 import { PODCAST_AP, UPLOAD_AP, SERVER_IMG_PATH } from "~~/base/Constants";
 import IPodcast from "~~/base/types/IPodcast";
+import IPostdata from "~~/base/types/IPostdata";
 import validation from "~~/base/PodcastDetailValidation";
 import ImageMetadata from "~~/base/types/ImageMetadata";
 import IValidationError from "~~/base/types/IValidationError";
@@ -350,11 +308,11 @@ export default defineComponent({
         imgMetadata.value.imgHeight
       )
       if (errors.value.length == 0) {
-        const postData = {
-          method: "post",
+        const postData: IPostdata = {
+          method: "POST",
           body: getFields(),
         };
-        var postResult: Response = await $fetch(PODCAST_AP, postData);
+        var postResult : any = await $fetch(PODCAST_AP, postData);
         if (postResult.status == 201 && imgMetadata.value.selectedFile) {
           postData.body = getImageInFormData();
           postResult = await $fetch(UPLOAD_AP, postData);

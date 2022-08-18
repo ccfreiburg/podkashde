@@ -9,7 +9,7 @@ export default interface ISerie {
   cover_file: string;
   state: number;
   external_id?: number;
-  lastbuild: string;
+  lastbuild?: string;
 }
 
 export function emptyISerieFactory(): ISerie {

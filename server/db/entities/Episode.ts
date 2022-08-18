@@ -8,7 +8,7 @@ import {
   DeleteDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import IEpisode, { initEpisode } from "../../../base/types/IEpisode";
+import IEpisode from "../../../base/types/IEpisode";
 import Podcast from "./Podcast";
 import Serie from "./Serie";
 
@@ -111,16 +111,28 @@ export default class Episode extends BaseEntity implements IEpisode {
   @Column("int")
   state: number;
 
-  @Column("int")
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
   external_id: number;
 
-  @Column("int")
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
   ext_series_id: number;
 
-  @Column("int")
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
   ext_podcast_id: number;
 
-  @Column("text")
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
   lastbuild: string;
 
   @ManyToOne(() => Podcast, (podcast) => podcast.episodes)

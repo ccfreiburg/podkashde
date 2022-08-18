@@ -3,32 +3,55 @@ import Enumerations from '~~/base/Enumerations';
 import IEnumerator from '~~/base/types/IEnumerator';
 
 export async function useEnumerations() {
-  const enumerations = useState<Enumerations>(
+  const enums = useState<Array<IEnumerator>>(
     'enumeration',
-    () => new Enumerations()
+    () => []
   );
 
   const refresh = async () => {
     const list = await $fetch(ENUMERATIONS_AP);
-    const enumers = new Enumerations();
-    enumers.addList(list);
-    enumerations.value = enumers;
+    enums.value = list as Array<IEnumerator>;
   };
   // if not init fetch and init
-  if (!enumerations.value.isInitialized) {
+  if (!Enumerations.isInitialized(enums.value)) {
     await refresh();
   }
 
   const getLanguage = (lang_id: number): IEnumerator => {
-    return Enumerations.byIdOne(enumerations.value.languages, lang_id);
+    return Enumerations.byIdOne(Enumerations.languages(enums.value), lang_id);
   };
+  
   const getGenre = (genre_id: number): IEnumerator => {
-    return Enumerations.byIdOne(enumerations.value.podcastGenres, genre_id);
+    return Enumerations.byIdOne(Enumerations.podcastGenres(enums.value), genre_id);
   };
+
+  const getAuthor = (genre_id: number): IEnumerator => {
+    return Enumerations.byIdOne(Enumerations.authors(enums.value), genre_id);
+  };
+
+  const getTag = (genre_id: number): IEnumerator => {
+    return Enumerations.byIdOne(Enumerations.tags(enums.value), genre_id);
+  };
+
+  const languages = Enumerations.languages(enums.value);
+  const podcastGenres =  Enumerations.podcastGenres(enums.value);
+  const podcastTypes =  Enumerations.podcastTypes(enums.value);
+  const tags =  Enumerations.tags(enums.value);
+  const authors =  Enumerations.authors(enums.value);
+
   return {
-    enumerations,
-    getLanguage,
-    getGenre,
+    enums,
+    enumerations: {
+      getLanguage,
+      getGenre,
+      getAuthor,
+      getTag, 
+      languages,
+      podcastGenres,
+      podcastTypes,
+      tags,
+      authors   
+    },
     refresh,
   };
 }

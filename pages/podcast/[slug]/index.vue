@@ -5,7 +5,7 @@
         <div class="h-40 pl-3 flex flex-col rounded-r-md">
           <div class="flex flex-row">
             <div class="text-2xl flex-grow">{{ podcast.title }}</div>
-            <NuxtLink :to="'/admin/podcast/' + podcast.slug">
+            <NuxtLink v-if="user" :to="'/admin/podcast/' + podcast.slug">
               <button
                 class="
                   p-1
@@ -71,20 +71,22 @@
         </NuxtLink>
         </div>
 
-        <podcast-episodes :episodes="podcast.episodes"/>
+        <podcast-episodes :episodes="episodes"/>
     <button class="ml-2 p-3 bg-orange-300 rounded-md" @click="refresh">Hallo</button>
   </div>
 </template>
 <script setup lang="ts">
 import { useEnumerations } from '~~/composables/enumerationdata';
 import { usePodcast } from '~~/composables/podcastdata';
-
-const route = useRoute();
-const slug = route.params.slug as string
 const user = await useState('user')
+const route = useRoute();
 
-const {getLanguage, getGenre} = await useEnumerations()
-const { refresh, podcast } = await usePodcast(slug)
-const language = ref(getLanguage(podcast.value.language_id))
-const podcastGenre = ref(getGenre(podcast.value.category_id))
+const slug = route.params.slug as string
+const { refresh, podcast, episodes } = await usePodcast(slug)
+if (route.query.refresh)
+  await refresh();
+
+const { enumerations } = await useEnumerations()
+const language = ref(enumerations.getLanguage(podcast.value.language_id))
+const podcastGenre = ref(enumerations.getGenre(podcast.value.category_id))
 </script>
