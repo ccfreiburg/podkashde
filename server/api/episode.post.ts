@@ -10,7 +10,6 @@ export default defineEventHandler(async (event) => {
       await updateEpisode(data);
     } else {
       if (!data.podcast && data.external_id>-1) {
-        console.log(data)
         await migrateEpisode(data)
       }
       else {

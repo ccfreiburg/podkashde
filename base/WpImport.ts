@@ -2,43 +2,42 @@ import Enumerations, { EnumKey } from "./Enumerations";
 import {ContentState} from "./types/ContentState"
 import Episode, { getEpisode } from "~~/server/db/entities/Episode";
 import Podcast, { setPodcast } from "~~/server/db/entities/Podcast";
-import Serie, { getSerie } from "~~/server/db/entities/Serie";
-import Enumerator, { getEnumerator } from "~~/server/db/entities/Enumerator";
 import { strToDate } from "./Converters";
 import IPodcast from "./types/IPodcast";
 import IEpisode from "./types/IEpisode";
+import IEnumerator from "./types/IEnumerator";
+import ISerie from "./types/ISerie";
 
 export function enumsfromWpMetadata(
   wpMetadataList,
   emumKey: EnumKey
-): Array<Enumerator> {
-  var list = [] as Array<Enumerator>;
+): Array<IEnumerator> {
+  var list = [] as Array<IEnumerator>;
   wpMetadataList.forEach((meta) => {
-    list.push(
-      getEnumerator({
+    list.push({
         displaytext: meta.name,
         shorttext: meta.slug,
         parentCategory: meta.taxonomy,
         enumkey_id: emumKey,
         enumvalue_id: meta.id,
-      })
+      }
     );
   });
   return list;
 }
 
-export function seriesfromWpMetadata(wpMetadataList): Array<Serie> {
-  var list = [] as Array<Serie>;
+export function seriesfromWpMetadata(wpMetadataList): Array<ISerie> {
+  var list = [] as Array<ISerie>;
   wpMetadataList.forEach((meta) => {
-    list.push(
-      getSerie({
+    list.push({
         cover_file: meta.image,
         title: meta.name,
         slug: meta.slug,
         subtitle: meta.title,
         external_id: meta.id,
+        description: '',
         state: ContentState.metadata,
-      })
+      }
     );
   });
   return list;
