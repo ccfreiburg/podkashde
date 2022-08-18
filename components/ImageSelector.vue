@@ -45,6 +45,7 @@ import ImageMetadata from "~~/base/types/ImageMetadata";
 export default defineComponent({
   props: {
     filename: String,
+    preview: String
   },
   name: "ImageSelector",
   setup(props, { emit }) {
@@ -59,6 +60,9 @@ export default defineComponent({
     }
     watch( ()=>props.filename, (newVal) => {
       setImageMetaString(props.filename,REQUIRED_IMG_WIDTH,REQUIRED_IMG_HEIGHT)
+    })
+    watch( ()=>props.preview, (newVal) => {
+        imgMetadata.value.preview = props.preview;
     })
     if (props.filename && props.filename.length>0)
       setImageMetaString(props.filename,REQUIRED_IMG_WIDTH,REQUIRED_IMG_HEIGHT)

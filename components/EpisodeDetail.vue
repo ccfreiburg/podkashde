@@ -19,6 +19,7 @@ import { booleanLiteral } from "@babel/types";
         <div>
           <image-selector
             :filename="fields.image"
+            :preview="imgMetadata.preview"
             @imageSelected="imageSelected"
           />
         </div>
@@ -248,6 +249,7 @@ export default defineComponent({
     const audioMetadata = ref(new AudioFileMetadata())
     const audioFileSelected = (data: AudioFileMetadata) => {
       fields.value.link = data.selectedFile.name;
+      imgMetadata.value.preview = data.cover_preview;
       audioMetadata.value = { ...data };
     };
 
