@@ -1,13 +1,14 @@
-// tailwind.config.js
 module.exports = {
-  //mode: "jit",
-  content: ["./**/*.vue", "./App.vue", "./plugins/**/*.{js,ts}"],
-  //darkMode: false, // or 'media' or 'class'
+  darkMode: 'class',
+  content: [],
   theme: {
-    extend: {},
+    plugins: []
   },
   variants: {
-    extend: {},
+    extend: {
+      ring: ['focus'],
+      outline: ['focus'],
+      border: ['valid'],
+    }
   },
-  plugins: [],
-};
+ }

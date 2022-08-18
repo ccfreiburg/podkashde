@@ -1,5 +1,5 @@
-import getDataSource from "~~/backend/dbsigleton";
-import Episode from "~~/backend/entities/Episode";
+import getDataSource from "../db/dbsigleton";
+import Episode from "../db/entities/Episode";
 
 export default defineEventHandler(async (event) => {
   const query = useQuery(event);

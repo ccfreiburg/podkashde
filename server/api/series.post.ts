@@ -1,9 +1,6 @@
-import getDataSource from "~~/backend/dbsigleton";
-import { getSerie } from "~~/backend/entities/Serie";
-import {
-  returnCodeReject,
-  returnCodeResolve,
-} from "~~/backend/server/returncode";
+import getDataSource from "../db/dbsigleton";
+import { getSerie } from "../db/entities/Serie";
+import { returnCodeReject, returnCodeResolve } from "../returncode";
 
 export default defineEventHandler(async (event) => {
   try {

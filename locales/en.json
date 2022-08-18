@@ -64,7 +64,9 @@
       "title": "Please enter a title",
       "creator": "Please enter an author",
       "duration": "Please enter duration of episode",
-      "slug": "Please enter an unique slug for the static episode Url"
+      "slug": "Please enter an unique slug for the static episode Url",
+      "upload": "There was a problem uplaoding files",
+      "saving": "Could not save the episode"
     },
     "saveEpisode": "Save Episode"
   },
@@ -76,12 +78,11 @@
     "metadata": "Load meta data",
     "preview": "Load for preview",
     "selectPodcasts": "Select as Podcasts",
-    "importEnums": "Import Speakers and Tags",
-    "importPodcasts": "Import Podcasts",
-    "importSeries": "Import Series",
-    "importEposides": "Import Episodes",
-    "importCoverImages": "Import Cover Images",
-    "importMp3s": "Import Mp3s"
+    "import": "Import to Database",
+    "options": "Options",
+    "importCoverImages": "Download Cover Images to server",
+    "importMp3s": "Download Mp3s to server", 
+    "importMetadata": "Import tags, authors and aeries metadata"
   },
   "cancel": "Cancel",
   "delete": "Delete",

@@ -1,5 +1,5 @@
-import getDataSource from "~~/backend/dbsigleton";
-import Enumerator from "~~/backend/entities/Enumerator";
+import getDataSource from "~~/server/db/dbsigleton";
+import Enumerator from "~~/server/db/entities/Enumerator";
 
 export default defineEventHandler( (event) => {   
     return getDataSource().then( async (db) => {

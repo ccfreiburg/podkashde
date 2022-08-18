@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="fields"
     class="p-10 w-full h-full"
     v-on:keyup.enter="savePodcast"
     v-on:keyup.esc="cancel"
@@ -14,7 +15,7 @@
       </h1>
     </div>
 
-    <image-selector :value="imgMetadata" @imageSelected="imageSelected" />
+    <image-selector :filename="fields.cover_file" @imageSelected="imageSelected" />
     <!-- Fields-->
     <div class="flex flex-col">
       <div class="flex flex-col">
@@ -133,56 +134,13 @@
           </option>
         </select>
       </div>
-      <div class="flex flex-row mt-3">
-        <div
-          class="
-            relative
-            w-12
-            h-6
-            transition
-            duration-200
-            ease-linear
-            rounded-2xl
-          "
-          :class="[fields.explicit ? 'bg-orange-300' : 'bg-gray-200']"
-        >
-          <label
-            for="toggle"
-            class="
-              absolute
-              left-0
-              w-6
-              h-6
-              mb-2
-              transition
-              duration-100
-              ease-linear
-              transform
-              bg-white
-              border-2
-              rounded-2xl
-              cursor-pointer
-            "
-            :class="[
-              fields.explicit
-                ? 'translate-x-full border-orange-300'
-                : 'translate-x-0 border-gray-300',
-            ]"
-          ></label>
-          <input
-            type="checkbox"
-            id="toggle"
-            name="toggle"
-            class="w-full h-full appearance-none focus:outline-none"
-            @click="fields.explicit = !fields.explicit"
-          />
-        </div>
-        <span class="ml-3 text-gray-500 text-sm font-medium">{{
-          fields.explicit
-            ? $t("podcastDetail.label.explicit_true")
-            : $t("podcastDetail.label.explicit_false")
-        }}</span>
-      </div>
+        <switch-box 
+          :checked="fields.explicit" 
+          @checkedChanged="(val)=>fields.explicit=val" 
+          :labelChecked="$t('podcastDetail.label.explicit_true')"
+          :labelUnChecked="$t('podcastDetail.label.explicit_false')"
+        />
+
       <div class="flex flex-col mt-3">
         <label class="pl-2 text-sm text-gray-500" for="author">{{
           $t("podcastDetail.label.link")
@@ -230,7 +188,7 @@
       <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
         <p>{{ $t("podcastDetail.label.errors") }}</p>
         <ul class="ml-5">
-          <li class="list-disc" v-for="err in errors">
+          <li class="list-disc" v-for="(err, index) in errors" :key="index">
             {{ $t("podcastDetail.validation." + err.text) }}
           </li>
         </ul>
@@ -280,140 +238,124 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import Podcast from "~~/backend/entities/Podcast";
-import { Enumerations } from "~~/backend/Enumerations";
-import validation from "~~/backend/PodcastDetailValidation";
-import {
-  PODCAST_AP,
-  ENUMERATIONS_AP,
-  UPLOAD_AP,
-  SERVER_IMG_PATH,
-} from "~~/backend/Constants";
-import { ImageMetadata } from "~~/backend/ImageMetadata";
-import { ContentFile } from "~~/backend/ContentFile";
+import { PODCAST_AP, UPLOAD_AP, SERVER_IMG_PATH } from "~~/base/Constants";
+import IPodcast from "~~/base/types/IPodcast";
+import IPostdata from "~~/base/types/IPostdata";
+import validation from "~~/base/PodcastDetailValidation";
+import ImageMetadata from "~~/base/types/ImageMetadata";
+import IValidationError from "~~/base/types/IValidationError";
 
 export default defineComponent({
   props: {
-    podcast: Object as PropType<Podcast>,
+    podcast: Object as PropType<IPodcast>,
   },
   name: "PodcastDetail",
-  data: () => {
-    return {
-      imgMetadata: new ImageMetadata(),
-      errors: [],
-      fields: new Podcast(),
-      enumerations: new Enumerations(),
-    };
-  },
-  async mounted() {
-    if (!this.enumerations.isInitialized) {
-      var enums = await $fetch(ENUMERATIONS_AP);
-      this.enumerations.init(enums);
+  async setup(props, ctx) {
+    const imgMetadata = ref(new ImageMetadata());
+    const errors = ref([] as Array<IValidationError>);
+    const { enumerations } = await useEnumerations();
+    const fields = ref({...props.podcast} as IPodcast);
+
+    const isEdit = computed(() => {
+      return fields.value.id && fields.value.id;
+    })
+
+    function hasError(fieldname) {
+      return errors.value.find((error) => error.field === fieldname);
     }
-  },
-  watch: {
-    podcast: {
-      immediate: true,
-      deep: true,
-      handler(newValue) {
-        if (!newValue) return;
-        this.fields = { ...newValue };
-        if (this.fields.cover_file && this.fields.cover_file.length > 0) {
-          this.imgMetadata.preview = this.fields.cover_file;
-          this.imgMetadata.imgWidth = 1400; // Workaround satisfying validation later
-          this.imgMetadata.imgHeight = 1400;
-        } else {
-          this.imgMetadata.preview = null;
-          this.imgMetadata.imgWidth = 0;
-          this.imgMetadata.imgHeight = 0;
-        }
-      },
-    },
-  },
-  computed: {
-    isEdit() {
-      return this.fields.id && this.fields.id;
-    },
-  },
-  methods: {
-    hasError(fieldname) {
-      return this.errors.find((error) => error.field === fieldname);
-    },
-    getClass(fieldname) {
+
+    function getClass(fieldname) {
       var cssclass = "field";
-      if (this.hasError(fieldname)) {
+      if (hasError(fieldname)) {
         cssclass = "field error";
       }
       return cssclass;
-    },
+    }
 
-    getImageInFormData() {
+    function getImageInFormData() {
       const fd = new FormData();
-      if (this.imgMetadata.selectedFile) {
-        fd.append("path", SERVER_IMG_PATH + this.fields.slug);
+      if (imgMetadata.value.selectedFile) {
+        fd.append("path", SERVER_IMG_PATH + fields.value.slug);
         fd.append(
           "cover",
-          this.imgMetadata.selectedFile,
-          this.imgMetadata.selectedFile.name
+          imgMetadata.value.selectedFile,
+          imgMetadata.value.selectedFile.name
         );
       }
       return fd;
-    },
-    getFields() {
-      var tmp = { ...this.fields };
+    }
+
+    function getFields() {
+      var tmp = { ...fields.value };        
       delete tmp.episodes;
+      delete tmp.series;
       return tmp;
-    },
-    async savePodcast(event) {
+    }
+
+    async function savePodcast(event) {
       event.preventDefault();
       event.stopImmediatePropagation();
-      if (this.imgMetadata.selectedFile) {
-        this.fields.cover_file =
+      if (imgMetadata.value.selectedFile) {
+        fields.value.cover_file =
           SERVER_IMG_PATH +
-          this.fields.slug +
+          fields.value.slug +
           "/" +
-          this.imgMetadata.selectedFile.name;
+          imgMetadata.value.selectedFile.name;
       }
-      this.errors = validation(
-        this.fields,
-        this.imgMetadata.imgWidth,
-        this.imgMetadata.imgHeight
-      );
-      if (this.errors.length == 0) {
-        const postData = {
-          method: "post",
-          body: this.getFields(),
+      errors.value = validation(
+        fields.value,
+        imgMetadata.value.imgWidth,
+        imgMetadata.value.imgHeight
+      )
+      if (errors.value.length == 0) {
+        const postData: IPostdata = {
+          method: "POST",
+          body: getFields(),
         };
-        var postResult: Response = await $fetch(PODCAST_AP, postData);
-        if (postResult.status == 201 && this.imgMetadata.selectedFile) {
-          postData.body = this.getImageInFormData();
+        var postResult : any = await $fetch(PODCAST_AP, postData);
+        if (postResult.status == 201 && imgMetadata.value.selectedFile) {
+          postData.body = getImageInFormData();
           postResult = await $fetch(UPLOAD_AP, postData);
         }
-        if (postResult.status == 201) this.$emit("onsaved", this.fields.title);
+        if (postResult.status == 201) ctx.emit("onsaved", fields.value.title);
       }
-    },
-    cancel() {
-      this.$emit("oncancel");
-    },
-    async deletePodcast() {
+    }
+
+    function cancel() {
+      ctx.emit("oncancel");
+    }
+
+    async function deletePodcast() {
       const postData = {
         method: "delete",
         body: {
-          id: this.fields.id,
-          title: this.fields.title,
+          id: fields.value.id,
+          title: fields.value.title,
         },
       };
       var postResult: Response = await $fetch(PODCAST_AP, postData);
       if (postResult.status == 201) {
-        this.$emit("ondeleted", this.fields.title);
+        ctx.emit("ondeleted", fields.value.title);
       }
-    },
-    imageSelected(data: ImageMetadata) {
-      this.imgMetadata.preview = data.preview;
-      this.imgMetadata.selectedFile = data.selectedFile;
-      this.imgMetadata.imgWidth = data.imgWidth;
-      this.imgMetadata.imgHeight = data.imgHeight;
-    },
+    }
+
+    function imageSelected(data: ImageMetadata) {
+      imgMetadata.value = { ...data };
+    }
+    
+    return {
+      errors,
+      fields,
+      enumerations,
+      hasError,
+      isEdit,
+      getClass,
+      imageSelected,
+      deletePodcast,
+      cancel,
+      savePodcast,
+      imgMetadata
+    };
   },
 });
 </script>

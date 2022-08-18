@@ -1,18 +1,14 @@
-import Podcast from "~~/backend/entities/Podcast";
 import {
   isUpdate,
   saveNewPodcast,
   updatePodcast,
-} from "~~/backend/server/podcast";
-
-import {
-  returnCodeReject,
-  returnCodeResolve,
-} from "~~/backend/server/returncode";
+} from '~~/server/services/podcastService';
+import { returnCodeReject, returnCodeResolve } from '~~/server/returncode';
+import IPodcast from '~~/base/types/IPodcast';
 
 export default defineEventHandler(async (event) => {
   try {
-    const data = await useBody(event);
+    const data: IPodcast = await useBody(event);
     if (isUpdate(data)) {
       await updatePodcast(data);
     } else {
@@ -21,5 +17,5 @@ export default defineEventHandler(async (event) => {
   } catch (err) {
     return returnCodeReject(500, err.message);
   }
-  return returnCodeResolve(201, "Podcast saved");
+  return returnCodeResolve(201, 'Podcast saved');
 });

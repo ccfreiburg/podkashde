@@ -1,21 +1,41 @@
-import { returnCode } from "~~/backend/server/returncode";
 import fs from "fs";
-import { createDir, nuxtPath } from "~~/backend/server/podcast";
+import { returnCode } from "../returncode";
+import { createDir, nuxtPath } from "../services/podcastService";
 
 export default defineEventHandler(async (event) => {
   const body = await useBody(event);
   return new Promise(async (resolve, reject) => {
-    const data: Blob = await $fetch(body.orgurl, { responseType: "blob" });
     const path = nuxtPath(body.newpath);
+    const altpath = nuxtPath(body.altpath);
     const filename = path + "/" + body.newfile;
+    const alternative = altpath + "/" + body.newfile;
     if (fs.existsSync(filename))
-      resolve(returnCode(423, "File already exists"));
-    else {
+      resolve({
+        status: 423,
+        message: "File already exists",
+        path: body.newpath + "/" + body.newfile
+      })
+    else if (body.altpath && body.altpath.length>0 && fs.existsSync(alternative)) {
+      resolve({
+        status: 423,
+        message: "File already exists",
+        path: body.altpath + "/" + body.newfile
+      })
+    } else {
+      try {
       createDir(path);
+      const data: Blob = await $fetch(body.orgurl, { responseType: "blob" });
       const buffer = Buffer.from(await data.arrayBuffer());
-      fs.writeFile(filename, buffer, (err) => {
-        if (err) reject(returnCode(500, err.message));
-        resolve(returnCode(201, "Fetched file successfully"));
+      fs.writeFileSync(filename, buffer)
+      } catch (err){
+        resolve(returnCode(400, err.message));
+        return;
+      }
+      resolve({
+        status: 201,
+        message: "File fetched",
+        path: body.newpath+ "/" + body.newfile
+
       });
     }
   });

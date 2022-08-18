@@ -1,8 +1,8 @@
 <template>
   <div class="w-full h-full">
     <div class="flex flex-col">
-      <div></div>
-      <NuxtLink :to="newPodcast">
+      <div v-if="user!=null">
+      <NuxtLink :to="'/admin/new-podcast'">
         <div
           class="
             mt-5
@@ -16,9 +16,10 @@
           {{ $t("newPodcast") }}
         </div>
       </NuxtLink>
+      </div>
       <div class="flex felx-col flex-wrap text-sm">
         <div v-for="podcast in podcasts" :key="podcast.id">
-          <NuxtLink :to="podcast.slug">
+          <NuxtLink :to="'/podcast/'+podcast.slug">
             <div class="flex flex-row m-2">
               <img class="w-32 h-32 rounded-l-md" :src="podcast.cover_file" />
               <div
@@ -35,21 +36,28 @@
                 <div class="pl-3">{{ podcast.author }}</div>
               </div>
             </div>
-          </NuxtLink>
+            </NuxtLink>
         </div>
       </div>
     </div>
+    <button class="ml-2 p-3 bg-orange-300 rounded-md" @click="refresh">Hallo</button>
+    <button class="ml-2 p-3 bg-orange-300 rounded-md" @click="login">Login</button>
+    <button class="ml-2 p-3 bg-orange-300 rounded-md" @click="logout">Logut</button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { PODCASTS_AP, ROUTE_NEWPODCAST } from "~~/backend/Constants";
-import Podcast from "~~/backend/entities/Podcast";
-import { ImageMetadata } from "~~/backend/ImageMetadata";
-
-const newPodcast = ref(ROUTE_NEWPODCAST);
-const result = await useFetch(PODCASTS_AP);
-
-const podcasts = ref(result.data.value as Array<Podcast>);
+import { usePodcasts } from '~~/composables/podcastdata';
+import { loginWithEmail } from '../composables/authentication';
+const { refresh, podcasts } = await usePodcasts()
+const route = useRoute();
+if (route.query.refresh)
+  refresh();
+const login = () => {
+  loginWithEmail("ar@3ar.de", "0test0++") 
+}
+const logout = () => {
+  userLogout();
+}
+const user = useState('user')
 </script>

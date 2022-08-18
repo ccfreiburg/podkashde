@@ -1,2 +1,4 @@
-data
+server/db/data
 upload
+public
+Doku

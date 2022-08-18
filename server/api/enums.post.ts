@@ -1,9 +1,6 @@
-import getDataSource from "~~/backend/dbsigleton";
-import { getEnumerator } from "~~/backend/entities/Enumerator";
-import {
-  returnCodeReject,
-  returnCodeResolve,
-} from "~~/backend/server/returncode";
+import getDataSource from "../db/dbsigleton";
+import { getEnumerator } from "../db/entities/Enumerator";
+import { returnCodeReject, returnCodeResolve } from "../returncode";
 
 export default defineEventHandler(async (event) => {
   try {

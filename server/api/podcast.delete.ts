@@ -1,6 +1,6 @@
-import Podcast from "~~/backend/entities/Podcast";
-import getDataSource from "~~/backend/dbsigleton";
-import { returnCode } from "~~/backend/server/returncode";
+import Podcast from "~~/server/db/entities/Podcast";
+import getDataSource from "~~/server/db/dbsigleton";
+import { returnCode } from "~~/server/returncode";
 
 export default defineEventHandler(async (event) => {
   return new Promise(async (resolve, reject) => {

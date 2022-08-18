@@ -13,10 +13,10 @@
         bg-center bg-cover
       "
       @click="chooseImageFile"
-      :style="{ 'background-image': `url(${preview()})` }"
+      :style="{ 'background-image': `url(${preview})` }"
     >
       <div
-        v-if="imgMetadata.preview === null"
+        v-if="preview.length<1"
         class="flex flex-col h-full w-full justify-center bg-slate-200"
       >
         <div class="text-gray-500 text-center">
@@ -30,9 +30,10 @@
     <div>
       <input
         class="invisible"
-        ref="fileInput"
+        ref="imageFileInput"
         type="file"
-        id="fileInput"
+        id="imageFileInput"
+        accept=".jpg,.jpeg,.png,.gif"
         @change="imageFileSelected"
       />
     </div>
@@ -40,15 +41,38 @@
 </template>
 
 <script lang="ts">
-import { ImageMetadata } from "~~/backend/ImageMetadata";
-
+import { REQUIRED_IMG_HEIGHT, REQUIRED_IMG_WIDTH } from "~~/base/Constants";
+import ImageMetadata from "~~/base/types/ImageMetadata";
 export default defineComponent({
   props: {
-    value: ImageMetadata,
+    filename: String,
+    preview: String
   },
+  name: "ImageSelector",
   setup(props, { emit }) {
-    const imgMetadata = ref(props.value);
-    const fileInput = ref(null);
+    const imgMetadata = ref(new ImageMetadata());
+    const imageFileInput = ref(null);
+
+    const setImageMetaString = ( filename: string, width: number, height: number )=>{
+        imgMetadata.value.preview=filename;
+        imgMetadata.value.imgWidth = width;
+        imgMetadata.value.imgHeight = height;
+        emit("imageSelected", imgMetadata.value)
+    }
+    watch( ()=>props.filename, (newVal) => {
+      setImageMetaString(props.filename,REQUIRED_IMG_WIDTH,REQUIRED_IMG_HEIGHT)
+    })
+    watch( ()=>props.preview, (newVal) => {
+        imgMetadata.value.preview = props.preview;
+    })
+    if (props.filename && props.filename.length>0)
+      setImageMetaString(props.filename,REQUIRED_IMG_WIDTH,REQUIRED_IMG_HEIGHT)
+
+    const preview = computed(() => {
+      if (imgMetadata.value && imgMetadata.value.preview)
+        return imgMetadata.value.preview;
+      return "";
+    })
 
     function calcImageSizePx(source, callback) {
       var img = new Image();
@@ -59,11 +83,7 @@ export default defineComponent({
       };
       img.src = source;
     }
-    function preview() {
-      if (imgMetadata.value && imgMetadata.value.preview)
-        return imgMetadata.value.preview;
-      return "";
-    }
+
     function removeImage(event) {
       imgMetadata.value.preview = null;
       imgMetadata.value.imgWidth = 0;
@@ -72,9 +92,11 @@ export default defineComponent({
       emit("imageSelected", imgMetadata.value);
     }
     function chooseImageFile() {
-      fileInput.value.click();
+      imageFileInput.value.click();
     }
     function imageFileSelected(event) {
+      if (!event.target.files[0].type.split("/").includes("image"))
+        return;
       imgMetadata.value.selectedFile = event.target.files[0];
       if (imgMetadata.value.selectedFile) {
         let reader = new FileReader();
@@ -90,7 +112,7 @@ export default defineComponent({
     return {
       preview,
       imgMetadata,
-      fileInput,
+      imageFileInput,
       imageFileSelected,
       chooseImageFile,
       removeImage,
@@ -98,4 +120,5 @@ export default defineComponent({
     };
   },
 });
+
 </script>

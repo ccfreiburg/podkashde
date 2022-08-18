@@ -1,15 +1,15 @@
 <template>
   <div class="m-10">
     <div class="flex flex-col">
-      <div class="flex flex-row" v-for="episode in sortedList">
-        <NuxtLink :to="getEpisodeUrl(episode)">
+      <div class="flex flex-row" v-for="(episode, index) in sortedFilteredList" :key="index">
+        <NuxtLink :to="episode.nuxtlink">
           <div class="flex flex-row m-2">
             <img class="w-16 h-16 rounded-l-md" :src="episode.image" />
             <div class="text-sm flex flex-col ml-3">
               <div v-html="episode.title"></div>
               <div class="mt-1" v-html="episode.creator"></div>
               <div>
-                {{ new Date(episode.pubdate).toLocaleDateString() }}
+                {{ episode.datestring }}
               </div>
             </div>
           </div>
@@ -20,31 +20,46 @@
 </template>
 
 <script lang="ts">
+import { tSImportType } from "@babel/types";
 import { PropType } from "vue";
-import Episode from "~~/backend/entities/Episode";
+import IEpisode from "~~/base/types/IEpisode";
+
+interface IDisplayEpisode extends IEpisode {
+  nuxtlink: string;
+  datestring: string;
+  sortdate: Date;
+}
 
 export default {
   props: {
-    podcastSlug: String,
-    episodes: Object as PropType<Array<Episode>>,
+    episodes: Object as PropType<Array<IEpisode>>,
   },
   name: "PodcastEpisodes",
-  async setup(props) {
-    var episodes = ref(props.episodes);
-    var getEpisodeUrl = function (episode: Episode): string {
-      return "/" + props.podcastSlug + "/" + episode.slug;
-    };
-    const sortedList = computed(() => {
-      if (!episodes) return [];
-      return episodes.value.sort((a, b) => b.pubdate - a.pubdate);
-    });
+  setup(props) {
+    
+    const dateformat = (input: Date) : string => input.toLocaleDateString();
+
+    function expandAndFilter(list : Array<IEpisode>) : Array<IDisplayEpisode> {
+      if (!list || list.length<1) 
+        return [];
+      const filter = (e)=>true
+      return list.filter(filter).map((e)=> {
+          const date = new Date(e.pubdate)
+         return { 
+          ...e, 
+          nuxtlink: "/" + e.slug,
+          sortdate: date,
+          datestring: date.toLocaleDateString(),
+          }
+        });
+    }
+    function sortList(list : Array<IDisplayEpisode>) : Array<IDisplayEpisode> {
+      return list.sort((a : IDisplayEpisode, b : IDisplayEpisode) => (b.sortdate.valueOf() - a.sortdate.valueOf()))
+    }
+    const sortedFilteredList = computed(() => sortList(expandAndFilter(props.episodes)))
     return {
-      sortedList,
-      getEpisodeUrl,
+      sortedFilteredList,
     };
   },
 };
 </script>
-
-<style>
-</style>
