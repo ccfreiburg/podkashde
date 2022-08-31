@@ -4,7 +4,7 @@ import {
   strToDurationInSec,
 } from "../../base/Converters";
 
-describe.only("Converters", async () => {
+describe("Converters", async () => {
   it("strToDurationInSec -1 on empty string", () => {
     const actual = strToDurationInSec("");
     expect(actual).toBe(-1);
