@@ -2,10 +2,11 @@ import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   test: {
-    globals: true,
-    deps: {
+      globals: true,
+      deps: {
       inline: [
-        "typeorm"
+        "typeorm", "@nuxt/test-utils-edge"
+
       ]
     }
   },  
