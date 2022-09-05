@@ -7,6 +7,7 @@ export class ContentFile {
     }
     return false;
   }
+  
   public static getPathFromUrl(
     serverPath: string,
     slug: string

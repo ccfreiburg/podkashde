@@ -264,7 +264,7 @@ export default defineComponent({
       generateSlug();
     };
 
-    const durationText = ref(durationInSecToStr( fields.value.duration));
+    const durationText = ref(durationInSecToStr(fields.value.duration));
     watch(durationText, () => {
       fields.value.duration = strToDurationInSec(durationText.value);
     });

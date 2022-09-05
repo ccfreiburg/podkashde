@@ -10,6 +10,8 @@
       "test:e2e": "vitest run --dir ./tests/e2e",
       "test:int": "vitest run --dir ./tests/integration",
       "test": "yarn test:unit && yarn test:comp && yarn test:e2e",
+      "watchunit": "vitest --dir ./tests/unit",
+      "watchcomp": "vitest --config ./tests/components/vitest.config.js --dir ./tests/components",
       "start": "ts-node src/index.ts",
       "typeorm": "typeorm-ts-node-commonjs",
       "migration": "typeorm-ts-node-commonjs -d ./server/db/datasource.ts migration:generate ./server/db/migrations/auth"
