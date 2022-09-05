@@ -27,6 +27,7 @@
       "title": "Please enter a title",
       "author": "Please enter an author",
       "language": "Please select the language",
+      "slug": "Please enter a unique slug for the podcast",
       "category": "Please select a category for your content",
       "type": "Please select the publishing type",
       "link": "Please enter the link",

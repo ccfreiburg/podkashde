@@ -42,6 +42,7 @@ export default function validation(
     });
   nonEmpty(fields, 'title', errors);
   nonEmpty(fields, 'author', errors);
+  nonEmpty(fields, 'slug', errors);
   selectionEmpty(fields, 'language', errors);
   selectionEmpty(fields, 'category', errors);
   selectionEmpty(fields, 'type', errors);
