@@ -9,6 +9,7 @@
         flex flex-nowrap
         place-content-between
       "
+      data-testid="MultiSelect.clickableElement"
       v-if="!showAllways"
       @click="showDropdown"
     >
