@@ -55,7 +55,7 @@
         place-content-stretch
       ">
       <multi-select class="sm:w-1/2 w-full" title="WordPress Categories" :showAllways="true"
-        :options="wpMetadata.series" @checked="onCheckSeries"></multi-select>
+        :options="wpMetadata.series" :checkedList="clist" @checked="onCheckSeries"></multi-select>
       <div class="flex flex-col sm:w-1/2 w-full">
         <button class="
               mx-3
@@ -185,6 +185,8 @@ const loading = ref(false);
 const wpPodcasts = ref([]);
 const wpPodcastEpisodesCount = ref(new Array<number>());
 const wpMetadata = ref(new WpMetadata())
+wpMetadata.value.series = [{value: 312, text: "Bla"},{value:1, text: "blub"}]
+const clist = ref([312])
 const statusLog = ref([]);
 const { refresh, enumerations } = await useEnumerations();
 const optionImportMp3s = ref(false)

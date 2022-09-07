@@ -146,10 +146,12 @@ export default defineComponent({
     },
   },
   mounted() {
-    window.addEventListener("scroll", this.hideDropdown);
+    if (this.checkedList)
+      this.selected = this.checkedList
+    document.addEventListener("scroll", this.hideDropdown);
   },
   beforeUnmount() {
-    window.removeEventListener("scroll", this.hideDropdown);
+    document.removeEventListener("scroll", this.hideDropdown);
   },
 });
 </script>
