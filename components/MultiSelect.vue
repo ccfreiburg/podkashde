@@ -35,26 +35,29 @@
     >
       <div class="text-lg">{{ title }}</div>
       <div class="text-sm flex flex-row flex-nowrap">
-        <div
+        <button
+          data-testid="MultiSelect.selectAll"
           class="text-sm mr-1 hover:cursor-pointer text-orange-500"
           @click="all"
         >
           all
-        </div>
+        </button>
         |
-        <div
+        <button
+          data-testid="MultiSelect.deselectAll"
           class="text-sm mx-1 hover:cursor-pointer text-orange-500"
           @click="none"
         >
           none
-        </div>
+        </button>
         |
-        <div
+        <button
+          data-testid="MultiSelect.invertSelection"
           class="text-sm ml-1 hover:cursor-pointer text-orange-500"
           @click="invert"
         >
           invert
-        </div>
+        </button>
       </div>
     </div>
     <div
@@ -106,9 +109,7 @@ export default defineComponent({
   },
   methods: {
     all() {
-      this.options.forEach((element) => {
-        this.selected.push(element.value);
-      });
+      this.selected = this.options.map((element) => element.value);
     },
     invert() {
       var old = this.selected;
@@ -147,6 +148,8 @@ export default defineComponent({
     },
   },
   mounted() {
+    if (this.checkedList)
+      this.selected = this.checkedList.map((el)=>el)
     window.addEventListener("scroll", this.hideDropdown);
   },
   beforeUnmount() {

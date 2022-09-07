@@ -2,6 +2,11 @@ import { describe, it, expect, vitest } from "vitest";
 
 import { fireEvent, render } from "@testing-library/vue";
 import MultiSelect from "../../components/MultiSelect.vue";
+import { t } from "vitest/dist/index-ea17aa0c";
+import { debug } from "console";
+
+const Tick = async () => await new Promise(r => setTimeout(r)) 
+
 
 describe("MultiSelect", () => {
   const options = [
@@ -44,7 +49,7 @@ describe("MultiSelect", () => {
     const element = wrapper.getByTestId("MultiSelect.clickableElement")
     await fireEvent(element,new MouseEvent('click'))
     expect(wrapper.html()).toContain("Eins");
-    await fireEvent(element,new MouseEvent('click'))
+    await fireEvent(document,new MouseEvent('click', { bubbles: true }))
     expect(wrapper.html()).not.toContain("Eins");
   })
   it("Scroll the component closes options",async () => {
@@ -56,27 +61,65 @@ describe("MultiSelect", () => {
     expect(wrapper.html()).not.toContain("Eins");
   })
   it("Lets go of the event listener on documet when unrender", async () => {
-    document.removeEventListener = vitest.fn()
-    document.addEventListener = vitest.fn()
-    const wrapper = render(MultiSelect, { props: { title: "ATitle", options }, container: document.body});
-    expect(document.addEventListener).toHaveBeenCalled()
+    const addSpy = vitest.spyOn(window, 'addEventListener');
+    const remSpy = vitest.spyOn(window, 'removeEventListener');
+    const wrapper = render(MultiSelect, { props: { title: "ATitle", options }});
+    expect(addSpy).toHaveBeenCalled()
     await wrapper.unmount()
-    expect(document.removeEventListener).toHaveBeenCalled()
+    expect(remSpy).toHaveBeenCalled()
   })
-  it.todo("selecting option fires emit", async () => {
+  it("selecting option fires emit", async () => {
     const wrapper = render(MultiSelect, { props: { title: "ATitle", options, showAllways: true } });
-    const element = wrapper.getAllByRole('input')[1]
-    await (element as any).setChecked()
+    const element = wrapper.getAllByRole('checkbox')[1]
+    await fireEvent(element,new MouseEvent('click'))
     expect(wrapper.emitted()).to.haveOwnProperty('checked');
     expect(wrapper.emitted()['checked'][0][0]).toContain(2)
   })
-  it.todo("render with selected option shows element selected", async () => {
+  it("render with selected option shows element selected", async () => {
     const checkedList = [2];
     const wrapper = render(MultiSelect, { props: { title: "ATitle", options, checkedList, showAllways: true } });
     const elements = wrapper.getAllByRole("checkbox");
-    expect(elements.map((v) => (v as any).value)).toEqual(options.map((v)=>v.value.toString()))
-    const checkedElements = elements.filter((el) => (el as any).checked)
-    expect(checkedElements.length).toBe(1)
+    await Tick()
+    expect((elements[1] as any).value).toBe("2")
+    expect((elements[1] as any).checked).toBe(true)
+    expect((elements[0] as any).checked).toBe(false)
+    expect((elements[2] as any).checked).toBe(false)
   })
-  it.todo("render with multiple selected option shows element")
+  it("render with multiple selected option shows element", async () => {
+    const checkedList = [2,3];
+    const wrapper = render(MultiSelect, { props: { title: "ATitle", options, checkedList, showAllways: true } });
+    const elements = wrapper.getAllByRole("checkbox");
+    await Tick()
+    expect((elements[1] as any).value).toBe("2")
+    expect((elements[1] as any).checked).toBe(true)
+    expect((elements[0] as any).checked).toBe(false)
+    expect((elements[2] as any).checked).toBe(true)
+  })
+  it("selects all when button clicked", async () => {
+    const wrapper = render(MultiSelect, { props: { title: "ATitle", options, showAllways: true } });
+    await Tick()
+    const element = wrapper.getByTestId("MultiSelect.selectAll")
+    await fireEvent.click(element)
+    await Tick()
+    expect(wrapper.emitted()).to.haveOwnProperty('checked');
+    expect(wrapper.emitted()['checked'].at(-1)[0].length).toBe(3)
+  })
+  it("deselects all when button clicked",async () => {
+    const checkedList = [2,3];
+    const wrapper = render(MultiSelect, { props: { title: "ATitle", options, checkedList, showAllways: true } });
+    const element = wrapper.getByTestId("MultiSelect.deselectAll")
+    await fireEvent.click(element)
+    await Tick()
+    expect(wrapper.emitted()).to.haveOwnProperty('checked');
+    expect(wrapper.emitted()['checked'].at(-1)[0].length).toBe(0)
+  })
+  it("inverts selection when button clicked",async () => {
+    const checkedList = [1];
+    const wrapper = render(MultiSelect, { props: { title: "ATitle", options, checkedList, showAllways: true } });
+    const element = wrapper.getByTestId("MultiSelect.invertSelection")
+    await fireEvent.click(element)
+    await Tick()
+    expect(wrapper.emitted()).to.haveOwnProperty('checked');
+    expect(wrapper.emitted()['checked'].at(-1)[0]).not.toContain(1)
+  })
 })
