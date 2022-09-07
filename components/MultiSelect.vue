@@ -80,6 +80,7 @@
             <input
               class="m-2"
               type="checkbox"
+              data-testid="Multiselect.Option"
               :id="index"
               :value="option.value"
               v-model="selected"
@@ -146,12 +147,10 @@ export default defineComponent({
     },
   },
   mounted() {
-    if (this.checkedList)
-      this.selected = this.checkedList
-    document.addEventListener("scroll", this.hideDropdown);
+    window.addEventListener("scroll", this.hideDropdown);
   },
   beforeUnmount() {
-    document.removeEventListener("scroll", this.hideDropdown);
+    window.removeEventListener("scroll", this.hideDropdown);
   },
 });
 </script>
