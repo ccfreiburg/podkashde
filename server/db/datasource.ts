@@ -7,7 +7,7 @@ import Serie from "./entities/Serie";
 import User from "./entities/User";
 import Session from "./entities/Session";
 
-var defaultFilename = "./server/db/data/podcasts.sqlite";
+var defaultFilename = "public/data/podcasts.sqlite";
 
 export const AppDataSource = new DataSource({
     type: "sqlite",
