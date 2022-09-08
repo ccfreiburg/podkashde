@@ -216,7 +216,7 @@ import ISerie, { emptyISerieFactory } from "../base/types/ISerie";
 import AudioFileMetadata from "~~/base/types/AudioFileMetadata";
 import ImageMetadata from "~~/base/types/ImageMetadata";
 import IValidationError from "~~/base/types/IValidationError";
-import { COUNT_AP, EPISODE_AP, SERVER_IMG_PATH, SERVER_MP3_PATH, UPLOAD_AP } from "~~/base/Constants";
+import { COUNT_AP, EPISODE_AP, FILES_AP, SERVER_IMG_PATH, SERVER_MP3_PATH, UPLOAD_AP } from "~~/base/Constants";
 
 export default defineComponent({
   props: {
@@ -355,7 +355,7 @@ export default defineComponent({
           errors.value.push({field:"", text:"upload"})
           return
         }
-        fields.value.link = link;
+        fields.value.link = FILES_AP+link;
       }
 
       // Upload Image
@@ -365,7 +365,7 @@ export default defineComponent({
           errors.value.push({field:"", text:"upoad"})
           return
         }
-        fields.value.image = link;
+        fields.value.image = FILES_AP+link;
       }
 
       // Episode Metadata

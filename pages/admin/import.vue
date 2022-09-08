@@ -159,6 +159,7 @@ import {
   PODCAST_AP,
   EPISODE_AP,
   SERVER_POSTIMG_PATH,
+  FILES_AP,
 } from "~~/base/Constants";
 import {
   enumsfromWpMetadata,
@@ -238,7 +239,7 @@ async function downloadFile(serverPath: string, slug: string, file: string, alts
   );
   // If download successfull return new address of cover_image 
   if (ret.status == 201 || ret.status == 423) {
-    return ret.path;
+    return FILES_AP+ret.path;
   }
   else
     return file;

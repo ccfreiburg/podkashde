@@ -2,7 +2,7 @@ import fs from 'fs';
 import getDataSource from '~~/server/db/dbsigleton';
 import Podcast, { setPodcast } from '~~/server/db/entities/Podcast';
 import IPodcast from '~~/base/types/IPodcast';
-import { PUBLIC_RESOURCES } from '~~/base/Constants';
+import { DATA_PATH } from '~~/base/Constants';
 
 export const readPodcasts = async function (): Promise<Array<IPodcast>> {
   const db = await getDataSource();
@@ -22,7 +22,7 @@ export const readPodcast = async function (query): Promise<IPodcast> {
 };
 
 export const nuxtPath = (path) => {
-  return PUBLIC_RESOURCES + path;
+  return DATA_PATH + path;
 };
 
 export const createDir = (dir) => {
@@ -38,7 +38,6 @@ export const moveUploadedImage = function (path, imageFile) {
   createDir(dir);
   const target_path = dir + '/' + imageFile.originalname;
   fs.renameSync(upload_path, target_path);
-  console.log(target_path);
   return true;
 };
 

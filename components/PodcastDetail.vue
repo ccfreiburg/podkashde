@@ -238,7 +238,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { PODCAST_AP, UPLOAD_AP, SERVER_IMG_PATH } from "~~/base/Constants";
+import { PODCAST_AP, UPLOAD_AP, SERVER_IMG_PATH, FILES_AP } from "~~/base/Constants";
 import IPodcast from "~~/base/types/IPodcast";
 import IPostdata from "~~/base/types/IPostdata";
 import validation from "~~/base/PodcastDetailValidation";
@@ -296,7 +296,7 @@ export default defineComponent({
       event.preventDefault();
       event.stopImmediatePropagation();
       if (imgMetadata.value.selectedFile) {
-        fields.value.cover_file =
+        fields.value.cover_file = FILES_AP+
           SERVER_IMG_PATH +
           fields.value.slug +
           "/" +

@@ -1,7 +1,3 @@
-import { url } from "inspector"
-import { allowedNodeEnvironmentFlags } from "process"
-import { isAsExpression } from "typescript"
-import { URL } from "url"
 import { checkAuthentication } from "../services/sessionService"
 
 export default defineEventHandler( async (event) => {
