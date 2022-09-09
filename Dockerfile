@@ -1,9 +1,6 @@
 FROM node:16 as builder
 LABEL authors="Alex Roehm"
 # update dependencies and install curl
-RUN apt-get update && apt-get install -y \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
 
 # Create app directory
 WORKDIR /build
@@ -17,9 +14,14 @@ RUN yarn install
 RUN yarn build
 
 FROM node:16
+RUN apt-get update && apt-get install -y \
+    curl dumb-init\
+    && rm -rf /var/lib/apt/lists/*
+
+
 WORKDIR /podkashde
-COPY --from=builder /build/.output .
+COPY --from=builder --chown node:node /build/.output .
 RUN chown -R 1000:1000 /podkashde
 USER 1000:1000
 EXPOSE 3000
-CMD [ "node", "server/index.mjs" ]
+CMD [ "dumb-init", "node", "server/index.mjs" ]
