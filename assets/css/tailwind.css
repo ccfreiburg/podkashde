@@ -1,3 +1,138 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+      --color-primary: 218 109 41;
+    }
+ }
+
+@font-face {
+    font-family: 'Mulish';
+    font-weight: 200;
+    src: url('/assets/fonts/Mulish/static/Mulish-ExtraLight.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Mulish';
+  font-weight: 500;
+  src: url('/assets/fonts/Mulish/static/Mulish-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Mulish';
+    font-weight: 500;
+    font-style: italic;
+    src: url('/assets/fonts/Mulish/static/Mulish-MediumItalic.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Mulish';
+    font-weight: 800;
+    font-style: italic;
+    src: url('/assets/fonts/Mulish/static/Mulish-ExtraBold.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Mulish';
+    font-weight: 700;
+    font-style: italic;
+    src: url('/assets/fonts/Mulish/static/Mulish-Bold.ttf') format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'Mulish';
+    font-weight: 600;
+    font-style: italic;
+    src: url('/assets/fonts/Mulish/static/Mulish-SemiBold.ttf') format('truetype');
+  }
+
+.ccfbutton-border {
+    border: 4px solid transparent;
+    background: 
+        linear-gradient(to right, white,white),
+        linear-gradient(90deg, rgba(239,170,34,1) 0%, rgba(239,170,34,1) 36%, rgba(218,109,41,1) 65%, rgba(218,109,41,1) 100%);
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
+    transition: 0.7s;
+}
+.ccfbutton-border:hover {
+    border: 4px solid transparent;
+    background: 
+        linear-gradient(to right, rgba(255,255,255,.4), rgba(255,255,255,.4) ),
+        linear-gradient(to right, rgba(239,170,34,1) 0%, rgba(239,170,34,1) 36%, rgba(218,109,41,1) 65%, rgba(218,109,41,1) 100%);
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
+    color: white
+}
+.ccfbutton-border:active {
+    border: 4px solid transparent;
+    background: 
+        linear-gradient(to right, rgba(255,255,255,.1), rgba(255,255,255,.1) ),
+        linear-gradient(to right, rgba(239,170,34,1) 0%, rgba(239,170,34,1) 36%, rgba(218,109,41,1) 65%, rgba(218,109,41,1) 100%);
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
+    color: white
+}
+
+.ccfbuttons1{
+    background: linear-gradient(90deg, rgba(239,170,34,.7) 0%, rgba(239,170,34,.7) 36%, rgba(218,109,41,.7) 65%, rgba(218,109,41,.7) 100%);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: var(--size) + 5px;
+}
+.ccfbuttons1:hover {
+    background: linear-gradient(90deg, rgba(239,170,34,1) 0%, rgba(239,170,34,1) 36%, rgba(218,109,41,1) 65%, rgba(218,109,41,1) 100%);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: var(--size) + 5px;
+}
+
+.ccfheader{   
+    /* background: rgb(239,170,34); */
+    background: linear-gradient(90deg, rgba(239,170,34,1) 0%, rgba(239,170,34,1) 36%, rgba(218,109,41,1) 65%, rgba(218,109,41,1) 100%);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: var(--size) + 5px;
+}
+
+.ccfunderline{   
+  /* background: rgb(239,170,34); */
+  background: linear-gradient(90deg, rgba(239,170,34,1) 0%, rgba(239,170,34,1) 36%, rgba(218,109,41,1) 65%, rgba(218,109,41,1) 100%);
+  /* -0px var(--y-pos, 75%) / 100% var(--size, 20px) no-repeat;*/
+  background-repeat: no-repeat;
+  background-position: bottom, 122%, center;
+  background-size: 120% 10px;
+}
+
+.ccfaccent:hover{
+  background: linear-gradient(90deg, #efd934, #f49c03, #f49c03, #c99d1a) -0px var(--y-pos, 65%) / 40px var(--size, 8px) no-repeat;
+}
+
+
+.field {
+    @apply border-2
+           h-10
+           px-3
+           py-1
+                mt-1
+                rounded-md
+                text-gray-600
+                valid:border-gray-200
+                focus:outline-none focus:ring-1 focus:ring-orange-300;
+  }
+
+  .error {
+    @apply ring-orange-700 ring-1;
+  }
+
+  .textarea {
+    @apply border-2
+                px-3
+                py-1
+                mt-1
+                rounded-md
+                text-gray-600
+                border-gray-200
+                focus:outline-none focus:ring-1 focus:ring-orange-300;
+  }

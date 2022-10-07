@@ -1,9 +1,6 @@
 import { describe, it, expect, vitest } from "vitest";
-
 import { fireEvent, render } from "@testing-library/vue";
 import MultiSelect from "../../components/MultiSelect.vue";
-import { t } from "vitest/dist/index-ea17aa0c";
-import { debug } from "console";
 
 const Tick = async () => await new Promise(r => setTimeout(r)) 
 
@@ -101,8 +98,11 @@ describe("MultiSelect", () => {
     const element = wrapper.getByTestId("MultiSelect.selectAll")
     await fireEvent.click(element)
     await Tick()
-    expect(wrapper.emitted()).to.haveOwnProperty('checked');
-    expect(wrapper.emitted()['checked'].at(-1)[0].length).toBe(3)
+    const elements = wrapper.getAllByRole("checkbox");
+    await Tick()
+    expect((elements[0] as any).checked).toBe(true)
+    expect((elements[1] as any).checked).toBe(true)
+    expect((elements[2] as any).checked).toBe(true)
   })
   it("deselects all when button clicked",async () => {
     const checkedList = [2,3];
@@ -110,8 +110,11 @@ describe("MultiSelect", () => {
     const element = wrapper.getByTestId("MultiSelect.deselectAll")
     await fireEvent.click(element)
     await Tick()
-    expect(wrapper.emitted()).to.haveOwnProperty('checked');
-    expect(wrapper.emitted()['checked'].at(-1)[0].length).toBe(0)
+    const elements = wrapper.getAllByRole("checkbox");
+    await Tick()
+    expect((elements[0] as any).checked).toBe(false)
+    expect((elements[1] as any).checked).toBe(false)
+    expect((elements[2] as any).checked).toBe(false)
   })
   it("inverts selection when button clicked",async () => {
     const checkedList = [1];
@@ -120,6 +123,6 @@ describe("MultiSelect", () => {
     await fireEvent.click(element)
     await Tick()
     expect(wrapper.emitted()).to.haveOwnProperty('checked');
-    expect(wrapper.emitted()['checked'].at(-1)[0]).not.toContain(1)
+    expect(wrapper.emitted()['checked'][0][0]).toContain(2)
   })
 })

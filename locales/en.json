@@ -1,10 +1,31 @@
 {
+  "de": "Deutsch",
+  "en": "English",
+  "menu": {
+    "admin": "Administration",
+    "adminsub": "Administrative tasks",
+    "login": "Log in",
+    "logout": "Log out",
+    "import": "Import from Wordpress", 
+    "podcasts": "Podcasts", 
+    "podcastsub": "All about podcasts, series and episodes",
+    "list": "List of podcasts",
+    "new": "Start a new podcast",
+    "series": "List of series",
+    "recent": "Recent episodes"
+  },
+  "login": {
+    "title": "Log in",
+    "user": "Username",
+    "password": "Password",
+    "submit": "Log me in"
+  },
   "podcastDetail": {
     "newPodcast": "New Podcast",
     "editPodcast": "Edit Podcast",
-    "addImage": "klicken um Bild hinzuzufügen",
+    "addImage": "click to add image",
     "label": {
-      "img": "klicken um Bild hinzuzufügen",
+      "img": "click to add image",
       "title": "Title",
       "subtitle": "Sub Title",
       "slug": "Slug",
@@ -72,7 +93,8 @@
     "saveEpisode": "Save Episode"
   },
   "import": {
-    "title": "Import",
+    "title": "Import from WordPress",
+    "subtitle": "This works with Seriously Simple Podcast Plugin and Episodes as posts",
     "label": {
       "wpurl": "Url to Wordpress"
     },

@@ -53,6 +53,8 @@ const { refresh, podcasts } = await usePodcasts()
 const route = useRoute();
 if (route.query.refresh)
   refresh();
+if (route.query.logout)
+  userLogout();
 const login = () => {
   loginWithEmail("ar@3ar.de", "0test0++") 
 }

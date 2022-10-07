@@ -20,6 +20,8 @@ export default defineNuxtConfig({
       locale: "en",
       fallbackLocale: "en",
       globalInjection: true,
+      sync: true,
+      availableLocales: ["de", "en"],
     },
   },
   buildModules: ["@intlify/nuxt3"],

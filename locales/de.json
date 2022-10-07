@@ -1,3 +1,26 @@
 {
-  "newPodcast": "Neuer Podcast"
+  "de": "Deutsch",
+  "en": "English",
+  "menu": {
+    "admin": "Administration",
+    "adminsub": "Administrative Aufgaben",
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "import": "Import von Wordpress", 
+    "podcasts": "Podcasts", 
+    "podcastsub": "Alles was mit Podcasts, Serien and Episoden",
+    "list": "Alle Podcasts",
+    "new": "Neuen podcast beginnen",
+    "series": "Alle Serien",
+    "recent": "Jüngste Episoden"
+  },
+  "login": {
+    "title": "Anmelden",
+    "user": "Username",
+    "password": "Passwort",
+    "submit": "Anmelden"
+  },
+  "podcastDetail": {
+    "newPodcast": "Neuer Podcast"
+  }
 }

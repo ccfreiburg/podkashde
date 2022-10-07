@@ -22,8 +22,14 @@
         </div>
       </div>
     </div>
-    <h1 class="text-xl">{{ $t("import.title") }}</h1>
-
+    
+    <div class="flex flex-col">
+      <div class="shrink ccfunderline">
+      <h1 class="text-2xl font-semibold">&nbsp;{{ $t("import.title") }}&nbsp;</h1>
+    </div>
+    <div>
+      <p class="text-sm mt-2 mb-4 font-thin">{{ $t("import.subtitle") }}</p>
+    </div>
     <!-- Enter API Url for Wordpress -->
     <div class="flex flex-row items-end mt-3">
       <div class="flex flex-col flex-grow mt-3">
@@ -37,11 +43,10 @@
                 ml-5
                 px-5
                 h-10
-                border-2
                 rounded-md
-                bg-orange-300
-                hover:bg-orange-400
-                " @click="loadMetadata">
+                ccfbutton-border
+                "
+                @click="loadMetadata">
         {{ $t("import.metadata") }}
       </button>
     </div>
@@ -142,7 +147,7 @@
           " @click="importAll">
           {{ $t("import.import") }}
         </button>
-
+      </div>
       </div>
     </div>
   </div>
