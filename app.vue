@@ -2,18 +2,16 @@
 // import { IUser } from "~/types/IUser";
 import { useI18n } from "vue-i18n";
 import IMenuSection from "./base/types/IMenuSection";
-import { useUser } from "./composables/authentication";
+import { useUser, userLogout } from "./composables/authentication";
 
 const nuxtApp = useNuxtApp();
 
 nuxtApp.hook("page:finish", () => {
   window.scrollTo(0, 0);
 });
-const user = useState("user");
-const loggedin = user != null;
 const i18n = useI18n();
 var id = 0
-function getMenu() : Array<IMenuSection> {
+function getMenu(loggedin) : Array<IMenuSection> {
   var menu = [       {
           id: id++,
           name: i18n.t("menu.admin"),
@@ -33,7 +31,7 @@ function getMenu() : Array<IMenuSection> {
           ],
         },
       ];
-if (!loggedin) {
+      if (!loggedin) {
         menu[0].entries.push({
           id: id++,
           slug: "/login",
@@ -42,7 +40,7 @@ if (!loggedin) {
       } else {
         menu[0].entries.push({
           id: id++,
-          slug: "/?logout=true",
+          slug: "#logout",
           name: i18n.t("menu.logout"),
         });
         menu[0].entries.push({
@@ -68,14 +66,21 @@ if (!loggedin) {
       }
   return menu;
 }
-const menu = ref(getMenu())
+
+const user = await useUser()
+const loggedin = computed( () => user.value !== null )
+const menu = computed( () => getMenu(loggedin.value) )
 
 function localeChanged(value) {
   i18n.locale.value = value;
-  menu.value = getMenu()
+}
+function menuItemClicked(name) {
+  if (name=="#logout") {
+    userLogout()
+  }
 }
 </script>
 <template>
-  <NavBar :menu="menu" :availableLocales="$i18n.availableLocales" :locale="$i18n.locale" @localeChanged="localeChanged"/>
+  <NavBar :menu="menu" :availableLocales="$i18n.availableLocales" :locale="$i18n.locale" @localeChanged="localeChanged" @menuItemClicked="menuItemClicked"/>
   <NuxtPage class="p-3"/>
 </template>

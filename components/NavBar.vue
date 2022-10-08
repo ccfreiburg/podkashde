@@ -12,7 +12,7 @@
       >
         <!-- v-show="show" -->
         <div
-          class="flex flex-row flex-wrap justify-around p-5"
+          class="flex flex-row flex-wrap justify-evenly p-5"
           @click="hideDropdown"
         >
           <div class="w-100 mb-8" v-for="section in menu" :key="section.id">
@@ -38,7 +38,10 @@
                 {{ section.description }}
               </p>
               <div v-for="entry in section.entries" :key="entry.id">
-                <NuxtLink  data-testid="NavBar.menuItem" :to="entry.slug">
+                <button v-if="entry.slug.startsWith('#')" data-testid="NavBar.menuItemEvent" @click="emit(entry.slug)">
+                  {{ entry.name }}
+                </button>
+                <NuxtLink v-else data-testid="NavBar.menuItem" :to="entry.slug">
                   {{ entry.name }}
                 </NuxtLink>
               </div>
@@ -136,7 +139,7 @@ export default defineComponent({
     availableLocales: Object as  PropType<Array<String>>,
     locale:  String
   },
-  emits: ["localeChanged"],
+  emits: ["localeChanged", "menuItemClicked"],
   name: "NavBar",
   setup(props, ctx) {
     const show = ref(false)
@@ -158,7 +161,9 @@ export default defineComponent({
       }
       itWasMe = false
     }
-
+    function emit(name: String) {
+      ctx.emit("menuItemClicked", name)
+    }
     function changeLocale(event) {
       ctx.emit("localeChanged", event.target.value)
     }
@@ -171,14 +176,15 @@ export default defineComponent({
     onBeforeUnmount(() => {
       document.removeEventListener("click", closeIfClickedOutside)
       document.removeEventListener("scroll", closeIfClickedOutside);
-    })
+    })    
     return {
       show,
       switchDropdown,
       hideDropdown,
       changeLocale,
       availableLocales: props.availableLocales,
-      currentLocale
+      currentLocale,
+      emit
     }
   }
 })

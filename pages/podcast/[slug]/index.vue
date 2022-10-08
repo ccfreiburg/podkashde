@@ -78,7 +78,7 @@
 <script setup lang="ts">
 import { useEnumerations } from '~~/composables/enumerationdata';
 import { usePodcast } from '~~/composables/podcastdata';
-const user = await useState('user')
+const user = await useUser()
 const route = useRoute();
 
 const slug = route.params.slug as string

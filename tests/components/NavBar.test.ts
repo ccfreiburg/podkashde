@@ -18,6 +18,11 @@ describe("NavBar", () => {
         slug: "/hallo",
         name: "hallodu",
       },
+      {
+        id: 2,
+        slug: "#bye",
+        name: "bye",
+      },
     ],
   }]
 
@@ -83,6 +88,16 @@ describe("NavBar", () => {
     await fireEvent(element,new MouseEvent('click'))
     expect(nuxtlinkClicked).be.equal(true)
   })
+  it("Klick on a menu item where the slug starts with # emits event",async () => {
+    const wrapper = render(NavBar, { props: { menu }})
+    var element = wrapper.getByTestId("NavBar.clickableElement")
+    await fireEvent(element,new MouseEvent('click'))
+    expect(wrapper.html()).toContain("bye");
+    element = wrapper.getByTestId("NavBar.menuItemEvent")
+    await fireEvent(element,new MouseEvent('click'))
+    expect(wrapper.emitted()).to.haveOwnProperty('menuItemClicked');
+    expect(wrapper.emitted()['menuItemClicked'][0][0]).to.equal('#bye')
+  })  
   it("Displays language menu, with propper current language",async () => {
     const wrapper = render(NavBar, { props: { menu, availableLocales: ['de','en'], locale: 'de' }, 
       global:{ 

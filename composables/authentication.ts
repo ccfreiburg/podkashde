@@ -1,10 +1,11 @@
+import { Ref } from "vue"
 import { SESSION_AP } from "~~/base/Constants"
 import { IUser } from "~~/base/types/IUser"
 import { LOGIN_AP, LOGOUT_AP } from "../base/Constants"
 
 export const useAuthCookie = () => useCookie('auth_token')
 
-export async function useUser(): Promise<IUser> {
+export async function useUser() {
   const authCookie = useAuthCookie().value
   const user = useState<IUser>('user')
 
@@ -19,18 +20,15 @@ export async function useUser(): Promise<IUser> {
       user.value = null
   }
 
-  return user.value
+  return user
 }
 
 export async function userLogout() {
   await useFetch(LOGOUT_AP)
   useState('user').value = null
+  useAuthCookie().value = null
   await useRouter().push('/')
 }
-
-export async function loginAlex() {
-}
-
 
 export async function loginWithEmail(email: string, password: string) {
     const user = await $fetch<IUser>(LOGIN_AP, { method: 'POST', body: { email: email, password: password } })
