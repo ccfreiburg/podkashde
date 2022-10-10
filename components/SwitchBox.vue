@@ -21,6 +21,7 @@
           rounded-2xl
           cursor-pointer
         "
+        @click.prevent="toggle"
         :class="[
           isChecked
             ? 'translate-x-full border-orange-300'
@@ -32,11 +33,12 @@
         id="toggle"
         data-testid="SwitchBox.toggle"
         name="toggle"
+        :disabled="disabled"
         class="w-full h-full appearance-none focus:outline-none"
-        @click="isChecked = !isChecked"
+        @click="toggle"
       />
     </div>
-    <span class="ml-3 text-gray-500 text-sm font-medium">{{ label }}</span>
+    <span data-testid="SwitchBox.label" class="ml-3 text-gray-500 text-sm font-medium">{{ label }}</span>
   </div>
 </template>
 
@@ -46,21 +48,27 @@ import { defineComponent, ref, watch, computed } from "vue";
 export default defineComponent({
   props: {
     checked: Boolean,
+    disabled: Boolean,
     labelChecked: String,
     labelUnChecked: String,
   },
   name: "SwitchBox",
   setup(props, ctx) {
     const isChecked = ref(props.checked);
+    const toggle = () => {
+      if (!props.disabled) isChecked.value=!isChecked.value
+    }
     watch(isChecked, () => {
       ctx.emit("checkedChanged", isChecked.value);
     });
     const label = computed(() => {
-      return (isChecked.value?props.labelChecked:props.labelUnChecked) 
+      return (isChecked.value || !props.labelUnChecked?props.labelChecked:props.labelUnChecked) 
     });
     return {
       isChecked,
+      disabled: props.disabled,
       label,
+      toggle,
     };
   },
 });
