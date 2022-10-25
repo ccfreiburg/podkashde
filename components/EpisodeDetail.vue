@@ -29,114 +29,20 @@ import { booleanLiteral } from "@babel/types";
             @audioFileSelected="audioFileSelected"
             :cssclass="getClass('file')"
           />
-          <div class="flex flex-col mt-3">
-            <label class="pl-2 text-sm text-gray-500" for="serie">{{
-              $t("episodeDetail.label.serie")
-            }}</label>
-            <select
-              :class="getClass('serie')"
-              name="serie_id"
-              v-model="serie_id"
-            >
-              <option v-for="serie in series" :key="serie.id" :value="serie.id">
-                {{ serie.title }}
-              </option>
-            </select>
-          </div>
+          <single-select :name="'serie'" :label="'episodeDetail.label.serie'" :options="series" :errors="errors" v-model:value="fields.serie_id" />
+          <div class="mt-8 text-gray-600 text-ml">{{ podcast.title }}</div>
         </div>
       </div>
-      <div class="text-sm">{{ podcast.title }}</div>
       <!-- Fields-->
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="title">{{
-          $t("episodeDetail.label.title")
-        }}</label>
-        <input
-          :class="getClass('title')"
-          type="text"
-          name="title"
-          v-model="fields.title"
-        />
-      </div>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="subtitle">{{
-          $t("episodeDetail.label.subtitle")
-        }}</label>
-        <input
-          class="field"
-          type="text"
-          name="subtitle"
-          v-model="fields.subtitle"
-        />
-      </div>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="keyword">{{
-          $t("episodeDetail.label.keyword")
-        }}</label>
-        <input
-          class="field"
-          type="text"
-          name="keyword"
-          v-model="fields.keyword"
-        />
-      </div>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="pubdate">{{
-          $t("episodeDetail.label.pubdate")
-        }}</label>
-        <input class="field" type="date" name="pubdate" v-model="pubdateText" />
-      </div>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="duration">{{
-          $t("episodeDetail.label.duration")
-        }}</label>
-        <input
-          class="field"
-          type="text"
-          name="duration"
-          v-model="durationText"
-        />
-      </div>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="slug">{{
-          $t("episodeDetail.label.slug")
-        }}</label>
-        <input :disabled="isEdit" :class="getClass('slug')" type="text" name="slug" v-model="fields.slug" />
-      </div>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="creator">{{
-          $t("episodeDetail.label.creator")
-        }}</label>
-        <input
-          :class="getClass('creator')"
-          type="text"
-          name="creator"
-          @change="generateSlug()"
-          v-model="fields.creator"
-        />
-      </div>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="summary">{{
-          $t("episodeDetail.label.summary")
-        }}</label>
-        <textarea
-          class="textarea h-28"
-          type="text"
-          name="summary"
-          v-model="fields.summary"
-        />
-      </div>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="description">{{
-          $t("episodeDetail.label.description")
-        }}</label>
-        <textarea
-          class="textarea h-28"
-          type="text"
-          name="description"
-          v-model="fields.description"
-        />
-      </div>
+      <input-area :name="'title'" :label="'episodeDetail.label.title'" :errors="errors" v-model:value="fields.title" />
+      <input-area :name="'subtitle'" :label="'episodeDetail.label.subtitle'" :errors="errors" v-model:value="fields.subtitle" />
+      <input-area :name="'keyword'" :label="'episodeDetail.label.keyword'" :errors="errors" v-model:value="fields.keyword" />
+      <input-area :name="'pubdate'" :type="'date'" :label="'episodeDetail.label.pubdate'" :errors="errors" v-model:value="pubdateText" />
+      <input-area :name="'duration'" :label="'episodeDetail.label.duration'" :errors="errors" v-model:value="durationText" />
+      <input-area :name="'slug'" :disabled="isEdit" :label="'episodeDetail.label.slug'" :errors="errors" v-model:value="fields.slug" />
+      <input-area :name="'creator'" :label="'episodeDetail.label.creator'" :errors="errors" v-model:value="fields.creator"/>
+      <input-area :name="'summary'" :type="'textarea'" :label="'episodeDetail.label.summary'" :errors="errors" v-model:value="fields.summary" />
+      <input-area :name="'description'" :type="'textarea'" :label="'episodeDetail.label.description'" :errors="errors" v-model:value="fields.description" />
       <switch-box 
           :checked="fields.block" 
           @checkedChanged="(val)=>fields.block=val" 
@@ -154,7 +60,7 @@ import { booleanLiteral } from "@babel/types";
         <p>{{ $t("episodeDetail.label.errors") }}</p>
         <ul class="ml-5">
           <li class="list-disc" v-for="(err, index) in errors" :key="index">
-            {{ $t("episodeDetail.validation." + err.text) }}
+            {{$t(err.text)}}
           </li>
         </ul>
       </div>
@@ -162,13 +68,8 @@ import { booleanLiteral } from "@babel/types";
       <div class="flex flex-row justify-end">
         <button
           class="
-            mt-5
-            px-5
-            h-10
-            border-2
-            rounded-md
-            bg-gray-300
-            hover:bg-gray-400
+            ccf-button
+            ccf-secondary
           "
           @click="cancel"
         >
@@ -176,22 +77,16 @@ import { booleanLiteral } from "@babel/types";
         </button>
         <button
           v-if="'id' in fields && fields['id'] > 0"
-          class="mt-5 px-5 h-10 border-2 rounded-md bg-red-200 hover:bg-red-400"
+          class="ccf-button ccf-alert"
           @click="remove"
         >
           {{ $t("delete") }}
         </button>
         <button
           class="
-            mt-5
-            ml-5
-            px-5
-            h-10
-            border-2
-            rounded-md
-            bg-orange-300
-            hover:bg-orange-400
-          "
+            ccf-button
+            ccfbutton-border
+           "
           @click="save"
         >
           {{ $t("episodeDetail.saveEpisode") }}
@@ -217,6 +112,7 @@ import AudioFileMetadata from "~~/base/types/AudioFileMetadata";
 import ImageMetadata from "~~/base/types/ImageMetadata";
 import IValidationError from "~~/base/types/IValidationError";
 import { COUNT_AP, EPISODE_AP, FILES_AP, SERVER_IMG_PATH, SERVER_MP3_PATH, UPLOAD_AP } from "~~/base/Constants";
+import IEnumerator from "~~/base/types/IEnumerator";
 
 export default defineComponent({
   props: {
@@ -232,7 +128,7 @@ export default defineComponent({
     const isEdit = computed(() => (fields.value as any).id != undefined);
 
     function generateSlug(){
-      if (!isEdit && fields.value.title)
+      if (!isEdit.value && fields.value.title)
         fields.value.slug = saveSlugFormText(fields.value.title);
     };
 
@@ -408,6 +304,7 @@ export default defineComponent({
       pubdateText,
       errors,
       getClass,
+      series: props.series.map((s) => {return { "id": s.id, "displaytext": s.title } as Partial<IEnumerator>}),
       save,
       remove,
       cancel,

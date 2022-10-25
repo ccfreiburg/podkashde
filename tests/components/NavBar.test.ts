@@ -2,7 +2,6 @@ import { describe, it, expect, vitest, beforeAll } from "vitest"
 import { fireEvent, render } from "@testing-library/vue"
 import NavBar from "../../components/NavBar.vue"
 import { defineComponent } from "vue"
-import { not } from "@vueuse/core"
 
 
 const Tick = async () => await new Promise(r => setTimeout(r)) 

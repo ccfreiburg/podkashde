@@ -109,10 +109,35 @@
   background: linear-gradient(90deg, #efd934, #f49c03, #f49c03, #c99d1a) -0px var(--y-pos, 65%) / 40px var(--size, 8px) no-repeat;
 }
 
+.ccf-button {
+  @apply mt-5
+    ml-3
+    px-5
+    h-10
+    rounded-md;
+}
 
-.field {
+.ccf-primary {
+  @apply bg-orange-300
+    hover:bg-orange-400
+    border-2;
+}
+
+.ccf-alert {
+  @apply bg-red-300
+    hover:bg-red-400
+    border-2;
+}
+
+.ccf-secondary {
+  @apply 
+    bg-gray-300
+    hover:bg-gray-400
+    border-2;
+}
+
+.ccf-input {
     @apply border-2
-           h-10
            px-3
            py-1
                 mt-1
@@ -121,18 +146,20 @@
                 valid:border-gray-200
                 focus:outline-none focus:ring-1 focus:ring-orange-300;
   }
+.ccf-field {
+    @apply ccf-input
+          h-10;
+}
+.ccf-textarea {
+  @apply ccf-input
+        h-28;
+}
 
-  .error {
-    @apply ring-orange-700 ring-1;
-  }
+.ccf-error {
+    @apply ring-1 ring-orange-600 
+          focus:ring-2 focus:ring-orange-600;
+}
 
-  .textarea {
-    @apply border-2
-                px-3
-                py-1
-                mt-1
-                rounded-md
-                text-gray-600
-                border-gray-200
-                focus:outline-none focus:ring-1 focus:ring-orange-300;
-  }
+.ccf-text-error {
+    @apply text-orange-700 text-sm pl-2;
+}

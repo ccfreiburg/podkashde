@@ -41,8 +41,9 @@
 </template>
 
 <script lang="ts">
-import { REQUIRED_IMG_HEIGHT, REQUIRED_IMG_WIDTH } from "~~/base/Constants";
-import ImageMetadata from "~~/base/types/ImageMetadata";
+import { REQUIRED_IMG_HEIGHT, REQUIRED_IMG_WIDTH } from "../base/Constants";
+import { defineComponent, ref, watch, computed } from "vue";
+import ImageMetadata from "../base/types/ImageMetadata";
 export default defineComponent({
   props: {
     filename: String,

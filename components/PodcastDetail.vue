@@ -18,214 +18,58 @@
     <image-selector :filename="fields.cover_file" @imageSelected="imageSelected" />
     <!-- Fields-->
     <div class="flex flex-col">
-      <div class="flex flex-col">
-        <label class="pl-2 text-sm text-gray-500" for="title">{{
-          $t("podcastDetail.label.title")
-        }}</label>
-        <input
-          :class="getClass('title')"
-          type="text"
-          name="title"
-          v-model="fields.title"
-        />
-      </div>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="subtitle">{{
-          $t("podcastDetail.label.subtitle")
-        }}</label>
-        <input
-          class="field"
-          type="text"
-          name="subtitle"
-          v-model="fields.subtitle"
-        />
-      </div>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="slug">{{
-          $t("podcastDetail.label.slug")
-        }}</label>
-        <input class="field" type="text" name="slug" v-model="fields.slug" />
-      </div>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="author">{{
-          $t("podcastDetail.label.author")
-        }}</label>
-        <input
-          :class="getClass('author')"
-          type="text"
-          name="author"
-          v-model="fields.author"
-        />
-      </div>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="summary">{{
-          $t("podcastDetail.label.summary")
-        }}</label>
-        <textarea
-          class="textarea h-28"
-          type="text"
-          name="summary"
-          v-model="fields.summary"
-        />
-      </div>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="description">{{
-          $t("podcastDetail.label.description")
-        }}</label>
-        <textarea
-          class="textarea h-28"
-          type="text"
-          name="description"
-          v-model="fields.description"
-        />
-      </div>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="language">{{
-          $t("podcastDetail.label.language")
-        }}</label>
-        <select
-          :class="getClass('language')"
-          name="language_id"
-          v-model="fields.language_id"
-        >
-          <option
-            v-for="langOption in enumerations.languages"
-            :key="langOption.enumvalue_id"
-            :value="langOption.enumvalue_id"
-          >
-            {{ langOption.displaytext }}
-          </option>
-        </select>
-      </div>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="category">{{
-          $t("podcastDetail.label.category")
-        }}</label>
-        <select
-          :class="getClass('category')"
-          name="category_id"
-          v-model="fields.category_id"
-        >
-          <option
-            v-for="categoryOption in enumerations.podcastGenres"
-            :key="categoryOption.enumvalue_id"
-            :value="categoryOption.enumvalue_id"
-          >
-            {{ categoryOption.parentCategory }} -
-            {{ categoryOption.displaytext }}
-          </option>
-        </select>
-      </div>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="type">{{
-          $t("podcastDetail.label.type")
-        }}</label>
-        <select
-          :class="getClass('type')"
-          name="type_id"
-          v-model="fields.type_id"
-        >
-          <option
-            v-for="typeOption in enumerations.podcastTypes"
-            :key="typeOption.enumvalue_id"
-            :value="typeOption.enumvalue_id"
-          >
-            {{ typeOption.displaytext }}
-          </option>
-        </select>
-      </div>
-        <switch-box 
+      <input-area :name="'title'" :label="'podcastDetail.label.title'" :errors="errors" v-model:value="fields.title" />
+      <input-area :name="'subtitle'" :label="'podcastDetail.label.subtitle'" :errors="errors" v-model:value="fields.subtitle" />
+      <input-area :name="'slug'" :label="'podcastDetail.label.slug'" :errors="errors" v-model:value="fields.slug" />
+      <input-area :name="'author'" :label="'podcastDetail.label.author'" :errors="errors" v-model:value="fields.author" />
+      <input-area :name="'summary'" :type="'textarea'" :label="'podcastDetail.label.summary'" :errors="errors" v-model:value="fields.summary" />
+      <input-area :name="'description'" :type="'textarea'" :label="'podcastDetail.label.description'" :errors="errors" v-model:value="fields.description" />
+      <single-select :name="'language'" :label="'podcastDetail.label.language'" :options="enumerations.languages" :errors="errors" v-model:value="fields.language_id" />
+      <single-select :name="'category'" :label="'podcastDetail.label.category'" :options="enumerations.podcastGenres" :errors="errors" :long="true" v-model:value="fields.category_id" />
+      <single-select :name="'type'" :label="'podcastDetail.label.type'" :options="enumerations.podcastTypes" :errors="errors" v-model:value="fields.type_id" />
+      <div class="my-3"> 
+      <switch-box 
           :checked="fields.explicit" 
           @checkedChanged="(val)=>fields.explicit=val" 
           :labelChecked="$t('podcastDetail.label.explicit_true')"
           :labelUnChecked="$t('podcastDetail.label.explicit_false')"
         />
+      </div>
+      <input-area :name="'link'" :label="'podcastDetail.label.link'" :errors="errors" v-model:value="fields.link" />
+      <input-area :name="'copyright'" :label="'podcastDetail.label.copyright'" :errors="errors" v-model:value="fields.copyright" />
+      <input-area :name="'owner_name'" :label="'podcastDetail.label.owner_name'" :errors="errors" v-model:value="fields.owner_name" />
+      <input-area :name="'owner_email'" :label="'podcastDetail.label.owner_email'" :errors="errors" v-model:value="fields.owner_email" />
 
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="author">{{
-          $t("podcastDetail.label.link")
-        }}</label>
-        <input
-          :class="getClass('link')"
-          type="text"
-          name="link"
-          v-model="fields.link"
-        />
-      </div>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="copyright">{{
-          $t("podcastDetail.label.copyright")
-        }}</label>
-        <input
-          class="field"
-          type="text"
-          name="copyright"
-          v-model="fields.copyright"
-        />
-      </div>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="owner_name">{{
-          $t("podcastDetail.label.owner_name")
-        }}</label>
-        <input
-          :class="getClass('owner_name')"
-          type="text"
-          name="owner_name"
-          v-model="fields.owner_name"
-        />
-      </div>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" for="owner_email">{{
-          $t("podcastDetail.label.owner_email")
-        }}</label>
-        <input
-          :class="getClass('title')"
-          type="text"
-          name="owner_email"
-          v-model="fields.owner_email"
-        />
-      </div>
       <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
         <p>{{ $t("podcastDetail.label.errors") }}</p>
         <ul class="ml-5">
           <li class="list-disc" v-for="(err, index) in errors" :key="index">
-            {{ $t("podcastDetail.validation." + err.text) }}
+            {{ $t(err.text) }}
           </li>
         </ul>
       </div>
       <!-- Buttons -->
       <div class="flex flex-row justify-end">
         <button
-          class="
-            mt-5
-            px-5
-            h-10
-            border-2
-            rounded-md
-            bg-gray-300
-            hover:bg-gray-400
-          "
+          class="ccf-button ccf-secondary"
           @click="cancel"
         >
           {{ $t("cancel") }}
         </button>
         <button
           v-if="fields.id && fields.id > 0"
-          class="mt-5 px-5 h-10 border-2 rounded-md bg-red-200 hover:bg-red-400"
+          class="
+            ccf-button
+            ccf-alert 
+          "
           @click="deletePodcast"
         >
           {{ $t("delete") }}
         </button>
         <button
           class="
-            mt-5
-            ml-5
-            px-5
-            h-10
-            border-2
-            rounded-md
-            bg-orange-300
-            hover:bg-orange-400
+            ccf-button
+            ccfbutton-border
           "
           @click="savePodcast"
         >
@@ -260,13 +104,17 @@ export default defineComponent({
       return fields.value.id && fields.value.id;
     })
 
-    function hasError(fieldname) {
-      return errors.value.find((error) => error.field === fieldname);
+    function hasError(errors, fieldname) {
+      return errors.find((error) => error.field === fieldname);
+    }
+    function getError(errors, fieldname) {
+      const err = hasError(errors.value, fieldname)
+      return err || ""
     }
 
     function getClass(fieldname) {
       var cssclass = "field";
-      if (hasError(fieldname)) {
+      if (hasError(errors.value, fieldname)) {
         cssclass = "field error";
       }
       return cssclass;
@@ -348,6 +196,7 @@ export default defineComponent({
       fields,
       enumerations,
       hasError,
+      getError,
       isEdit,
       getClass,
       imageSelected,
@@ -359,30 +208,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="postcss" scoped>
-.field {
-  @apply border-2
-              h-10
-              px-3
-              py-1
-              mt-1
-              rounded-md
-              text-gray-600
-              valid:border-gray-200
-              focus:outline-none focus:ring-1 focus:ring-orange-300;
-}
-.error {
-  @apply ring-orange-700 ring-1;
-}
-.textarea {
-  @apply border-2
-              px-3
-              py-1
-              mt-1
-              rounded-md
-              text-gray-600
-              border-gray-200
-              focus:outline-none focus:ring-1 focus:ring-orange-300;
-}
-</style>

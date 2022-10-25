@@ -128,11 +128,11 @@
       <h1 class="text-xl">{{ $t("import.options") }}</h1>
       <div class="flex flex-col sm:flex-row justify-end content-between">
         <div class="flex flex-col">
-          <switch-box :checked="optionImportMp3s" @checkedChanged="(val) => optionImportMp3s = val"
+          <switch-box :checked="isCheckedImportMp3s" @checkedChanged="(val) => isCheckedImportMp3s = val"
             :labelChecked="$t('import.importMp3s')" />
-          <switch-box :checked="optionImportCovers" @checkedChanged="(val) => optionImportCovers = val"
+          <switch-box :checked="isCheckedImportCovers" @checkedChanged="(val) => isCheckedImportCovers = val"
             :labelChecked="$t('import.importCoverImages')" />
-          <switch-box :checked="optionImportMetadata" @checkedChanged="(val) => optionImportMetadata = val"
+          <switch-box :checked="isCheckedImportMetadata" :disabled="!isEnabledMetadata" @checkedChanged="(val) => isCheckedImportMetadata = val"
             :labelChecked="$t('import.importMetadata')" />
         </div>
         <div class="flex-grow"></div>
@@ -193,9 +193,11 @@ const wpPodcastEpisodesCount = ref(new Array<number>());
 const wpMetadata = ref(new WpMetadata())
 const statusLog = ref([]);
 const { refresh, enumerations } = await useEnumerations();
-const optionImportMp3s = ref(false)
-const optionImportCovers = ref(false)
-const optionImportMetadata = ref(true)
+const isCheckedImportMp3s = ref(false)
+const isCheckedImportCovers = ref(false)
+const isEnabledMetadata = ref(enumerations.authors.length<1 || enumerations.tags.length<1)
+const isCheckedImportMetadata = ref(isEnabledMetadata.value)
+
 var checkedSeries = [];
 var wpPodcastEpisodes = [];
 
@@ -225,7 +227,7 @@ async function importSeries() {
     wpMetadata.value.series.filter(
       (serie: IWpKeyValue) => !wpPodcasts.value.find((podcast) => podcast.id == serie.id)
     ))
-  if (optionImportCovers.value) {
+  if (isCheckedImportCovers.value) {
     for await (var serie of pk_series) {
       serie.cover_file = await downloadFile(SERVER_IMG_PATH, SERIES_IMG_PATH, serie.cover_file)
     }
@@ -277,7 +279,7 @@ async function fetchFile(
 async function importPodcast(podcast: any) {
   statusLog.value.push({ message: "Saving podcast " + podcast.title + " to server" })
   var podkashde = podcastFromWpMetadata(podcast, enumerations)
-  if (optionImportCovers.value)
+  if (isCheckedImportCovers.value)
     podkashde.cover_file = await downloadFile(SERVER_IMG_PATH, podkashde.slug, podkashde.cover_file)
   console.log("Done " + podkashde.cover_file)
   await post<IPodcast>(PODCAST_AP, podkashde)
@@ -290,13 +292,13 @@ async function importPodcast(podcast: any) {
       enumerations
     )
     console.log(pk_episode)
-    if (optionImportCovers.value) {
+    if (isCheckedImportCovers.value) {
       if (pk_episode.image)
         pk_episode.image = await downloadFile(SERVER_IMG_PATH, podkashde.slug, pk_episode.image, SERIES_IMG_PATH)
       if (pk_episode.postimage)
         pk_episode.postimage = await downloadFile(SERVER_POSTIMG_PATH, podkashde.slug, pk_episode.postimage)
     }
-    if (optionImportMp3s.value)
+    if (isCheckedImportMp3s.value)
       pk_episode.link = await downloadFile(SERVER_MP3_PATH, podkashde.slug, pk_episode.link)
     console.log("Dome")
     statusLog.value.push({ message: "Saving episode " + pk_episode.title + " to server" })
@@ -341,7 +343,7 @@ async function loadPreview() {
 async function importAll() {
   statusLog.value = [];
   loading.value = true;
-  if (optionImportMetadata.value) {
+  if (isCheckedImportMetadata.value) {
     importEnums();
     importSeries();
   }

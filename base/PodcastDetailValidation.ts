@@ -2,12 +2,14 @@ import { REQUIRED_IMG_WIDTH, REQUIRED_IMG_HEIGHT } from '../base/Constants';
 import IPodcast from './types/IPodcast';
 import IValidationError from './types/IValidationError';
 
+const i18nstructure = "podcastDetail.validation.";
+
 function nonEmpty(fields: Partial<IPodcast>, key: string, errors: Array<IValidationError>) {
-  if (!fields[key] || fields[key].length < 1) errors.push({ field: key, text: key });
+  if (!fields[key] || fields[key].length < 1) errors.push({ field: key, text: i18nstructure+key });
 }
 
 function selectionEmpty(fields: Partial<IPodcast>, key: string, errors: Array<IValidationError>) {
-  if (!fields[key + '_id'] || fields[key + '_id'] < 0) errors.push({ field: key, text: key });
+  if (!fields[key + '_id'] || fields[key + '_id'] < 0) errors.push({ field: key, text: i18nstructure+key });
 }
 
 function email(fields: Partial<IPodcast>, errors: Array<IValidationError>) {
@@ -16,14 +18,14 @@ function email(fields: Partial<IPodcast>, errors: Array<IValidationError>) {
   if (!fields["owner_email"] || fields.owner_email.length < 1 || re.test(fields.owner_email) == false)
     errors.push({
       field: 'owner_email',
-      text: 'owner_email',
+      text: i18nstructure+'owner_email',
     });
 }
 function link(fields: Partial<IPodcast>, errors: Array<IValidationError>) {
   var re =
     /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
   if (!fields['link'] || fields.link.length < 1 || re.test(fields.link) == false)
-    errors.push({ field: 'link', text: 'link' });
+    errors.push({ field: 'link', text: i18nstructure+'link' });
 }
 
 export default function validation(
@@ -38,7 +40,7 @@ export default function validation(
   )
     errors.push({
       field: 'img',
-      text: 'img',
+      text: i18nstructure+'img',
     });
   nonEmpty(fields, 'title', errors);
   nonEmpty(fields, 'author', errors);
