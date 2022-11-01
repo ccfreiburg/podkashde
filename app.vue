@@ -28,6 +28,11 @@ function getMenu(loggedin) : Array<IMenuSection> {
               slug: "/",
               name: i18n.t("menu.list"),
             },
+            {
+              id: id++,
+              slug: "/serie",
+              name: i18n.t("menu.series"),
+            }
           ],
         },
       ];
@@ -50,18 +55,18 @@ function getMenu(loggedin) : Array<IMenuSection> {
         });
         menu[1].entries.push({
           id: id++,
-          slug: "/admin/new-podcast",
-          name: i18n.t("menu.new"),
-        });
-        menu[1].entries.push({
-          id: id++,
           slug: "/",
           name: i18n.t("menu.recent"),
         });
         menu[1].entries.push({
           id: id++,
-          slug: "/",
-          name: i18n.t("menu.series"),
+          slug: "/admin/new-podcast",
+          name: i18n.t("menu.new"),
+        });
+        menu[1].entries.push({
+          id: id++,
+          slug: "/admin/new-serie",
+          name: i18n.t("menu.newseries"),
         });
       }
   return menu;

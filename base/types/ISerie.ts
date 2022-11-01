@@ -2,10 +2,10 @@ import { ContentState } from "./ContentState";
 
 export default interface ISerie {
   id?: number;
-  description: string;
   title: string;
   subtitle: string;
   slug: string;
+  description: string;
   cover_file: string;
   state: number;
   external_id?: number;

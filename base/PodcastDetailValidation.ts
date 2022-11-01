@@ -2,7 +2,7 @@ import { REQUIRED_IMG_WIDTH, REQUIRED_IMG_HEIGHT } from '../base/Constants';
 import IPodcast from './types/IPodcast';
 import IValidationError from './types/IValidationError';
 
-const i18nstructure = "podcastDetail.validation.";
+const i18nstructure = "podcast.validation.";
 
 function nonEmpty(fields: Partial<IPodcast>, key: string, errors: Array<IValidationError>) {
   if (!fields[key] || fields[key].length < 1) errors.push({ field: key, text: i18nstructure+key });

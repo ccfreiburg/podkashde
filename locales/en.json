@@ -12,6 +12,7 @@
     "list": "List of podcasts",
     "new": "Start a new podcast",
     "series": "List of series",
+    "newseries": "Start a new series",
     "recent": "Recent episodes"
   },
   "login": {
@@ -20,9 +21,9 @@
     "password": "Password",
     "submit": "Log me in"
   },
-  "podcastDetail": {
-    "newPodcast": "New Podcast",
-    "editPodcast": "Edit Podcast",
+  "podcast": {
+    "new": "New Podcast",
+    "edit": "Edit Podcast",
     "addImage": "click to add image",
     "label": {
       "img": "click to add image",
@@ -57,9 +58,9 @@
     },
     "savePodcast": "Save Podcast"
   },
-  "episodeDetail": {
-    "newEpisode": "New Episode",
-    "editEpisode": "Edit Episode",
+  "episode": {
+    "new": "New Episode",
+    "edit": "Edit Episode",
     "addImage": "klicken um Bild hinzuzufügen",
     "label": {
       "file": "Audio File",
@@ -91,6 +92,24 @@
       "saving": "Could not save the episode"
     },
     "saveEpisode": "Save Episode"
+  },
+  "serie": {
+    "new": "New Series",
+    "edit": "Edit Series",
+    "label": {
+      "img": "klicken um Bild hinzuzufügen",
+      "title": "Title",
+      "subtitle": "Sub Title",
+      "slug": "Slug",
+      "description": "Description",
+      "errors": "Pleas correct the following issues:"
+    },
+    "validation": {
+      "img": "Please select an image with the exact dimensions of 1400x1400 pixel",
+      "title": "Please enter a title",
+      "slug": "Please enter an unique slug for the static episode Url",
+    },
+    "save": "Save Serie"
   },
   "import": {
     "title": "Import from WordPress",

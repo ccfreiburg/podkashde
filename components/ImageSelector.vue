@@ -20,7 +20,7 @@
         class="flex flex-col h-full w-full justify-center bg-slate-200"
       >
         <div class="text-gray-500 text-center">
-          {{ $t("podcastDetail.label.img") }}
+          {{ $t("podcast.label.img") }}
         </div>
       </div>
       <div v-else @click="removeImage" class="text-red-500 text-right mr-2">

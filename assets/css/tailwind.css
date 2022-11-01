@@ -96,6 +96,14 @@
     background-size: var(--size) + 5px;
 }
 
+.ccfplay{   
+  /* background: rgb(239,170,34); */
+  background: linear-gradient(135deg, rgba(239,170,34,1) 0%, rgba(239,170,34,1) 36%, rgba(218,109,41,1) 65%, rgba(218,109,41,1) 100%);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: var(--size) + 5px;
+}
+
 .ccfunderline{   
   /* background: rgb(239,170,34); */
   background: linear-gradient(90deg, rgba(239,170,34,1) 0%, rgba(239,170,34,1) 36%, rgba(218,109,41,1) 65%, rgba(218,109,41,1) 100%);

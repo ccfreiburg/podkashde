@@ -22,9 +22,10 @@ sprints:
 
 ## Todo
 
-- [import-status](tasks/import-status.md)
-- [create-new-series](tasks/create-new-series.md)
 - [add-player-to-episode-page](tasks/add-player-to-episode-page.md)
+- [generate-rss-xml](tasks/generate-rss-xml.md)
+- [design-überarbeiten](tasks/design-überarbeiten.md)
+- [import-status](tasks/import-status.md)
 - [bug-episdoe-detail-overwrites-date](tasks/bug-episdoe-detail-overwrites-date.md)
 - [bug-episode-detail-generate-slug-does-not-work](tasks/bug-episode-detail-generate-slug-does-not-work.md)
 - [404-page](tasks/404-page.md)
@@ -32,9 +33,10 @@ sprints:
 - [veröffentlichungsstatus-für-podcasts-serien-und-episoden](tasks/veröffentlichungsstatus-für-podcasts-serien-und-episoden.md)
 - [testing-konzept](tasks/testing-konzept.md)
 - [reload-when-returning-to-podcast-page](tasks/reload-when-returning-to-podcast-page.md)
-- [generate-rss-xml](tasks/generate-rss-xml.md)
 
 ## In Progress
+
+- [create-new-series](tasks/create-new-series.md)
 
 ## Done
 

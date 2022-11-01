@@ -1,28 +1,46 @@
 <template>
-  <div class="m-10">
-    <div class="flex flex-col">
-      <div class="flex flex-row" v-for="(episode, index) in sortedFilteredList" :key="index">
-        <NuxtLink :to="episode.nuxtlink">
-          <div class="flex flex-row m-2">
-            <img class="w-16 h-16 rounded-l-md" :src="episode.image" />
-            <div class="text-sm flex flex-col ml-3">
-              <div v-html="episode.title"></div>
-              <div class="mt-1" v-html="episode.creator"></div>
-              <div>
-                {{ episode.datestring }}
-              </div>
-            </div>
+  <div class="mt-4 flex flex-col">
+    <div
+      class="flex flex-col"
+      v-for="(episode, index) in sortedFilteredList"
+      :key="index"
+    >
+      <NuxtLink :to="episode.nuxtlink">
+        <div class="my-1 px-4 py-2 hover:bg-slate-100 rounded-xl flex flex-row place-items-center">
+          <div class="w-2/12">
+            <img class="h-16" :src="episode.image" />
           </div>
-        </NuxtLink>
-      </div>
+          <div class="w-4/12">{{episode.title}}</div>
+          <div class="mt-1 w-3/12">{{episode.creator}}</div>
+          <div class="w-2/12">{{ episode.datestring }}</div>
+          <div class="w-1/12 flex justify-end">
+            <button class="ccfplay rounded-2xl h-8 w-8">
+              <div class="h-8 w-8 flex items-center justify-center">
+                <svg
+                  class="h-5 w-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </button>
+          </div>
+        </div>
+      </NuxtLink>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { tSImportType } from "@babel/types";
-import { PropType } from "vue";
-import IEpisode from "~~/base/types/IEpisode";
+import { tSImportType } from '@babel/types';
+import { PropType } from 'vue';
+import IEpisode from '~~/base/types/IEpisode';
 
 interface IDisplayEpisode extends IEpisode {
   nuxtlink: string;
@@ -34,29 +52,32 @@ export default {
   props: {
     episodes: Object as PropType<Array<IEpisode>>,
   },
-  name: "PodcastEpisodes",
+  name: 'PodcastEpisodes',
   setup(props) {
-    
-    const dateformat = (input: Date) : string => input.toLocaleDateString();
+    const dateformat = (input: Date): string => input.toLocaleDateString();
 
-    function expandAndFilter(list : Array<IEpisode>) : Array<IDisplayEpisode> {
-      if (!list || list.length<1) 
-        return [];
-      const filter = (e)=>true
-      return list.filter(filter).map((e)=> {
-          const date = new Date(e.pubdate)
-         return { 
-          ...e, 
-          nuxtlink: "/" + e.slug,
+    function expandAndFilter(list: Array<IEpisode>): Array<IDisplayEpisode> {
+      if (!list || list.length < 1) return [];
+      const filter = (e) => true;
+      return list.filter(filter).map((e) => {
+        const date = new Date(e.pubdate);
+        return {
+          ...e,
+          nuxtlink: '/' + e.slug,
           sortdate: date,
           datestring: date.toLocaleDateString(),
-          }
-        });
+        };
+      });
     }
-    function sortList(list : Array<IDisplayEpisode>) : Array<IDisplayEpisode> {
-      return list.sort((a : IDisplayEpisode, b : IDisplayEpisode) => (b.sortdate.valueOf() - a.sortdate.valueOf()))
+    function sortList(list: Array<IDisplayEpisode>): Array<IDisplayEpisode> {
+      return list.sort(
+        (a: IDisplayEpisode, b: IDisplayEpisode) =>
+          b.sortdate.valueOf() - a.sortdate.valueOf()
+      );
     }
-    const sortedFilteredList = computed(() => sortList(expandAndFilter(props.episodes)))
+    const sortedFilteredList = computed(() =>
+      sortList(expandAndFilter(props.episodes))
+    );
     return {
       sortedFilteredList,
     };

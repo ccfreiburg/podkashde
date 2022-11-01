@@ -7,6 +7,8 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import IPodcast, { emptyIPodcastFactory } from '../../../base/types/IPodcast';
 import Episode, { getEpisode } from './Episode';
@@ -118,10 +120,11 @@ export default class Podcast extends BaseEntity implements IPodcast {
   })
   episodes: Episode[];
 
-  @OneToMany(() => Serie, (serie) => serie.podcast, {
+  @ManyToMany(() => Serie, (serie) => serie.podcasts, {
     cascade: true,
     onDelete: 'CASCADE',
   })
+  @JoinTable()
   series: Serie[];
 
   @CreateDateColumn({ type: 'datetime' })

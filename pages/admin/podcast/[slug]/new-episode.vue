@@ -7,6 +7,7 @@ const route = useRoute();
 const router = useRouter();
 const slug = route.params.slug as string
 const {podcast, series} = await usePodcast(slug);
+const {series: allseries} = await useSeries();
 const episode = ref(emptyIEpisodeFactory());
 function onsave() {
   router.push("/podcast/" + slug+ "?refresh=true");
@@ -17,6 +18,6 @@ function oncancel() {
 </script>
 <template>
     <div>
-        <episode-detail :podcast="podcast" :episode="episode" :series="series" />
+        <episode-detail :podcast="podcast" :episode="episode" :series="allseries" />
     </div>
 </template>

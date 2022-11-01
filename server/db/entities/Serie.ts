@@ -3,11 +3,11 @@ import {
   Column,
   Entity,
   OneToMany,
-  ManyToOne,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   DeleteDateColumn,
   UpdateDateColumn,
+  ManyToMany,
 } from "typeorm";
 import { ContentState } from "../../../base/types/ContentState";
 import Episode from "./Episode";
@@ -71,8 +71,8 @@ export default class Serie extends BaseEntity {
   @OneToMany(() => Episode, (episode) => episode.podcast)
   episodes: Episode[];
 
-  @ManyToOne(() => Podcast, (podcast) => podcast.series)
-  podcast: Podcast;
+  @ManyToMany(() => Podcast, (podcast) => podcast.series)
+  podcasts: Podcast[];
 
   @CreateDateColumn({ type: "datetime" })
   public createdAt: Date;

@@ -8,7 +8,7 @@
     >
       <div
         v-if="show"
-        class="absolute top-20 z-50 bg-white w-full shadow-md"
+        class="absolute top-10 md:top-16 z-50 bg-white w-full shadow-md"
       >
         <!-- v-show="show" -->
         <div
@@ -51,12 +51,11 @@
         <div></div>
       </div>
     </transition>
-    <nav class="px-4 sm:px-10 py-4 bg-white sticky top-0 shadow-md">
-      <div class="relative flex justify-between">
-        <div class="flex flex-row">
-          <div class="mt-4 mr-2">
+    <nav class="px-2 md:px-4 bg-white sticky top-0 shadow-md">
+      <div class="h-10 md:h-16 relative flex flex-row justify-between content-center place-content-center place-items-center">
+        <div class="w-26 flex flex-row justify-start place-items-center">
             <svg
-              class="w-5 h-5"
+              class="w-4 h-4 align-middle"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -69,9 +68,8 @@
                 d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
               ></path>
             </svg>
-          </div>
           <select
-            class="bg-white mt-1 h-10 border-none"
+            class="bg-white border-none h-5 text-sm"
             name="language_id"
             data-testid="NavBar.localeSelect" 
             v-model="currentLocale"
@@ -86,40 +84,24 @@
             </option>
           </select>
         </div>
-        <div class="flex-grow content-center text-center align-middle">
-          <nuxt-link class="inline-block" to="/">
-            <img src="/assets/img/logo.png" class="h-14 m-1" />
+        <div class="flex-grow flex flex-row place-content-center">
+          <nuxt-link class="text-center inline-block" to="/">
+            <img src="/assets/img/logo.png" class="h-6 md:h-10" />
           </nuxt-link>
         </div>
+        <div class="w-20"></div>
         <div
           class="
-            pt-3
-            ^
-            text-gray-500
-            w-14
-            h-14
-            justify-center
-            items-center
+            text-gray-700
             hover:text-orange-500
           "
           data-testid="NavBar.clickableElement"
           @click="switchDropdown"
         >
-          <svg v-if="!show"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-            />
+          <svg v-if="!show" class="h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
           </svg>
-          <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+          <svg v-else class="h-6  block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </div>

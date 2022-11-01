@@ -11,6 +11,7 @@ export const UPLOAD_AP = '/api/upload';
 export const UPLOAD_TEMP_PATH = 'upload/';
 export const FETCHLOCAL_AP = '/api/fetchfile';
 export const SERIES_AP = '/api/series';
+export const SERIE_AP = '/api/serie';
 export const PODCAST_AP = '/api/podcast';
 export const PODCASTS_AP = '/api/podcasts';
 export const EPISODES_AP = '/api/episodes';

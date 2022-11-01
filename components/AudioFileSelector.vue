@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col mt-3" @click="audioFileInput.click()">
     <label class="pl-2 text-sm text-gray-500" for="file">{{
-      $t("episodeDetail.label.file")
+      $t("episode.label.file")
     }}</label>
     <input
       :class="cssclass"

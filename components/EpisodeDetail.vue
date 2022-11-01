@@ -9,8 +9,8 @@ import { booleanLiteral } from "@babel/types";
       <h1 class="text-2xl text-center">
         {{
           isEdit
-            ? $t("episodeDetail.editEpisode")
-            : $t("episodeDetail.newEpisode")
+            ? $t("episode.edit")
+            : $t("episode.new")
         }}
       </h1>
     </div>
@@ -29,35 +29,35 @@ import { booleanLiteral } from "@babel/types";
             @audioFileSelected="audioFileSelected"
             :cssclass="getClass('file')"
           />
-          <single-select :name="'serie'" :label="'episodeDetail.label.serie'" :options="series" :errors="errors" v-model:value="fields.serie_id" />
+          <single-select :name="'serie'" :label="'episode.label.serie'" :options="series" :errors="errors" v-model:value="serie_id"/>
           <div class="mt-8 text-gray-600 text-ml">{{ podcast.title }}</div>
         </div>
       </div>
       <!-- Fields-->
-      <input-area :name="'title'" :label="'episodeDetail.label.title'" :errors="errors" v-model:value="fields.title" />
-      <input-area :name="'subtitle'" :label="'episodeDetail.label.subtitle'" :errors="errors" v-model:value="fields.subtitle" />
-      <input-area :name="'keyword'" :label="'episodeDetail.label.keyword'" :errors="errors" v-model:value="fields.keyword" />
-      <input-area :name="'pubdate'" :type="'date'" :label="'episodeDetail.label.pubdate'" :errors="errors" v-model:value="pubdateText" />
-      <input-area :name="'duration'" :label="'episodeDetail.label.duration'" :errors="errors" v-model:value="durationText" />
-      <input-area :name="'slug'" :disabled="isEdit" :label="'episodeDetail.label.slug'" :errors="errors" v-model:value="fields.slug" />
-      <input-area :name="'creator'" :label="'episodeDetail.label.creator'" :errors="errors" v-model:value="fields.creator"/>
-      <input-area :name="'summary'" :type="'textarea'" :label="'episodeDetail.label.summary'" :errors="errors" v-model:value="fields.summary" />
-      <input-area :name="'description'" :type="'textarea'" :label="'episodeDetail.label.description'" :errors="errors" v-model:value="fields.description" />
+      <input-area :name="'title'" :label="'episode.label.title'" :errors="errors" v-model:value="fields.title" />
+      <input-area :name="'subtitle'" :label="'episode.label.subtitle'" :errors="errors" v-model:value="fields.subtitle" />
+      <input-area :name="'keyword'" :label="'episode.label.keyword'" :errors="errors" v-model:value="fields.keyword" />
+      <input-area :name="'pubdate'" :type="'date'" :label="'episode.label.pubdate'" :errors="errors" v-model:value="pubdateText" />
+      <input-area :name="'duration'" :label="'episode.label.duration'" :errors="errors" v-model:value="durationText" />
+      <input-area :name="'slug'" :disabled="isEdit" :label="'episode.label.slug'" :errors="errors" v-model:value="fields.slug" />
+      <input-area :name="'creator'" :label="'episode.label.creator'" :errors="errors" v-model:value="fields.creator"/>
+      <input-area :name="'summary'" :type="'textarea'" :label="'episode.label.summary'" :errors="errors" v-model:value="fields.summary" />
+      <input-area :name="'description'" :type="'textarea'" :label="'episode.label.description'" :errors="errors" v-model:value="fields.description" />
       <switch-box 
           :checked="fields.block" 
           @checkedChanged="(val)=>fields.block=val" 
-          :labelChecked="$t('episodeDetail.label.block_true')"
-          :labelUnChecked="$t('episodeDetail.label.block_false')"
+          :labelChecked="$t('episode.label.block_true')"
+          :labelUnChecked="$t('episode.label.block_false')"
        />
       <switch-box 
           :checked="fields.explicit" 
           @checkedChanged="(val)=>fields.explicit=val" 
-          :labelChecked="$t('episodeDetail.label.explicit_true')"
-          :labelUnChecked="$t('episodeDetail.label.explicit_false')"
+          :labelChecked="$t('episode.label.explicit_true')"
+          :labelUnChecked="$t('episode.label.explicit_false')"
        />
 
       <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
-        <p>{{ $t("episodeDetail.label.errors") }}</p>
+        <p>{{ $t("episode.label.errors") }}</p>
         <ul class="ml-5">
           <li class="list-disc" v-for="(err, index) in errors" :key="index">
             {{$t(err.text)}}
@@ -89,7 +89,7 @@ import { booleanLiteral } from "@babel/types";
            "
           @click="save"
         >
-          {{ $t("episodeDetail.saveEpisode") }}
+          {{ $t("episode.saveEpisode") }}
         </button>
       </div>
     </div>
@@ -120,7 +120,7 @@ export default defineComponent({
     podcast: Object as PropType<IPodcast>,
     series: Object as PropType<Array<ISerie>>,
   },
-  name: "EpisodeDetail",
+  name: "episode",
   async setup(props, { emit }) {
     const errors = ref([] as Array<IValidationError>);
 
@@ -134,16 +134,19 @@ export default defineComponent({
 
     watch(() => fields.value.title, () => generateSlug())
 
-    const serie = ref<ISerie>((props.episode.serie?props.episode.serie:emptyISerieFactory()));
-    const serie_id = ref(serie.value.id);
-    watch(serie_id, (newVal, oldVal) => {
-      serie.value = props.podcast.series.find((item) => item.id == newVal);
-      fields.value.keyword = serie.value.title;
+    var serie = (props.episode.serie?props.episode.serie:emptyISerieFactory());
+    const serie_id = ref((serie.id?serie.id:0))
+    watch ( serie_id, (newValue) => {
+      console.log(newValue)
+      serie = props.series.find((item) => item.id == newValue);
+      if (!serie)
+          return;
+      fields.value.keyword = serie.title;
       if (fields.value.image.length<1){
-        fields.value.image = serie.value.cover_file;
-        imgMetadata.value.preview = serie.value.cover_file;
+        fields.value.image = serie.cover_file;
+        imgMetadata.value.preview = serie.cover_file;
       }
-    });
+    })
 
     const audioMetadata = ref(new AudioFileMetadata())
     const audioFileSelected = (data: AudioFileMetadata) => {
@@ -158,6 +161,7 @@ export default defineComponent({
       imgMetadata.value.preview = data.cover_preview;
       audioMetadata.value = { ...data };
       generateSlug();
+      serie_id.value = 0;
     };
 
     const durationText = ref(durationInSecToStr(fields.value.duration));
@@ -241,7 +245,7 @@ export default defineComponent({
 
       // set relations
       fields.value.serie =
-        serie.value && "id" in serie.value ? serie.value : null;
+        serie && "id" in serie ? serie : null;
       fields.value.podcast = props.podcast;
 
       // Upload Mp3
@@ -304,37 +308,11 @@ export default defineComponent({
       pubdateText,
       errors,
       getClass,
-      series: props.series.map((s) => {return { "id": s.id, "displaytext": s.title } as Partial<IEnumerator>}),
+      series: props.series.map((s) => {return { "enumvalue_id": s.id, "displaytext": s.title } as Partial<IEnumerator>}),
       save,
       remove,
       cancel,
     };
   }
 })
-</script>   
-<style lang="postcss" scoped>
-.field {
-  @apply border-2
-              h-10
-              px-3
-              py-1
-              mt-1
-              rounded-md
-              text-gray-600
-              valid:border-gray-200
-              focus:outline-none focus:ring-1 focus:ring-orange-300;
-}
-.error {
-  @apply ring-orange-700 ring-1;
-}
-.textarea {
-  @apply border-2
-              px-3
-              py-1
-              mt-1
-              rounded-md
-              text-gray-600
-              border-gray-200
-              focus:outline-none focus:ring-1 focus:ring-orange-300;
-}
-</style>
+</script>

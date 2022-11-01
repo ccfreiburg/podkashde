@@ -22,6 +22,7 @@ export default interface IEpisode {
     external_id?: number;
     ext_series_id?: number;
     ext_podcast_id?: number;
+    serie_id?: number;
     lastbuild?: string;
     podcast?: IPodcast;
     serie?: ISerie;
@@ -47,6 +48,7 @@ export function emptyIEpisodeFactory(): IEpisode {
     external_id: -1,
     ext_series_id: -1,
     ext_podcast_id: -1,
+    serie_id: -1,
     lastbuild: "",
     rawsize: 0,
   }
