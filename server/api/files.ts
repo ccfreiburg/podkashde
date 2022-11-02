@@ -4,8 +4,9 @@ import { DATA_PATH } from '~~/base/Constants';
 export default defineEventHandler( async (event) => {
     const query = useQuery(event);
     const path = DATA_PATH + query.path;
+    console.log(path)
     const stream = fs.createReadStream(path);
-    //stream.pipe(event.res);
-    event.res.statusCode = 201
+    stream.pipe(event.res);
+    //event.res.statusCode = 201
     return sendStream(event,stream)
 })

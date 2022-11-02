@@ -255,7 +255,7 @@ export default defineComponent({
           errors.value.push({field:"", text:"upload"})
           return
         }
-        fields.value.link = FILES_AP+link;
+        fields.value.link = link;
       }
 
       // Upload Image
@@ -265,7 +265,7 @@ export default defineComponent({
           errors.value.push({field:"", text:"upoad"})
           return
         }
-        fields.value.image = FILES_AP+link;
+        fields.value.image = link;
       }
 
       // Episode Metadata

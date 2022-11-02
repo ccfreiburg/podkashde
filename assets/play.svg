@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <linearGradient id="gradient-ccf">
+      <stop offset="0" style="stop-color: rgb(239, 170, 34);"/>
+      <stop offset="0.36" style="stop-color: rgb(239, 170, 34);"/>
+      <stop offset="0.65" style="stop-color: rgb(218, 109, 41);"/>
+    </linearGradient>
+    <linearGradient id="gradient-ccf-0" gradientUnits="userSpaceOnUse" x1="12.749" y1="7.332" x2="12.749" y2="16.753" gradientTransform="matrix(0.919647, 0, 0, 1.061533, 1.274691, -0.78271)" xlink:href="#gradient-ccf"/>
+    <linearGradient id="gradient-ccf-1" gradientUnits="userSpaceOnUse" x1="11.41" y1="4.087" x2="11.41" y2="20.367" gradientTransform="matrix(1.264939, 0, 0, 1.237333, -2.54417, -3.380649)" xlink:href="#gradient-ccf"/>
+  </defs>
+  <rect width="24" height="24" stroke="none" fill="#000000" opacity="0"/>
+  <path stroke-linecap="round" stroke-linejoin="round" d="M 16.755 11.53 L 9.701 7.069 C 9.386 6.869 9 7.127 9 7.537 L 9 16.461 C 9 16.871 9.386 17.131 9.701 16.932 L 16.755 12.47 C 16.761 12.468 16.766 12.463 16.771 12.461 C 17.082 12.248 17.075 11.73 16.755 11.53 Z" style="paint-order: fill; fill: url(#gradient-ccf-0);" bx:origin="0.375014 0.499992"/>
+  <ellipse style="fill: none; stroke: url(#gradient-ccf-1); stroke-width: 1.5px;" cx="12" cy="12" rx="10" ry="10"/>
+</svg>

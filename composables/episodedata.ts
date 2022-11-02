@@ -1,6 +1,8 @@
 import { EPISODES_AP, EPISODE_AP } from "~~/base/Constants";
 import IEpisode from "~~/base/types/IEpisode";
+import IPodcast from "~~/base/types/IPodcast";
 import IPostdata from "~~/base/types/IPostdata";
+import ISerie from "~~/base/types/ISerie";
 
 export async function useEpisodes() {
     const episodes = useState<Array<IEpisode>>('episodes', () => [] )
@@ -20,8 +22,13 @@ export async function useEpisodes() {
 
 export async function useEpisode(slug:string) {
     const episode = useState<IEpisode>(slug, () => null )
+    const podcast = useState<IPodcast>("podcast-of-"+slug, () => null )
+    const serie = useState<ISerie>("serie-of-"+slug, () => null )
+
     const refresh = async () => {
         episode.value = await $fetch(EPISODE_AP+"?slug="+slug)     
+        podcast.value = episode.value.podcast;
+        serie.value = episode.value.serie;
     }
     const remove = async () => {
         const request : IPostdata = {
@@ -38,6 +45,8 @@ export async function useEpisode(slug:string) {
     }
     return {
         episode,
+        podcast,
+        serie,
         refresh,
         remove
     }

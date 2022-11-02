@@ -59,8 +59,12 @@
     "savePodcast": "Save Podcast"
   },
   "episode": {
+    "episode": "Episode",
     "new": "New Episode",
     "edit": "Edit Episode",
+    "edit_short": "edit",
+    "explicit": "explicit",
+    "blocked": "blocked",
     "addImage": "klicken um Bild hinzuzufügen",
     "label": {
       "file": "Audio File",
@@ -80,7 +84,8 @@
       "duration": "Duration",
       "pubdate": "Publication Date",
       "link": "Mp3 Url",
-      "errors": "Pleas correct the following issues:"
+      "errors": "Pleas correct the following issues:",
+      "filesize": "Size"
     },
     "validation": {
       "img": "Please select an image with the exact dimensions of 1400x1400 pixel",

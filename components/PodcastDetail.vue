@@ -152,7 +152,7 @@ export default defineComponent({
       event.preventDefault();
       event.stopImmediatePropagation();
       if (imgMetadata.value.selectedFile) {
-        fields.value.cover_file = FILES_AP+
+        fields.value.cover_file =
           SERVER_IMG_PATH +
           fields.value.slug +
           "/" +

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <linearGradient id="gradient-ccf">
+      <stop offset="0" style="stop-color: rgb(239, 170, 34);"/>
+      <stop offset="0.36" style="stop-color: rgb(239, 170, 34);"/>
+      <stop offset="0.65" style="stop-color: rgb(218, 109, 41);"/>
+    </linearGradient>
+    <linearGradient id="gradient-ccf-1" gradientUnits="userSpaceOnUse" x1="11.41" y1="4.087" x2="11.41" y2="20.367" gradientTransform="matrix(1.264939, 0, 0, 1.237333, -2.54417, -3.380649)" xlink:href="#gradient-ccf"/>
+    <linearGradient id="gradient-ccf-0" gradientUnits="userSpaceOnUse" x1="9.693" y1="7.653" x2="9.693" y2="15.942" gradientTransform="matrix(1.12965, 0, 0, 1.206404, -0.678692, -2.041866)" xlink:href="#gradient-ccf"/>
+    <linearGradient id="gradient-ccf-2" gradientUnits="userSpaceOnUse" x1="9.693" y1="7.653" x2="9.693" y2="15.942" gradientTransform="matrix(1.121797, 0, 0, 1.206404, 3.249403, -2.124129)" xlink:href="#gradient-ccf"/>
+  </defs>
+  <rect width="24" height="24" stroke="none" fill="#000000" opacity="0"/>
+  <ellipse style="fill: none; stroke: url(#gradient-ccf-1); stroke-width: 1.5px;" cx="12" cy="12" rx="10" ry="10"/>
+  <path style="fill: url(#gradient-ccf-0);" d="M 10.263 7.19 H 11.277 V 17.19 H 10.263 A 1 1 0 0 1 9.263 16.19 V 8.19 A 1 1 0 0 1 10.263 7.19 Z" bx:shape="rect 9.263 7.19 2.014 10 1 0 0 1 1@691415ba"/>
+  <path style="fill: url(#gradient-ccf-2);" d="M 13.123 7.108 H 14.123 A 1 1 0 0 1 15.123 8.108 V 16.108 A 1 1 0 0 1 14.123 17.108 H 13.123 V 7.108 Z" bx:shape="rect 13.123 7.108 2 10 0 1 1 0 1@33f88c23"/>
+</svg>

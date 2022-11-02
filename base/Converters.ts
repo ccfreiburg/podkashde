@@ -22,10 +22,10 @@ export function durationInSecToStr(duration: number | string) {
   ]
     .join(":")
     .replace(/\b(\d)\b/g, "0$1");
-  if (result.startsWith("00:0")) result = result.substring(4);
+  if (result.startsWith("00:")) result = result.substring(1);
+  if (result.length>5 && result.startsWith("0:")) result = result.substring(2);
   if (result.startsWith("0")) result = result.substring(1);
   if (result.startsWith(":")) result = "0" + result;
-
   return result;
 }
 

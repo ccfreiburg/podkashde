@@ -61,4 +61,8 @@ describe("Converters", async () => {
     const actual = durationInSecToStr(3732);
     expect(actual).toBe("1:02:12");
   });
+  it("durationInSecToStr with 3552 returns string 59:12", () => {
+    const actual = durationInSecToStr(3552);
+    expect(actual).toBe("59:12");
+  });
 });

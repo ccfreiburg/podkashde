@@ -87,5 +87,5 @@ function menuItemClicked(name) {
 </script>
 <template>
   <NavBar :menu="menu" :availableLocales="$i18n.availableLocales" :locale="$i18n.locale" @localeChanged="localeChanged" @menuItemClicked="menuItemClicked"/>
-  <NuxtPage class="p-3"/>
+  <NuxtPage class="pt-3"/>
 </template>

@@ -105,7 +105,7 @@ export default defineComponent({
 
     async function save(event) {
       if (imgMetadata.value.selectedFile) {
-        fields.value.cover_file = FILES_AP+
+        fields.value.cover_file = 
           SERVER_IMG_PATH +
           SERIES_IMG_PATH +
           "/" +
@@ -133,7 +133,7 @@ export default defineComponent({
           errors.value.push({field:"", text:"upoad"})
           return
         }
-        fields.value.cover_file = FILES_AP+link;
+        fields.value.cover_file = link;
       }
 
       // Episode Metadata

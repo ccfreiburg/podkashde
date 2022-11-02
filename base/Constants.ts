@@ -1,4 +1,4 @@
-export const DATA_PATH ="public/data/filestore";
+export const DATA_PATH ="public";
 export const PUBLIC_RESOURCES = 'public';
 export const BASE_URL = 'http://localhost:3000';
 export const SERVER_IMG_PATH = '/covers/';
