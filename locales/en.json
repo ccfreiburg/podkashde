@@ -112,7 +112,7 @@
     "validation": {
       "img": "Please select an image with the exact dimensions of 1400x1400 pixel",
       "title": "Please enter a title",
-      "slug": "Please enter an unique slug for the static episode Url",
+      "slug": "Please enter an unique slug for the static episode Url"
     },
     "save": "Save Serie"
   },

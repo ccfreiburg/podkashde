@@ -13,7 +13,7 @@ export const readSerie = async function (query): Promise<ISerie> {
   const repo = db.getRepository(Serie);
   var tmpQuery = {
     where: query,
-    relations: ["podcast", "episodes"],
+    relations: ["episodes"],
   };
   var result:Array<ISerie> = await repo.find(tmpQuery);
   return result.pop()

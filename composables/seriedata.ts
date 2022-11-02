@@ -1,6 +1,7 @@
 import { SERIES_AP, SERIE_AP } from "~~/base/Constants";
 import ISerie from "~~/base/types/ISerie";
 import IPostdata from "~~/base/types/IPostdata";
+import IEpisode from "~~/base/types/IEpisode";
 
 
 export async function useSeries() {
@@ -21,9 +22,12 @@ export async function useSeries() {
 
 export async function useSerie(slug:string) {
     const serie = useState<ISerie>(slug, () => null )
+    const episodes = useState<Array<IEpisode>>("episodes-of-"+slug, () => [] )
+
     const refresh = async () => {
         const data: ISerie = await $fetch(SERIE_AP+"?slug="+slug)
         serie.value = data;
+        episodes.value = data.episodes
     }
     const remove = async () => {
         const request : IPostdata = {
@@ -40,6 +44,7 @@ export async function useSerie(slug:string) {
     }
     return {
         serie,
+        episodes,
         refresh,
         remove
     }

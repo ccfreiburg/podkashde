@@ -56,7 +56,7 @@
         </NuxtLink>
         </div> -->
 
-        <!-- <podcast-episodes :episodes="episodes"/> -->
+        <podcast-episodes :episodes="episodes"/>
     <button class="ml-2 p-3 bg-orange-300 rounded-md" @click="refresh">Hallo</button>
   </div>
 </template>
@@ -67,7 +67,7 @@ const user = await useUser()
 const route = useRoute();
 
 const slug = route.params.slug as string
-const { refresh, serie } = await useSerie(slug)
+const { refresh, episodes, serie } = await useSerie(slug)
 if (route.query.refresh)
   await refresh();
 </script>

@@ -1,4 +1,5 @@
 import { ContentState } from "./ContentState";
+import IEpisode from "./IEpisode";
 
 export default interface ISerie {
   id?: number;
@@ -10,6 +11,7 @@ export default interface ISerie {
   state: number;
   external_id?: number;
   lastbuild?: string;
+  episodes?: Array<IEpisode>;
 }
 
 export function emptyISerieFactory(): ISerie {
