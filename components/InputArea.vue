@@ -39,7 +39,10 @@ export default defineComponent({
       default: "text",
     },
     label: String,
-    errors: Object as PropType<Array<IValidationError>>,
+    errors: {
+      type: Object as PropType<Array<IValidationError>>,
+      default: []
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -59,7 +62,7 @@ export default defineComponent({
         return "";
     }
     function isInputElement() {
-      return ["text","number","date"].includes(props.type)
+      return ["text","number","date","password"].includes(props.type)
     }
     function hasError(errors) {
       return errors.find((error) => error.field === props.name);

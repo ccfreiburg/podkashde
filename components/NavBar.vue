@@ -69,7 +69,7 @@
               ></path>
             </svg>
           <select
-            class="bg-white border-none h-5 text-sm"
+            class="bg-white border-none h-5 md:text-sm text-xs"
             name="language_id"
             data-testid="NavBar.localeSelect" 
             v-model="currentLocale"

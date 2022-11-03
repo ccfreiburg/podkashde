@@ -179,7 +179,7 @@
             </svg>
           </button>
         </div>
-        <div class="pl-12 flex-grow flex flex-row items-center">
+        <div class="pl-6 md:pl-12 flex-grow flex flex-row items-center">
           <div class="w-10 text-xs">
             {{ currentTimeString }}
           </div>

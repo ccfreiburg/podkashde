@@ -1,23 +1,21 @@
 <template>
-  <div class="mt-4 flex flex-col">
+  <div class="text-xs md:text-sm w-full flex flex-col">
     <div
       class="flex flex-col"
       v-for="(episode, index) in sortedFilteredList"
       :key="index"
     >
       <NuxtLink :to="episode.nuxtlink">
-        <div class="my-1 px-4 py-2 hover:bg-slate-100 rounded-xl flex flex-row place-items-center">
-          <div class="w-2/12">
-            <img class="h-16" :src="episode.image" />
-          </div>
-          <div class="w-4/12">{{episode.title}}</div>
-          <div class="mt-1 w-3/12">{{episode.creator}}</div>
+        <div class="my-1 px-1 md:px-4 py-2 hover:bg-slate-100 md:rounded-xl flex flex-row place-items-center">
+          <img class="w-2/12" :src="episode.image" />
+          <div class="w-5/12 pl-2 md:pl-8">{{episode.title}}</div>
+          <div class="w-3/12">{{episode.creator}}</div>
           <div class="w-2/12">{{ episode.datestring }}</div>
           <div class="w-1/12 flex justify-end">
-            <button class="ccfplay rounded-2xl h-8 w-8">
-              <div class="h-8 w-8 flex items-center justify-center">
+            <button class="ccfplay rounded-2xl h-6 w-6 md:h-8 md:w-8">
+              <div class="h-6 w-6 md:h-8 md:w-8 flex items-center justify-center">
                 <svg
-                  class="h-5 w-5"
+                  class="h-3 w-3 md:h-5 md:w-5"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"

@@ -1,36 +1,17 @@
 <template>
   <div>
-    <section class="py-10 bg-white overflow-hidden">
-      <div class="container px-4 mx-auto flex flex-col">
-        <div class="flex flex-row md:max-w-4xl mb-10 md:mb-10">
-          <div
-            class="mb-4 px-2 leading-tight tracking-tighter shrink ccfunderline"
-          >
-            <h1 class="text-3xl md:text-4xl font-bold">
-              {{ $t("login.title") }}
-            </h1>
-          </div>
-          <div class="flex-grow"></div>
+    <div class="w-full flex justify-center">
+        <div
+          class="mt-6 md:mt-10 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs"
+        >&nbsp;{{ $t("login.title") }}&nbsp;
         </div>
+  </div>
+  <div class="w-full h-screen bg-gray-200 flex justify-center">
+      <div class="container px-4 mx-auto flex flex-col">
         <div class="flex flex-row flex-wrap content-start justify-evenly">
           <div class="w-140 flex flex-col">
-            <div class="flex flex-col mt-3">
-              <label class="pl-2 text-sm text-gray-800" for="user">{{
-                $t("login.user")
-              }}</label>
-              <input type="text" name="user" class="field" v-model="user" />
-            </div>
-            <div class="flex flex-col mt-3">
-              <label class="pl-2 text-sm text-gray-800" for="password">{{
-                $t("login.password")
-              }}</label>
-              <input
-                type="password"
-                class="field"
-                name="password"
-                v-model="password"
-              />
-            </div>
+            <input-area name="user" type="text" :label="'login.user'" v-model:value="user"></input-area>
+            <input-area name="password" type="password" :label="'login.password'" v-model:value="password"></input-area>
             <button
               class="float-right h-12 w-40 mt-8 px-2 rounded-md ccfbutton-border"
               @click="login"
@@ -40,7 +21,7 @@
           </div>
         </div>
       </div>
-    </section>
+  </div>
   </div>
 </template>
 <script setup lang="ts">

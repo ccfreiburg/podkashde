@@ -108,13 +108,29 @@
   background-size: var(--size) + 5px;
 }
 
-.ccfunderline{   
+.ccf-underline{   
   /* background: rgb(239,170,34); */
   background: linear-gradient(90deg, rgba(239,170,34,1) 0%, rgba(239,170,34,1) 36%, rgba(218,109,41,1) 65%, rgba(218,109,41,1) 100%);
   /* -0px var(--y-pos, 75%) / 100% var(--size, 20px) no-repeat;*/
   background-repeat: no-repeat;
   background-position: bottom, 122%, center;
   background-size: 120% 10px;
+}
+.ccf-underline-sm{   
+  /* background: rgb(239,170,34); */
+  background: linear-gradient(90deg, rgba(239,170,34,1) 0%, rgba(239,170,34,1) 36%, rgba(218,109,41,1) 65%, rgba(218,109,41,1) 100%);
+  /* -0px var(--y-pos, 75%) / 100% var(--size, 20px) no-repeat;*/
+  background-repeat: no-repeat;
+  background-position: bottom, 122%, center;
+  background-size: 120% 8px;
+}
+.ccf-underline-xs{   
+  /* background: rgb(239,170,34); */
+  background: linear-gradient(90deg, rgba(239,170,34,1) 0%, rgba(239,170,34,1) 36%, rgba(218,109,41,1) 65%, rgba(218,109,41,1) 100%);
+  /* -0px var(--y-pos, 75%) / 100% var(--size, 20px) no-repeat;*/
+  background-repeat: no-repeat;
+  background-position: bottom, 122%, center;
+  background-size: 120% 6px;
 }
 
 .ccfaccent:hover{
