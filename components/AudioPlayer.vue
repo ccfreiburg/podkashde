@@ -1,7 +1,6 @@
 <template>
   <div>
     <audio
-      :loop="innerLoop"
       ref="audio"
       :src="audiosrc"
       style="display: none"
@@ -259,7 +258,6 @@ export default defineComponent({
   setup(props) {
     const totalDuration = ref(0);
     const audiosrc = ref('');
-    const percentage = ref(0);
     const playbackRate = ref(1.0);
     const muted = ref(false);
     const loaded = ref(false);
@@ -294,21 +292,6 @@ export default defineComponent({
     function back() {
       audio.value.currentTime = audio.value.currentTime - 30;
     }
-
-    // updateVolume: function () {
-    //   this.hideVolumeSlider = false
-    //   this.audio.volume = this.volumeValue / 100
-    //   if (this.volumeValue / 100 > 0) {
-    //     this.muted = this.audio.muted = false
-    //   }
-
-    //   if (this.volumeValue / 100 === 0) {
-    //     this.muted = this.audio.muted = true
-    //   }
-    // },
-    // toggleVolume: function () {
-    //   this.hideVolumeSlider = true
-    // },
     function stop() {
       playing.value = false;
       paused.value = true;
@@ -332,26 +315,12 @@ export default defineComponent({
       playbackRate.value = rates[(index + 1) % (rates.length)]
       audio.value.playbackRate = playbackRate.value
     }
-    //   changeLoop: function () {
-    //     this.innerLoop = !this.innerLoop
-    //   },
-    //   download: function () {
-    //     this.stop()
-    //     window.open(this.file, 'download')
-    //   },
-    //   mute: function () {
-    //     this.muted = !this.muted
-    //     this.audio.muted = this.muted
-    //     this.volumeValue = this.muted ? 0 : 75
-    //   },
     function _handleLoaded() {
       if (audio.value.readyState >= 2) {
         if (props.autoPlay) this.play();
         loaded.value = true;
         totalDuration.value = audio.value.duration;
-      } else {
-        throw new Error('Failed to load sound file');
-      }
+      } 
     }
     function _handlePlayingUI(e) {
       currentTime.value = parseInt(audio.value.currentTime);
@@ -383,7 +352,6 @@ export default defineComponent({
       paused,
       volume,
       currentTime,
-      percentage,
       audio,
       totalDuration,
       extendedControls,

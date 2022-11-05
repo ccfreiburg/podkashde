@@ -143,6 +143,6 @@ const slug = route.params.episodeslug as string;
 const showdetail = ref(false);
 const { refresh, serie, podcast, episode } = await useEpisode(slug);
 if (route.query.refresh) refresh();
-const user = await useState('user');
+const user = await useUser();
 const duration = () => durationInSecToStr(episode.value.duration);
 </script>

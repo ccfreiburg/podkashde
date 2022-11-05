@@ -1,6 +1,6 @@
 import { booleanLiteral } from "@babel/types";
 <template>
-  <FormDetail type="serie" :fields="fields" @save="save" @delete="remove" @cancel="cancel">
+  <FormDetail type="serie" :fields="fields" @save="save" @remove="remove" @cancel="cancel">
     <div class="flex flex-col">
       <div class="flex flex-row">
         <div>
@@ -146,13 +146,13 @@ export default defineComponent({
         errors.value.push({field:"", text:"saving"})
         return
       }
-      emit("onsaved", fields.value.title);
+      emit("save", fields.value.slug);
     }
     function remove() {
-      emit("ondelete");
+      emit("remove");
     }
     function cancel() {
-      emit("oncancel");
+      emit("cancel");
     }
     function hasError(fieldname) {
       return errors.value.find((error) => error.field === fieldname);

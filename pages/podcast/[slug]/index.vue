@@ -28,7 +28,8 @@
           >
             {{ podcast.summary }}
           </div>
-          <div class="hidden md:inline-flex flex flex-row flex-wrap">
+          <div class="hidden md:inline-flex">
+            <div class="flex flex-row flex-wrap">
             <div
               class="text-xs text-white font-bold rounded-md ccfheader px-1 my-1 mr-1 whitespace-nowrap"
             >
@@ -45,6 +46,7 @@
             >
               {{ language.displaytext }}
             </div>
+          </div>
           </div>
         </div>
       </div>
@@ -69,6 +71,7 @@
 <script setup lang="ts">
 import { useEnumerations } from '~~/composables/enumerationdata';
 import { usePodcast } from '~~/composables/podcastdata';
+
 const user = await useUser();
 const route = useRoute();
 const slug = route.params.slug as string;

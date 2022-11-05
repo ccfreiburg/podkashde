@@ -10,7 +10,6 @@ export async function useEpisodes() {
     const refresh = async () => {
         episodes.value = await $fetch(EPISODES_AP);
     }
-    // if not init fetch and init
     if (episodes.value.length<1) {
         await refresh();
     }

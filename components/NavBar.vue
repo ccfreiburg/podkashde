@@ -28,13 +28,15 @@
                     ccfunderline
                   "
                 >
-                  <h1 class="text-3xl md:text-4xl font-bold">
-                    &nbsp;{{ section.name }}&nbsp;
-                  </h1>
+                <h1
+        class="mt-6 md:mt-12 mb-1 md:mb-4 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs"
+      >
+        &nbsp;{{ section.name }}&nbsp;
+              </h1>
                 </div>
                 <div class="flex-grow"></div>
               </div>
-              <p class="text-sm mt-2 mb-6 font-thin">
+              <p class="text-sm mb-6 font-thin">
                 {{ section.description }}
               </p>
               <div v-for="entry in section.entries" :key="entry.id">

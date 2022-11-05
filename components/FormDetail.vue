@@ -64,7 +64,7 @@ export default defineComponent({
       emit("save");
     }
     function remove() {
-      emit("delete");
+      emit("remove");
     }
     function cancel() {
       emit("cancel");

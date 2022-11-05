@@ -2,9 +2,9 @@
   <div class="w-full h-full">
     <serie-detail
       :serie="serie"
-      @onsaved="goBackSaved"
-      @ondeleted="ondelete"
-      @oncancel="goBack"
+      @save="save"
+      @remove="removeSerie"
+      @cancel="cancel"
     />
   </div>
 </template>
@@ -20,24 +20,24 @@ export default defineComponent({
     const router = useRouter();
     const {serie, remove} = await useSerie(route.params.slug as string)
 
-    function goBackSaved() {
+    function save() {
       router.push("/serie/" + route.params.slug+"?refresh=true");
     }
 
-    function goBack() {
+    function cancel() {
       router.push("/serie/" + route.params.slug);
     }
 
-    function ondelete() {
+    function removeSerie() {
       remove();
       router.push("/");
     }
 
     return {
       serie,
-      goBackSaved,
-      goBack,
-      ondelete,
+      save,
+      cancel,
+      removeSerie,
     };
   },
 });

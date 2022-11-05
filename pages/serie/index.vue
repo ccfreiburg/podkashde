@@ -3,7 +3,7 @@
 <div class="w-full flex justify-center">
         <div
           class="mt-6 md:mt-10 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs"
-        >&nbsp;Recent Series&nbsp;
+        >&nbsp;Series&nbsp;
         </div>
   </div>
   <div class="w-full h-screen bg-gray-200 flex justify-center">

@@ -1,5 +1,5 @@
 <template>
-  <div class="text-xs md:text-sm w-full flex flex-col">
+  <div class="text-xs md:text-base w-full flex flex-col">
     <div
       class="flex flex-col"
       v-for="(episode, index) in sortedFilteredList"

@@ -52,14 +52,11 @@
 <script lang="ts">
 import { defineComponent, PropType, computed } from "vue";
 import IPageMenuItem from "~~/base/types/IPageMenuItem";
-import IValidationError from "~~/base/types/IValidationError";
 
 export default defineComponent({
   props: {
     items: Object as PropType<Array<IPageMenuItem>>
   },
-  name: "InputArea",
-  setup(props, ctx) {
-  }
+  name: "InputArea"
 })
 </script>

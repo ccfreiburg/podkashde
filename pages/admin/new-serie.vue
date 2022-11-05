@@ -7,15 +7,15 @@ const route = useRoute();
 const router = useRouter();
 const slug = route.params.slug as string
 const serie = ref(emptyISerieFactory());
-function onsave() {
-  router.push("/serie/" + slug+ "?refresh=true");
+function save(slug) {
+  router.push("/serie/" + slug);
 }
-function oncancel() {
-  router.go(-1);
+function cancel() {
+  router.push("/serie");
 }
 </script>
 <template>
     <div>
-        <serie-detail :serie="serie" />
+        <serie-detail :serie="serie" @save="save" @cancel="cancel" />
     </div>
 </template>
