@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full h-full"
+    class="px-10 w-full h-full"
     v-on:keyup.enter="save"
     v-on:keyup.esc="cancel"
   >

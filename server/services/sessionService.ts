@@ -46,7 +46,7 @@ export async function makeSession(user: IUser, event: CompatibilityEvent): Promi
     const userId = session.userId
 
     if (userId) {
-        setCookie(event, 'auth_token', authToken, { path: '/', httpOnly: true })
+        setCookie(event, 'auth_token', authToken, { path: '/', httpOnly: true, sameSite: true })
         return getUserBySessionToken(authToken)
     }
 
