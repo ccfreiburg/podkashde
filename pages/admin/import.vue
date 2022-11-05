@@ -222,7 +222,7 @@ async function importEnums() {
 }
 
 async function importSeries() {
-  statusLog.value.push({ message: "Saving series metada to server" })
+  statusLog.value.push({ message: "Saving series metadata to server" })
   var pk_series = seriesfromWpMetadata(
     wpMetadata.value.series.filter(
       (serie: IWpKeyValue) => !wpPodcasts.value.find((podcast) => podcast.id == serie.id)
@@ -270,7 +270,7 @@ async function fetchFile(
         altpath: (altslug ? ContentFile.getPathFromUrl(serverPath, altslug) : "")
       } as Object,
     };
-    const ret = await $fetch<any>(FETCHLOCAL_AP, postData);
+    const ret = await $fetch(FETCHLOCAL_AP, postData);
     return ret;
   }
   return { status: 501, message: "Something went wrong" }

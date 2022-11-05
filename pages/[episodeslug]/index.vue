@@ -1,17 +1,8 @@
 <template>
   <div>
+    <sub-menu v-if="user != null" :items="submenu"/>
     <div class="flex flex-col items-center">
-      <div class="w-5/6 md:w-2/3 flex flex-row justify-end">
-        <NuxtLink
-          class="text-orange-500 text-xs"
-          v-if="user"
-          :to="'/admin/' + slug"
-        >
-          {{ $t('episode.edit_short') }}
-        </NuxtLink>
-        <div v-else class="pt-4 md:pt-14"></div>
-      </div>
-      <div class="w-5/6 md:w-2/3 md:h-60 flex flex-row">
+     <div class="w-5/6 md:w-2/3 md:h-60 mt-6 md:mt-12 flex flex-row">
         <img class="h-28 md:h-60 w-28 md:w-60 shrink-0" :src="episode.image" />
         <div
           class="pl-6 md:pl-12 pt-2 pb-8 flex flex-col justify-around items-start rounded-r-md"
@@ -145,4 +136,12 @@ const { refresh, serie, podcast, episode } = await useEpisode(slug);
 if (route.query.refresh) refresh();
 const user = await useUser();
 const duration = () => durationInSecToStr(episode.value.duration);
+const submenu = [
+{
+    id: 0,
+    name: "episode.edit",
+    slug: "/admin/"+slug,
+    layout: "edit"
+  }
+]
 </script>

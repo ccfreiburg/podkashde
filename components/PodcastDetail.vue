@@ -1,20 +1,21 @@
 <template>
   <div
     v-if="fields"
-    class="p-10 w-full h-full"
+    class="px-10 w-full h-full"
     v-on:keyup.enter="savePodcast"
     v-on:keyup.esc="cancel"
   >
-    <div class="mb-5">
-      <h1 class="text-2xl text-center">
-        {{
+    <div class="w-full flex justify-center">
+      <div
+        class="mt-6 md:mt-12 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs"
+      >
+        &nbsp;{{
           isEdit
             ? $t("podcast.edit")
             : $t("podcast.new")
-        }}
-      </h1>
+        }}&nbsp;
     </div>
-
+  </div>
     <image-selector :filename="fields.cover_file" @imageSelected="imageSelected" />
     <!-- Fields-->
     <div class="flex flex-col">
