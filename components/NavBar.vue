@@ -88,7 +88,7 @@
         </div>
         <div class="flex-grow flex flex-row place-content-center">
           <nuxt-link class="text-center inline-block" to="/">
-            <img src="@@/assets/img/logo.png" class="h-6 md:h-10" />
+            <img src="/img/logo.png" class="h-6 md:h-10" />
           </nuxt-link>
         </div>
         <div class="w-20"></div>
@@ -114,8 +114,8 @@
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent, ref,onMounted, onBeforeUnmount } from "vue";
-import IMenuSection from "~~/base/types/IMenuSection";
+import { PropType, defineComponent, ref,onMounted, onBeforeUnmount } from "vue"
+import IMenuSection from "~~/base/types/IMenuSection"
 
 export default defineComponent({
   props: {
@@ -137,8 +137,9 @@ export default defineComponent({
     function hideDropdown() {
       show.value = false
     }
-    function closeIfClickedOutside(event) {
-      if (event.target.name==="language_id" || event.target.nodeName==="OPTION")
+    function closeIfClickedOutside(event : Event) {
+      const target  = event.target as any
+      if (target.name==="language_id" || target.nodeName==="OPTION")
         return
       if (!itWasMe && show.value) {
         show.value = false
@@ -148,8 +149,8 @@ export default defineComponent({
     function emit(name: String) {
       ctx.emit("menuItemClicked", name)
     }
-    function changeLocale(event) {
-      ctx.emit("localeChanged", event.target.value)
+    function changeLocale(event : Event) {
+      ctx.emit("localeChanged", (event.target as any).value)
     }
 
     onMounted(() =>  {

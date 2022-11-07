@@ -13,6 +13,6 @@ describe("ImageSelector", () => {
         $t: (s) => s 
     }}
   })
-    expect(wrapper.html()).toContain("podcastDetail.label.img");
+    expect(wrapper.html()).toContain("podcast.label.img");
   })
 })
