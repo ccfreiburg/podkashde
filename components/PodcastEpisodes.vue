@@ -7,7 +7,9 @@
     >
       <NuxtLink :to="episode.nuxtlink">
         <div class="my-1 px-1 md:px-4 py-2 hover:bg-slate-100 md:rounded-xl flex flex-row place-items-center">
-          <img class="w-2/12" :src="episode.image" />
+          <div class="w-2/12">
+            <img class="max-w-20 max-h-20" :src="episode.image" />
+          </div>
           <div class="w-5/12 pl-2 md:pl-8">{{episode.title}}</div>
           <div class="w-3/12">{{episode.creator}}</div>
           <div class="w-2/12">{{ episode.datestring }}</div>

@@ -77,13 +77,6 @@
           {{ $t("cancel") }}
         </button>
         <button
-          v-if="'id' in fields && fields['id'] > 0"
-          class="ccf-button ccf-alert"
-          @click="remove"
-        >
-          {{ $t("delete") }}
-        </button>
-        <button
           class="
             ccf-button
             ccfbutton-border
@@ -138,7 +131,6 @@ export default defineComponent({
     var serie = (props.episode.serie?props.episode.serie:emptyISerieFactory());
     const serie_id = ref((serie.id?serie.id:0))
     watch ( serie_id, (newValue) => {
-      console.log(newValue)
       serie = props.series.find((item) => item.id == newValue);
       if (!serie)
           return;
@@ -279,13 +271,13 @@ export default defineComponent({
         errors.value.push({field:"", text:"saving"})
         return
       }
-      emit("onsaved", fields.value.title);
+      emit("save", fields.value.title);
     }
     function remove() {
-      emit("ondelete");
+      emit("remove");
     }
     function cancel() {
-      emit("oncancel");
+      emit("cancel");
     }
     function hasError(fieldname) {
       return errors.value.find((error) => error.field === fieldname);

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <sub-menu v-if="user != null" :items="submenu"/>
+    <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked"/>
     <div class="flex flex-col items-center">
      <div class="w-5/6 md:w-2/3 md:h-60 mt-6 md:mt-12 flex flex-row">
         <img class="h-28 md:h-60 w-28 md:w-60 shrink-0" :src="episode.image" />
@@ -127,21 +127,44 @@
   </div>
 </template>
 <script setup lang="ts">
+import { EPISODE_AP } from '~~/base/Constants';
 import { durationInSecToStr } from '~~/base/Converters';
 import { useEpisode } from '~~/composables/episodedata';
 const route = useRoute();
+const back = useRouteBack();
+const user = await useUser();
 const slug = route.params.episodeslug as string;
 const showdetail = ref(false);
 const { refresh, serie, podcast, episode } = await useEpisode(slug);
 if (route.query.refresh) refresh();
-const user = await useUser();
 const duration = () => durationInSecToStr(episode.value.duration);
+async function menuItemClicked(value: string) {
+  if (value === "#delete") {
+    const postData = {
+        method: "delete",
+        body: {
+          id: episode.value.id,
+          title: episode.value.title,
+        },
+      };
+      var postResult: Response = await $fetch(EPISODE_AP, postData);
+      if (postResult.status == 201) {
+        back()
+      }
+  }
+}
 const submenu = [
 {
     id: 0,
     name: "episode.edit",
     slug: "/admin/"+slug,
     layout: "edit"
+  },
+  {
+    id: 1,
+    name: "delete",
+    slug: "#delete",
+    layout: "delete"
   }
 ]
 </script>

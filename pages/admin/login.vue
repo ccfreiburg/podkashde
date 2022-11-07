@@ -25,9 +25,16 @@
   </div>
 </template>
 <script setup lang="ts">
+const router = useRouter();
+
 const user = ref("ar@3ar.de");
 const password = ref("0test0++");
+
 const login = () => {
-  loginWithEmail(user.value, password.value) 
+  if (loginWithEmail(user.value, password.value)) {
+    const url = router.options.history.state.back;
+    router.push(url+"?refresh=true")
+  }
+
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <sub-menu v-if="user != null" :items="submenu"/>
+    <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked"/>
     <div class="w-full flex justify-center">
       <div
         class="mt-6 md:mt-12 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs"
@@ -69,6 +69,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { PODCAST_AP } from '~~/base/Constants';
 import { useEnumerations } from '~~/composables/enumerationdata';
 import { usePodcast } from '~~/composables/podcastdata';
 
@@ -87,6 +88,12 @@ const submenu = [
     name: "episode.add",
     slug: "/admin/podcast/"+slug+"/new-episode",
     layout: "add"
+  },
+  {
+    id: 2,
+    name: "delete",
+    slug: "#delete",
+    layout: "delete"
   }
 ]
 const { refresh, podcast, episodes } = await usePodcast(slug);
@@ -95,4 +102,21 @@ if (route.query.refresh) await refresh();
 const { enumerations } = await useEnumerations();
 const language = ref(enumerations.getLanguage(podcast.value.language_id));
 const podcastGenre = ref(enumerations.getGenre(podcast.value.category_id));
+
+const back = useRouteBack();
+async function menuItemClicked(value: string) {
+  if (value === "#delete") {
+    const postData = {
+        method: "delete",
+        body: {
+          id: podcast.value.id,
+          title: podcast.value.title,
+        },
+      };
+      var postResult: Response = await $fetch(PODCAST_AP, postData);
+      if (postResult.status == 201) {
+        back()
+      }
+  }
+}
 </script>

@@ -29,13 +29,6 @@ import { booleanLiteral } from "@babel/types";
           {{ $t("cancel") }}
         </button>
         <button
-          v-if="isEdit"
-          class="ccf-button ccf-alert"
-          @click="remove"
-        >
-          {{ $t("delete") }}
-        </button>
-        <button
           class="
             ccf-button
             ccfbutton-border
@@ -65,9 +58,6 @@ export default defineComponent({
 
       emit("save");
     }
-    function remove() {
-      emit("remove");
-    }
     function cancel() {
       emit("cancel");
     }
@@ -75,7 +65,6 @@ export default defineComponent({
       isEdit,
       type: props.type,
       save,
-      remove,
       cancel,
     };
   }

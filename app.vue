@@ -30,6 +30,11 @@ function getMenu(loggedin) : Array<IMenuSection> {
             },
             {
               id: id++,
+              slug: "/recent",
+              name: i18n.t("menu.recent"),
+            },
+            {
+              id: id++,
               slug: "/serie",
               name: i18n.t("menu.series"),
             }
@@ -55,11 +60,6 @@ function getMenu(loggedin) : Array<IMenuSection> {
         });
         menu[1].entries.push({
           id: id++,
-          slug: "/recent",
-          name: i18n.t("menu.recent"),
-        });
-        menu[1].entries.push({
-          id: id++,
           slug: "/admin/new-podcast",
           name: i18n.t("menu.new"),
         });
@@ -76,7 +76,6 @@ const user = await useUser()
 console.log("user " + JSON.stringify(user.value))
 
 const loggedin = computed( () => (user.value?true:false) )
-console.log("logedin " + loggedin.value)
 const menu = computed( () => getMenu(loggedin.value) )
 
 function localeChanged(value) {

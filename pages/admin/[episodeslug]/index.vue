@@ -9,15 +9,11 @@ if (route.query.refresh)
 const { podcast, series } = await usePodcast(episode.value.podcast.slug)
 
 function onsaved() {
-  router.push("/" + slug+ "?refresh=true");
+  const url = router.options.history.state.back;
+  router.push(url+ "?refresh=true");
 }
 function oncancel() {
   router.go(-1);
-}
-function ondelete() {
-  const redir = "/podcast/"+episode.value.podcast.slug+"?refresh=true"
-  remove();
-  router.push(redir);
 }
 </script>
 <template>
@@ -26,9 +22,8 @@ function ondelete() {
           :podcast="podcast" 
           :episode="episode" 
           :series="series" 
-          @onsaved="onsaved"
-          @oncancel="oncancel"
-          @ondelete="ondelete"
+          @save="onsaved"
+          @cancel="oncancel"
           />
     </div>
 </template>

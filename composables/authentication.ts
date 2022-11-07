@@ -27,11 +27,10 @@ export async function userLogout() {
   await useFetch(LOGOUT_AP)
   useState('user').value = null
   useAuthCookie().value = null
-  await useRouter().push('/')
 }
 
 export async function loginWithEmail(email: string, password: string) {
     const user = await $fetch<IUser>(LOGIN_AP, { method: 'POST', body: { email: email, password: password } })
     useState('user').value = user
-    await useRouter().push("/")
+    return user != undefined
 }

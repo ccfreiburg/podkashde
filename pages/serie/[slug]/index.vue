@@ -1,6 +1,6 @@
 <template>
   <div>
-    <sub-menu v-if="user != null" :items="submenu"/>
+    <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked"/>
     <div class="w-full flex justify-center">
       <div
         class="mt-6 md:mt-12 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs"
@@ -48,20 +48,45 @@
     </div>
 </template>
 <script setup lang="ts">
+import { SERIE_AP } from '~~/base/Constants';
 import { useEnumerations } from '~~/composables/enumerationdata';
 import { useSerie } from '~~/composables/seriedata';
 const user = await useUser()
 const route = useRoute();
 const slug = route.params.slug as string
+const { refresh, episodes, serie } = await useSerie(slug)
+if (route.query.refresh)
+  await refresh();
 const submenu = [
 {
     id: 0,
     name: "serie.edit",
     slug: "/admin/serie/"+slug,
     layout: "edit"
+  },
+  {
+    id: 1,
+    name: "delete",
+    slug: "#delete",
+    layout: "delete"
   }
 ]
-const { refresh, episodes, serie } = await useSerie(slug)
-if (route.query.refresh)
-  await refresh();
+const back = useRouteBack();
+async function menuItemClicked(value: string) {
+  if (value === "#delete") {
+    const postData = {
+        method: "delete",
+        body: {
+          id: serie.value.id,
+          title: serie.value.title,
+        },
+      };
+      var postResult: Response = await $fetch(SERIE_AP, postData);
+      if (postResult.status == 201) {
+        back()
+      }
+  }
+}
+
+
 </script>

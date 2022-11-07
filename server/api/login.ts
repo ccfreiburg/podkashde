@@ -1,9 +1,9 @@
 import { getUserByEmail, sanitizeUserForFrontend } from '~~/server/services/userService';
 import bcrypt from 'bcrypt'
-import { CompatibilityEvent, sendError } from "h3"
+import { sendError } from "h3"
 import { makeSession } from '~~/server/services/sessionService';
 
-export default async (event: CompatibilityEvent) => {
+export default defineEventHandler( async (event) => {
   const body = await useBody(event)
   const email: string = body.email
   const password: string = body.password
@@ -23,4 +23,4 @@ export default async (event: CompatibilityEvent) => {
   await makeSession(user, event)
 
   return sanitizeUserForFrontend(user)
-}
+})

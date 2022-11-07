@@ -58,16 +58,6 @@
           {{ $t("cancel") }}
         </button>
         <button
-          v-if="fields.id && fields.id > 0"
-          class="
-            ccf-button
-            ccf-alert 
-          "
-          @click="deletePodcast"
-        >
-          {{ $t("delete") }}
-        </button>
-        <button
           class="
             ccf-button
             ccfbutton-border
@@ -182,20 +172,6 @@ export default defineComponent({
       ctx.emit("oncancel");
     }
 
-    async function deletePodcast() {
-      const postData = {
-        method: "delete",
-        body: {
-          id: fields.value.id,
-          title: fields.value.title,
-        },
-      };
-      var postResult: Response = await $fetch(PODCAST_AP, postData);
-      if (postResult.status == 201) {
-        ctx.emit("ondeleted", fields.value.title);
-      }
-    }
-
     function imageSelected(data: ImageMetadata) {
       imgMetadata.value = { ...data };
     }
@@ -209,7 +185,6 @@ export default defineComponent({
       isEdit,
       getClass,
       imageSelected,
-      deletePodcast,
       cancel,
       savePodcast,
       imgMetadata
