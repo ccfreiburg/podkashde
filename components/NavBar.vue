@@ -88,7 +88,7 @@
         </div>
         <div class="flex-grow flex flex-row place-content-center">
           <nuxt-link class="text-center inline-block" to="/">
-            <img src="/assets/img/logo.png" class="h-6 md:h-10" />
+            <img src="@@/assets/img/logo.png" class="h-6 md:h-10" />
           </nuxt-link>
         </div>
         <div class="w-20"></div>

@@ -1,7 +1,7 @@
-import fs from "fs"
+import fs from "fs-extra"
 import path from "path"
 import type { Nitro } from 'nitropack';
-import { dev } from "process";
+import { nuxtPath } from "./server/services/podcastService";
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
@@ -48,21 +48,22 @@ export default defineNuxtConfig({
     preset: 'node-server',
     hooks: {
       compiled(nitro: Nitro) {
-        const packagePath = path.join(
+        const destPackagePath = path.join(
           nitro.options.output.dir,
           'server',
           'node_modules',
           'parse5',
-          'package.json'
+        );
+        const packagePath = path.join(
+          '.',
+          'node_modules',
+          'parse5',
+          'dist',
+          'cjs'
         );
 
         try {
-          const packageContent = fs.readFileSync(packagePath, 'utf-8');
-
-          fs.writeFileSync(
-            packagePath,
-            packageContent.replace('"main": "./lib/index.js"', '"main": "./lib/common/doctype.js"')
-          );
+          fs.copySync(packagePath, destPackagePath, {overwrite: true})
         } catch (err) {}
       },
     },

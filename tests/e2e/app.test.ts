@@ -8,6 +8,6 @@ describe('App', async () => {
   it('my test', async () => {
     const thePage = url('/page')
     const html = await $fetch('/')
-    expect(html).toContain("Login")
+    expect(html).toContain("Podcasts")
 })
 })
