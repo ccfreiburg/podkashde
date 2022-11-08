@@ -1,8 +1,8 @@
 import fs from "fs";
-import { returnCode } from "../returncode";
+import { IFetchFileResult } from "../../base/types/IFetchFileResult";
 import { createDir, nuxtPath } from "../services/podcastService";
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event) : Promise<IFetchFileResult> => {
   const body = await useBody(event);
   return new Promise(async (resolve, reject) => {
     const path = nuxtPath(body.newpath);
@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
       const buffer = Buffer.from(await data.arrayBuffer());
       fs.writeFileSync(filename, buffer)
       } catch (err){
-        resolve(returnCode(400, err.message));
+        resolve({ status: 400, message: err.message });
         return;
       }
       resolve({

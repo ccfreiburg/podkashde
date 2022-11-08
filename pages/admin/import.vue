@@ -179,6 +179,8 @@ import ProgressInfo from "~~/base/types/ProgressInfo";
 import IEnumerator from "~~/base/types/IEnumerator";
 import IPodcast from "~~/base/types/IPodcast";
 import ISerie from "~~/base/types/ISerie";
+import { IFetchFileResult } from "~~/base/types/IFetchFileResult";
+import { addState, ContentState } from "~~/base/types/ContentState";
 
 const CCF = "https://ccfreiburg.de/";
 
@@ -188,18 +190,18 @@ definePageMeta({
 
 const wpurl = ref(CCF);
 const loading = ref(false);
-const wpPodcasts = ref([]);
+const wpPodcasts = ref([] as  Array<Object>);
 const wpPodcastEpisodesCount = ref(new Array<number>());
 const wpMetadata = ref(new WpMetadata())
-const statusLog = ref([]);
-const { refresh, enumerations } = await useEnumerations();
+const statusLog = ref([] as Array<Object>);
+const { refresh, enums, enumerations } = await useEnumerations();
 const isCheckedImportMp3s = ref(false)
 const isCheckedImportCovers = ref(false)
 const isEnabledMetadata = ref(enumerations.authors.length<1 || enumerations.tags.length<1)
 const isCheckedImportMetadata = ref(isEnabledMetadata.value)
 
-var checkedSeries = [];
-var wpPodcastEpisodes = [];
+var checkedSeries = [] as Array<Object>;
+var wpPodcastEpisodes = [] as Array<Object>;
 
 async function post<T>(endpoint: string, data: T) {
   const postData = {
@@ -213,8 +215,8 @@ async function post<T>(endpoint: string, data: T) {
 
 async function importEnums() {
   statusLog.value.push({ message: "Saving tags and authors to server" })
-  var enums = enumsfromWpMetadata(wpMetadata.value.speakers, EnumKey.Authors);
-   enumsfromWpMetadata(wpMetadata.value.tags, EnumKey.Tags).forEach((item) =>
+  var enums = enumsfromWpMetadata(enumerations.getAuthor, wpMetadata.value.speakers, EnumKey.Authors);
+   enumsfromWpMetadata(enumerations.getTag,wpMetadata.value.tags, EnumKey.Tags).forEach((item) =>
      enums.push(item)
    );
   await post<Array<IEnumerator>>(ENUMERATIONS_AP, enums)
@@ -223,13 +225,16 @@ async function importEnums() {
 
 async function importSeries() {
   statusLog.value.push({ message: "Saving series metadata to server" })
+  const {series} = await useSeries()
   var pk_series = seriesfromWpMetadata(
+    series.value,
     wpMetadata.value.series.filter(
       (serie: IWpKeyValue) => !wpPodcasts.value.find((podcast) => podcast.id == serie.id)
     ))
   if (isCheckedImportCovers.value) {
     for await (var serie of pk_series) {
       serie.cover_file = await downloadFile(SERVER_IMG_PATH, SERIES_IMG_PATH, serie.cover_file)
+      serie.state = addState(serie.state, ContentState.image)
     }
   }
   await post<Array<ISerie>>(SERIES_AP, pk_series)
@@ -257,7 +262,7 @@ async function fetchFile(
   slug: string,
   file: string,
   altslug?: string
-) {
+) : Promise<IFetchFileResult> {
   const newpath = ContentFile.getPathFromUrl(serverPath, slug);
   const newfile = ContentFile.getFilename(file);
   if (ContentFile.isQualifiedUrl(file)) {
@@ -270,7 +275,7 @@ async function fetchFile(
         altpath: (altslug ? ContentFile.getPathFromUrl(serverPath, altslug) : "")
       } as Object,
     };
-    const ret = await $fetch(FETCHLOCAL_AP, postData);
+    const ret = (await $fetch(FETCHLOCAL_AP, postData)) as IFetchFileResult;
     return ret;
   }
   return { status: 501, message: "Something went wrong" }
@@ -278,29 +283,38 @@ async function fetchFile(
 // 
 async function importPodcast(podcast: any) {
   statusLog.value.push({ message: "Saving podcast " + podcast.title + " to server" })
-  var podkashde = podcastFromWpMetadata(podcast, enumerations)
-  if (isCheckedImportCovers.value)
+  var contentState = ContentState.allmeta;
+  const {podcasts} = await usePodcasts()
+  const {episodes} = await useEpisodes()
+  var podkashde = podcastFromWpMetadata(podcasts.value, podcast, enums.value)
+  if (isCheckedImportCovers.value) {
     podkashde.cover_file = await downloadFile(SERVER_IMG_PATH, podkashde.slug, podkashde.cover_file)
-  console.log("Done " + podkashde.cover_file)
+    podkashde.state = addState(contentState, ContentState.image)
+  }
   await post<IPodcast>(PODCAST_AP, podkashde)
-  const episodes = await useWpEpisodes(wpurl.value, podcast.id)
-  for await (var episode of episodes.value) {
+  const wpEpisodes = await useWpEpisodes(wpurl.value, podcast.id)
+  for await (var episode of wpEpisodes.value) {
+    contentState = ContentState.allmeta;
     var pk_episode = episodeFromWpMetadata(
+      episodes.value,
       episode,
       podkashde.external_id,
       podkashde.cover_file,
       enumerations
     )
-    console.log(pk_episode)
     if (isCheckedImportCovers.value) {
-      if (pk_episode.image)
+      if (pk_episode.image) {
         pk_episode.image = await downloadFile(SERVER_IMG_PATH, podkashde.slug, pk_episode.image, SERIES_IMG_PATH)
+        contentState = addState(contentState, ContentState.image)
+      }
       if (pk_episode.postimage)
         pk_episode.postimage = await downloadFile(SERVER_POSTIMG_PATH, podkashde.slug, pk_episode.postimage)
     }
-    if (isCheckedImportMp3s.value)
+    if (isCheckedImportMp3s.value) {
       pk_episode.link = await downloadFile(SERVER_MP3_PATH, podkashde.slug, pk_episode.link)
-    console.log("Dome")
+      contentState = addState(contentState, ContentState.files)
+    }
+    pk_episode.state = contentState;
     statusLog.value.push({ message: "Saving episode " + pk_episode.title + " to server" })
     await post(EPISODE_AP, pk_episode)
   }
@@ -309,7 +323,7 @@ async function importPodcast(podcast: any) {
  
 // Event Handlers
 
-function onCheckSeries(value) {
+function onCheckSeries(value: Array<Object>) {
   checkedSeries = value;
 }
 
@@ -334,8 +348,8 @@ async function loadPreview() {
   statusLog.value = [];
   loading.value = true;
   for await (var element of wpPodcasts.value) {
-    statusLog.value.push({ message: "Loading Episode counts for " + element.title })
-    const episodes = await useWpEpisodeCount(wpurl.value, element.id)
+    statusLog.value.push({ message: "Loading Episode counts for " + (element as any).title })
+    const episodes = await useWpEpisodeCount(wpurl.value, (element as any).id)
     wpPodcastEpisodesCount.value.push(episodes.value)
   }
   loading.value = false;
