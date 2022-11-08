@@ -14,7 +14,7 @@
             :key="aOption.enumvalue_id"
             :value="aOption.enumvalue_id"
           >         
-            {{(long?aOption.displaytext + " - " + aOption.displaytext:aOption.displaytext)}}
+            {{(long?aOption.parentCategory + " - " + aOption.displaytext:aOption.displaytext)}}
           </option>
         </select>
       </div>
