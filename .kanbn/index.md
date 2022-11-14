@@ -20,11 +20,13 @@ sprints:
 
 ## Todo
 
-- [authentication](tasks/authentication.md)
-- [404-page](tasks/404-page.md)
 - [uat-test-suite](tasks/uat-test-suite.md)
 - [deployment](tasks/deployment.md)
 
 ## In Progress
 
+- [404-page](tasks/404-page.md)
+
 ## Done
+
+- [authentication](tasks/authentication.md)
