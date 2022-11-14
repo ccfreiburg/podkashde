@@ -1,24 +1,46 @@
-import { checkAuthentication } from "../services/sessionService"
+import UrlPattern from "url-pattern"
+import { sendError } from "h3"
+import { decodeAccessToken } from "../jwt"
+import { getUserById } from "../services/userService"
 
-export default defineEventHandler( async (event) => {
-    const cookies = useCookies(event)
-    const urlmatcher = /^(?:(?:(([^:\/#\?]+:)?(?:(?:\/\/)(?:(?:(?:([^:@\/#\?]+)(?:\:([^:@\/#\?]*))?)@)?(([^:\/#\?\]\[]+|\[[^\/\]@#?]+\])(?:\:([0-9]+))?))?)?)?((?:\/?\/api(?:[^\/\?#]+\/+)*)(?:[^\?#]*)))?(\?[^#]+)?)(#.*)?/;
-    const match = urlmatcher.exec(event.req.url)
-    if (match && event.req.method!="GET") {
-        const path = match[8]
-        const allowedRoutes = [
-            "/api/login",
-            "/api/logout",
-            "/api/session"
-        ]
-        if (!allowedRoutes.includes(path)) {
-            if (! cookies.auth_token)
-                throw new Error("Not authenticated")
-            if (! await checkAuthentication(cookies.auth_token,-1)) {
-                setCookie(event, 'auth_token', null)
-                throw new Error("Not authenticated")
-            }
-        }
+export default defineEventHandler(async (event) => {
+    const endpoints = [
+        '/api/auth/user',
+    ]
+    const login = new UrlPattern('/api/auth/login')
+
+    const isHandledByThisMiddleware = 
+        (event.req.method != 'GET' && !login.match(event.req.url)) ||
+        endpoints.some(endopoint => {
+            const pattern = new UrlPattern(endopoint)
+            return pattern.match(event.req.url) 
+        })
+
+    if (!isHandledByThisMiddleware) {
+        return
     }
+    console.log("handeled by middleware")
+
+    const token = event.req.headers['authorization']?.split(' ')[1]
+
+    const decoded = decodeAccessToken(token)
+
+    if (!decoded) {
+        return sendError(event, createError({
+            statusCode: 401,
+            statusMessage: 'Unauthorized'
+        }))
+    }
+
+
+    try {
+        const userId = decoded.userId
+
+        const user = await getUserById(userId)
+
+        event.context.auth = { user }
+    } catch (error) {
+        return
+    }
+
 })
-  

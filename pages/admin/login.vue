@@ -14,7 +14,7 @@
             <input-area name="password" type="password" :label="'login.password'" v-model:value="password"></input-area>
             <button
               class="float-right h-12 w-40 mt-8 px-2 rounded-md ccfbutton-border"
-              @click="login"
+              @click="onlogin"
             >
               {{ $t("login.submit") }}
             </button>
@@ -26,12 +26,13 @@
 </template>
 <script setup lang="ts">
 const router = useRouter();
+const { login } = useAuth()
 
 const user = ref("ar@3ar.de");
 const password = ref("0test0++");
 
-const login = () => {
-  if (loginWithEmail(user.value, password.value)) {
+const onlogin = async () => {
+  if (await login(user.value, password.value)) {
     const url = router.options.history.state.back;
     router.push(url+"?refresh=true")
   }

@@ -36,16 +36,20 @@
    },
    "dependencies": {
       "@testing-library/vue": "^6.6.1",
+      "@types/jsonwebtoken": "^8.5.9",
       "@types/node": "^16.11.10",
       "@vueuse/core": "^8.9.4",
       "bcrypt": "^5.0.1",
       "id3-parser": "^2.0.0",
+      "jsonwebtoken": "^8.5.1",
+      "jwt-decode": "^3.1.2",
       "multer": "^1.4.5-lts.1",
       "nuxt": "^3.0.0-rc.13",
       "pg": "^8.4.0",
       "podcast": "^2.0.1",
       "reflect-metadata": "^0.1.13",
       "typeorm": "^0.3.7",
+      "url-pattern": "^1.0.3",
       "vitest": "^0.22.1"
    }
 }

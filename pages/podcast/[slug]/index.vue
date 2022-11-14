@@ -73,7 +73,7 @@ import { PODCAST_AP } from '~~/base/Constants';
 import { useEnumerations } from '~~/composables/enumerationdata';
 import { usePodcast } from '~~/composables/podcastdata';
 
-const user = await useUser();
+const user = await useAuth().useAuthUser();
 const route = useRoute();
 const slug = route.params.slug as string;
 const submenu = [

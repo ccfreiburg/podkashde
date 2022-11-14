@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { useEpisode } from "~~/composables/episodedata";
+definePageMeta({
+  middleware: "authentication",
+});
 const route = useRoute();
 const router = useRouter();
 const slug = route.params.episodeslug as string;

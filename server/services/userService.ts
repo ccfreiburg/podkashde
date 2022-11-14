@@ -10,6 +10,10 @@ export async function getUserByUserName(username: string): Promise<IUser> {
     return readUser( { username: username } );
 }
 
+export async function getUserById( id: number ): Promise<IUser> {
+    return readUser( { id: id } );
+}
+
 export async function readUser(query): Promise<IUser> {
     const db = await getDataSource();
     const repo = db.getRepository(User);

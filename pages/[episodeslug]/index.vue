@@ -125,7 +125,7 @@ import { useEpisode } from '~~/composables/episodedata';
 import { parseHTML } from '~~/base/Converters';
 const route = useRoute();
 const back = useRouteBack();
-const user = await useUser();
+const user = await useAuth().useAuthUser();
 const slug = route.params.episodeslug as string;
 const showdetail = ref(false);
 const { refresh, serie, podcast, episode } = await useEpisode(slug);

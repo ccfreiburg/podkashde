@@ -72,7 +72,11 @@ function getMenu(loggedin) : Array<IMenuSection> {
   return menu;
 }
 
-const user = await useUser()
+const { useAuthUser, initAuth, useAuthLoading, logout } = useAuth()
+const user = useAuthUser()
+onBeforeMount(() => {
+    initAuth()
+})
 console.log("user " + JSON.stringify(user.value))
 
 const loggedin = computed( () => (user.value?true:false) )
@@ -83,7 +87,7 @@ function localeChanged(value) {
 }
 function menuItemClicked(name) {
   if (name=="#logout") {
-    userLogout()
+    logout()
   }
 }
 </script>

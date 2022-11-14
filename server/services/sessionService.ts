@@ -1,20 +1,17 @@
-import { readUser, sanitizeUserForFrontend } from '~~/server/services/userService';
-import { CompatibilityEvent } from "h3"
-import { v4 as uuidv4 } from 'uuid'
+import { getUserById, sanitizeUserForFrontend } from '~~/server/services/userService';
 import ISession from '~~/base/types/ISession';
 import { IUser } from '~~/base/types/IUser';
 import getDataSource from '../db/dbsigleton';
 import Session, { getSession } from '../db/entities/Session';
+import { generateAccessToken } from '../jwt';
 
 
-export async function createSession(data: ISession) {
-    var dto = { ... data }
-    if (data.userId) 
-        dto.user = await readUser({ id: data.userId })
-    const session = getSession(dto);
+export async function createSession( refreshToken: string, userId: number ) : Promise<ISession> {
+    const user = await getUserById(userId)
+    const session = getSession({ userId, refreshToken });
     const db = await getDataSource();
     await db.manager.save(session);
-    return session;
+    return session as ISession;
 }
 
 export async function readSession(query): Promise<ISession> {
@@ -28,20 +25,24 @@ export async function readSession(query): Promise<ISession> {
     return result.pop()
 }
 
-export async function getSessionByAuthToken(authToken: string): Promise<ISession> {
-  return new Promise( async ( resolve, reject ) => {
-    const session = await readSession({authToken: authToken})
-    if (session) {
-       resolve({ authToken, user: session.user })
-     } else {
-       resolve(null)
-    }
-  })
+export const removeSession = async (token: string) => {
+    const db = await getDataSource();
+    const repo = db.getRepository(Session);
+    var tmpQuery = {
+        where: {
+            refreshToken: token
+        }
+    };
+    const result = await repo.delete(tmpQuery)
+}
+
+export async function getSessionByToken(token: string): Promise<ISession> {
+  return await readSession({refreshToken: token})
 }
 
 export async function makeSession(user: IUser, event: CompatibilityEvent): Promise<IUser> {
-    const regex = /-/g;
-    const authToken = uuidv4().replace(regex, '')
+    const authToken = generateAccessToken(user)
+    const refreshToken = generateAccessToken(user)
     const session = await createSession({ authToken, userId: user.id })
     const userId = session.userId
 

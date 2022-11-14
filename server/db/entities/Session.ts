@@ -7,7 +7,7 @@ export function getSession( sessiondata: ISession) {
   if (session.id>0)
     session.id = sessiondata.id;
   session.userId = sessiondata.userId;
-  session.authToken = sessiondata.authToken;
+  session.refreshToken = sessiondata.refreshToken;
   return session;
 }
 
@@ -21,7 +21,7 @@ export default class Session extends BaseEntity implements ISession{
   userId: number;
 
   @Column("text")
-  authToken: string;
+  refreshToken: string;
 
   @ManyToOne(() => User, (user) => user.sessions)
   user: User;

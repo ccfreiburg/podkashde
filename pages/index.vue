@@ -57,7 +57,6 @@
 <script setup lang="ts">
 import { BASE_URL, FEED_SLUG } from '~~/base/Constants';
 import { usePodcasts } from '~~/composables/podcastdata';
-import { loginWithEmail } from '../composables/authentication';
 const { refresh, podcasts } = await usePodcasts()
 const route = useRoute();
 const getFeedUrl = (slug: string) : string => {

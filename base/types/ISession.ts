@@ -2,7 +2,7 @@ import { IUser } from "./IUser";
 
 export default interface ISession {
     id?:        number;
-    authToken: string;
+    refreshToken: string;
     userId?:    number;       
     createdAt?: Date;
     updatedAt?: Date;

@@ -51,7 +51,7 @@
 import { SERIE_AP } from '~~/base/Constants';
 import { useEnumerations } from '~~/composables/enumerationdata';
 import { useSerie } from '~~/composables/seriedata';
-const user = await useUser()
+const user = await useAuth().useAuthUser();
 const route = useRoute();
 const slug = route.params.slug as string
 const { refresh, episodes, serie } = await useSerie(slug)

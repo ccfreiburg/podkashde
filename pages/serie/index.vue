@@ -36,7 +36,6 @@
 
 <script setup lang="ts">
 import { useSeries } from '~~/composables/seriedata';
-import { loginWithEmail } from '~~/composables/authentication';
 const { refresh, series } = await useSeries();
 const route = useRoute();
 if (route.query.refresh) refresh();

@@ -29,6 +29,9 @@
 
 <script setup lang="ts">
 import { useSeries } from '~~/composables/seriedata';
+definePageMeta({
+  middleware: "authentication",
+});
 const { refresh, series } = await useSeries()
 const route = useRoute();
 if (route.query.refresh)
