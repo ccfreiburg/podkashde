@@ -7,7 +7,7 @@ import IPodcast from "./types/IPodcast";
 import IEpisode from "./types/IEpisode";
 import IEnumerator from "./types/IEnumerator";
 import ISerie from "./types/ISerie";
-import IBibleAddress from "./types/IBibleAddress"
+import IBibleAddress from "./types/IBibleAddress.ts"
 import { link } from "fs/promises";
 
 export function enumsfromWpMetadata(
