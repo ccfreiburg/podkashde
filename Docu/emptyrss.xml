@@ -1,0 +1,63 @@
+<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<rss xmlns:dc=\"http://purl.org/dc/elements/1.1/\"
+  xmlns:content=\"http://purl.org/rss/1.0/modules/content/\"
+  xmlns:atom=\"http://www.w3.org/2005/Atom\" version=\"2.0\"
+  xmlns:sy=\"http://purl.org/rss/1.0/modules/syndication/\"
+  xmlns:slash=\"http://purl.org/rss/1.0/modules/slash/\"
+  xmlns:googleplay=\"http://www.google.com/schemas/play-podcasts/1.0\"
+  xmlns:itunes=\"http://www.itunes.com/dtds/podcast-1.0.dtd\"
+  xmlns:psc=\"http://podlove.org/simple-chapters\"
+  xmlns:podcast=\"https://podcastindex.org/namespace/1.0\">
+  <channel>
+    <title><![CDATA[a]]></title>
+    <description><![CDATA[d]]></description>
+    <link>http://a.bc</link>
+    <generator>https://github.com/ccfreiburg/podkashde</generator>
+    <lastBuildDate>Sun, 13 Nov 2022 20:49:22 GMT</lastBuildDate>
+    <atom:link href=\"http://localhost:3000/feed/c.xml\" rel=\"self\" type=\"application/rss+xml\"/>
+    <author><![CDATA[b]]></author>
+    <copyright><![CDATA[c]]></copyright>
+    <language><![CDATA[de-DE]]></language>
+    <docs>http://localhost:3000/c</docs>
+    <podcast:locked>yes</podcast:locked>
+    <itunes:author>b</itunes:author>
+    <itunes:subtitle>s</itunes:subtitle>
+    <itunes:summary>s</itunes:summary>
+    <itunes:type>episodic</itunes:type>
+    <itunes:owner>
+      <itunes:name>h</itunes:name>
+      <itunes:email>a@b.cd</itunes:email>
+    </itunes:owner>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:category text=\"Sports\">
+      <itunes:category text=\"Hockey\"/>
+    </itunes:category>
+    <itunes:image href=\"http://localhost:3000/covers/i\"/>
+    <item>
+      <title><![CDATA[eti]]></title>
+      <description><![CDATA[ede]]></description>
+      <link>http://localhost:3000/esl</link>
+      <guid isPermaLink=\"false\">http://localhost:3000/esl</guid>
+      <dc:creator><![CDATA[ecr]]></dc:creator>
+      <pubDate>Fri, 15 Jul 2022 06:30:00 GMT</pubDate>
+      <enclosure url=\"http://localhost:3000/audio/eli\" length=\"43\" type=\"audio/mpeg\"/>
+      <itunes:block>false</itunes:block>
+      <googleplay:image href=\"http://localhost:3000/covers/eim\"></googleplay:image>
+      <googleplay:description>ede</googleplay:description>
+      <googleplay:block>no</googleplay:block>
+      <googleplay:explicit>no</googleplay:explicit>
+      <image>
+        <url>http://localhost:3000/covers/eim</url>
+        <title>eti</title>
+      </image>
+      <content:encoded><![CDATA[ede]]></content:encoded>
+      <itunes:author>ecr</itunes:author>
+      <itunes:subtitle>esu</itunes:subtitle>
+      <itunes:summary>esm</itunes:summary>
+      <itunes:explicit>false</itunes:explicit>
+      <itunes:duration>00:01:12</itunes:duration>
+      <itunes:keywords>eke</itunes:keywords>
+      <itunes:image href=\"http://localhost:3000/covers/eim\"/>
+    </item>
+  </channel>
+</rss>

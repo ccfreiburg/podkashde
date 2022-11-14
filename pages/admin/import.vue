@@ -250,8 +250,8 @@ async function downloadFile(serverPath: string, slug: string, file: string, alts
     altslug
   );
   // If download successfull return new address of cover_image 
-  if (ret.status == 201 || ret.status == 423) {
-    return FILES_AP+ret.path;
+  if (ret.path && ret.status == 201 || ret.status == 423) {
+    return ret.path as string;
   }
   else
     return file;
@@ -286,6 +286,7 @@ async function importPodcast(podcast: any) {
   var contentState = ContentState.allmeta;
   const {podcasts} = await usePodcasts()
   const {episodes} = await useEpisodes()
+  const {series} = await useSeries()
   var podkashde = podcastFromWpMetadata(podcasts.value, podcast, enums.value)
   if (isCheckedImportCovers.value) {
     podkashde.cover_file = await downloadFile(SERVER_IMG_PATH, podkashde.slug, podkashde.cover_file)
@@ -314,7 +315,7 @@ async function importPodcast(podcast: any) {
       pk_episode.link = await downloadFile(SERVER_MP3_PATH, podkashde.slug, pk_episode.link)
       contentState = addState(contentState, ContentState.files)
     }
-    pk_episode.state = contentState;
+    pk_episode.state = contentState;    
     statusLog.value.push({ message: "Saving episode " + pk_episode.title + " to server" })
     await post(EPISODE_AP, pk_episode)
   }

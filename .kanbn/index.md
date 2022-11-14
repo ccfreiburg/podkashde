@@ -13,34 +13,36 @@ sprints:
 
 ## Backlog
 
+- [autor-aus-enum-liste-oder-eingeben](tasks/autor-aus-enum-liste-oder-eingeben.md)
+- [video-link-rausparsen](tasks/video-link-rausparsen.md)
+- [bibelstellen-erkennen-und-suchen-evtl-plugin-konzeot](tasks/bibelstellen-erkennen-und-suchen-evtl-plugin-konzeot.md)
 - [podcast-page](tasks/podcast-page.md)
 - [neue-episoden-aus-wp-importieren](tasks/neue-episoden-aus-wp-importieren.md)
-- [bibelstellen-erkennen-und-suchen-evtl-plugin-konzeot](tasks/bibelstellen-erkennen-und-suchen-evtl-plugin-konzeot.md)
 - [static-site](tasks/static-site.md)
-- [beautify-design-of-podcast-list-and-toaster](tasks/beautify-design-of-podcast-list-and-toaster.md)
 - [drag-n-drop-image](tasks/drag-n-drop-image.md)
+- [veröffentlichungsstatus-für-podcasts-serien-und-episoden](tasks/veröffentlichungsstatus-für-podcasts-serien-und-episoden.md)
 
 ## Todo
 
-- [add-player-to-episode-page](tasks/add-player-to-episode-page.md)
-- [generate-rss-xml](tasks/generate-rss-xml.md)
-- [design-überarbeiten](tasks/design-überarbeiten.md)
-- [import-status](tasks/import-status.md)
-- [bug-episdoe-detail-overwrites-date](tasks/bug-episdoe-detail-overwrites-date.md)
-- [bug-episode-detail-generate-slug-does-not-work](tasks/bug-episode-detail-generate-slug-does-not-work.md)
+- [authentication](tasks/authentication.md)
 - [404-page](tasks/404-page.md)
-- [differentiate-url-file-po-k-url](tasks/differentiate-url-file-po-k-url.md)
-- [veröffentlichungsstatus-für-podcasts-serien-und-episoden](tasks/veröffentlichungsstatus-für-podcasts-serien-und-episoden.md)
-- [testing-konzept](tasks/testing-konzept.md)
-- [reload-when-returning-to-podcast-page](tasks/reload-when-returning-to-podcast-page.md)
+- [uat-test-suite](tasks/uat-test-suite.md)
 
 ## In Progress
 
-- [create-new-series](tasks/create-new-series.md)
-
 ## Done
 
-- [authentication](tasks/authentication.md)
+- [generate-rss-xml](tasks/generate-rss-xml.md)
+- [import-status](tasks/import-status.md)
+- [design-überarbeiten](tasks/design-überarbeiten.md)
+- [bug-episdoe-detail-overwrites-date](tasks/bug-episdoe-detail-overwrites-date.md)
+- [create-new-series](tasks/create-new-series.md)
+- [bug-episode-detail-generate-slug-does-not-work](tasks/bug-episode-detail-generate-slug-does-not-work.md)
+- [reload-when-returning-to-podcast-page](tasks/reload-when-returning-to-podcast-page.md)
+- [testing-konzept](tasks/testing-konzept.md)
+- [differentiate-url-file-po-k-url](tasks/differentiate-url-file-po-k-url.md)
+- [beautify-design-of-podcast-list-and-toaster](tasks/beautify-design-of-podcast-list-and-toaster.md)
+- [add-player-to-episode-page](tasks/add-player-to-episode-page.md)
 - [leere-images](tasks/leere-images.md)
 - [refactoring](tasks/refactoring.md)
 - [set-migration-state-correctly](tasks/set-migration-state-correctly.md)

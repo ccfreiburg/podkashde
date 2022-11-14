@@ -10,7 +10,7 @@
           <div class="w-2/12">
             <img class="max-w-20 max-h-20" :src="episode.image" />
           </div>
-          <div class="w-5/12 pl-2 md:pl-8">{{episode.title}}</div>
+          <div class="w-5/12 pl-2 md:pl-8" v-html="episode.title" />
           <div class="w-3/12">{{episode.creator}}</div>
           <div class="w-2/12">{{ episode.datestring }}</div>
           <div class="w-1/12 flex justify-end">
@@ -52,7 +52,7 @@ export default {
   props: {
     episodes: Object as PropType<Array<IEpisode>>,
   },
-  name: 'PodcastEpisodes',
+  name: 'EpisodesList',
   setup(props) {
     const dateformat = (input: Date): string => input.toLocaleDateString();
 

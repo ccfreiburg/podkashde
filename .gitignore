@@ -19,3 +19,5 @@ secret
 public/audio
 public/covers
 public/data
+public/feed
+public/posts

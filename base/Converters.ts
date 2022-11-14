@@ -64,3 +64,9 @@ export function saveSlugFormText(text: string): string {
     .replace("ß", "ss")
     .replace(/\s+/g, "-");
 }
+
+export function parseHTML(html) {
+  var t = document.createElement('template');
+  t.innerHTML = html;
+  return t.content;
+}

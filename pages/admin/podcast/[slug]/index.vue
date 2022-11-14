@@ -21,6 +21,7 @@ export default defineComponent({
     const {podcast, remove} = await usePodcast(route.params.slug as string)
 
     function goBackSaved() {
+      $fetch("/api/generate", { query: { slug: route.params.slug }})
       router.push("/podcast/" + route.params.slug+"?refresh=true");
     }
 

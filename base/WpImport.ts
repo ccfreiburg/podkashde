@@ -7,6 +7,8 @@ import IPodcast from "./types/IPodcast";
 import IEpisode from "./types/IEpisode";
 import IEnumerator from "./types/IEnumerator";
 import ISerie from "./types/ISerie";
+import IBibleAddress from "./types/IBibleAddress"
+import { link } from "fs/promises";
 
 export function enumsfromWpMetadata(
   getIdFunction,
@@ -49,6 +51,8 @@ export function seriesfromWpMetadata(series: Array<ISerie>, wpMetadataList): Arr
         external_id: meta.id,
         description: '',
         state: ContentState.metadata,
+        lastEpisode: null,
+        firstEpisode: null
       }) as ISerie
     list.push(serie);
   });
@@ -142,7 +146,10 @@ export function episodeFromWpMetadata(
       enumerations.authors,
       wpEpisode.speaker[0]
     ).displaytext;
-
+    if (creator.length<1)
+      creator = autorFromDescription(wpEpisode.content.rendered)
+    var cross_ref = verseFromDescription(wpEpisode.content.rendered)
+    
     return addExistingId(episodes, wpEpisode.id, {
         title: wpEpisode.title.rendered,
         slug: wpEpisode.slug,
@@ -158,10 +165,49 @@ export function episodeFromWpMetadata(
         postimage,
         rawsize: wpEpisode.meta.filesize_raw,
         state: 0,
+        video_link: linkFromDescription(wpEpisode.content.rendered,"ideo"),
+        cross_ref: cross_ref.raw,
         external_id: wpEpisode.id,
         ext_podcast_id: wpPodcastId,
         ext_series_id: seriesId,
         keyword,
         creator,
       }) as IEpisode
+}
+
+export function linkFromDescription(description: string, match = "") : string {
+  const regex = new RegExp("<a\\s+(?:[^>]*?\\s+)?href=\\\\?\"(http[s]*:\\/\\/.*)\\\\?\".*" +match+".*<\/a>")
+  const groups =  description.match(regex)
+  const result = (groups && groups.length>1?groups[1]:"")
+  if (result.endsWith("\\"))
+    return result.slice(0,-1)
+  return result
+}
+
+export function autorFromDescription(description: string) : string {
+  const regex = /\s\/\/\s(.*)[^:]\/\/\s/
+  const groups =  description.match(regex)
+  return (groups && groups.length>1?groups[1]:"")
+}
+
+export function verseFromDescription(description: string) : IBibleAddress {
+  const regex = /(([1-3]?\.?[A-Za-z]+)[\. ]([1-9][0-9]*)[\:,.]?(\d*)[-+]?(\d*)( - \d+)?)/
+  const match =  description.match(regex)
+  var result : IBibleAddress = {
+    book: "",
+    raw: "",
+    chapter: 0,
+    verse: 0
+  }
+  if (match) {
+    result.book = match[2]
+    result.raw = match [0]
+    if (match[3])
+      result.chapter = Number.parseInt(match[3])
+    if (match[4])
+      result.verse = Number.parseInt(match[4])
+    if (match[5])
+      result.to_verse = Number.parseInt(match[5])
+  }
+  return result
 }

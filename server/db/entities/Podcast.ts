@@ -121,8 +121,7 @@ export default class Podcast extends BaseEntity implements IPodcast {
   episodes: Episode[];
 
   @ManyToMany(() => Serie, (serie) => serie.podcasts, {
-    cascade: true,
-    onDelete: 'CASCADE',
+    cascade: false,
   })
   @JoinTable()
   series: Serie[];

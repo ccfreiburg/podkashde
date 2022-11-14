@@ -33,6 +33,10 @@ export async function useEnumerations() {
     return Enumerations.byIdOne(Enumerations.tags(enums.value), genre_id);
   };
 
+  const getType = (genre_id: number): IEnumerator => {
+    return Enumerations.byIdOne(Enumerations.podcastTypes(enums.value), genre_id);
+  };
+
   const languages = Enumerations.languages(enums.value);
   const podcastGenres =  Enumerations.podcastGenres(enums.value);
   const podcastTypes =  Enumerations.podcastTypes(enums.value);
@@ -46,6 +50,7 @@ export async function useEnumerations() {
       getGenre,
       getAuthor,
       getTag, 
+      getType,
       languages,
       podcastGenres,
       podcastTypes,

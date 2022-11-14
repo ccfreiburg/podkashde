@@ -8,8 +8,10 @@ import {
   DeleteDateColumn,
   UpdateDateColumn,
   ManyToMany,
+  JoinTable,
 } from "typeorm";
 import { ContentState } from "../../../base/types/ContentState";
+import ISerie from "../../../base/types/ISerie";
 import Episode from "./Episode";
 import Podcast from "./Podcast";
 
@@ -22,6 +24,8 @@ export function initSerie(serie: Serie) {
   serie.state = ContentState.draft;
   serie.lastbuild = "";
   serie.external_id = -1;
+  serie.firstEpisode = null;
+  serie.lastEpisode = null;
 }
 
 export function getSerie(from): Serie {
@@ -32,6 +36,8 @@ export function getSerie(from): Serie {
   serie.slug = from.slug;
   serie.subtitle = from.subtitle;
   serie.state = from.state;
+  serie.firstEpisode = from.firstEpisode;
+  serie.lastEpisode = from.lastEpisode;
   if (from.hasOwnProperty("id")) serie.id = from.id;
   if (from.hasOwnProperty("external_id")) serie.external_id = from.external_id;
   if (from.hasOwnProperty("description")) serie.description = from.description;
@@ -39,7 +45,7 @@ export function getSerie(from): Serie {
 }
 
 @Entity()
-export default class Serie extends BaseEntity {
+export default class Serie extends BaseEntity implements ISerie {
 
   @PrimaryGeneratedColumn()
   id: number;
@@ -59,6 +65,12 @@ export default class Serie extends BaseEntity {
   @Column("text")
   cover_file: string;
 
+  @CreateDateColumn({ type: "datetime", nullable: true })
+  firstEpisode: Date;
+
+  @CreateDateColumn({ type: "datetime", nullable: true })
+  lastEpisode: Date;
+
   @Column("int")
   state: number;
 
@@ -68,10 +80,13 @@ export default class Serie extends BaseEntity {
   @Column("text")
   lastbuild: string;
 
-  @OneToMany(() => Episode, (episode) => episode.podcast)
+  @OneToMany(() => Episode, (episode) => episode.serie)
   episodes: Episode[];
 
-  @ManyToMany(() => Podcast, (podcast) => podcast.series)
+  @ManyToMany(() => Podcast, (podcast) => podcast.series, {
+    cascade: false,
+  })
+  @JoinTable()
   podcasts: Podcast[];
 
   @CreateDateColumn({ type: "datetime" })

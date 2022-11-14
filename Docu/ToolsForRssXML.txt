@@ -1,0 +1,10 @@
+
+Podcast
+https://github.com/maxnowack/node-podcast
+
+RSS
+https://github.com/dylang/node-rss
+
+JS-XML writer
+https://github.com/nashwaan/xml-js
+

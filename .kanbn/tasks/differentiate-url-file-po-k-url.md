@@ -1,9 +1,10 @@
 ---
 created: 2022-07-20T14:53:27.540Z
-updated: 2022-07-20T15:53:30.753Z
+updated: 2022-11-10T09:57:21.161Z
 assigned: ""
 progress: 0
 tags: []
+completed: 2022-11-10T09:57:21.161Z
 ---
 
 # Differentiate Url, File, PoK Url

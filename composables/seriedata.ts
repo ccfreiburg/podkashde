@@ -4,11 +4,11 @@ import IPostdata from "~~/base/types/IPostdata";
 import IEpisode from "~~/base/types/IEpisode";
 
 
-export async function useSeries() {
-    const series = useState<Array<ISerie>>('serie', () => [] )
+export async function useSeries(alsoEmptySeries = false) {
+    const series = useState<Array<ISerie>>('series_'+alsoEmptySeries, () => [] )
 
     const refresh = async () => {
-        series.value = await $fetch(SERIES_AP);
+        series.value = await $fetch(SERIES_AP+"?empty="+alsoEmptySeries);
     }
     // if not init fetch and init
     if (series.value.length<1) {

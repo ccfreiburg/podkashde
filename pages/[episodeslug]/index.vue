@@ -13,12 +13,8 @@
             {{ serie.title }}
           </div>
           <div class="flex flex-col">
-            <div class="text-md md:text-2xl font-semibold tracking-wider">
-              {{ episode.title }}
-            </div>
-            <div class="text-xs md:text-sm tracking-wide text-gray-500">
-              {{ episode.subtitle }}
-            </div>
+            <div class="text-md md:text-2xl font-semibold tracking-wider" v-html="episode.title" />
+            <div class="text-xs md:text-sm tracking-wide text-gray-500" v-html="episode.subtitle" />
           </div>
           <div class="text-xs md:text-sm tracking-wider">
             {{ episode.creator }}
@@ -80,16 +76,12 @@
                   }}MB
                 </div>
               </div>
-              <div class="pt-6 text-sm break-normal">
-                {{ episode.summary }}
-              </div>
-              <div
-                class="text-sm mt-10 flex-grow"
-                v-html="episode.description"
+              <div v-if="episode.summary!=null" class="pt-6 text-sm break-normal" v-html="episode.summary" />
+              <div  v-if="episode.description!=null" class="text-sm mt-10 flex-grow" v-html="episode.description"
               ></div>
             </div>
           </div>
-          <div class="text-sm">
+          <div  v-if="user != null" class="text-sm">
             <div class="text-orange-600" @click="showdetail = !showdetail">
               {{ showdetail ? 'less details' : 'more details' }}
             </div>
@@ -130,6 +122,7 @@
 import { EPISODE_AP } from '~~/base/Constants';
 import { durationInSecToStr } from '~~/base/Converters';
 import { useEpisode } from '~~/composables/episodedata';
+import { parseHTML } from '~~/base/Converters';
 const route = useRoute();
 const back = useRouteBack();
 const user = await useUser();

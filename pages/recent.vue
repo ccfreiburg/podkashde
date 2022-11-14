@@ -9,7 +9,7 @@
     </div>
     <div class="w-full h-screen bg-gray-200 flex justify-center">
       <div class="w-11/12 md:w-2/3 md:h-60 flex flex-row">
-      <podcast-episodes :episodes="episodes" />
+      <episodes-list :episodes="episodes" />
       </div>
     </div>
   </div>

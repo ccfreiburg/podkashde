@@ -53,7 +53,7 @@ async function getWpKeyValue(wpApiBaseUrl: string, category: string) {
 }
 
 export async function useWpMetadata(wpApiBaseUrl: string, progress: (p:ProgressInfo)=>void) {
-    const wpm = useState<WpMetadata>('podcasts', () => new WpMetadata() )
+    const wpm = useState<WpMetadata>('wpMetadata', () => new WpMetadata() )
 
     const refresh = async () => {
         progress({message: "Loading Series"})

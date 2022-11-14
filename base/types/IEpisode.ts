@@ -19,13 +19,15 @@ export default interface IEpisode {
     pubdate: Date;
     state: number;
     rawsize: number;
+    video_link?: string;
+    cross_ref?: string;
     external_id?: number;
     ext_series_id?: number;
     ext_podcast_id?: number;
     serie_id?: number;
     lastbuild?: string;
     podcast?: IPodcast;
-    serie?: ISerie;
+    serie?: ISerie;    
 }
 
 export function emptyIEpisodeFactory(): IEpisode {

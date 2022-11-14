@@ -62,7 +62,7 @@
           >
             in this series
           </div>
-          <podcast-episodes :episodes="episodes" />
+          <episodes-list :episodes="episodes" />
         </div>
       </div>
     </div>
