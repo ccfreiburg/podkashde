@@ -1,6 +1,6 @@
 import UrlPattern from "url-pattern"
 import { sendError } from "h3"
-import { decodeAccessToken } from "../jwt"
+import { decodeAccessToken, decodeRefreshToken } from "../jwt"
 import { getUserById } from "../services/userService"
 
 export default defineEventHandler(async (event) => {
@@ -19,19 +19,19 @@ export default defineEventHandler(async (event) => {
     if (!isHandledByThisMiddleware) {
         return
     }
-    console.log("handeled by middleware")
-
-    const token = event.req.headers['authorization']?.split(' ')[1]
-
-    const decoded = decodeAccessToken(token)
+    var token = event.req.headers['authorization']?.split(' ')[1]
+    var decoded = decodeAccessToken(token)
 
     if (!decoded) {
-        return sendError(event, createError({
-            statusCode: 401,
-            statusMessage: 'Unauthorized'
-        }))
+        token = event.req.headers['cookie']?.split('=')[1]
+        decoded = decodeRefreshToken(token)
+        if (!decoded) {
+            return sendError(event, createError({
+                statusCode: 401,
+                statusMessage: 'Unauthorized'
+            }))
+        }
     }
-
 
     try {
         const userId = decoded.userId

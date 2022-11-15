@@ -66,11 +66,7 @@ export function joinEpisodePodcastAndSerie(episode: Episode, podcast: Podcast, s
       serie.firstEpisode = episode.pubdate
     if (serie.lastEpisode<episode.pubdate)
       serie.lastEpisode = episode.pubdate
-    if (podcast) {
-      if (!serie.podcasts)
-        serie.podcasts = [] as Array<Podcast>
-      serie.podcasts.push(podcast);
-    }
+    // You do not need to add podcast to the podcasts of the series this works the other was around is done above
   }
 }
 

@@ -25,8 +25,7 @@ sprints:
 
 ## In Progress
 
-- [404-page](tasks/404-page.md)
-
 ## Done
 
 - [authentication](tasks/authentication.md)
+- [404-page](tasks/404-page.md)
