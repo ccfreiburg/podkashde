@@ -1,6 +1,5 @@
 export const DATA_PATH ="public";
 export const PUBLIC_RESOURCES = 'public';
-export const BASE_URL = 'http://localhost:3000';
 export const FEED_SLUG = '/feed/';
 export const SERVER_IMG_PATH = '/covers/';
 export const SERVER_MP3_PATH = '/audio/';
