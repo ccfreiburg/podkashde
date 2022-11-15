@@ -43,7 +43,10 @@ describe("NavBar", () => {
 
   it("Klick opens and closes menu",async () => {
 
-    const wrapper = render(NavBar, { props: { menu }})
+    const wrapper = render(NavBar, { props: { menu }, global:{ 
+      mocks: {
+        $t: (s) => s + "#####"
+      }}})
     const element = wrapper.getByTestId("NavBar.clickableElement")
     expect(wrapper.html()).not.toContain("menu1");
     await fireEvent(element,new MouseEvent('click'))
@@ -52,7 +55,10 @@ describe("NavBar", () => {
     expect(wrapper.html()).not.toContain("menu1");
   })
   it("Klick outside the menue closes it",async () => {
-    const wrapper = render(NavBar, { props: { menu } });
+    const wrapper = render(NavBar, { props: { menu }, global:{ 
+      mocks: {
+        $t: (s) => s + "#####"
+      }}})
     const element = wrapper.getByTestId("NavBar.clickableElement")
     await fireEvent(element,new MouseEvent('click'))
     expect(wrapper.html()).toContain("menu1");
@@ -61,7 +67,10 @@ describe("NavBar", () => {
     expect(wrapper.html()).not.toContain("menu1");
   })
   it("Scroll the component closes options",async () => {
-    const wrapper = render(NavBar, { props: { menu } });
+    const wrapper = render(NavBar, { props: { menu }, global:{ 
+      mocks: {
+        $t: (s) => s + "#####"
+      }}})
     const element = wrapper.getByTestId("NavBar.clickableElement")
     await fireEvent(element,new MouseEvent('click'))
     expect(wrapper.html()).toContain("menu1");
@@ -72,13 +81,19 @@ describe("NavBar", () => {
   it("Lets go of the event listener on documet when unrender", async () => {
     const addSpy = vitest.spyOn(document, 'addEventListener');
     const remSpy = vitest.spyOn(document, 'removeEventListener');
-    const wrapper = render(NavBar, { props: { menu } });
+    const wrapper = render(NavBar, { props: { menu }, global:{ 
+      mocks: {
+        $t: (s) => s + "#####"
+      }}})
     expect(addSpy).toHaveBeenCalled()
     await wrapper.unmount()
     expect(remSpy).toHaveBeenCalled()
   })
   it("Klick calls nuxt link",async () => {
-    const wrapper = render(NavBar, { props: { menu }})
+    const wrapper = render(NavBar, { props: { menu }, global:{ 
+      mocks: {
+        $t: (s) => s + "#####"
+      }}})
     var element = wrapper.getByTestId("NavBar.clickableElement")
     await fireEvent(element,new MouseEvent('click'))
     expect(wrapper.html()).toContain("menu1");
@@ -88,7 +103,10 @@ describe("NavBar", () => {
     expect(nuxtlinkClicked).be.equal(true)
   })
   it("Klick on a menu item where the slug starts with # emits event",async () => {
-    const wrapper = render(NavBar, { props: { menu }})
+    const wrapper = render(NavBar, { props: { menu }, global:{ 
+      mocks: {
+        $t: (s) => s + "#####"
+      }}})
     var element = wrapper.getByTestId("NavBar.clickableElement")
     await fireEvent(element,new MouseEvent('click'))
     expect(wrapper.html()).toContain("bye");

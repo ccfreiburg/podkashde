@@ -10,12 +10,18 @@ const labelUnChecked = "uncheckedLabel"
 describe("MultiSelect", () => {
 
   it("After mount with checked it contains the lable", () => {
-    const wrapper = render(SwitchBox, { props: { checked: true, labelChecked, labelUnChecked} });
+    const wrapper = render(SwitchBox, { props: { checked: true, labelChecked, labelUnChecked}, global:{ 
+      mocks: {
+        $t: (s) => s + "#####"
+      }}})
     const label = wrapper.getByTestId("SwitchBox.label")
     expect(label.innerHTML).to.equal(labelChecked);
   })
   it("Klick changes the lable to the unchecked value",async () => {
-    const wrapper = render(SwitchBox, { props: { checked: true, labelChecked, labelUnChecked} });
+    const wrapper = render(SwitchBox, { props: { checked: true, labelChecked, labelUnChecked}, global:{ 
+      mocks: {
+        $t: (s) => s + "#####"
+      }}})
     const label = wrapper.getByTestId("SwitchBox.label")
     expect(label.innerHTML).to.equal(labelChecked);
     const element = wrapper.getByTestId("SwitchBox.toggle")
@@ -23,7 +29,10 @@ describe("MultiSelect", () => {
     expect(label.innerHTML).to.equal(labelUnChecked);
   })
   it("If no unckecked label is given the checkedlabel is used all times",async () => {
-    const wrapper = render(SwitchBox, { props: { checked: true, labelChecked} });
+    const wrapper = render(SwitchBox, { props: { checked: true, labelChecked}, global:{ 
+      mocks: {
+        $t: (s) => s + "#####"
+      }}})
     const label = wrapper.getByTestId("SwitchBox.label")
     expect(label.innerHTML).to.equal(labelChecked);
     const element = wrapper.getByTestId("SwitchBox.toggle")
@@ -31,7 +40,10 @@ describe("MultiSelect", () => {
     expect(label.innerHTML).to.equal(labelChecked);
   })
   it("Klick twice returns the lable to the checked value again",async () => {
-    const wrapper = render(SwitchBox, { props: { checked: true, labelChecked, labelUnChecked} });
+    const wrapper = render(SwitchBox, { props: { checked: true, labelChecked, labelUnChecked}, global:{ 
+      mocks: {
+        $t: (s) => s + "#####"
+      }}})
     const label = wrapper.getByTestId("SwitchBox.label")
     expect(label.innerHTML).to.equal(labelChecked);
     const element = wrapper.getByTestId("SwitchBox.toggle")
@@ -40,7 +52,10 @@ describe("MultiSelect", () => {
     expect(label.innerHTML).to.equal(labelChecked);
   })
   it("Disabled is true then click changes nothing",async () => {
-    const wrapper = render(SwitchBox, { props: { checked: false, disabled: true, labelChecked, labelUnChecked} });
+    const wrapper = render(SwitchBox, { props: { checked: false, disabled: true, labelChecked, labelUnChecked}, global:{ 
+      mocks: {
+        $t: (s) => s + "#####"
+      }}})
     const label = wrapper.getByTestId("SwitchBox.label")
     expect(label.innerHTML).to.equal(labelUnChecked);
     const element = wrapper.getByTestId("SwitchBox.toggle")
