@@ -10,8 +10,8 @@
       <div class="container px-4 mx-auto flex flex-col">
         <div class="flex flex-row flex-wrap content-start justify-evenly">
           <div class="w-2/3 flex flex-col">
-            <input-area class="w-full" name="user" type="text" :label="'login.user'" v-model:value="user"></input-area>
             <input-area name="password" type="password" :label="'login.password'" v-model:value="password"></input-area>
+            <input-area name="password2" type="password2" :label="'login.passwordrepeat'" v-model:value="password2"></input-area>
             <div class="flex flex-row">
             <div class="flex-grow">
             <button
@@ -32,14 +32,7 @@
 const router = useRouter();
 const { login } = useAuth()
 
-const user = ref("ar@3ar.de");
-const password = ref("0test0++");
+const password = ref("");
+const password2 = ref("");
 
-const onlogin = async () => {
-  if (await login(user.value, password.value)) {
-    const url = router.options.history.state.back;
-    router.push(url+"?refresh=true")
-  }
-
-}
 </script>

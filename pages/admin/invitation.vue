@@ -35,11 +35,4 @@ const { login } = useAuth()
 const user = ref("ar@3ar.de");
 const password = ref("0test0++");
 
-const onlogin = async () => {
-  if (await login(user.value, password.value)) {
-    const url = router.options.history.state.back;
-    router.push(url+"?refresh=true")
-  }
-
-}
 </script>
