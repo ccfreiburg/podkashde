@@ -2,9 +2,21 @@ import { describe, it, expect } from "vitest"
 import { fireEvent, render } from "@testing-library/vue"
 import InputArea from "../../components/InputArea.vue"
 import IValidationError from "~~/base/types/IValidationError"
+import {createI18n} from 'vue-i18n'
 
 
 const Tick = async () => await new Promise(r => setTimeout(r)) 
+
+const i18n = createI18n({
+  legacy: true,
+  locale: 'en',
+  messages: {
+    en: {
+      'i18naddress.label': "label",
+      'error': "error"
+    }
+  },
+})
 
 const options = { 
   props: { 
@@ -14,22 +26,22 @@ const options = {
     value: ""
   }, 
   global:{ 
-    mocks: {
-      $t: (s) => s 
-  }}
+    plugins: [i18n],
+  }
 }
+
 
 describe("InputArea", () => {
   it("displays label", () => {   
     const wrapper = render(InputArea, options)
-    expect(wrapper.html()).toContain("i18naddress.label");
+    expect(wrapper.html()).toContain("label");
     expect(wrapper.html()).not.toContain("error");
   })
   it("displays error when given", () => {   
     const opts = { props: {...options.props}, global: {...options.global} }
     opts.props.errors = [{ field: "ElementName", text: "error"} ] as Array<IValidationError>;
     const wrapper = render(InputArea, opts)
-    expect(wrapper.html()).toContain("i18naddress.label");
+    expect(wrapper.html()).toContain("label");
     expect(wrapper.html()).toContain("error");
   })
   it("displays textarea when type is set", () => {   

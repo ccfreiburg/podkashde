@@ -55,9 +55,11 @@
 </template>
 
 <script setup lang="ts">
-import { BASE_URL, FEED_SLUG } from '~~/base/Constants';
+import { FEED_SLUG } from '~~/base/Constants';
 import { usePodcasts } from '~~/composables/podcastdata';
 const { refresh, podcasts } = await usePodcasts()
+
+const BASE_URL = useRuntimeConfig().baseUrl;
 const route = useRoute();
 const getFeedUrl = (slug: string) : string => {
   return BASE_URL + FEED_SLUG + slug + ".xml";

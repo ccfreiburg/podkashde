@@ -1,7 +1,12 @@
 import { Podcast } from 'podcast';
-import { BASE_URL, FEED_SLUG, SERVER_IMG_PATH, SERVER_MP3_PATH } from './Constants';
+import { FEED_SLUG, SERVER_IMG_PATH, SERVER_MP3_PATH } from './Constants';
 import { ContentFile } from './ContentFile';
 import IPodcast from './types/IPodcast';
+
+var testing = false;
+export function setTesting() { testing = true }
+var BASE_URL = 'http://localhost:3000'
+
 
 function serverUrl( episodeLink: string ) : string {
   if (ContentFile.isQualifiedUrl(episodeLink))
@@ -11,6 +16,8 @@ function serverUrl( episodeLink: string ) : string {
 }
 
 export function generateRss( podcast: IPodcast, enumFuncs: any) : string {
+  if (!testing) 
+    BASE_URL = useRuntimeConfig().baseUrl;
   const feedOptions = {
     title: podcast.title,
     author: podcast.author,
