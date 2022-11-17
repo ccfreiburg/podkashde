@@ -69,8 +69,11 @@ export default defineNuxtConfig({
     },
   },
   runtimeConfig: {
-    jwtAccessSecret: process.env.JWT_ACCESS_TOKEN_SECRET,
-    jwtRefreshSecret: process.env.JWT_REFRESH_TOKEN_SECRET,
-    baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+    jwtAccessSecret: process.env.JWT_ACCESS_TOKEN_SECRET || 'gb2Coe4mzLWZhXPX',
+    jwtRefreshSecret: process.env.JWT_REFRESH_TOKEN_SECRET || 'nfT8iwa4PSWqcEYj',
+    jwtUrlSecret: process.env.JWT_URL_TOKEN_SECRET || 'HkrrdPcdHMXpn3TE',
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+    adminUser: process.env.ADMIN_USER || 'admin',
+    adminPassword: process.env.ADMIN_PASSWORD || 'password'
   }
 })

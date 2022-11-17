@@ -1,22 +1,22 @@
 import bcrypt from "bcrypt"
 import { generateAccessToken, generateRefreshToken, sendRefreshToken } from "../../jwt.js"
 import { sendError } from "h3"
-import { getUserByEmail, sanitizeUserForFrontend } from "~~/server/services/userService.js"
+import { getUserByEmail, getUserByUserName, sanitizeUserForFrontend } from "~~/server/services/userService.js"
 import { createSession } from "~~/server/services/sessionService.js"
 
 export default defineEventHandler(async (event) => {
     const body = await useBody(event)
-    const email: string = body.email
+    const username: string = body.username
     const password: string = body.password
     
-    if (!email || !password) {
+    if (!username || !password) {
         return sendError(event, createError({
             statusCode: 400,
             statusMessage: 'Ivalid params'
         }))
     }
 
-    const user = await getUserByEmail(email)
+    const user = await getUserByUserName(username)
 
     if (!user) {
         return sendError(event, createError({

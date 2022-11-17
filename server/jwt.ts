@@ -19,6 +19,24 @@ export const generateRefreshToken = (user: IUser) => {
     })
 }
 
+export const generateUrlToken = (username: string, purpose: string, expiry: string) => {
+    const config = useRuntimeConfig()
+
+    return jwt.sign({ username, purpose }, config.jwtUrlSecret, {
+        expiresIn: expiry
+    })
+}
+
+export const decodeUrlToken = (token: string) : Object | null => {
+    const config = useRuntimeConfig()
+
+    try {
+        return jwt.verify(token, config.jwtUrlSecret)
+    } catch (error) {
+        return null
+    }
+}
+
 export const decodeRefreshToken = (token: string) => {
     const config = useRuntimeConfig()
 

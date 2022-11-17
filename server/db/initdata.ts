@@ -1,16 +1,19 @@
 import { DataSource } from "typeorm";
 import Enumerator, { getEnumerator } from "./entities/Enumerator";
 import User from "./entities/User";
+import bcrypt from "bcrypt"
 
 export async function addAdmin(db: DataSource) {
-  const user = await db.manager.find(User, { where: { email: "ar@3ar.de" }})
+  const config = useRuntimeConfig();
+  const user = await db.manager.find(User, { where: { username: config.adminUser }})
   if (user.length>0)
     return;
   const adminuser = new User();
-  adminuser.username="alex";
-  adminuser.name='Alex'
-  adminuser.email='ar@3ar.de'
-  adminuser.password='$2a$12$tpXheqh.MBK/GsFJkUUzE.X.NwyPp3Yb3ZLC.dEoV.vQyTWJvS3sO'
+  adminuser.username=config.adminUser;
+  adminuser.name='Administrator'
+  adminuser.email=''
+  const salt = bcrypt.genSaltSync(5);
+  adminuser.password = bcrypt.hashSync(config.adminPassword, salt);
   return await db.manager.save(adminuser);
 }
 

@@ -13,14 +13,28 @@
     "new": "Start a new podcast",
     "series": "List of series",
     "newseries": "Start a new series",
-    "recent": "Recent episodes"
+    "recent": "Recent episodes",
+    "invitataion": "Invite user",
+    "changepassword": "Change password"
   },
   "login": {
     "title": "Log in",
     "user": "Username",
     "password": "Password",
-    "submit": "Log me in"
-  },
+    "oldpassword": "Current password",
+    "submit": "Log me in",
+    "loggedin": "You have successfully logged in",
+    "generate": "Generate link",
+    "passwordrepeat": "Repeat password",
+    "newpassword": "New Password",
+    "submitnewpassword": "Set Password",
+    "wrongpassword": "The password does not match",
+    "invitationtitle": "Invite user",
+    "validation": {
+      "nomatch": "The two passwords do not match",
+      "length": "A password needs at least 8 characters"
+    }
+ },
   "podcast": {
     "headline": "Podcasts",
     "new": "New Podcast",
@@ -132,7 +146,8 @@
     "options": "Options",
     "importCoverImages": "Download Cover Images to server",
     "importMp3s": "Download Mp3s to server", 
-    "importMetadata": "Import tags, authors and aeries metadata"
+    "importMetadata": "Import tags, authors and aeries metadata",
+        "loading": "Loading from WordPress..."
   },
   "cancel": "Cancel",
   "delete": "Delete",

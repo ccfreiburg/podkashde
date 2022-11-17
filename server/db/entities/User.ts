@@ -8,8 +8,16 @@ export function getUser( userdata: IUser ) {
     user.id = userdata.id;
   user.username = userdata.username;
   user.email = userdata.email;
-  user.password = userdata.password;
-  user.name = userdata.name;
+  if (userdata.hasOwnProperty('email')) 
+    user.email = userdata.email;
+  else
+    user.email = "";
+  if (userdata.hasOwnProperty('name')) 
+    user.name = userdata.name;
+  else
+    user.name = "";
+  if (userdata.hasOwnProperty('password')) user.password = userdata.password;
+  if (userdata.hasOwnProperty('token')) user.token = userdata.token;
   return user;
 }
 
@@ -28,8 +36,11 @@ export default class User extends BaseEntity implements IUser{
   @Column("text")
   email: string;
 
-  @Column("text")
+  @Column({ type: "text", nullable: true })
   password: string;
+
+  @Column({ type: "text", nullable: true })
+  token: string;
 
   @OneToMany(() => Session, (session) => session.user, {
     cascade: true,

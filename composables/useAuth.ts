@@ -1,5 +1,5 @@
 import jwt_decode from "jwt-decode"
-import { AUTHUSER_AP, LOGIN_AP, LOGOUT_AP, REFRESH_AP } from "~~/base/Constants"
+import { AUTHUSER_AP, LOGIN_AP, LOGOUT_AP, PASSWORD_AP, REFRESH_AP } from "~~/base/Constants"
 import { IUser } from "~~/base/types/IUser"
 
 export default () => {
@@ -22,13 +22,13 @@ export default () => {
         authLoading.value = value
     }
 
-    const login = (email: string, password: string) => {
+    const login = (username: string, password: string) => {
         return new Promise(async (resolve, reject) => {
             try {
                 const data = await $fetch(LOGIN_AP, {
                     method: 'POST',
                     body: {
-                        email,
+                        username,
                         password
                     }
                 })
@@ -43,6 +43,50 @@ export default () => {
         })
     }
 
+    const setFirstPassword = (token: string, password: string) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const data = await $fetch(PASSWORD_AP, {
+                    method: 'POST',
+                    body: {
+                        token,
+                        password
+                    }
+                })
+
+                setToken(data.access_token)
+                setUser(data.user)
+
+                resolve(true)
+            } catch (error) {
+                reject(error)
+            }
+        })
+      
+    }
+
+    const changePassword = (username: string, password: string, oldpassword: string) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const data = await $fetch(PASSWORD_AP, {
+                    method: 'POST',
+                    body: {
+                        username,
+                        password,
+                        oldpassword
+                    }
+                })
+
+                setToken(data.access_token)
+                setUser(data.user)
+
+                resolve(true)
+            } catch (error) {
+                reject(error)
+            }
+        })
+      
+    }
     const refreshToken = () => {
         return new Promise(async (resolve, reject) => {
             try {
@@ -127,6 +171,8 @@ export default () => {
         useAuthToken,
         initAuth,
         useAuthLoading,
+        setFirstPassword,
+        changePassword,
         logout
     }
 }

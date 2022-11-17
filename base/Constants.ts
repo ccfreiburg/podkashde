@@ -28,4 +28,11 @@ export const LOGIN_AP = '/api/auth/login';
 export const LOGOUT_AP = '/api/auth/logout';
 export const REFRESH_AP = '/api/auth/refresh';
 export const AUTHUSER_AP = '/api/auth/user';
+export const USERTOKEN_AP = '/api/auth/usertoken?username=%%&type=';
 export const FILES_AP = '/api/files?path=';
+export const INVITE_TOKEN = 'invitation';
+export const INVITE_TIME = '2d';
+export const PWRESET_TIME = '1d';
+export const SETPASS_LINK = '/admin/setpassword?token=';
+export const CHECK_TOKEN_AP = '/api/auth/checktoken?token=';
+export const PASSWORD_AP = '/api/auth/password'

@@ -9,7 +9,7 @@
           <!-- Modal header -->
           <div class="flex flex-col justify-between items-start p-4 rounded-t border-b">
             <h3 class="text-xl font-semibold text-gray-900">
-              Loading from WordPress...
+              {{$t('import.loading')}}
             </h3>
 
 

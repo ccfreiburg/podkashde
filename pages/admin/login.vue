@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <div class="w-full flex justify-center">
+  <div
+    v-on:keyup.enter="onlogin"
+    v-on:keyup.esc="oncancel"
+  > <div class="w-full flex justify-center">
         <div
           class="mt-6 md:mt-10 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs"
         >&nbsp;{{ $t("login.title") }}&nbsp;
@@ -32,14 +34,16 @@
 const router = useRouter();
 const { login } = useAuth()
 
-const user = ref("ar@3ar.de");
+const user = ref("admin");
 const password = ref("0test0++");
 
 const onlogin = async () => {
   if (await login(user.value, password.value)) {
-    const url = router.options.history.state.back;
-    router.push(url+"?refresh=true")
+    const url = router.options.history.state.back as string;
+    router.push(url.substring(0,url.indexOf('?'))+"?refresh=true&msg=login.loggedin")
   }
-
+}
+const oncancel = async () => {
+  router.go(-1)
 }
 </script>
