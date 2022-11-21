@@ -1,5 +1,5 @@
-import { defineEventHandler, useQuery } from "h3";
-import { IPodcast } from "../../base/types/IPodcast";
+import { defineEventHandler } from "h3";
+import IPodcast from "../../base/types/IPodcast";
 import Episode from "../db/entities/Episode";
 import Podcast from "../db/entities/Podcast";
 import { readPodcast, readPodcasts } from "../services/podcastService";

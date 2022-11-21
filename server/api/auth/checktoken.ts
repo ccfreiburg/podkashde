@@ -5,7 +5,7 @@ import { getUserByEmail, getUserByUserName, sanitizeUserForFrontend } from "~~/s
 import { createSession } from "~~/server/services/sessionService.js"
 
 export default defineEventHandler(async (event) => {
-    const query = await useQuery(event)
+    const query = await getQuery(event)
     const token: string = query.token
     
     if (!token) {

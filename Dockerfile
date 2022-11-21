@@ -8,20 +8,26 @@ WORKDIR /build
 COPY . . 
 
 # update each dependency in package.json to the latest version
-RUN yarn install
+RUN yarn
 
 # If you are building your code for production
 RUN yarn build
 
 FROM node:16
+LABEL authors="Alex Roehm"
+
 RUN apt-get update && apt-get install -y \
     curl dumb-init\
     && rm -rf /var/lib/apt/lists/*
 
-
 WORKDIR /podkashde
-COPY --from=builder --chown node:node /build/.output .
+
+COPY --from=builder --chown=1000:1000 /build/.output .
+
 RUN chown -R 1000:1000 /podkashde
+RUN ls -lRa
+
 USER 1000:1000
 EXPOSE 3000
+
 CMD [ "dumb-init", "node", "server/index.mjs" ]

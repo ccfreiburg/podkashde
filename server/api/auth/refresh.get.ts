@@ -4,9 +4,7 @@ import { getSessionByToken } from "~~/server/services/sessionService";
 import { getUserById } from "~~/server/services/userService";
 
 export default defineEventHandler(async (event) => {
-    const cookies = useCookies(event)
-
-    const refreshToken = cookies.refresh_token
+    const refreshToken = getCookie(event, "refresh_token") as string
 
     if (!refreshToken) {
         return sendError(event, createError({

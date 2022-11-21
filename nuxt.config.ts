@@ -48,22 +48,35 @@ export default defineNuxtConfig({
     preset: 'node-server',
     hooks: {
       compiled(nitro: Nitro) {
-        const destPackagePath = path.join(
+        const packages = []
+        packages.push({
+          dest:path.join(
           nitro.options.output.dir,
           'server',
           'node_modules',
-          'parse5',
-        );
-        const packagePath = path.join(
+          'parse5'),
+          src: path.join(
           '.',
           'node_modules',
           'parse5',
           'dist',
-          'cjs'
-        );
-
+          'cjs')
+        })
+        packages.push({
+          dest:path.join(
+          nitro.options.output.dir,
+          'server',
+          'node_modules',
+          'entities'),
+          src: path.join(
+          '.',
+          'node_modules',
+          'entities')
+        })
         try {
-          fs.copySync(packagePath, destPackagePath, {overwrite: true})
+          packages.forEach(pack => {
+            fs.copySync(pack.src, pack.dest, {overwrite: true})           
+          });
         } catch (err) {}
       },
     },
