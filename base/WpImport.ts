@@ -179,9 +179,9 @@ export function linkFromDescription(description: string, match = "") : string {
 }
 
 export function autorFromDescription(description: string) : string {
-  const regex = /\s\/\/\s(.*\s.*?)(\Z|<|\/)/
+  const regex = /\s\/\/\s([a-zA-Z\s]+).*(\s|\Z|<|\/\/).*/
   const groups =  description.match(regex)
-  return (groups && groups.length>1?groups[1]:"")
+  return (groups && groups.length>1?groups[1].trim():"")
 }
 
 export function verseFromDescription(description: string) : IBibleAddress {
