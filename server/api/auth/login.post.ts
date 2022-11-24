@@ -5,7 +5,7 @@ import { getUserByEmail, getUserByUserName, sanitizeUserForFrontend } from "~~/s
 import { createSession } from "~~/server/services/sessionService.js"
 
 export default defineEventHandler(async (event) => {
-    const body = await useBody(event)
+    const body = await readBody(event)
     const username: string = body.username
     const password: string = body.password
     

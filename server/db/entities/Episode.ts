@@ -46,6 +46,7 @@ export function getEpisode(from) {
 }
 
 export function joinEpisodePodcastAndSerie(episode: Episode, podcast: Podcast, serie: Serie) {
+  console.log("Episode: "+episode.external_id+" Podcast: "+podcast.external_id+" Serie: "+serie?.external_id)
   if (podcast) {
     episode.podcast = podcast;
     if (serie) {     

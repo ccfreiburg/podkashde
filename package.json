@@ -44,7 +44,7 @@
       "jsonwebtoken": "^8.5.1",
       "jwt-decode": "^3.1.2",
       "multer": "^1.4.5-lts.1",
-      "nuxt": "^3.0.0-rc.13",
+      "nuxt": "^3.0.0",
       "pg": "^8.4.0",
       "podcast": "^2.0.1",
       "reflect-metadata": "^0.1.13",

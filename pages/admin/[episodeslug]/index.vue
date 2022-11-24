@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { GENERATE_RSS_AP } from "~~/base/Constants";
 import { useEpisode } from "~~/composables/episodedata";
 definePageMeta({
   middleware: "authentication",
@@ -12,6 +13,7 @@ if (route.query.refresh)
 const { podcast, series } = await usePodcast(episode.value.podcast.slug)
 
 function onsaved() {
+  $fetch(GENERATE_RSS_AP, { query: { slug: route.params.slug }})
   const url = router.options.history.state.back;
   router.push(url+ "?refresh=true");
 }
@@ -20,7 +22,7 @@ function oncancel() {
 }
 </script>
 <template>
-    <div>
+    <div class="pb-10">
         <episode-detail 
           :podcast="podcast" 
           :episode="episode" 

@@ -5,7 +5,7 @@ import { migrateEpisode } from "../services/wpMigrationService";
 
 export default defineEventHandler(async (event) => {
   try {
-    const data = await useBody(event);
+    const data = await readBody(event);
     if (isUpdate(data)) {
       await updateEpisode(data);
     } else {

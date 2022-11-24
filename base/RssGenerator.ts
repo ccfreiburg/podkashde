@@ -70,7 +70,7 @@ export function generateRss( podcast: IPodcast, enumFuncs: any) : string {
         },
         content: episode.description,
         itunesAuthor: episode.creator,
-        itunesKeywords: episode.keyword,
+        //itunesKeywords: episode.keyword,
         itunesExplicit: episode.explicit,
         itunesSubtitle: episode.subtitle,
         itunesSummary: episode.summary,

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { GENERATE_RSS_AP } from "~~/base/Constants";
 import { emptyIEpisodeFactory } from "~~/base/types/IEpisode";
 definePageMeta({
   middleware: "authentication",
@@ -10,6 +11,7 @@ const {podcast, series} = await usePodcast(slug);
 const {series: allseries} = await useSeries();
 const episode = ref(emptyIEpisodeFactory());
 function save() {
+  $fetch(GENERATE_RSS_AP, { query: { slug: route.params.slug }})
   router.push("/podcast/" + slug+ "?refresh=true");
 }
 function cancel() {

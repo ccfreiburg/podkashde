@@ -14,6 +14,7 @@ export async function migrateEpisode(episode: IEpisode) {
   });
   const serie = await serieRepo.findOne({
     where: { external_id: episode.ext_series_id },
+    relations: ['episodes']
   });
   var episodeToSave = getEpisode(episode);
 

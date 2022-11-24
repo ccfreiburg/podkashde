@@ -10,7 +10,7 @@
           <div
             class="text-xs md:text-sm tracking-wide uppercase bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-orange-500 to-orange-700 font-bold"
           >
-            {{ serie.title }}
+            {{ serie?.title }}
           </div>
           <div class="flex flex-col">
             <div class="text-md md:text-2xl font-semibold tracking-wider" v-html="episode.title" />

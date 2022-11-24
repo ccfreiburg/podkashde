@@ -1,0 +1,35 @@
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+  client_max_body_size 50M;
+	
+  root /var/www;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+
+	server_name _;
+
+  location ~* /.*(jpe?g|png|gif|ico|mp3|xml)$ {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+    root /var/www/public;
+		try_files $uri =404;
+	}
+
+	# pass PHP scripts to FastCGI server
+	#
+	location / {
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_pass http://localhost:3000;
+	}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	#location ~ /\.ht {
+	#	deny all;
+	#}
+}

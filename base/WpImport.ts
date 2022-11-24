@@ -138,16 +138,10 @@ export function episodeFromWpMetadata(
       wpEpisode.episode_featured_image.length > 0
     )
       postimage = wpEpisode.episode_featured_image;
-    var keyword = Enumerations.byIdTextList(
-      enumerations.tags,
-      wpEpisode.tags.map((item) => item.id)
-    );
-    var creator = Enumerations.byIdOne(
-      enumerations.authors,
-      wpEpisode.speaker[0]
-    ).displaytext;
+    var keyword = wpEpisode.tags.map((id) => enumerations.getTag(id).displaytext).join(', ')
+    var creator = enumerations.getAuthor(wpEpisode.speaker[0]).displaytext;
     if (creator.length<1)
-      creator = autorFromDescription(wpEpisode.content.rendered)
+      creator = autorFromDescription(wpEpisode.excerpt.rendered)
     var cross_ref = verseFromDescription(wpEpisode.content.rendered)
     
     return addExistingId(episodes, wpEpisode.id, {
@@ -185,7 +179,7 @@ export function linkFromDescription(description: string, match = "") : string {
 }
 
 export function autorFromDescription(description: string) : string {
-  const regex = /\s\/\/\s(.*)[^:]\/\/\s/
+  const regex = /\s\/\/\s(.*\s.*?)(\Z|<|\/)/
   const groups =  description.match(regex)
   return (groups && groups.length>1?groups[1]:"")
 }

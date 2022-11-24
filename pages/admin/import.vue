@@ -41,10 +41,11 @@
       <button class="
                 mt-5
                 ml-5
-                px-5
+                px-2
                 h-10
                 rounded-md
                 ccfbutton-border
+                text-xs
                 "
                 @click="loadMetadata">
         {{ $t("import.metadata") }}
@@ -165,6 +166,7 @@ import {
   EPISODE_AP,
   SERVER_POSTIMG_PATH,
   FILES_AP,
+  GENERATE_RSS_AP,
 } from "~~/base/Constants";
 import {
   enumsfromWpMetadata,
@@ -286,7 +288,6 @@ async function importPodcast(podcast: any) {
   var contentState = ContentState.allmeta;
   const {podcasts} = await usePodcasts()
   const {episodes} = await useEpisodes()
-  const {series} = await useSeries()
   var podkashde = podcastFromWpMetadata(podcasts.value, podcast, enums.value)
   if (isCheckedImportCovers.value) {
     podkashde.cover_file = await downloadFile(SERVER_IMG_PATH, podkashde.slug, podkashde.cover_file)
@@ -294,6 +295,7 @@ async function importPodcast(podcast: any) {
   }
   await post<IPodcast>(PODCAST_AP, podkashde)
   const wpEpisodes = await useWpEpisodes(wpurl.value, podcast.id)
+  refresh() // enums refresh
   for await (var episode of wpEpisodes.value) {
     contentState = ContentState.allmeta;
     var pk_episode = episodeFromWpMetadata(
@@ -319,6 +321,7 @@ async function importPodcast(podcast: any) {
     statusLog.value.push({ message: "Saving episode " + pk_episode.title + " to server" })
     await post(EPISODE_AP, pk_episode)
   }
+  $fetch(GENERATE_RSS_AP, { query: { slug: route.params.slug }})
 }
 
  
@@ -359,8 +362,8 @@ async function importAll() {
   statusLog.value = [];
   loading.value = true;
   if (isCheckedImportMetadata.value) {
-    importEnums();
-    importSeries();
+    await importEnums();
+    await importSeries();
   }
   for await (var podcast of wpPodcasts.value) {
     await importPodcast(podcast);

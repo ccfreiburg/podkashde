@@ -26,20 +26,19 @@ export const readPodcast = async function (query: Partial<IPodcast>): Promise<IP
   return result.pop() as IPodcast
 };
 
-export const generateFeed = async (podcast: IPodcast) => {
-  const db = await getDataSource();
-  const repo = db.getRepository(Enumerator);
-  const enums = await repo.find();
-  const enumFuncs = {
-    getLanguage: (id:number) => Enumerations.byIdOne(Enumerations.languages(enums), id),
-    getGenre: (id:number) => Enumerations.byIdOne(Enumerations.podcastGenres(enums), id),
-    getType: (id:number) => Enumerations.byIdOne(Enumerations.podcastTypes(enums), id),
-  }
-  const xml = generateRss(podcast, enumFuncs)
-  var dir = nuxtPath(FEED_SLUG);
-  createDir(dir);
-  const target_file = dir + "/" + podcast.slug+".xml"
-  fs.writeFileSync(target_file, xml)
+export const generateFeed = async (podcast: IPodcast)  => {
+    const db = await getDataSource();
+    const repo = db.getRepository(Enumerator);
+    const enums = await repo.find();
+    const enumFuncs = {
+      getLanguage: (id:number) => Enumerations.byIdOne(Enumerations.languages(enums), id),
+      getGenre: (id:number) => Enumerations.byIdOne(Enumerations.podcastGenres(enums), id),
+      getType: (id:number) => Enumerations.byIdOne(Enumerations.podcastTypes(enums), id),
+    }
+    const xml = generateRss(podcast, enumFuncs)
+    var dir = nuxtPath(FEED_SLUG);
+    const target_file = dir + podcast.slug+".xml"
+    fs.writeFileSync(target_file, xml)
 }
 
 export const nuxtPath = (path: string) : string => {

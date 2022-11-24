@@ -4,7 +4,7 @@ import { returnCode } from "~~/server/returncode";
 
 export default defineEventHandler(async (event) => {
   return new Promise(async (resolve, reject) => {
-    const body = await useBody(event);
+    const body = await readBody(event);
     var id = body["id"];
     return getDataSource().then(async (db) => {
       const result = await db.manager.softDelete(Podcast, id);

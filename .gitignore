@@ -16,9 +16,5 @@ server/db/data
 upload/
 coverage
 secret
-public/audio
-public/covers
-public/data
-public/feed
-public/posts
+public/s
 org.*

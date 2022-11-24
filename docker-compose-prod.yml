@@ -7,10 +7,10 @@ services:
       dockerfile: Dockerfile
     container_name: podkashde
     ports:
-      - 8083:3000
+      - 8083:80
     env_file: .env
     volumes:
-      - ./.output/public:/podkashde/public
+      - ./public/s:/var/www/public/s
     environment:
       - VIRTUAL_HOST=podk.calvarychapel.de
       - LETSENCRYPT_HOST=podk.calvarychapel.de

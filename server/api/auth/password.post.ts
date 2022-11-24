@@ -6,7 +6,7 @@ import { createSession } from "~~/server/services/sessionService.js"
 import User from "~~/server/db/entities/User.js"
 
 export default defineEventHandler(async (event) => {
-    const body = await useBody(event)
+    const body = await readBody(event)
     var username: string = body.username
     const password: string = body.password
     const oldpassword: string = body.oldpassword

@@ -3,7 +3,7 @@ import { IFetchFileResult } from '../../base/types/IFetchFileResult';
 import { createDir, nuxtPath } from '../services/podcastService';
 
 export default defineEventHandler(async (event): Promise<IFetchFileResult> => {
-  const body = await useBody(event);
+  const body = await readBody(event);
   return new Promise(async (resolve, reject) => {
     const path = nuxtPath(body.newpath);
     const altpath = nuxtPath(body.altpath);

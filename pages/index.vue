@@ -119,7 +119,6 @@ import { FEED_SLUG } from '~~/base/Constants';
 import { usePodcasts } from '~~/composables/podcastdata';
 const { refresh, podcasts } = await usePodcasts();
 
-const BASE_URL = useRuntimeConfig().baseUrl;
 const route = useRoute();
 const i18n = useI18n();
 
@@ -127,7 +126,7 @@ const toasterMessage = ref('');
 const showToast = ref(false);
 
 const getFeedUrl = (slug: string): string => {
-  return BASE_URL + FEED_SLUG + slug + '.xml';
+  return FEED_SLUG + slug + '.xml';
 }
 const toast = (msg: string) => {
   toasterMessage.value = msg;

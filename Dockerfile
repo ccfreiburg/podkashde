@@ -17,17 +17,20 @@ FROM node:16
 LABEL authors="Alex Roehm"
 
 RUN apt-get update && apt-get install -y \
-    curl dumb-init\
+    curl dumb-init nginx\
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /podkashde
+COPY ./nginx/startup.sh /nginx/startup.sh
+RUN chmod ug+x /nginx/startup.sh
 
-COPY --from=builder --chown=1000:1000 /build/.output .
+COPY --chown=www-data:www-data ./nginx/default /etc/nginx/sites-available/default
+COPY --chown=www-data:www-data ./nginx/nginx.conf /etc/nginx/nginx.conf
 
-RUN chown -R 1000:1000 /podkashde
-RUN ls -lRa
+WORKDIR /var/www
 
-USER 1000:1000
-EXPOSE 3000
+COPY --from=builder --chown=node:node /build/.output .
 
-CMD [ "dumb-init", "node", "server/index.mjs" ]
+EXPOSE 80
+
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+CMD [ "/nginx/startup.sh" ]
