@@ -113,7 +113,8 @@
       "upload": "There was a problem uplaoding files",
       "saving": "Could not save the episode"
     },
-    "saveEpisode": "Save Episode"
+    "saveEpisode": "Save Episode",
+    "saved" : "The Episode has been saved"
   },
   "serie": {
     "new": "New Series",

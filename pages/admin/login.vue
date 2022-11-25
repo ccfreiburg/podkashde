@@ -39,11 +39,19 @@ const password = ref("0test0++");
 
 const onlogin = async () => {
   if (await login(user.value, password.value)) {
-    const url = router.options.history.state.back as string;
-    router.push(url.substring(0,url.indexOf('?'))+"?refresh=true&msg=login.loggedin")
+    var url = router.options.history.state.back as string;
+    if (url.includes("?"))
+      url = url.substring(0,url.indexOf('?'))
+    router.push({ path: url, query: { refresh: 'true', msg: 'login.loggedin' } })
   }
 }
 const oncancel = async () => {
   router.go(-1)
 }
+onMounted( () =>
+  router.replace({
+    ...router.currentRoute,
+    query: {
+  }
+}))
 </script>

@@ -1,5 +1,6 @@
 <template>
   <div>
+  <messge-toast></messge-toast>
     <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked"/>
     <div class="flex flex-col items-center">
      <div class="w-5/6 md:w-2/3 md:h-60 mt-6 md:mt-12 flex flex-row">
@@ -124,12 +125,21 @@ import { durationInSecToStr } from '~~/base/Converters';
 import { useEpisode } from '~~/composables/episodedata';
 import { parseHTML } from '~~/base/Converters';
 const route = useRoute();
-const back = useRouteBack();
 const user = await useAuth().useAuthUser();
 const slug = route.params.episodeslug as string;
 const showdetail = ref(false);
 const { refresh, serie, podcast, episode } = await useEpisode(slug);
-if (route.query.refresh) refresh();
+onBeforeMount( () => {
+  if (route.query.refresh) refresh();
+})
+const router = useRouter();
+onMounted( () =>
+  router.replace({
+    ...router.currentRoute,
+    query: {
+  }
+}))
+
 const duration = () => durationInSecToStr(episode.value.duration);
 async function menuItemClicked(value: string) {
   if (value === "#delete") {
@@ -142,7 +152,7 @@ async function menuItemClicked(value: string) {
       };
       var postResult: Response = await $fetch(EPISODE_AP, postData);
       if (postResult.status == 201) {
-        back()
+        router.go(-1)
       }
   }
 }

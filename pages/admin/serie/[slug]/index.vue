@@ -11,28 +11,33 @@
 
 <script lang="ts">
 definePageMeta({
-  middleware: "authentication",
+  middleware: 'authentication',
 });
 
 export default defineComponent({
   async setup() {
     const route = useRoute();
     const router = useRouter();
-    const {serie, remove} = await useSerie(route.params.slug as string)
+    const { serie, remove } = await useSerie(route.params.slug as string);
 
     function save() {
-      router.push("/serie/" + route.params.slug+"?refresh=true");
+      router.push('/serie/' + route.params.slug + '?refresh=true');
     }
 
     function cancel() {
-      router.push("/serie/" + route.params.slug);
+      router.push('/serie/' + route.params.slug);
     }
 
     function removeSerie() {
       remove();
-      router.push("/");
+      router.push('/');
     }
-
+    onMounted(() =>
+      router.replace({
+        ...router.currentRoute,
+        query: {},
+      })
+    );
     return {
       serie,
       save,

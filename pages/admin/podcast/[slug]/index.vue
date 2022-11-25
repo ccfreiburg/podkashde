@@ -1,5 +1,7 @@
 <template>
   <div class="w-full h-full pb-10">
+    <messge-toast></messge-toast>
+
     <podcast-detail
       :podcast="podcast"
       @onsaved="goBackSaved"
@@ -10,31 +12,36 @@
 </template>
 
 <script lang="ts">
-import { GENERATE_RSS_AP } from "~~/base/Constants";
+import { GENERATE_RSS_AP } from '~~/base/Constants';
 definePageMeta({
-  middleware: "authentication",
+  middleware: 'authentication',
 });
 
 export default defineComponent({
   async setup() {
     const route = useRoute();
     const router = useRouter();
-    const {podcast, remove} = await usePodcast(route.params.slug as string)
+    const { podcast, remove } = await usePodcast(route.params.slug as string);
 
     function goBackSaved() {
-      $fetch(GENERATE_RSS_AP, { query: { slug: route.params.slug }})
-      router.push("/podcast/" + route.params.slug+"?refresh=true");
+      $fetch(GENERATE_RSS_AP, { query: { slug: route.params.slug } });
+      router.push('/podcast/' + route.params.slug + '?refresh=true');
     }
 
     function goBack() {
-      router.push("/podcast/" + route.params.slug);
+      router.push('/podcast/' + route.params.slug);
     }
 
     function ondelete() {
       remove();
-      router.push("/");
+      router.push('/');
     }
-
+    onMounted(() =>
+      router.replace({
+        ...router.currentRoute,
+        query: {},
+      })
+    );
     return {
       podcast,
       goBackSaved,

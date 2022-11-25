@@ -1,5 +1,6 @@
 <template>
 <div>
+  <messge-toast></messge-toast>
 <div class="w-full flex justify-center">
         <div
           class="mt-6 md:mt-10 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs"
@@ -38,5 +39,14 @@
 import { useSeries } from '~~/composables/seriedata';
 const { refresh, series } = await useSeries();
 const route = useRoute();
-if (route.query.refresh) refresh();
+const router = useRouter();
+onBeforeMount( () => {
+  if (route.query.refresh) refresh();
+})
+onMounted( () =>
+  router.replace({
+    ...router.currentRoute,
+    query: {
+  }
+}))
 </script>

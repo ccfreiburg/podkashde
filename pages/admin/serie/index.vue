@@ -1,5 +1,7 @@
 <template>
   <div class="w-full h-full">
+<messge-toast></messge-toast>
+
     <div class="flex flex-col">
      <div class="flex felx-col flex-wrap text-sm">
         <div v-for="serie in series" :key="serie.id">
@@ -34,6 +36,14 @@ definePageMeta({
 });
 const { refresh, series } = await useSeries()
 const route = useRoute();
-if (route.query.refresh)
-  refresh();
+onBeforeMount( () => {
+  if (route.query.refresh) refresh();
+})
+const router = useRouter();
+onMounted( () =>
+  router.replace({
+    ...router.currentRoute,
+    query: {
+  }
+}))
 </script>

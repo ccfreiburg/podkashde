@@ -17,6 +17,12 @@ function save() {
 function cancel() {
   router.go(-1);
 }
+onMounted( () =>
+  router.replace({
+    ...router.currentRoute,
+    query: {
+  }
+}))
 </script>
 <template>
     <div>

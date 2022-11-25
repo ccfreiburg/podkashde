@@ -1,5 +1,6 @@
 <template>
   <div>
+  <messge-toast></messge-toast>
     <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked"/>
     <div class="w-full flex justify-center">
       <div
@@ -53,10 +54,19 @@ import { useEnumerations } from '~~/composables/enumerationdata';
 import { useSerie } from '~~/composables/seriedata';
 const user = await useAuth().useAuthUser();
 const route = useRoute();
+const router = useRouter();
+
 const slug = route.params.slug as string
 const { refresh, episodes, serie } = await useSerie(slug)
-if (route.query.refresh)
-  await refresh();
+onBeforeMount( () => {
+  if (route.query.refresh) refresh();
+})
+onMounted( () =>
+  router.replace({
+    ...router.currentRoute,
+    query: {
+  }
+}))
 const submenu = [
 {
     id: 0,
@@ -71,7 +81,6 @@ const submenu = [
     layout: "delete"
   }
 ]
-const back = useRouteBack();
 async function menuItemClicked(value: string) {
   if (value === "#delete") {
     const postData = {
@@ -83,7 +92,7 @@ async function menuItemClicked(value: string) {
       };
       var postResult: Response = await $fetch(SERIE_AP, postData);
       if (postResult.status == 201) {
-        back()
+        router.go(-1)
       }
   }
 }

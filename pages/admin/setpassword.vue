@@ -76,4 +76,10 @@ const submit = async () => {
 
   }
 }
+onMounted( () =>
+  router.replace({
+    ...router.currentRoute,
+    query: {
+  }
+}))
 </script>

@@ -13,9 +13,17 @@ function save(slug) {
 function cancel() {
   router.push("/serie");
 }
+onMounted( () =>
+  router.replace({
+    ...router.currentRoute,
+    query: {
+  }
+}))
 </script>
 <template>
     <div>
+<messge-toast></messge-toast>
+
         <serie-detail :serie="serie" @save="save" @cancel="cancel" />
     </div>
 </template>

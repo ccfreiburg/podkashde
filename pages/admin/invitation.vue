@@ -43,4 +43,10 @@ const generateUrl = async () => {
   const token =  await $fetch(USERTOKEN_AP.replace("%%",user.value)+INVITE_TOKEN)
   url.value = baseUrl + SETPASS_LINK + token
 }
+onMounted( () =>
+  router.replace({
+    ...router.currentRoute,
+    query: {
+  }
+}))
 </script>

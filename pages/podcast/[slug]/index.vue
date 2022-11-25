@@ -1,5 +1,7 @@
 <template>
   <div>
+<messge-toast></messge-toast>
+
     <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked"/>
     <div class="w-full flex justify-center">
       <div
@@ -97,13 +99,19 @@ const submenu = [
   }
 ]
 const { refresh, podcast, episodes } = await usePodcast(slug);
-if (route.query.refresh) await refresh();
-
 const { enumerations } = await useEnumerations();
 const language = ref(enumerations.getLanguage(podcast.value.language_id));
 const podcastGenre = ref(enumerations.getGenre(podcast.value.category_id));
-
-const back = useRouteBack();
+onBeforeMount( () => {
+  if (route.query.refresh) refresh();
+})
+const router = useRouter();
+onMounted( () =>
+  router.replace({
+    ...router.currentRoute,
+    query: {
+  }
+}))
 async function menuItemClicked(value: string) {
   if (value === "#delete") {
     const postData = {
@@ -115,7 +123,7 @@ async function menuItemClicked(value: string) {
       };
       var postResult: Response = await $fetch(PODCAST_AP, postData);
       if (postResult.status == 201) {
-        back()
+        router.go(-1)
       }
   }
 }
