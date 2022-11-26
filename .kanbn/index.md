@@ -14,18 +14,21 @@ sprints:
 ## Backlog
 
 - [autor-aus-enum-liste-oder-eingeben](tasks/autor-aus-enum-liste-oder-eingeben.md)
-- [bibelstellen-erkennen-und-suchen-evtl-plugin-konzeot](tasks/bibelstellen-erkennen-und-suchen-evtl-plugin-konzeot.md)
 - [drag-n-drop-image](tasks/drag-n-drop-image.md)
 - [veröffentlichungsstatus-für-podcasts-serien-und-episoden](tasks/veröffentlichungsstatus-für-podcasts-serien-und-episoden.md)
 
 ## Todo
 
+- [import-problem-witn-c-5-img-without-jpg-extention](tasks/import-problem-witn-c-5-img-without-jpg-extention.md)
+- [import-fehler-ext-podcast-id-312](tasks/import-fehler-ext-podcast-id-312.md)
+- [paging-for-episodes-client-server](tasks/paging-for-episodes-client-server.md)
 - [uat-test-suite](tasks/uat-test-suite.md)
-- [deployment](tasks/deployment.md)
 
 ## In Progress
 
 ## Done
 
 - [authentication](tasks/authentication.md)
+- [deployment](tasks/deployment.md)
+- [bibelstellen-erkennen-und-suchen-evtl-plugin-konzeot](tasks/bibelstellen-erkennen-und-suchen-evtl-plugin-konzeot.md)
 - [404-page](tasks/404-page.md)
