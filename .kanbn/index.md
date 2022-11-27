@@ -19,12 +19,13 @@ sprints:
 
 ## Todo
 
-- [import-problem-witn-c-5-img-without-jpg-extention](tasks/import-problem-witn-c-5-img-without-jpg-extention.md)
 - [import-fehler-ext-podcast-id-312](tasks/import-fehler-ext-podcast-id-312.md)
 - [paging-for-episodes-client-server](tasks/paging-for-episodes-client-server.md)
 - [uat-test-suite](tasks/uat-test-suite.md)
 
 ## In Progress
+
+- [import-problem-witn-c-5-img-without-jpg-extention](tasks/import-problem-witn-c-5-img-without-jpg-extention.md)
 
 ## Done
 

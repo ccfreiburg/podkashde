@@ -11,9 +11,8 @@ server {
 
 	server_name _;
 
-  location ~* /.*(jpe?g|png|gif|ico|mp3|xml)$ {
-		# First attempt to serve request as file, then
-		# as directory, then fall back to displaying a 404.
+  location ~* /.*(jpe?g|png|gif|ico|mp3|xml|pdf|md)$ {
+		# First attempt to serve request as static file
     root /var/www/public;
 		try_files $uri =404;
 	}

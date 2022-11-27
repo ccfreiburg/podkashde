@@ -321,7 +321,7 @@ async function importPodcast(podcast: any) {
     statusLog.value.push({ message: "Saving episode " + pk_episode.title + " to server" })
     await post(EPISODE_AP, pk_episode)
   }
-  $fetch(GENERATE_RSS_AP, { query: { slug: route.params.slug }})
+  $fetch(GENERATE_RSS_AP, { query: { slug: podkashde.slug }})
 }
 
  
