@@ -43,7 +43,7 @@
           >
           {{ $t('serie.inthis') }}
           </div>
-          <episodes-list :episodes="episodesOnPage" />
+          <episodes-list :episodes="episodes" :page="page" :itemsperpage="pagesize"/>
         <list-paginator :max="episodes.length" v-model:value="page" :itemsperpage="pagesize"/>
 
         </div>
@@ -62,13 +62,6 @@ const slug = route.params.slug as string
 const { refresh, episodes, serie } = await useSerie(slug)
 const pagesize = ref(NUM_ITEMS_PER_PAGE)
 const page = ref(1)
-const episodesOnPage = computed( () => {
-  return episodes.value.filter((e, index)=>{
-    const start = (page.value-1)*pagesize.value -1
-    const end = start + pagesize.value
-    return index>start && index<=end
-  })
-})
 
 onBeforeMount( () => {
   if (route.query.refresh) refresh();

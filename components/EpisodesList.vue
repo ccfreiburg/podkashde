@@ -51,14 +51,30 @@ interface IDisplayEpisode extends IEpisode {
 export default {
   props: {
     episodes: Object as PropType<Array<IEpisode>>,
+    itemsperpage: {
+      type: Number,
+      default: 0,
+      required: false,
+    },
+    page: {
+      type: Number,
+      default: 0,
+      required: false,
+    }
   },
   name: 'EpisodesList',
   setup(props) {
     const dateformat = (input: Date): string => input.toLocaleDateString();
 
+    const pageFilter = (e, index) => {
+        const start = (props.page-1)*props.itemsperpage -1
+        const end = start + props.itemsperpage
+        return index>start && index<=end
+    }
+
     function expandAndFilter(list: Array<IEpisode>): Array<IDisplayEpisode> {
       if (!list || list.length < 1) return [];
-      const filter = (e) => true;
+      const filter = (e) =>  true
       return list.filter(filter).map((e) => {
         const date = new Date(e.pubdate);
         return {
@@ -69,14 +85,18 @@ export default {
         };
       });
     }
+
     function sortList(list: Array<IDisplayEpisode>): Array<IDisplayEpisode> {
       return list.sort(
         (a: IDisplayEpisode, b: IDisplayEpisode) =>
           b.sortdate.valueOf() - a.sortdate.valueOf()
       );
     }
-    const sortedFilteredList = computed(() =>
-      sortList(expandAndFilter(props.episodes))
+    const sortedFilteredList = computed(() =>{
+        const sortlist = sortList(expandAndFilter(props.episodes))
+        if (props.itemsperpage==0 || props.page==0) return sortlist
+        return sortlist.filter(pageFilter)
+      }
     );
     return {
       sortedFilteredList,
