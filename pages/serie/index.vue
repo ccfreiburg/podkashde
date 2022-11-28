@@ -8,8 +8,8 @@
         </div>
   </div>
   <div class="w-full h-screen bg-gray-200 flex justify-center">
-    <div class="pt-6 md:pt-10 w-5/6 md:w-2/3 md:h-60 flex flex-col">
-        <div v-for="serie in series" :key="serie.id">
+    <div class="py-6 md:py-10 w-5/6 md:w-2/3 md:h-60 flex flex-col">
+        <div v-for="serie in seriesOnPage" :key="serie.id">
           <NuxtLink :to="'/serie/' + serie.slug">
             <div class="mt-4 p-4 bg-white flex flex-row">
               <img class="w-32 h-32" :src="serie.cover_file" />
@@ -30,16 +30,28 @@
             </div>
           </NuxtLink>
         </div>
-      </div>      
+      <list-paginator :max="series.length" v-model:value="page" :itemsperpage="pagesize"/>
+
+      </div>   
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { NUM_ITEMS_PER_PAGE } from '~~/base/Constants';
 import { useSeries } from '~~/composables/seriedata';
+const pagesize = ref(4)
+const page = ref(1)
 const { refresh, series } = await useSeries();
 const route = useRoute();
 const router = useRouter();
+const seriesOnPage = computed( () => {
+  return series.value.filter((e, index)=>{
+    const start = (page.value-1)*pagesize.value-1
+    const end = start + pagesize.value
+    return index>start && index<=end
+  })
+})
 onBeforeMount( () => {
   if (route.query.refresh) refresh();
 })
