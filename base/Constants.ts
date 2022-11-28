@@ -37,3 +37,5 @@ export const PWRESET_TIME = '1d';
 export const SETPASS_LINK = '/admin/setpassword?token=';
 export const CHECK_TOKEN_AP = '/api/auth/checktoken?token=';
 export const PASSWORD_AP = '/api/auth/password'
+export const NUM_PAGINATION_LINKS = 7
+export const NUM_ITEMS_PER_PAGE = 6

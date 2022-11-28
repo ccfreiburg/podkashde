@@ -29,6 +29,7 @@
     "newpassword": "New Password",
     "submitnewpassword": "Set Password",
     "wrongpassword": "The password does not match",
+    "loginfailed": "Wrong password or user does not exist",
     "invitationtitle": "Invite user",
     "validation": {
       "nomatch": "The two passwords do not match",
@@ -40,6 +41,7 @@
     "new": "New Podcast",
     "edit": "Edit Podcast",
     "addImage": "click to add image",
+    "inthis": "in this podcast",
     "label": {
       "img": "click to add image",
       "title": "Title",
@@ -119,6 +121,7 @@
   "serie": {
     "new": "New Series",
     "edit": "Edit Series",
+    "inthis": "in this series",
     "label": {
       "img": "klicken um Bild hinzuzufügen",
       "title": "Title",
@@ -149,6 +152,12 @@
     "importMp3s": "Download Mp3s to server", 
     "importMetadata": "Import tags, authors and aeries metadata",
         "loading": "Loading from WordPress..."
+  },
+  "paginator": {
+    "next": "Next",
+    "previous": "Previous",
+    "status": "Showing {0} to {1} of {2} results",
+    "statusshort": "Page {0} of {1}"
   },
   "cancel": "Cancel",
   "delete": "Delete",

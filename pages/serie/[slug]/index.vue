@@ -41,15 +41,17 @@
           <div
             class="md:pt-14 text-sm md:text-ml tracking-widest font-bold text-gray-500 text-center"
           >
-            in this series
+          {{ $t('serie.inthis') }}
           </div>
-          <episodes-list :episodes="episodes" />
+          <episodes-list :episodes="episodesOnPage" />
+        <list-paginator :max="episodes.length" v-model:value="page" :itemsperpage="pagesize"/>
+
         </div>
       </div>
     </div>
 </template>
 <script setup lang="ts">
-import { SERIE_AP } from '~~/base/Constants';
+import { NUM_ITEMS_PER_PAGE, SERIE_AP } from '~~/base/Constants';
 import { useEnumerations } from '~~/composables/enumerationdata';
 import { useSerie } from '~~/composables/seriedata';
 const user = await useAuth().useAuthUser();
@@ -58,6 +60,16 @@ const router = useRouter();
 
 const slug = route.params.slug as string
 const { refresh, episodes, serie } = await useSerie(slug)
+const pagesize = ref(NUM_ITEMS_PER_PAGE)
+const page = ref(1)
+const episodesOnPage = computed( () => {
+  return episodes.value.filter((e, index)=>{
+    const start = (page.value-1)*pagesize.value -1
+    const end = start + pagesize.value
+    return index>start && index<=end
+  })
+})
+
 onBeforeMount( () => {
   if (route.query.refresh) refresh();
 })
