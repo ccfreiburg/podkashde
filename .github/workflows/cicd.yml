@@ -32,6 +32,7 @@ jobs:
     - run: yarn test
 
   deploy:
+    needs: test
     if: "!contains(github.event.head_commit.message, 'skip cd')"
     runs-on: ubuntu-latest
 
