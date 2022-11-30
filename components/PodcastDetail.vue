@@ -87,10 +87,10 @@ export default defineComponent({
   },
   name: "podcast",
   async setup(props, ctx) {
-    const imgMetadata = ref(new ImageMetadata());
-    const errors = ref([] as Array<IValidationError>);
-    const { enumerations } = await useEnumerations();
-    const fields = ref({...props.podcast} as IPodcast);
+    const imgMetadata = ref(new ImageMetadata())
+    const errors = ref([] as Array<IValidationError>)
+    const { enumerations } = await useEnumerations()
+    const fields = ref({...props.podcast} as IPodcast)
 
     const isEdit = computed(() => {
       return fields.value.id && fields.value.id;
@@ -133,10 +133,10 @@ export default defineComponent({
     }
 
     function getFields() {
-      var tmp = { ...fields.value };        
-      delete tmp.episodes;
-      delete tmp.series;
-      return tmp;
+      var tmp = { ...fields.value }
+      delete tmp.episodes
+      delete tmp.series
+      return tmp
     }
 
     async function savePodcast(event) {
@@ -147,7 +147,7 @@ export default defineComponent({
           SERVER_IMG_PATH +
           fields.value.slug +
           "/" +
-          imgMetadata.value.selectedFile.name;
+          imgMetadata.value.selectedFile.name
       }
       errors.value = validation(
         fields.value,
@@ -157,11 +157,14 @@ export default defineComponent({
       if (errors.value.length == 0) {
         const postData: IPostdata = {
           method: "POST",
-          body: getImageInFormData(),
+          body: {},
         };
-        var postResult : any = {}
+        var postResult : any = { status: 201 }
         try {
-           postResult = await $fetch(UPLOAD_AP, postData);
+          if (imgMetadata.value.selectedFile) {
+            postData.body = getImageInFormData()
+            postResult = await $fetch(UPLOAD_AP, postData)
+          }
         } catch (err) {
           postResult.status = 500
           errors.value.push({ field:"", text: 'podcast.validation.saveingimg'})
@@ -169,12 +172,12 @@ export default defineComponent({
         if (postResult.status == 201) {
           try {
             postData.body = getFields();
-            postResult = await $fetch(PODCAST_AP, postData);
+            postResult = await $fetch(PODCAST_AP, postData)
           } catch (err) {
             postResult.status = 500
           }
         }
-        if (postResult.status == 201) ctx.emit("onsaved", fields.value.title);
+        if (postResult.status == 201) ctx.emit("onsaved", fields.value.title)
       }
     }
 

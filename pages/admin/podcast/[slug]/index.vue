@@ -11,43 +11,35 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { GENERATE_RSS_AP } from '~~/base/Constants';
 definePageMeta({
   middleware: 'authentication',
 });
 
-export default defineComponent({
-  async setup() {
     const route = useRoute();
     const router = useRouter();
-    const { podcast, remove } = await usePodcast(route.params.slug as string);
+    const { podcast, refresh, remove } = await usePodcast(route.params.slug as string);
 
-    function goBackSaved() {
-      $fetch(GENERATE_RSS_AP, { query: { slug: route.params.slug } });
-      router.push('/podcast/' + route.params.slug + '?refresh=true');
+    async function goBackSaved() {
+      await $fetch(GENERATE_RSS_AP, { query: { slug: route.params.slug } });
+      await refresh()
+      router.push('/podcast/' + route.params.slug);
     }
 
     function goBack() {
       router.push('/podcast/' + route.params.slug);
     }
 
-    function ondelete() {
-      remove();
+    async function ondelete() {
+      await remove();
+      (await usePodcasts()).refresh()
       router.push('/');
     }
-    onMounted(() =>
+    onBeforeMount(() =>
       router.replace({
         ...router.currentRoute,
         query: {},
       })
     );
-    return {
-      podcast,
-      goBackSaved,
-      goBack,
-      ondelete,
-    };
-  },
-});
 </script>

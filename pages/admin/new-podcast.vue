@@ -5,20 +5,29 @@
     <podcast-detail
       :podcast="podcast"
       @oncancel="goBack"
-      @onsaved="goBack"
-      @ondelete="goBack"
+      @onsaved="onSave"
     />
   </div>
 </template>
 
 <script setup lang="ts">
 import { emptyIPodcastFactory } from '~~/base/types/IPodcast.js';
+import { usePodcasts } from '~~/composables/podcastdata';
 definePageMeta({
   middleware: "authentication",
 });
 
+const { refresh } = await usePodcasts();
 const podcast = ref(emptyIPodcastFactory());
 const router = useRouter();
+
+(await usePodcasts()).refresh()
+
+const onSave = async function () {
+  await refresh()
+  router.push('/podcasts');
+};
+
 
 const goBack = function () {
   router.go(-1);

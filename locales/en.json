@@ -79,6 +79,7 @@
   },
   "episode": {
     "episode": "Episode",
+    "recent": "Recent Episodes",
     "new": "New Episode",
     "add": "Add Episode",
     "edit": "Edit Episode",

@@ -8,7 +8,7 @@ const route = useRoute();
 const router = useRouter();
 const slug = route.params.episodeslug as string;
 const { refresh, episode, remove } = await useEpisode(slug);
-const { podcast, series } = await usePodcast(episode.value?.podcast?.slug as string)
+const { podcast, refresh: prefresh, series } = await usePodcast(episode.value?.podcast?.slug as string)
 
 onBeforeMount( () => {
   if (route.query.refresh) refresh();
@@ -20,8 +20,10 @@ router.replace({
   }
 }))
 
-function onsaved() {
-  $fetch(GENERATE_RSS_AP, { query: { slug: route.params.slug }})
+async function onsaved() {
+  $fetch(GENERATE_RSS_AP, { query: { slug: podcast.value.slug }})
+  await refresh()
+  await prefresh()
   var url = router.options.history.state.back as string;
     if (url.includes("?"))
       url = url.substring(0,url.indexOf('?'))

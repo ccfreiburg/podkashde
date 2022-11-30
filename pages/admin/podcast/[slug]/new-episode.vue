@@ -12,8 +12,8 @@ const {series: allseries} = await useSeries();
 const episode = ref(emptyIEpisodeFactory());
 async function save() {
   await $fetch(GENERATE_RSS_AP, { query: { slug: route.params.slug }})
-  refresh()
-  router.push("/podcast/" + slug+ "?refresh=true");
+  await refresh()
+  router.push("/podcast/" + slug);
 }
 function cancel() {
   router.go(-1);
@@ -27,6 +27,6 @@ onMounted( () =>
 </script>
 <template>
     <div class="pb-10">
-        <episode-detail :podcast="podcast" :episode="episode" :series="allseries" :save="save" :cancel="cancel"/>
+        <episode-detail :podcast="podcast" :episode="episode" :series="allseries" @save="save" @cancel="cancel"/>
     </div>
 </template>

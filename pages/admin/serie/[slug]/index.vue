@@ -18,19 +18,21 @@ export default defineComponent({
   async setup() {
     const route = useRoute();
     const router = useRouter();
-    const { serie, remove } = await useSerie(route.params.slug as string);
+    const { serie, refresh, remove } = await useSerie(route.params.slug as string);
 
-    function save() {
-      router.push('/serie/' + route.params.slug + '?refresh=true');
-    }
-
-    function cancel() {
+    async function save() {
+      await refresh()
       router.push('/serie/' + route.params.slug);
     }
 
-    function removeSerie() {
-      remove();
-      router.push('/');
+    function cancel() {
+      router.go(-1)
+    }
+
+    async function removeSerie() {
+      await remove();
+      (await useSeries()).refresh()
+      router.push('/serie');
     }
     onMounted(() =>
       router.replace({

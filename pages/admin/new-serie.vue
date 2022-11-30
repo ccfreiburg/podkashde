@@ -7,11 +7,13 @@ const route = useRoute();
 const router = useRouter();
 const slug = route.params.slug as string
 const serie = ref(emptyISerieFactory());
-function save(slug) {
+async function save(slug: string) {
+  const { refresh } = await useSeries()
+  await refresh()
   router.push("/serie/" + slug);
 }
 function cancel() {
-  router.push("/serie");
+  router.go(-1)
 }
 onMounted( () =>
   router.replace({

@@ -77,7 +77,7 @@
 <script setup lang="ts">
 import { NUM_ITEMS_PER_PAGE, PODCAST_AP } from '~~/base/Constants';
 import { useEnumerations } from '~~/composables/enumerationdata';
-import { usePodcast } from '~~/composables/podcastdata';
+import { usePodcast, usePodcasts } from '~~/composables/podcastdata';
 
 const user = await useAuth().useAuthUser();
 const route = useRoute();
@@ -129,8 +129,11 @@ async function menuItemClicked(value: string) {
         },
       };
       var postResult: Response = await $fetch(PODCAST_AP, postData);
+
       if (postResult.status == 201) {
-        router.go(-1)
+        const { refresh } = await usePodcasts();
+        await refresh()
+        router.push('/podcasts');
       }
   }
 }

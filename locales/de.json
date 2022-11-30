@@ -79,6 +79,7 @@
   },
   "episode": {
     "episode": "Folge",
+    "recent": "Kürzlich erschienen",
     "new": "Neue Folge",
     "add": "Folge hinzuzufügen",
     "edit": "Folge bearbeiten",
@@ -112,7 +113,7 @@
       "img": "Bitte ein Podcast Titelbild mit 1400x1400 Pixel auswählen",
       "title": "Bitte einen Titel eingeben",
       "creator": "Bitte einen Autor eingeben",
-      "slug": "Bitte einen eindeutingen Slug eingeben",
+      "slug": "Bitte einen Slug eingeben, der noich nicht verwendet wurde",
       "upload": "Es gab ein Problem beim hochladen der Datei",
       "link": "Bitte einen Link eingeben",
       "duration": "Bitte eine Spieldauer eingeben",

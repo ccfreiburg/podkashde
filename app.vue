@@ -5,6 +5,7 @@ import IMenuSection from "./base/types/IMenuSection";
 import { useUser, userLogout } from "./composables/authentication";
 
 const nuxtApp = useNuxtApp();
+const defaultRoute = useRuntimeConfig().defaultRoute;
 
 nuxtApp.hook("page:finish", () => {
   window.scrollTo(0, 0);
@@ -25,7 +26,7 @@ function getMenu(loggedin) : Array<IMenuSection> {
           entries: [
             {
               id: id++,
-              slug: "/",
+              slug: "/podcasts",
               name: i18n.t("menu.list"),
             },
             {
@@ -103,7 +104,7 @@ function menuItemClicked(name) {
 </script>
 <template>
   <div>
-    <NavBar :menu="menu" :availableLocales="$i18n.availableLocales" :locale="$i18n.locale" @localeChanged="localeChanged" @menuItemClicked="menuItemClicked"/>
+    <NavBar :menu="menu" :defaultRoute="defaultRoute" :availableLocales="$i18n.availableLocales" :locale="$i18n.locale" @localeChanged="localeChanged" @menuItemClicked="menuItemClicked"/>
     <NuxtPage />
   </div>
 </template>

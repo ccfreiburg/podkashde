@@ -237,8 +237,7 @@ export default defineComponent({
       var countUrl = COUNT_AP + "?slug=" + fields.value.slug + 
           (isEdit.value?"&excludeId="+fields.value.id:"")
       var count : number = await $fetch(countUrl);
-      if (count > 0) errors.value.push({ field: "slug", text: "slug" });
-      console.log("Count "+count)
+      if (count > 0) errors.value.push({ field: "slug", text: "episode.validation.slug" });
 
       if (errors.value.length > 0) return;
 

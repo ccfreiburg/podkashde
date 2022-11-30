@@ -87,7 +87,7 @@
           </select>
         </div>
         <div class="flex-grow flex flex-row place-content-center">
-          <nuxt-link class="text-center inline-block" to="/">
+          <nuxt-link class="text-center inline-block" :to="defaultRoute">
             <img src="/img/logo.png" class="h-6 md:h-10" />
           </nuxt-link>
         </div>
@@ -120,6 +120,10 @@ import IMenuSection from "~~/base/types/IMenuSection"
 export default defineComponent({
   props: {
     menu: Object as PropType<Array<IMenuSection>>,
+    defaultRoute: {
+      type: String,
+      default: "/"
+    },
     availableLocales: Object as  PropType<Array<String>>,
     locale:  String
   },
