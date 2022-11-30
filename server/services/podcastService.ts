@@ -3,7 +3,6 @@ import getDataSource from '~~/server/db/dbsigleton';
 import Podcast, { setPodcast } from '~~/server/db/entities/Podcast';
 import IPodcast from '~~/base/types/IPodcast';
 import { DATA_PATH, FEED_SLUG } from '~~/base/Constants';
-import { FindAllBy } from '@testing-library/vue';
 import { FindManyOptions } from 'typeorm';
 import Enumerator from '../db/entities/Enumerator';
 import Enumerations from '~~/base/Enumerations';
@@ -51,13 +50,11 @@ export const createDir = (dir: string) : void => {
   }
 };
 
-export const moveUploadedImage = function (path : string, imageFile: any) {
-  if (!imageFile) return false;
-  const upload_path = imageFile.path;
-  var dir = nuxtPath(path);
+export const moveUploadedImage = function (uploadpath: string, newpath : string, filename: string) {
+  var dir = nuxtPath(newpath);
   createDir(dir);
-  const target_path = dir + '/' + imageFile.originalname;
-  fs.renameSync(upload_path, target_path);
+  const target_path = dir + '/' + filename;
+  fs.renameSync(uploadpath, target_path);
   return true;
 };
 

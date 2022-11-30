@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full w-full">
+  <div class="h-full w-full pb-10">
 <messge-toast></messge-toast>
 
     <podcast-detail

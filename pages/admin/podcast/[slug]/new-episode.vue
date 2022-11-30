@@ -7,11 +7,12 @@ definePageMeta({
 const route = useRoute();
 const router = useRouter();
 const slug = route.params.slug as string
-const {podcast, series} = await usePodcast(slug);
+const {podcast, refresh, series} = await usePodcast(slug);
 const {series: allseries} = await useSeries();
 const episode = ref(emptyIEpisodeFactory());
-function save() {
-  $fetch(GENERATE_RSS_AP, { query: { slug: route.params.slug }})
+async function save() {
+  await $fetch(GENERATE_RSS_AP, { query: { slug: route.params.slug }})
+  refresh()
   router.push("/podcast/" + slug+ "?refresh=true");
 }
 function cancel() {
@@ -25,7 +26,7 @@ onMounted( () =>
 }))
 </script>
 <template>
-    <div>
+    <div class="pb-10">
         <episode-detail :podcast="podcast" :episode="episode" :series="allseries" :save="save" :cancel="cancel"/>
     </div>
 </template>

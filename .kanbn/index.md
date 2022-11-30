@@ -15,21 +15,22 @@ sprints:
 
 - [autor-aus-enum-liste-oder-eingeben](tasks/autor-aus-enum-liste-oder-eingeben.md)
 - [drag-n-drop-image](tasks/drag-n-drop-image.md)
-- [veröffentlichungsstatus-für-podcasts-serien-und-episoden](tasks/veröffentlichungsstatus-für-podcasts-serien-und-episoden.md)
+- [analytics](tasks/analytics.md)
 
 ## Todo
 
-- [import-fehler-ext-podcast-id-312](tasks/import-fehler-ext-podcast-id-312.md)
-- [paging-for-episodes-client-server](tasks/paging-for-episodes-client-server.md)
+- [id3-auf-server-schreiben](tasks/id3-auf-server-schreiben.md)
+- [slug-uniqueness-prüfen](tasks/slug-uniqueness-prüfen.md)
 - [uat-test-suite](tasks/uat-test-suite.md)
+- [rss-generator-bug](tasks/rss-generator-bug.md)
+- [reload-after-delete-podcast](tasks/reload-after-delete-podcast.md)
 
 ## In Progress
 
-- [import-problem-witn-c-5-img-without-jpg-extention](tasks/import-problem-witn-c-5-img-without-jpg-extention.md)
+- [Übersetzung](tasks/Übersetzung.md)
+- [deployment](tasks/deployment.md)
 
 ## Done
 
-- [authentication](tasks/authentication.md)
-- [deployment](tasks/deployment.md)
-- [bibelstellen-erkennen-und-suchen-evtl-plugin-konzeot](tasks/bibelstellen-erkennen-und-suchen-evtl-plugin-konzeot.md)
-- [404-page](tasks/404-page.md)
+- [paging-for-episodes-client-server](tasks/paging-for-episodes-client-server.md)
+- [veröffentlichungsstatus-für-podcasts-serien-und-episoden](tasks/veröffentlichungsstatus-für-podcasts-serien-und-episoden.md)

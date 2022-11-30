@@ -107,6 +107,7 @@ import ImageMetadata from "~~/base/types/ImageMetadata";
 import IValidationError from "~~/base/types/IValidationError";
 import { COUNT_AP, EPISODE_AP, FILES_AP, SERVER_IMG_PATH, SERVER_MP3_PATH, UPLOAD_AP } from "~~/base/Constants";
 import IEnumerator from "~~/base/types/IEnumerator";
+import episode from "~~/server/api/episode";
 
 export default defineComponent({
   props: {
@@ -199,8 +200,12 @@ export default defineComponent({
         body: null,
       };
       if (fileObj) {
+        try  {
         postData.body = getFileInFormData(server_path, fileObj);
         postResult = await $fetch(UPLOAD_AP, postData);
+        } catch (err) {
+          postResult.status = 500
+        }
       }
       if (postResult.status == 201 && fileObj) {
         linkToContent =
@@ -229,10 +234,11 @@ export default defineComponent({
       );
 
       // server validation (if slug is unique)
-      if (!isEdit) {
-        var count = await $fetch(COUNT_AP + "?slug=" + fields.value.slug);
-        if (count > 0) errors.value.push({ field: "slug", text: "slug" });
-      }
+      var countUrl = COUNT_AP + "?slug=" + fields.value.slug + 
+          (isEdit.value?"&excludeId="+fields.value.id:"")
+      var count : number = await $fetch(countUrl);
+      if (count > 0) errors.value.push({ field: "slug", text: "slug" });
+      console.log("Count "+count)
 
       if (errors.value.length > 0) return;
 

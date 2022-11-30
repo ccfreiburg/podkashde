@@ -59,7 +59,7 @@
       "link": "Url",
       "owner_email": "Owners email address",
       "owner_name": "Owners name",
-      "errors": "Pleas correct the following issues:"
+      "errors": "Please correct the following issues:"
     },
     "validation": {
       "img": "Please select an image with the exact dimensions of 1400x1400 pixel",
@@ -71,7 +71,8 @@
       "type": "Please select the publishing type",
       "link": "Please enter the link",
       "owner_email": "Please enter a valid email address",
-      "owner_name": "Please enter the owners name"
+      "owner_name": "Please enter the owners name",
+      "saveingimg": "Error uploading image"
     },
     "savePodcast": "Save Podcast",
     "tothepisodes": "To the episodes..."
@@ -84,11 +85,11 @@
     "edit_short": "edit",
     "explicit": "explicit",
     "blocked": "blocked",
-    "addImage": "klicken um Bild hinzuzufügen",
+    "addImage": "click to add image",
     "label": {
       "file": "Audio File",
       "serie": "Series",
-      "img": "klicken um Bild hinzuzufügen",
+      "img": "click to add image",
       "title": "Title",
       "subtitle": "Sub Title",
       "slug": "Slug",
@@ -150,7 +151,7 @@
     "options": "Options",
     "importCoverImages": "Download Cover Images to server",
     "importMp3s": "Download Mp3s to server", 
-    "importMetadata": "Import tags, authors and aeries metadata",
+    "importMetadata": "Import tags, authors and series metadata",
         "loading": "Loading from WordPress..."
   },
   "paginator": {

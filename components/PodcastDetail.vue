@@ -157,12 +157,22 @@ export default defineComponent({
       if (errors.value.length == 0) {
         const postData: IPostdata = {
           method: "POST",
-          body: getFields(),
+          body: getImageInFormData(),
         };
-        var postResult : any = await $fetch(PODCAST_AP, postData);
-        if (postResult.status == 201 && imgMetadata.value.selectedFile) {
-          postData.body = getImageInFormData();
-          postResult = await $fetch(UPLOAD_AP, postData);
+        var postResult : any = {}
+        try {
+           postResult = await $fetch(UPLOAD_AP, postData);
+        } catch (err) {
+          postResult.status = 500
+          errors.value.push({ field:"", text: 'podcast.validation.saveingimg'})
+        }       
+        if (postResult.status == 201) {
+          try {
+            postData.body = getFields();
+            postResult = await $fetch(PODCAST_AP, postData);
+          } catch (err) {
+            postResult.status = 500
+          }
         }
         if (postResult.status == 201) ctx.emit("onsaved", fields.value.title);
       }
