@@ -1,4 +1,4 @@
-import { moveUploadedImage } from '~~/server/services/podcastService';
+import { createDir, moveUploadedImage } from '~~/server/services/podcastService';
 import { returnCode } from '~~/server/returncode';
 import { UPLOAD_TEMP_PATH } from '~~/base/Constants';
 import Busboy from 'busboy'
@@ -10,7 +10,9 @@ async function paseFormdata(req: any) {
     const fields = {} as any
     const busboy = Busboy({ headers: req.headers })
     busboy.on('file', (name: string, file: any, info: any) => {
-      const { filename, encoding, mimeType } = info
+      var { filename, encoding, mimeType } = info
+      if (filename.length==0)
+        filename = "tmp"
       const path = UPLOAD_TEMP_PATH+filename;
       console.log("WRITING to "+path)
       var ws = fs.createWriteStream(path)
@@ -43,6 +45,7 @@ async function paseFormdata(req: any) {
 
 export default defineEventHandler( async (event) => {
   try {
+    createDir(UPLOAD_TEMP_PATH)
     const { filename, path, uploaded } = await paseFormdata(event.node.req)
     if (moveUploadedImage(uploaded, path, filename))
       return returnCode(201)

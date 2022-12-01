@@ -7,7 +7,7 @@ definePageMeta({
 const route = useRoute();
 const router = useRouter();
 const slug = route.params.episodeslug as string;
-const { refresh, episode, remove } = await useEpisode(slug);
+const { refresh, episode } = await useEpisode(slug);
 const { podcast, refresh: prefresh, series } = await usePodcast(episode.value?.podcast?.slug as string)
 
 onBeforeMount( () => {

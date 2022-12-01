@@ -117,10 +117,10 @@ export default defineComponent({
   },
   name: "episode",
   async setup(props, { emit }) {
-    const errors = ref([] as Array<IValidationError>);
-
+    const errors = ref([] as Array<IValidationError>);    
     const fields = ref({...props.episode} as IEpisode);
     const isEdit = computed(() => (fields.value as any).id != undefined);
+    const keepImage = ref(isEdit.value)
 
     function generateSlug(){
       if (!isEdit.value && fields.value.title)
@@ -136,9 +136,10 @@ export default defineComponent({
       if (!serie)
           return;
       fields.value.keyword = serie.title;
-      if (fields.value.image.length<1){
+      if (!keepImage.value){
         fields.value.image = serie.cover_file;
         imgMetadata.value.preview = serie.cover_file;
+        keepImage.value = true
       }
     })
 
@@ -152,10 +153,13 @@ export default defineComponent({
         if (data.fields[key])
           fields.value[key] = data.fields[key]
       }
-      imgMetadata.value.preview = data.cover_preview;
-      audioMetadata.value = { ...data };
-      generateSlug();
-      serie_id.value = 0;
+      if (!keepImage.value) {
+        imgMetadata.value.blob = data.imgblob
+        imgMetadata.value.preview = data.cover_preview
+        keepImage.value = true
+      }
+      audioMetadata.value = { ...data }
+      generateSlug()
     };
 
     const durationText = ref(durationInSecToStr(fields.value.duration));
@@ -169,9 +173,15 @@ export default defineComponent({
     });
     const imgMetadata = ref(new ImageMetadata());
     function imageSelected(data: ImageMetadata) {
-      imgMetadata.value = { ...data };
+      imgMetadata.value.imgHeight = data.imgHeight;
+      imgMetadata.value.imgWidth = data.imgWidth;
+      imgMetadata.value.selectedFile = data.selectedFile;
+      imgMetadata.value.preview = data.preview;
       if (data.imgWidth==0) {
         fields.value.image = "";
+        keepImage.value = false
+      } else {
+        keepImage.value = true
       }
     };
   
@@ -188,33 +198,51 @@ export default defineComponent({
       if (fileObj) {
         fd.append("path", path + props.podcast.slug);
         fd.append("cover", fileObj, fileObj.name);
+        fd.append("filename", fileObj.name);
       }
       return fd;
     }
 
-    async function upload(server_path: string, fileObj: File) {
+    function extention(type: string) : string {
+      if (type.includes("png")) return ".png"
+      if (type.includes("gif")) return ".gif"
+      return ".jpg"
+    }
+
+    function getBufferInFormData(path: string, blob: Blob) {
+      const fd = new FormData();
+      fd.append("path", path + props.podcast?.slug);
+      fd.append('cover', blob, props.podcast?.slug+extention(blob.type));
+      fd.append('filename', props.podcast?.slug+extention(blob.type));
+      return fd
+    }
+
+    async function upload(server_path: string, fileObj: File, blob: Blob|undefined = undefined) {
       var linkToContent = "";
       var postResult = null;
       var postData = {
         method: "post",
-        body: null,
+        body: null as any,
       };
-      if (fileObj) {
+      if (fileObj) 
+        postData.body = getFileInFormData(server_path, fileObj)
+      else if (blob)
+        postData.body = getBufferInFormData(server_path, blob)
+      if (postData.body) {
         try  {
-        postData.body = getFileInFormData(server_path, fileObj);
-        postResult = await $fetch(UPLOAD_AP, postData);
-        } catch (err) {
-          postResult.status = 500
-        }
+          postResult = await $fetch(UPLOAD_AP, postData);
+          } catch (err) {
+            postResult.status = 500
+          }
       }
-      if (postResult.status == 201 && fileObj) {
+      if (postResult.status == 201 && (fileObj || blob)) {
         linkToContent =
-          server_path + props.podcast.slug + "/" + fileObj.name;
+          server_path + props.podcast.slug + "/" + (postData.body as FormData).get('filename');
       }
       return {
         link: linkToContent,
         result: postResult,
-        nothingToDo: !fileObj,
+        nothingToDo: !fileObj && !blob,
       }
     }
 
@@ -256,9 +284,10 @@ export default defineComponent({
         fields.value.link = link;
       }
 
+    
       // Upload Image
-      if (imgMetadata.value.selectedFile) {
-      var {result, link, nothingToDo} = await upload(SERVER_IMG_PATH, imgMetadata.value.selectedFile)
+      if (imgMetadata.value.selectedFile || imgMetadata.value.blob!=undefined) {
+      var {result, link, nothingToDo} = await upload(SERVER_IMG_PATH, imgMetadata.value.selectedFile, imgMetadata.value.blob)
         if (result.status != 201) {
           errors.value.push({field:"", text:"upoad"})
           return

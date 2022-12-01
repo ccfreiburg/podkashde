@@ -65,8 +65,11 @@ export default defineComponent({
     })
     watch( ()=>props.preview, (newVal) => {
         imgMetadata.value.preview = props.preview;
+        calcImageSizePx(props.preview, ()=>{
+          emit("imageSelected", imgMetadata.value)
+        })
     })
-    if (props.filename && props.filename.length>0)
+        if (props.filename && props.filename.length>0)
       setImageMetaString(props.filename,REQUIRED_IMG_WIDTH,REQUIRED_IMG_HEIGHT)
 
     const preview = computed(() => {
@@ -87,6 +90,7 @@ export default defineComponent({
 
     function removeImage(event) {
       imgMetadata.value.preview = null;
+      imgMetadata.value.selectedFile = null;
       imgMetadata.value.imgWidth = 0;
       imgMetadata.value.imgHeight = 0;
       event.stopImmediatePropagation();

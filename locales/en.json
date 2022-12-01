@@ -118,7 +118,8 @@
       "saving": "Could not save the episode"
     },
     "saveEpisode": "Save Episode",
-    "saved" : "The Episode has been saved"
+    "saved" : "The Episode has been saved",
+    "deleted" : "The Episode has been deleted"
   },
   "serie": {
     "new": "New Series",

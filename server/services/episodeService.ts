@@ -3,6 +3,7 @@ import getDataSource from "../db/dbsigleton";
 import Episode, { getEpisode } from "../db/entities/Episode";
 import { getPodcast } from "../db/entities/Podcast";
 import { getSerie } from "../db/entities/Serie";
+import writeTags from "../tagId3";
 
 export const readEpisodes = async function (): Promise<Array<IEpisode>> {
     const db = await getDataSource();
@@ -33,6 +34,7 @@ export const saveNewEpisode = async function (episodeObject): Promise<Episode> {
   }
   const db = await getDataSource();
   await db.manager.save(episode);
+  writeTags(episode)
   return episode;
 };
 

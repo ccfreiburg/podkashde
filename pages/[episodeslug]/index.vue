@@ -123,16 +123,18 @@
 import { EPISODE_AP } from '~~/base/Constants';
 import { durationInSecToStr } from '~~/base/Converters';
 import { useEpisode } from '~~/composables/episodedata';
-import { parseHTML } from '~~/base/Converters';
+
 const route = useRoute();
+const router = useRouter();
 const user = await useAuth().useAuthUser();
-const slug = route.params.episodeslug as string;
+
 const showdetail = ref(false);
-const { refresh, serie, podcast, episode } = await useEpisode(slug);
+const slug = route.params.episodeslug as string;
+const { refresh, serie, podcast, remove, episode } = await useEpisode(slug);
+
 onBeforeMount( () => {
   if (route.query.refresh) refresh();
 })
-const router = useRouter();
 onMounted( () =>
   router.replace({
     ...router.currentRoute,
@@ -141,19 +143,21 @@ onMounted( () =>
 }))
 
 const duration = () => durationInSecToStr(episode.value.duration);
+
 async function menuItemClicked(value: string) {
   if (value === "#delete") {
-    const postData = {
-        method: "delete",
+    const request : IPostdata = {
+        method: "DELETE",
         body: {
-          id: episode.value.id,
-          title: episode.value.title,
-        },
-      };
-      var postResult: Response = await $fetch(EPISODE_AP, postData);
-      if (postResult.status == 201) {
-        router.go(-1)
+          id: episode.value.id
+        }
       }
+    await $fetch(EPISODE_AP, request);
+    (await useEpisodes()).refresh()
+    var url = router.options.history.state.back as string;
+    if (url.includes("?"))
+      url = url.substring(0,url.indexOf('?'))
+    router.push({ path: url, query: { refresh: 'true', msg: 'episode.deleted' } })
   }
 }
 const submenu = [

@@ -29,16 +29,7 @@ export async function useEpisode(slug:string) {
         podcast.value = episode.value.podcast;
         serie.value = episode.value.serie;
     }
-    const remove = async () => {
-        const request : IPostdata = {
-            method: "DELETE",
-            body: {
-                id: episode.value.id
-            }
-        }
-        await $fetch(EPISODE_AP, request)
-        episode.value = null;
-    }
+
     if (!episode.value) {
        await refresh()
     }
@@ -47,6 +38,5 @@ export async function useEpisode(slug:string) {
         podcast,
         serie,
         refresh,
-        remove
     }
 }

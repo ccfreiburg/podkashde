@@ -36,6 +36,7 @@ export const generateFeed = async (podcast: IPodcast)  => {
     }
     const xml = generateRss(podcast, enumFuncs)
     var dir = nuxtPath(FEED_SLUG);
+    createDir(dir)
     const target_file = dir + podcast.slug+".xml"
     fs.writeFileSync(target_file, xml)
 }

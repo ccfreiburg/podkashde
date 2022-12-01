@@ -3,5 +3,6 @@ export default class ImageMetadata {
     selectedFile = null;
     imgWidth = 0;
     imgHeight = 0;
+    blob: Blob|undefined = undefined;
   }
   

@@ -120,7 +120,8 @@
       "saving": "Folge konnte nicht gespeichert werden"
     },
     "saveEpisode": "Folge speichern",
-    "saved" : "Die Folge wurde erfolgreich gespeichert"
+    "saved" : "Die Folge wurde erfolgreich gespeichert",
+    "deleted" : "Die Folge wurde gelöscht"
   },
   "serie": {
     "new": "Neue Serie",

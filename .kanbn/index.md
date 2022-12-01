@@ -20,7 +20,6 @@ sprints:
 
 ## Todo
 
-- [id3-auf-server-schreiben](tasks/id3-auf-server-schreiben.md)
 - [uat-test-suite](tasks/uat-test-suite.md)
 
 ## In Progress
@@ -28,6 +27,7 @@ sprints:
 ## Done
 
 - [paging-for-episodes-client-server](tasks/paging-for-episodes-client-server.md)
+- [id3-auf-server-schreiben](tasks/id3-auf-server-schreiben.md)
 - [reload-after-delete-podcast](tasks/reload-after-delete-podcast.md)
 - [deployment](tasks/deployment.md)
 - [rss-generator-bug](tasks/rss-generator-bug.md)

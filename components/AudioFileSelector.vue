@@ -46,6 +46,11 @@ export default defineComponent({
       return `data:${format};base64,${window.btoa(base64String)}`;
     }
     
+    function array2blob(data: Uint8Array, format: string) : Blob {
+      console.log(data)
+      return new Blob( [data], { type: format});
+    }
+    
     function getDuration(file) {
       return new Promise<number>((resolve, reject) => {
         var audio = new Audio();
@@ -69,11 +74,14 @@ export default defineComponent({
         var id3tag = await universalParse(event.target.files[0]);
         if (id3tag.title)  
           audioFile.value.fields = fieldsFromId3(id3tag);
-        if (id3tag.image)
+        if (id3tag.image) {
           audioFile.value.cover_preview = array2base64(
             id3tag.image.data,
-            id3tag.image.mime
-          );
+            id3tag.image.mime)
+          audioFile.value.imgblob = array2blob(  
+            id3tag.image.data,
+            id3tag.image.mime)
+        }
       }  catch(err) {
         console.log(err)
       }
