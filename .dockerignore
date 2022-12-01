@@ -7,3 +7,4 @@ tests
 .github
 .env
 public/s
+public-docker

@@ -14,7 +14,8 @@ const i18n = createI18n({
       "paginator": {
         "next": "Next",
         "previous": "Previous",
-        "status": "Next"
+        "status": "Next",
+        "statusshort": "Da"
       }    
     }
   },

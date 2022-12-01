@@ -1,3 +1,3 @@
 #!/usr/bin/dumb-init /bin/sh
 /usr/sbin/nginx &
-node /var/www/server/index.mjs
+runuser -u www-data -g www-data -- node /var/www/server/index.mjs

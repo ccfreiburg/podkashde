@@ -10,7 +10,7 @@ services:
       - 8083:80
     env_file: .env
     volumes:
-      - ./public/s:/var/www/public/s
+      - ./public-docker:/var/www/public/s
     environment:
       - VIRTUAL_HOST=podk.calvarychapel.de
       - LETSENCRYPT_HOST=podk.calvarychapel.de

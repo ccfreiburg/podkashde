@@ -122,7 +122,7 @@ export default defineComponent({
     menu: Object as PropType<Array<IMenuSection>>,
     defaultRoute: {
       type: String,
-      default: "/"
+      default: "/recent"
     },
     availableLocales: Object as  PropType<Array<String>>,
     locale:  String

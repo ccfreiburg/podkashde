@@ -7,7 +7,7 @@ describe('App', async () => {
   })
   it('my test', async () => {
     const thePage = url('/page')
-    const html = await $fetch('/')
+    const html = await $fetch('/podcasts')
     expect(html).toContain("Podcasts")
 })
 })

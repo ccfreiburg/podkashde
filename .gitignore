@@ -6,7 +6,6 @@ tmp/
 temp/
 .nuxt
 dist
-server/db/data
 .output
 *.log*
 .nitro
@@ -17,4 +16,5 @@ upload/
 coverage
 secret
 public/s
+public-docker
 org.*
