@@ -191,7 +191,6 @@ export default defineComponent({
     function getFields() {
       var tmp = { ...fields.value };
       delete tmp.podcast.episodes;
-      delete tmp.podcast.series;
       if (!fields.value.serie) delete tmp.serie;
       return tmp;
     };
