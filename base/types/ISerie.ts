@@ -9,8 +9,8 @@ export default interface ISerie {
   description: string;
   cover_file: string;
   state: number;
-  firstEpisode: Date;
-  lastEpisode: Date; 
+  firstEpisode?: Date;
+  lastEpisode?: Date; 
   external_id?: number;
   lastbuild?: string;
   episodes?: Array<IEpisode>;

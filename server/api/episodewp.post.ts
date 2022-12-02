@@ -6,11 +6,7 @@ import { migrateEpisode } from "../services/wpMigrationService";
 export default defineEventHandler(async (event) => {
   try {
     const data = await readBody(event);
-    if (isUpdate(data)) {
-      await updateEpisode(data);
-    } else {
-      await saveNewEpisode(data)
-    }
+    await migrateEpisode(data)
   } catch (err) {
     console.log(err);
     return returnCodeReject(500, err.message);

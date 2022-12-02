@@ -49,9 +49,6 @@ export function setPodcast(podcast: Podcast, from: IPodcast): Podcast {
   if (from.episodes) {
     podcast.episodes = from.episodes.map((element) => getEpisode(element));
   }
-  if (from.series) {
-    podcast.series = from.series.map((element) => getSerie(element));
-  }
   return podcast;
 }
 
@@ -119,12 +116,6 @@ export default class Podcast extends BaseEntity implements IPodcast {
     onDelete: 'CASCADE',
   })
   episodes: Episode[];
-
-  @ManyToMany(() => Serie, (serie) => serie.podcasts, {
-    cascade: false,
-  })
-  @JoinTable()
-  series: Serie[];
 
   @CreateDateColumn({ type: 'datetime' })
   public createdAt: Date;

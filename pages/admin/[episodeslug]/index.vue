@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { GENERATE_RSS_AP } from "~~/base/Constants";
+import { GENERATE_RSS_AP, SERIE_AP } from "~~/base/Constants";
 import { useEpisode } from "~~/composables/episodedata";
 definePageMeta({
   middleware: "authentication",
@@ -8,7 +8,8 @@ const route = useRoute();
 const router = useRouter();
 const slug = route.params.episodeslug as string;
 const { refresh, episode } = await useEpisode(slug);
-const { podcast, refresh: prefresh, series } = await usePodcast(episode.value?.podcast?.slug as string)
+const { podcast, refresh: prefresh } = await usePodcast(episode.value?.podcast?.slug as string)
+const { series } = await useSeries();
 
 onBeforeMount( () => {
   if (route.query.refresh) refresh();

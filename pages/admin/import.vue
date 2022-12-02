@@ -163,9 +163,8 @@ import {
   SERVER_MP3_PATH,
   SERIES_IMG_PATH,
   PODCAST_AP,
-  EPISODE_AP,
+  EPISODEWP_AP,
   SERVER_POSTIMG_PATH,
-  FILES_AP,
   GENERATE_RSS_AP,
 } from "~~/base/Constants";
 import {
@@ -295,7 +294,7 @@ async function importPodcast(podcast: any) {
   }
   await post<IPodcast>(PODCAST_AP, podkashde)
   const wpEpisodes = await useWpEpisodes(wpurl.value, podcast.id)
-  refresh() // enums refresh
+  await refresh() // enums refresh
   for await (var episode of wpEpisodes.value) {
     contentState = ContentState.allmeta;
     var pk_episode = episodeFromWpMetadata(
@@ -319,7 +318,7 @@ async function importPodcast(podcast: any) {
     }
     pk_episode.state = contentState;    
     statusLog.value.push({ message: "Saving episode " + pk_episode.title + " to server" })
-    await post(EPISODE_AP, pk_episode)
+    await post(EPISODEWP_AP, pk_episode)
   }
   $fetch(GENERATE_RSS_AP, { query: { slug: podkashde.slug }})
 }

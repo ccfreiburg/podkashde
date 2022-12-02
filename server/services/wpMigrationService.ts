@@ -1,3 +1,4 @@
+import { e } from 'vitest/dist/index-ea17aa0c';
 import IEpisode from '../../base/types/IEpisode';
 import getDataSource from '../db/dbsigleton';
 import Episode, { getEpisode, joinEpisodePodcastAndSerie } from '../db/entities/Episode';
@@ -11,6 +12,7 @@ export async function migrateEpisode(episode: IEpisode) {
 
   const podcast = await podcastRepo.findOne({
     where: { external_id: episode.ext_podcast_id },
+    relations: ['series']
   });
   const serie = await serieRepo.findOne({
     where: { external_id: episode.ext_series_id },

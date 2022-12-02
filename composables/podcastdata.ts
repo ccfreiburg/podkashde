@@ -23,12 +23,10 @@ export async function usePodcasts() {
 export async function usePodcast(slug:string) {
     const podcast = useState<IPodcast>(slug, () => null )
     const episodes = useState<Array<IEpisode>>("episodes-of-"+slug, () => [] )
-    const series = useState<Array<ISerie>>("series-of-"+slug, () => [] )
     const refresh = async () => {
         const data: IPodcast = await $fetch(PODCAST_AP+"?slug="+slug)
         podcast.value = data;
         episodes.value = data.episodes
-        series.value = data.series
     }
     const remove = async () => {
         const request : IPostdata = {
@@ -46,7 +44,6 @@ export async function usePodcast(slug:string) {
     return {
         podcast,
         episodes,
-        series,
         refresh,
         remove
     }

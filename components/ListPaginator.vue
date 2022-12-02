@@ -165,7 +165,7 @@ export default defineComponent({
   name: 'ListPaginator',
   setup(props, ctx) {
     const selectedPage = ref(props.value)
-    const countPages = ref(Math.floor(1+props.max/props.itemsperpage)) 
+    const countPages = ref((props.max%props.itemsperpage==0?Math.floor(props.max/props.itemsperpage):Math.floor(1+props.max/props.itemsperpage))) 
     const pagesList = ref(pageLabelList(props.value,countPages.value))
     
     watch(selectedPage,(newVal) => {

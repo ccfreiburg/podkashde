@@ -49,10 +49,10 @@ export function seriesfromWpMetadata(series: Array<ISerie>, wpMetadataList): Arr
         slug: meta.slug,
         subtitle: meta.title,
         external_id: meta.id,
-        description: '',
+        description: meta.subtitle,
         state: ContentState.metadata,
-        lastEpisode: null,
-        firstEpisode: null
+        lastEpisode: new Date("1900-01-01"),
+        firstEpisode: new Date()
       }) as ISerie
     list.push(serie);
   });

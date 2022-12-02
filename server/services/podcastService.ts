@@ -19,7 +19,7 @@ export const readPodcast = async function (query: Partial<IPodcast>): Promise<IP
   const repo = db.getRepository(Podcast);
   var tmpQuery : FindManyOptions<Podcast> = {
     where: query,
-    relations: ['episodes', 'series'],
+    relations: ['episodes'],
   };
   var result: Array<IPodcast> = await repo.find(tmpQuery);
   return result.pop() as IPodcast

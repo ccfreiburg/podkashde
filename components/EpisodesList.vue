@@ -1,5 +1,20 @@
 <template>
   <div class="text-xs md:text-base w-full flex flex-col">
+    <div v-if="(episodes?.length>0)" class="flex place-items-end place-content-end px-1 md:px-4 text-gray-500">
+      <div v-if="!searchHiden" class="flex flex-row flex-nowrap items-center">
+        <input-area class="pb-8" :name="'search'" label="" v-model:value="search" />
+        <div @click="() => {search='';searchHiden=true}">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </div>
+      </div>
+      <div v-else @click="searchHiden=!searchHiden">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+        </svg>  
+      </div>
+    </div>
     <div
       class="flex flex-col"
       v-for="(episode, index) in sortedFilteredList"
@@ -10,7 +25,10 @@
           <div class="w-2/12">
             <img class="max-w-20 max-h-20" :src="episode.image" />
           </div>
-          <div class="w-5/12 pl-2 md:pl-8" v-html="episode.title" />
+          <div class="w-5/12 pl-2 md:pl-8"> 
+            <div v-html="episode.title" /> 
+            <div v-html="(episode.cross_ref)" /> 
+          </div>
           <div class="w-3/12">{{episode.creator}}</div>
           <div class="w-2/12">{{ episode.datestring }}</div>
           <div class="w-1/12 flex justify-end">
@@ -65,6 +83,8 @@ export default {
   name: 'EpisodesList',
   setup(props) {
     const dateformat = (input: Date): string => input.toLocaleDateString();
+    const search = ref("")
+    const searchHiden = ref(true)
 
     const pageFilter = (e, index) => {
         const start = (props.page-1)*props.itemsperpage -1
@@ -72,10 +92,15 @@ export default {
         return index>start && index<=end
     }
 
-    function expandAndFilter(list: Array<IEpisode>): Array<IDisplayEpisode> {
+    function expandAndFilter(list: Array<IEpisode>, search: string): Array<IDisplayEpisode> {
       if (!list || list.length < 1) return [];
-      const filter = (e) =>  true
-      return list.filter(filter).map((e) => {
+      const filter = (e) =>  {
+        return search.length<3 ||
+          e.title.includes(search) ||
+          e.creator.includes(search) ||
+          e.cross_ref?.includes(search)
+      }
+        return list.filter(filter).map((e) => {
         const date = new Date(e.pubdate);
         return {
           ...e,
@@ -93,13 +118,15 @@ export default {
       );
     }
     const sortedFilteredList = computed(() =>{
-        const sortlist = sortList(expandAndFilter(props.episodes))
+        const sortlist = sortList(expandAndFilter(props.episodes, search.value))
         if (props.itemsperpage==0 || props.page==0) return sortlist
         return sortlist.filter(pageFilter)
       }
     );
     return {
       sortedFilteredList,
+      searchHiden,
+      search
     };
   },
 };

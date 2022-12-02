@@ -46,26 +46,22 @@ export function getEpisode(from) {
 }
 
 export function joinEpisodePodcastAndSerie(episode: Episode, podcast: Podcast, serie: Serie) {
-  console.log("Episode: "+episode.external_id+" Podcast: "+podcast.external_id+" Serie: "+serie?.external_id)
   if (podcast) {
     episode.podcast = podcast;
-    if (serie) {     
-      if (!podcast.series)
-        podcast.series = [] as Array<Serie>
-      podcast.series.push(serie);
-    }
   }
   if (serie) {
     episode.serie = serie;
     if (!serie.episodes)
       serie.episodes = [] as Array<Episode>
     serie.episodes.push(episode)
-    if (serie.firstEpisode==null) {
+    if (serie.firstEpisode==null) 
       serie.firstEpisode = episode.pubdate
+    if (serie.lastEpisode==null)
       serie.lastEpisode = episode.pubdate
-    } else if (serie.firstEpisode>episode.pubdate)
+    const b = new Date(episode.pubdate).getTime()
+    if (new Date(serie.firstEpisode).getTime()>b)
       serie.firstEpisode = episode.pubdate
-    if (serie.lastEpisode<episode.pubdate)
+    if (new Date(serie.lastEpisode).getTime()<b)
       serie.lastEpisode = episode.pubdate
     // You do not need to add podcast to the podcasts of the series this works the other was around is done above
   }

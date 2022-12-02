@@ -4,6 +4,7 @@ import Episode, { getEpisode } from "../db/entities/Episode";
 import { getPodcast } from "../db/entities/Podcast";
 import { getSerie } from "../db/entities/Serie";
 import writeTags from "../tagId3";
+import { setLastAndFirst } from "./serieService";
 
 export const readEpisodes = async function (): Promise<Array<IEpisode>> {
     const db = await getDataSource();
@@ -49,5 +50,8 @@ export const updateEpisode = async function (episodeObject) {
     episode.serie = serie;
   }
   const db = await getDataSource();
-  return await db.manager.update(Episode, episodeObject.id, episode);
+  const result = await db.manager.update(Episode, episodeObject.id, episode);
+  if (episode.serie)
+    setLastAndFirst(episode.serie.id)
+  return result
 };

@@ -21,16 +21,9 @@ sprints:
 ## Todo
 
 - [uat-test-suite](tasks/uat-test-suite.md)
+- [move-episode-to-other-podcast](tasks/move-episode-to-other-podcast.md)
 
 ## In Progress
 
 ## Done
 
-- [paging-for-episodes-client-server](tasks/paging-for-episodes-client-server.md)
-- [id3-auf-server-schreiben](tasks/id3-auf-server-schreiben.md)
-- [reload-after-delete-podcast](tasks/reload-after-delete-podcast.md)
-- [deployment](tasks/deployment.md)
-- [rss-generator-bug](tasks/rss-generator-bug.md)
-- [Übersetzung](tasks/Übersetzung.md)
-- [default-landing-page](tasks/default-landing-page.md)
-- [veröffentlichungsstatus-für-podcasts-serien-und-episoden](tasks/veröffentlichungsstatus-für-podcasts-serien-und-episoden.md)

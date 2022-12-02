@@ -55,14 +55,17 @@ export default defineComponent({
     const imageFileInput = ref(null);
 
     const setImageMetaString = ( filename: string, width: number, height: number )=>{
-        imgMetadata.value.preview=filename;
-        imgMetadata.value.imgWidth = width;
-        imgMetadata.value.imgHeight = height;
-        emit("imageSelected", imgMetadata.value)
+      if (filename.length<1)
+        return
+      imgMetadata.value.preview=filename;
+      imgMetadata.value.imgWidth = width;
+      imgMetadata.value.imgHeight = height;
+      emit("imageSelected", imgMetadata.value)
     }
     watch( ()=>props.filename, (newVal) => {
       setImageMetaString(props.filename,REQUIRED_IMG_WIDTH,REQUIRED_IMG_HEIGHT)
     })
+
     watch( ()=>props.preview, (newVal) => {
         imgMetadata.value.preview = props.preview;
         calcImageSizePx(props.preview, ()=>{
@@ -89,11 +92,12 @@ export default defineComponent({
     }
 
     function removeImage(event) {
+      event.stopImmediatePropagation();
       imgMetadata.value.preview = null;
       imgMetadata.value.selectedFile = null;
+      imgMetadata.value.blob = undefined;
       imgMetadata.value.imgWidth = 0;
       imgMetadata.value.imgHeight = 0;
-      event.stopImmediatePropagation();
       emit("imageSelected", imgMetadata.value);
     }
     function chooseImageFile() {

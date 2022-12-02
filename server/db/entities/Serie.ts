@@ -83,12 +83,6 @@ export default class Serie extends BaseEntity implements ISerie {
   @OneToMany(() => Episode, (episode) => episode.serie)
   episodes: Episode[];
 
-  @ManyToMany(() => Podcast, (podcast) => podcast.series, {
-    cascade: false,
-  })
-  @JoinTable()
-  podcasts: Podcast[];
-
   @CreateDateColumn({ type: "datetime" })
   public createdAt: Date;
 

@@ -105,7 +105,7 @@ import ISerie, { emptyISerieFactory } from "../base/types/ISerie";
 import AudioFileMetadata from "~~/base/types/AudioFileMetadata";
 import ImageMetadata from "~~/base/types/ImageMetadata";
 import IValidationError from "~~/base/types/IValidationError";
-import { COUNT_AP, EPISODE_AP, FILES_AP, SERVER_IMG_PATH, SERVER_MP3_PATH, UPLOAD_AP } from "~~/base/Constants";
+import { COUNT_AP, EPISODE_AP, FILES_AP, SERIE_AP, SERVER_IMG_PATH, SERVER_MP3_PATH, UPLOAD_AP } from "~~/base/Constants";
 import IEnumerator from "~~/base/types/IEnumerator";
 import episode from "~~/server/api/episode";
 
@@ -131,6 +131,7 @@ export default defineComponent({
 
     var serie = (props.episode.serie?props.episode.serie:emptyISerieFactory());
     const serie_id = ref((serie.id?serie.id:0))
+    const previousSeries_id = serie_id.value
     watch ( serie_id, (newValue) => {
       serie = props.series.find((item) => item.id == newValue);
       if (!serie)
@@ -167,16 +168,18 @@ export default defineComponent({
       fields.value.duration = strToDurationInSec(durationText.value);
     });
 
-    const pubdateText = ref(dateToIsoString(new Date()));
+    const pubdateText = ref((isEdit?dateToIsoString(new Date(fields.value.pubdate)):dateToIsoString(new Date())))
     watch(pubdateText, (newVal, oldVal) => {
       fields.value.pubdate = strToDate(newVal);
     });
+    
     const imgMetadata = ref(new ImageMetadata());
     function imageSelected(data: ImageMetadata) {
       imgMetadata.value.imgHeight = data.imgHeight;
       imgMetadata.value.imgWidth = data.imgWidth;
       imgMetadata.value.selectedFile = data.selectedFile;
       imgMetadata.value.preview = data.preview;
+      imgMetadata.value.blob = data.blob;
       if (data.imgWidth==0) {
         fields.value.image = "";
         keepImage.value = false
@@ -305,6 +308,8 @@ export default defineComponent({
         errors.value.push({field:"", text:"saving"})
         return
       }
+      if (serie_id!=previousSeries_id && previousSeries_id>0)
+        await $fetch(SERIE_AP, {  method: "post", body: { id: previousSeries_id }})
       emit("save", fields.value.title);
     }
     function remove() {
