@@ -22,12 +22,11 @@ sprints:
 
 ## Todo
 
-- [refresh-bug](tasks/refresh-bug.md)
-
 ## In Progress
 
 ## Done
 
 - [login-passwort-change](tasks/login-passwort-change.md)
+- [refresh-bug](tasks/refresh-bug.md)
 - [admin-als-super-admin-delete-podcast-und-import](tasks/admin-als-super-admin-delete-podcast-und-import.md)
 - [bibelstelle-video-editierbar](tasks/bibelstelle-video-editierbar.md)

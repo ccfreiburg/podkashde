@@ -9,11 +9,10 @@ export default defineEventHandler(async (event) => {
     if (body.hasOwnProperty('id')) {
       if (body.hasOwnProperty('title')) {
         updateSerie(body)
+        return returnCodeResolve(201, "Saved series successfully");
       } else {
-        setLastAndFirst(body.id)
-
+        return setLastAndFirst(body.id)
       }
-      return returnCodeResolve(201, "Saved series successfully");
     } else
     return returnCodeReject(501, "nd data");
   } catch (err) {

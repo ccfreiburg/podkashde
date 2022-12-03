@@ -46,7 +46,7 @@ export const updateSerie = async function (SerieObject: ISerie) {
   return await db.manager.update(Serie, SerieObject.id, serie);
 };
 
-export const setLastAndFirst = async ( id: number ) => {
+export const setLastAndFirst = async ( id: number ) : string => {
   const serie = await readSerie({ id: id })
   var minmax = serie.episodes?.reduce( (minmax, episode) => {
     const d = new Date(episode.pubdate)
@@ -59,4 +59,5 @@ export const setLastAndFirst = async ( id: number ) => {
   serie.lastEpisode = minmax?.max
   serie.firstEpisode = minmax?.min
   updateSerie(serie as Serie)
+  return serie.slug
 }

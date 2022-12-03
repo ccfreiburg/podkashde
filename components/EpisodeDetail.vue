@@ -309,8 +309,10 @@ export default defineComponent({
         errors.value.push({field:"", text:"saving"})
         return
       }
-      if (serie_id!=previousSeries_id && previousSeries_id>0)
-        await $fetch(SERIE_AP, {  method: "post", body: { id: previousSeries_id }})
+      if (serie_id!=previousSeries_id && previousSeries_id>0) {
+        const slug = await $fetch(SERIE_AP, {  method: "post", body: { id: previousSeries_id }})
+        ;(await useSerie(slug)).refresh()
+      }
       emit("save", fields.value.title);
     }
     function remove() {
