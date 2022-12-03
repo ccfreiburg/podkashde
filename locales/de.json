@@ -30,6 +30,8 @@
     "submitnewpassword": "Passwort setzen",
     "wrongpassword": "Flasches Passwort",
     "loginfailed": "Passwort oder Nutzername falsch",
+    "invitelink": "Einladungslink erstellen",
+    "passwordset": "Das neue Passwort wurde erfolgreich gesetzt",
     "invitationtitle": "Nutzer einladen",
     "validation": {
       "nomatch": "Die Passwörter stimmen nicht überein",

@@ -43,26 +43,46 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import { useI18n } from 'vue-i18n';
 
-const route = useRoute();
-const i18n = useI18n();
+export default defineComponent({
+  props: {
+    msg: {
+      type: String,
+      default: '',
+    },
+  },
+  setup(props) {
+    const route = useRoute();
+    const i18n = useI18n();
 
-const toasterMessage = ref('');
-const showToast = ref(false);
+    const toasterMessage = ref('');
+    const showToast = ref(false);
 
-const toast = (msg: string) => {
-  toasterMessage.value = msg;
-  showToast.value = true;
-  setTimeout(() => {
-    showToast.value = false;
-  }, 4000);
-};
-onMounted(() => {
-  if (route.query.msg) toast(i18n.t(route.query.msg as string));
-});
-onActivated(() => {
-  if (route.query.msg) toast(i18n.t(route.query.msg as string));
+    const toast = (msg: string) => {
+      toasterMessage.value = msg;
+      showToast.value = true;
+      setTimeout(() => {
+        showToast.value = false;
+      }, 4000);
+    };
+
+    if (props.msg.length>0)
+      toast(props.msg)
+    watch( () => props.msg, (newVal) => {
+      toast(newVal)
+    })
+    onMounted(() => {
+      if (route.query.msg) toast(i18n.t(route.query.msg as string));
+    });
+    onActivated(() => {
+      if (route.query.msg) toast(i18n.t(route.query.msg as string));
+    });
+    return {
+      showToast,
+      toasterMessage,
+    };
+  },
 });
 </script>

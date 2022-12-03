@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     const token: string = body.token
     var credentialValid = false
 
-    if (!((token && password) || (password && username && oldpassword))) {
+        if (!((token && password) || (password && username && oldpassword))) {
         return sendError(event, createError({
             statusCode: 400,
             statusMessage: 'Ivalid params'
@@ -27,7 +27,6 @@ export default defineEventHandler(async (event) => {
     }
 
     const user = await getUserByUserName(username) as User
-
     if (!user) {
         return sendError(event, createError({
             statusCode: 400,
@@ -57,5 +56,4 @@ export default defineEventHandler(async (event) => {
     return {
         access_token: accessToken, user: sanitizeUserForFrontend(user)
     }
-
 }) 

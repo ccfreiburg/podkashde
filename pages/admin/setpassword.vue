@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div v-on:keyup.enter="submit">
+    <messge-toast :msg="localMessage"></messge-toast>
     <div class="w-full flex justify-center">
         <div
           class="mt-6 md:mt-10 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs"
@@ -9,8 +10,8 @@
   <div class="w-full h-screen bg-gray-200 flex justify-center">
       <div class="container px-4 mx-auto flex flex-col">
         <div class="flex flex-row flex-wrap content-start justify-evenly">
-          <div class="w-2/3 flex flex-col">
-            <input-area v-if="!isInvite" name="passwordOld" type="password" :errors="errors" :label="'login.oldpassword'" v-model:value="passwordOld"></input-area>
+          <div v-if="(!isDone)" class="w-2/3 flex flex-col">
+            <input-area v-if="(!isInvite)" name="passwordOld" type="password" :errors="errors" :label="'login.oldpassword'" v-model:value="passwordOld"></input-area>
             <input-area name="password1" type="password" :errors="errors" :label="'login.password'" v-model:value="password1"></input-area>
             <input-area name="password2" type="password" :errors="errors" :label="'login.passwordrepeat'" v-model:value="password2"></input-area>
             <div class="flex flex-row">
@@ -38,13 +39,18 @@ const route = useRoute()
 const router = useRouter()
 const i18n = useI18n()
 const isInvite = ref(route.query.hasOwnProperty('token'))
-const user = useAuth().useAuthUser()
+const isDone = ref(false)
+const currentuser = useAuth().useAuthUser()
+const token = route.query.token
+const localMessage = ref("")
 if (isInvite.value) {
-  const {access} = await $fetch(CHECK_TOKEN_AP+route.query.token)
+  const {access, user} = await $fetch(CHECK_TOKEN_AP+token)
   if (access!==INVITE_TOKEN)
     router.go(-1)
-} else if (!user) {
-  router.go(-1)
+  if (!user)
+    router.go(-1)
+  else
+    currentuser.value = user
 }
 const passwordOld = ref("");
 const password1 = ref("");
@@ -62,18 +68,24 @@ const validate = () => {
 const submit = async () => {
   if (validate()) {
     if (isInvite.value) {
-      await useAuth().setFirstPassword(route.query.token as string, password1.value)
-      router.push("/?msg=login.passwordset")
+      await useAuth().setFirstPassword(token as string, password1.value)
+      localMessage.value = i18n.t('login.passwordset')
+      isDone.value = true
     } else {
       try {
-        const success = await useAuth().changePassword(user.value.username, password1.value, passwordOld.value)
-        if (success)
-          router.push("/?msg=login.passwordset")
+        const success = await useAuth().changePassword(currentuser.value.username, password1.value, passwordOld.value)
+        if (success) {
+          isDone.value = true
+          var url = router.options.history.state.back as string;
+          router.push({
+              path: url,
+              query: { msg: 'login.passwordset' }
+            })
+        }
       } catch {
         errors.value.push({ field: "passwordOld", text: i18n.t("login.wrongpassword") })
       }
     }
-
   }
 }
 onMounted( () =>

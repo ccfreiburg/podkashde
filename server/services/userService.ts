@@ -42,7 +42,9 @@ export async function updateUser(data: User) {
 
 
 export async function createUserWithToken(data: IUser, type: string) : Promise<IUser> {
-    const user = getUser(data);
+    var user = await readUser({ username: data.username }) as User
+    if (!user)
+        user = getUser(data);
     user.token = generateUrlToken( data.username, type, (type==INVITE_TOKEN?INVITE_TIME:PWRESET_TIME) )
     const db = await getDataSource();
     await db.manager.save(user);

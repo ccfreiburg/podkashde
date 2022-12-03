@@ -19,7 +19,7 @@
                   class="float-right h-12 w-40 mt-8 px-2 rounded-md ccfbutton-border"
                   @click="generateUrl"
                 >
-                  {{ $t('login.submitnewpassword') }}
+                  {{ $t('login.invitelink') }}
                 </button>
               </div>
             </div>

@@ -30,7 +30,9 @@
     "submitnewpassword": "Set Password",
     "wrongpassword": "The password does not match",
     "loginfailed": "Wrong password or user does not exist",
+    "invitelink": "Get invitation link",
     "invitationtitle": "Invite user",
+    "passwordset": "The new password has been set successfully",
     "validation": {
       "nomatch": "The two passwords do not match",
       "length": "A password needs at least 8 characters"
