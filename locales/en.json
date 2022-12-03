@@ -108,7 +108,9 @@
       "pubdate": "Publication Date",
       "link": "Mp3 Url",
       "errors": "Pleas correct the following issues:",
-      "filesize": "Size"
+      "filesize": "Size",
+      "cross_ref": "Search reference",
+      "video_link": "Video link"
     },
     "validation": {
       "img": "Please select an image with the exact dimensions of 1400x1400 pixel",

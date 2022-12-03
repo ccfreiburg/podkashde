@@ -24,7 +24,7 @@
             @imageSelected="imageSelected"
           />
         </div>
-        <div class="flex flex-col">
+        <div class="flex flex-col flex-grow flex-shrink">
           <audio-file-selector
             :audioFileName="fields.link"
             @audioFileSelected="audioFileSelected"
@@ -56,6 +56,8 @@
           :labelChecked="$t('episode.label.explicit_true')"
           :labelUnChecked="$t('episode.label.explicit_false')"
        />
+       <input-area :name="'cross_ref'" :label="'episode.label.cross_ref'" v-model:value="fields.cross_ref" />
+       <input-area :name="'video_link'" :label="'episode.label.video_link'" v-model:value="fields.video_link" />
 
       <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
         <p>{{ $t("episode.label.errors") }}</p>

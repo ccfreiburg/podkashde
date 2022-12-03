@@ -12,7 +12,7 @@ nuxtApp.hook("page:finish", () => {
 });
 const i18n = useI18n();
 var id = 0
-function getMenu(loggedin) : Array<IMenuSection> {
+function getMenu(loggedin: boolean, username: string) : Array<IMenuSection> {
   var menu = [       {
           id: id++,
           name: i18n.t("menu.admin"),
@@ -64,11 +64,12 @@ function getMenu(loggedin) : Array<IMenuSection> {
           slug: "/admin/setpassword",
           name: i18n.t("menu.changepassword"),
         });
-        menu[0].entries.push({
-          id: id++,
-          slug: "/admin/import",
-          name: i18n.t("menu.import"),
-        });
+        if (username && username.startsWith('admin'))
+          menu[0].entries.push({
+            id: id++,
+            slug: "/admin/import",
+            name: i18n.t("menu.import"),
+          });
         menu[1].entries.push({
           id: id++,
           slug: "/admin/new-podcast",
@@ -88,10 +89,9 @@ const user = useAuthUser()
 onBeforeMount(() => {
     initAuth()
 })
-console.log("user " + JSON.stringify(user.value))
 
 const loggedin = computed( () => (user.value?true:false) )
-const menu = computed( () => getMenu(loggedin.value) )
+const menu = computed( () => getMenu(loggedin.value, user.value?.username) )
 
 function localeChanged(value) {
   i18n.locale.value = value;

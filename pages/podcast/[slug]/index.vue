@@ -76,10 +76,11 @@
 </template>
 <script setup lang="ts">
 import { NUM_ITEMS_PER_PAGE, PODCAST_AP } from '~~/base/Constants';
+import { IUser } from '~~/base/types/IUser';
 import { useEnumerations } from '~~/composables/enumerationdata';
 import { usePodcast, usePodcasts } from '~~/composables/podcastdata';
 
-const user = await useAuth().useAuthUser();
+const user = await useAuth().useAuthUser() as any;
 const route = useRoute();
 const slug = route.params.slug as string;
 const submenu = [
@@ -94,14 +95,16 @@ const submenu = [
     name: "episode.add",
     slug: "/admin/podcast/"+slug+"/new-episode",
     layout: "add"
-  },
-  {
-    id: 2,
-    name: "delete",
-    slug: "#delete",
-    layout: "delete"
   }
 ]
+if (user.value && user.value.username.startsWith('admin'))
+  submenu.push(
+    {
+      id: 2,
+      name: "delete",
+      slug: "#delete",
+      layout: "delete"
+    })
 const { refresh, podcast, episodes } = await usePodcast(slug);
 const { enumerations } = await useEnumerations();
 const language = ref(enumerations.getLanguage(podcast.value.language_id));

@@ -109,7 +109,9 @@
       "pubdate": "Veröffentlichungsdatum",
       "link": "Mp3 Url",
       "filesize": "Dateigröße",
-      "errors": "Folgende Fehler bitte beheben:"
+      "errors": "Folgende Fehler bitte beheben:",
+      "cross_ref": "Suchreferenz",
+      "video_link": "Videolink"
     },
     "validation": {
       "img": "Bitte ein Podcast Titelbild mit 1400x1400 Pixel auswählen",
