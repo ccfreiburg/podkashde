@@ -7,7 +7,7 @@
       <div
         class="mt-6 md:mt-12 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs"
       >
-        &nbsp;Podcast Episodes&nbsp;
+        &nbsp;{{$t('podcast.title')}}&nbsp;
       </div>
     </div>
     <div class="flex flex-col items-center">

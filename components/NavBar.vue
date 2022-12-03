@@ -12,7 +12,7 @@
       >
         <!-- v-show="show" -->
         <div
-          class="flex flex-row flex-wrap justify-evenly p-5"
+          class="flex flex-row flex-wrap sm:justify-evenly p-5"
           @click="hideDropdown"
         >
           <div class="w-100 mb-8" v-for="section in menu" :key="section.id">

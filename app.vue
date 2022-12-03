@@ -56,20 +56,22 @@ function getMenu(loggedin: boolean, username: string) : Array<IMenuSection> {
         });
         menu[0].entries.push({
           id: id++,
-          slug: "/admin/invitation",
-          name: i18n.t("menu.invitataion"),
-        });
-        menu[0].entries.push({
-          id: id++,
           slug: "/admin/setpassword",
           name: i18n.t("menu.changepassword"),
         });
-        if (username && username.startsWith('admin'))
+        if (username && username.startsWith('admin')) {
+          menu[0].entries.push({
+          id: id++,
+          slug: "/admin/invitation",
+          name: i18n.t("menu.invitataion"),
+        });
+
           menu[0].entries.push({
             id: id++,
             slug: "/admin/import",
             name: i18n.t("menu.import"),
           });
+        }
         menu[1].entries.push({
           id: id++,
           slug: "/admin/new-podcast",

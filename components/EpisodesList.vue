@@ -1,6 +1,6 @@
 <template>
-  <div class="text-xs md:text-base w-full flex flex-col">
-    <div v-if="(episodes?.length>0)" class="flex place-items-end place-content-end px-1 md:px-4 text-gray-500">
+  <div class="text-xs md:text-md lg:text-base w-full flex flex-col">
+    <div v-if="(episodes?.length>0)" class="flex place-items-end place-content-end pt-1 px-1 md:px-4 text-gray-500">
       <div v-if="!searchHiden" class="flex flex-row flex-nowrap items-center">
         <input-area class="pb-8" :name="'search'" label="" v-model:value="search" />
         <div @click="() => {search='';searchHiden=true}">
@@ -21,17 +21,17 @@
       :key="index"
     >
       <NuxtLink :to="episode.nuxtlink">
-        <div class="my-1 px-1 md:px-4 py-2 hover:bg-slate-100 md:rounded-xl flex flex-row place-items-center">
+        <div class="my-1 md:px-4 py-2 hover:bg-slate-100 md:rounded-xl flex flex-row place-items-top md:place-content-center md:place-items-center">
           <div class="w-2/12">
             <img class="max-w-20 max-h-20" :src="episode.image" />
           </div>
-          <div class="w-5/12 pl-2 md:pl-8"> 
+          <div class="w-6/12 sm:w-5/12 pl-2 md:pl-8"> 
             <div v-html="episode.title" /> 
-            <div v-html="(episode.cross_ref)" /> 
+            <div class="invisible sm:visible" v-html="(episode.cross_ref)" /> 
           </div>
-          <div class="w-3/12">{{episode.creator}}</div>
-          <div class="w-2/12">{{ episode.datestring }}</div>
-          <div class="w-1/12 flex justify-end">
+          <div class="w-3/12 pl-1">{{episode.creator}}</div>
+          <div class="w-1/12 sm:2/12">{{ episode.datestring }}</div>
+          <div class="sm:w-1/12 invisible sm:visible flex justify-end">
             <button class="ccfplay rounded-2xl h-6 w-6 md:h-8 md:w-8">
               <div class="h-6 w-6 md:h-8 md:w-8 flex items-center justify-center">
                 <svg

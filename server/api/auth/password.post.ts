@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     const token: string = body.token
     var credentialValid = false
 
-        if (!((token && password) || (password && username && oldpassword))) {
+    if (!((token && password) || (password && username && oldpassword))) {
         return sendError(event, createError({
             statusCode: 400,
             statusMessage: 'Ivalid params'
@@ -24,6 +24,7 @@ export default defineEventHandler(async (event) => {
       const data = decodeUrlToken(token)
       username = data?.username
       credentialValid = true
+      console.log(username)
     }
 
     const user = await getUserByUserName(username) as User
