@@ -13,6 +13,8 @@ sprints:
 
 ## Backlog
 
+- [move-episode-to-other-podcast](tasks/move-episode-to-other-podcast.md)
+- [uat-test-suite](tasks/uat-test-suite.md)
 - [podcast-slug-uniqueness-prüfen](tasks/podcast-slug-uniqueness-prüfen.md)
 - [autor-aus-enum-liste-oder-eingeben](tasks/autor-aus-enum-liste-oder-eingeben.md)
 - [drag-n-drop-image](tasks/drag-n-drop-image.md)
@@ -20,10 +22,11 @@ sprints:
 
 ## Todo
 
-- [uat-test-suite](tasks/uat-test-suite.md)
-- [move-episode-to-other-podcast](tasks/move-episode-to-other-podcast.md)
+- [login-passwort-change](tasks/login-passwort-change.md)
+- [bibelstelle-video-editierbar](tasks/bibelstelle-video-editierbar.md)
+- [admin-als-super-admin-delete-podcast-und-import](tasks/admin-als-super-admin-delete-podcast-und-import.md)
+- [refresh-bug](tasks/refresh-bug.md)
 
 ## In Progress
 
 ## Done
-

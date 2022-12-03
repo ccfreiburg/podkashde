@@ -8,3 +8,6 @@ tests
 .env
 public/s
 public-docker
+temp
+tmp
+.tmp

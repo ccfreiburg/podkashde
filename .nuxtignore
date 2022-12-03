@@ -3,3 +3,6 @@ public
 Doku
 nginx
 public-docker
+.tmp
+tmp
+temp
