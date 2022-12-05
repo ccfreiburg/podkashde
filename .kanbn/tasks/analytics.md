@@ -1,6 +1,6 @@
 ---
 created: 2022-11-29T10:53:22.296Z
-updated: 2022-11-29T10:53:22.293Z
+updated: 2022-12-03T20:26:57.445Z
 assigned: ""
 progress: 0
 tags: []
@@ -9,3 +9,5 @@ tags: []
 # Analytics
 
 https://github.com/ijkml/nuxt-umami
+
+https://umami.is/docs/collect-data

@@ -18,9 +18,10 @@ sprints:
 - [podcast-slug-uniqueness-prüfen](tasks/podcast-slug-uniqueness-prüfen.md)
 - [autor-aus-enum-liste-oder-eingeben](tasks/autor-aus-enum-liste-oder-eingeben.md)
 - [drag-n-drop-image](tasks/drag-n-drop-image.md)
-- [analytics](tasks/analytics.md)
 
 ## Todo
+
+- [analytics](tasks/analytics.md)
 
 ## In Progress
 
