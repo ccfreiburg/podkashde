@@ -65,9 +65,7 @@
           {{ $t('podcast.inthis') }}
           </div>
 
-        <episodes-list :episodes="episodes" :page="page" :itemsperpage="pagesize"/>
-
-        <list-paginator :max="episodes.length" v-model:value="page" :itemsperpage="pagesize"/>
+        <episodes-list :episodes="episodes"/>
 
         </div>
       </div>
@@ -109,8 +107,6 @@ const { refresh, podcast, episodes } = await usePodcast(slug);
 const { enumerations } = await useEnumerations();
 const language = ref(enumerations.getLanguage(podcast.value.language_id));
 const podcastGenre = ref(enumerations.getGenre(podcast.value.category_id));
-const pagesize = ref(NUM_ITEMS_PER_PAGE)
-const page = ref(1)
 
 onBeforeMount( () => {
   if (route.query.refresh) refresh();

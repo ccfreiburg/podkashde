@@ -172,6 +172,12 @@ export default defineComponent({
       pagesList.value=pageLabelList(selectedPage.value,countPages.value)
       updateEvent(newVal)
     })
+    watch( () => props.max, () => {
+      countPages.value = (props.max%props.itemsperpage==0?Math.floor(props.max/props.itemsperpage):Math.floor(1+props.max/props.itemsperpage))
+      pagesList.value=pageLabelList(selectedPage.value,countPages.value)
+      if (countPages.value<selectedPage.value)
+        selectedPage.value = 1
+    })
     function setPage( pageNum: number ) {
       selectedPage.value = pageNum
     }

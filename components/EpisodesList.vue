@@ -52,6 +52,7 @@
         </div>
       </NuxtLink>
     </div>
+    <list-paginator :max="max" v-model:value="page" :itemsperpage="itemsperpage"/>
   </div>
 </template>
 
@@ -59,6 +60,7 @@
 import { tSImportType } from '@babel/types';
 import { PropType } from 'vue';
 import IEpisode from '~~/base/types/IEpisode';
+import { NUM_ITEMS_PER_PAGE } from '~~/base/Constants';
 
 interface IDisplayEpisode extends IEpisode {
   nuxtlink: string;
@@ -69,26 +71,19 @@ interface IDisplayEpisode extends IEpisode {
 export default {
   props: {
     episodes: Object as PropType<Array<IEpisode>>,
-    itemsperpage: {
-      type: Number,
-      default: 0,
-      required: false,
-    },
-    page: {
-      type: Number,
-      default: 0,
-      required: false,
-    }
   },
   name: 'EpisodesList',
   setup(props) {
     const dateformat = (input: Date): string => input.toLocaleDateString();
     const search = ref("")
     const searchHiden = ref(true)
+    const itemsperpage = ref(NUM_ITEMS_PER_PAGE)
+    const page = ref(1)
+    const max = ref(props.episodes?.length)
 
     const pageFilter = (e, index) => {
-        const start = (props.page-1)*props.itemsperpage -1
-        const end = start + props.itemsperpage
+        const start = (page.value-1)*itemsperpage.value -1
+        const end = start + itemsperpage.value
         return index>start && index<=end
     }
 
@@ -119,14 +114,18 @@ export default {
     }
     const sortedFilteredList = computed(() =>{
         const sortlist = sortList(expandAndFilter(props.episodes, search.value))
-        if (props.itemsperpage==0 || props.page==0) return sortlist
+        max.value = sortlist.length
+        if (itemsperpage.value==0 || page.value==0) return sortlist
         return sortlist.filter(pageFilter)
       }
     );
     return {
       sortedFilteredList,
       searchHiden,
-      search
+      search,
+      itemsperpage,
+      page,
+      max
     };
   },
 };

@@ -25,7 +25,7 @@
         </svg>  
       </div>
     </div>
-        <div v-for="serie in seriesOnPage" :key="serie.id">
+        <div v-for="serie in currentPage" :key="serie.id">
           <NuxtLink :to="'/serie/' + serie.slug">
             <div class="mt-4 p-4 bg-white flex flex-row">
               <img class="w-32 h-32" :src="serie.cover_file" />
@@ -46,7 +46,7 @@
             </div>
           </NuxtLink>
         </div>
-      <list-paginator :max="series.length" v-model:value="page" :itemsperpage="pagesize"/>
+      <list-paginator :max="max" v-model:value="page" :itemsperpage="pagesize"/>
 
       </div>   
     </div>
@@ -59,23 +59,28 @@ import ISerie from '~~/base/types/ISerie';
 import { useSeries } from '~~/composables/seriedata';
 const pagesize = ref(4)
 const page = ref(1)
+const max = ref(1)
 const search = ref("")
 const searchHiden = ref(true)
 const { refresh, series } = await useSeries();
 const route = useRoute();
 const router = useRouter();
-watch( search, () => {
-  page.value = 1
-})
-function searchfilter( item: ISerie ) {
-  return search.value.length<3 ||
-      item.title.includes(search.value)
-}
+
 function sorter( a: ISerie, b: ISerie ) : number{
   return (b.lastEpisode?new Date(b.lastEpisode).getTime():0)-(a.lastEpisode?new Date(a.lastEpisode).getTime():0)
+
 }
-const seriesOnPage = computed( () => {
-  return series.value.filter(searchfilter).sort(sorter).filter((e, index)=>{
+const seriesSortedFiltered = computed( () => {
+  const list = series.value.filter( 
+    (item) =>
+      (search.value.length<3 ||
+      item.title.includes(search.value))
+  ).sort(sorter)
+  max.value=list.length
+  return list
+})
+const currentPage = computed( () => {
+  return seriesSortedFiltered.value.filter((e, index)=>{
     const start = (page.value-1)*pagesize.value-1
     const end = start + pagesize.value
     return index>start && index<=end
