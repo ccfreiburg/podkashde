@@ -267,6 +267,7 @@ export default defineComponent({
     const volume = ref(baseVolumeValue);
     const audio = ref(undefined);
     const extendedControls = ref(false)
+    const { $umami } = useNuxtApp();
     watch( volume, (newValue) => {
       audio.value.volume = newValue/10;
       if (newValue<0.01)
@@ -299,6 +300,7 @@ export default defineComponent({
       audio.value.currentTime = 0;
     }
     function play() {
+      $umami("Playing " + audiosrc.value)
       if (playing.value && !paused.value) return;
       paused.value = false;
       audio.value.play();
