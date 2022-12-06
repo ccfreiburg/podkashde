@@ -91,9 +91,9 @@ export default {
       if (!list || list.length < 1) return [];
       const filter = (e) =>  {
         return search.length<3 ||
-          e.title.includes(search) ||
-          e.creator.includes(search) ||
-          e.cross_ref?.includes(search)
+          e.title.toLowerCase().includes(search.toLowerCase()) ||
+          e.creator.toLowerCase().includes(search.toLowerCase()) ||
+          e.cross_ref?.toLowerCase().includes(search.toLowerCase())
       }
         return list.filter(filter).map((e) => {
         const date = new Date(e.pubdate);

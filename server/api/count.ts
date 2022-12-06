@@ -1,6 +1,7 @@
 import { Not } from "typeorm";
 import getDataSource from "../db/dbsigleton";
 import Episode from "../db/entities/Episode";
+import Serie from "../db/entities/Serie";
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
@@ -16,7 +17,11 @@ export default defineEventHandler(async (event) => {
     q['slug'] = query.slug
   }
   return getDataSource().then(async (db) => {
-    const result = await db.manager.countBy(Episode, q);
+    var result = 0;
+    if (query.hasOwnProperty('serie')) 
+      result = await db.manager.countBy(Serie, q);
+    else 
+      result = await db.manager.countBy(Episode, q);
     return result;
   });
 });

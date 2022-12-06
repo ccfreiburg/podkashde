@@ -10,7 +10,7 @@ const serie = ref(emptyISerieFactory());
 async function save(slug: string) {
   const { refresh } = await useSeries()
   await refresh()
-  router.push("/serie/" + slug);
+  router.push("/serie");
 }
 function cancel() {
   router.go(-1)

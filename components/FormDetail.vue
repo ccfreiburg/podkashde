@@ -56,10 +56,10 @@ export default defineComponent({
       event.preventDefault();
       event.stopImmediatePropagation();
 
-      emit("save");
+      emit("frmsave");
     }
     function cancel() {
-      emit("cancel");
+      emit("frmcancel");
     }
     return {
       isEdit,

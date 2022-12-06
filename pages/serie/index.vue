@@ -74,7 +74,7 @@ const seriesSortedFiltered = computed( () => {
   const list = series.value.filter( 
     (item) =>
       (search.value.length<3 ||
-      item.title.includes(search.value))
+      item.title.toLowerCase().includes(search.value.toLowerCase()))
   ).sort(sorter)
   max.value=list.length
   return list

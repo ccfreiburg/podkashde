@@ -1,6 +1,5 @@
-import { booleanLiteral } from "@babel/types";
 <template>
-  <FormDetail type="serie" :fields="fields" @save="save" @remove="remove" @cancel="cancel">
+  <FormDetail type="serie" :fields="fields" @frmsave="save" @frmremove="remove" @frmcancel="cancel">
     <div class="flex flex-col">
       <div class="flex flex-row">
         <div>
@@ -119,10 +118,10 @@ export default defineComponent({
       );
 
       // server validation (if slug is unique)
-      if (!isEdit) {
-        var count = await $fetch(COUNT_AP + "?slug=" + fields.value.slug);
-        if (count > 0) errors.value.push({ field: "slug", text: "slug" });
-      }
+      var countUrl = COUNT_AP + "?slug=" + fields.value.slug + "&serie=true" +
+            (isEdit.value?"&excludeId="+fields.value.id:"")
+      var count : number = await $fetch(countUrl);
+      if (count > 0) errors.value.push({ field: "slug", text: "serie.validation.slug" });
 
       if (errors.value.length > 0) return;
 
