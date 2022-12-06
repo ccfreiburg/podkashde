@@ -255,7 +255,7 @@ export default defineComponent({
     },
   },
   name: 'AudioPlayer',
-  setup(props) {
+  setup(props, ctx) {
     const totalDuration = ref(0);
     const audiosrc = ref('');
     const playbackRate = ref(1.0);
@@ -267,7 +267,6 @@ export default defineComponent({
     const volume = ref(baseVolumeValue);
     const audio = ref(undefined);
     const extendedControls = ref(false)
-    const { $umami } = useNuxtApp();
     watch( volume, (newValue) => {
       audio.value.volume = newValue/10;
       if (newValue<0.01)
@@ -300,16 +299,18 @@ export default defineComponent({
       audio.value.currentTime = 0;
     }
     function play() {
-      $umami("Playing " + audiosrc.value)
       if (playing.value && !paused.value) return;
       paused.value = false;
       audio.value.play();
       playing.value = true;
     }
-    function pause() {
+    function pause(event) {
       paused.value = !paused.value;
-      if (paused.value) audio.value.pause();
-      else audio.value.play();
+      if (paused.value) {audio.value.pause();}
+      else {
+        audio.value.play();
+        ctx.emit("play")
+      }
     }
     function togglePlaybackRate() {
       const rates = [ 0.5, 0.75, 1.0, 1.25, 1.5, 2.0 ]

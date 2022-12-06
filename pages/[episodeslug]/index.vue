@@ -57,6 +57,7 @@
         <audio-player
           class="text-white bg-black"
           :file="episode.link"
+          @play="play"
         ></audio-player>
       </div>
     </div>
@@ -188,4 +189,9 @@ const submenu = [
     layout: 'delete',
   },
 ];
+function play() {
+  const { $umami } = useNuxtApp();
+  console.log("play")
+  $umami("Playing " + episode.value.title)
+}
 </script>
