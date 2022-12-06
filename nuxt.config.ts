@@ -5,7 +5,7 @@ import { nuxtPath } from "./server/services/podcastService";
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/color-mode', "@intlify/nuxt3"],
+  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/color-mode', "@intlify/nuxt3",'nuxt-umami'],
   ssr: true,
   target: 'server',
   head: {
@@ -39,6 +39,15 @@ export default defineNuxtConfig({
       sync: true,
       availableLocales: ["de", "en"],
     },
+  },
+  umami: {
+    enable: true, // enable the module? true by default
+    autoTrack: true,
+    doNotTrack: false,
+    cache: false,
+    domains: 'podk.calvarychapel.de, localhost:3000',
+    websiteId: '4b79e0da-e70b-430b-b0ea-978691c32f55',
+    scriptUrl: 'https://umami.calvarychapel.de/umami.js',
   },
   buildModules: ["@intlify/nuxt3"],
   postcss: {

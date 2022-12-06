@@ -29,6 +29,7 @@
       "autoprefixer": "^10.4.8",
       "fs-extra": "^10.1.0",
       "jsdom": "^20.0.0",
+      "nuxt-umami": "^1.2.0",
       "postcss": "^8.4.14",
       "sqlite3": "^5.0.10",
       "tailwindcss": "^3.1.6",
