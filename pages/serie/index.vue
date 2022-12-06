@@ -64,6 +64,9 @@ const searchHiden = ref(true)
 const { refresh, series } = await useSeries();
 const route = useRoute();
 const router = useRouter();
+watch( search, () => {
+  page.value = 1
+})
 function searchfilter( item: ISerie ) {
   return search.value.length<3 ||
       item.title.includes(search.value)
