@@ -60,7 +60,7 @@ import { useSeries } from '~~/composables/seriedata';
 const pagesize = ref(4)
 const page = ref(1)
 const search = ref("")
-const searchHiden = ref(false)
+const searchHiden = ref(true)
 const { refresh, series } = await useSeries();
 const route = useRoute();
 const router = useRouter();

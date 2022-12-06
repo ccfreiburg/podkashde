@@ -4,7 +4,7 @@ import IPostdata from "~~/base/types/IPostdata";
 import IEpisode from "~~/base/types/IEpisode";
 
 
-export async function useSeries(alsoEmptySeries = false) {
+export async function useSeries(alsoEmptySeries = true) {
     const series = useState<Array<ISerie>>('series_'+alsoEmptySeries, () => [] )
 
     const refresh = async () => {
