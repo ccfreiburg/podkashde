@@ -69,7 +69,7 @@ describe("RssFileGenerator", async () => {
 	    "xmlns:googleplay": "http://www.google.com/schemas/play-podcasts/1.0",
 	    "xmlns:podcast": "https://podcastindex.org/namespace/1.0"
     }
-    const rss = generateRss(fields, enumFuncs);
+    const rss = generateRss(fields, BASE_URL, enumFuncs);
     return parser.parseStringPromise(rss)
             .then( (result)=> {
                 const namespaces = result.rss["$"]
@@ -88,7 +88,7 @@ describe("RssFileGenerator", async () => {
 // </itunes:new-feed-url>
 // <podcast:locked owner="ccf@ccfreiburg.de">yes</podcast:locked>
 // <podcast:guid>bd4f4ece-3d3d-5b3d-9f24-4a081ee0d63d</podcast:guid>
-    const rss = generateRss(fields, enumFuncs);
+    const rss = generateRss(fields,BASE_URL, enumFuncs);
     return parser.parseStringPromise(rss)
             .then( (result)=> {
               const date = new Date()
@@ -116,7 +116,7 @@ describe("RssFileGenerator", async () => {
   it("generateRss adds episode", () => {
     const podcast = { ...fields }
     podcast.episodes = [ episode ]
-    const rss = generateRss(podcast, enumFuncs);
+    const rss = generateRss(podcast, BASE_URL, enumFuncs);
     return parser.parseStringPromise(rss)
       .then( (result)=> {
           const item = result.rss.channel[0].item[0]
@@ -151,7 +151,7 @@ describe("RssFileGenerator", async () => {
     const episode2 = { ...episode }
     episode2.title = "HeyHo"
     podcast.episodes = [ episode, episode2 ]
-    const rss = generateRss(podcast, enumFuncs);
+    const rss = generateRss(podcast, BASE_URL, enumFuncs);
     return parser.parseStringPromise(rss)
       .then( (result)=> {
         const items = result.rss.channel[0].item

@@ -5,7 +5,6 @@ export default function getSecSettings() {
   if (!settings) {
     try {
         const data = fs.readFileSync('settings.json',{encoding:'utf8', flag:'r'});
-        console.log("Read Settings: "+data)
         settings = JSON.parse(data);
     } catch {
         settings = {

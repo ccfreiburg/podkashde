@@ -3,6 +3,6 @@
 </template>
 <script setup lang="ts">
 const router = useRouter()
-const defaultRoute = useAppConfig().defaultRoute
-onServerPrefetch(()=> router.replace(defaultRoute))
+const settings = await useSettings()
+router.replace(settings.value.defaultRoute)
 </script>

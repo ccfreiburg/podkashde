@@ -1,33 +1,31 @@
 import { Podcast } from 'podcast';
+import { useSettings } from '~~/composables/settingsdata';
 import { FEED_SLUG, SERVER_IMG_PATH, SERVER_MP3_PATH } from './Constants';
 import { ContentFile } from './ContentFile';
 import IPodcast from './types/IPodcast';
 
 var testing = false;
 export function setTesting() { testing = true }
-var BASE_URL = 'http://localhost:3000'
 
 
-function serverUrl( episodeLink: string ) : string {
+function serverUrl( episodeLink: string, baseUrl: string ) : string {
   if (ContentFile.isQualifiedUrl(episodeLink))
     return episodeLink;
 
-  return BASE_URL + episodeLink;
+  return baseUrl + episodeLink;
 }
 
-export function generateRss( podcast: IPodcast, enumFuncs: any) : string {
-  if (!testing) 
-    BASE_URL = useAppConfig().baseUrl;
+export  function generateRss( podcast: IPodcast, baseUrl: string, enumFuncs: any) : string {
   const feedOptions = {
     title: podcast.title,
     author: podcast.author,
     siteUrl: podcast.link,
-    feedUrl: BASE_URL+FEED_SLUG+podcast.slug+".xml",
-    docs: BASE_URL+"/"+podcast.slug,
+    feedUrl: baseUrl+FEED_SLUG+podcast.slug+".xml",
+    docs: baseUrl+"/"+podcast.slug,
     description: podcast.description,
     language: enumFuncs.getLanguage(podcast.language_id).shorttext,
     copyright: podcast.copyright,
-    imageUrl: BASE_URL+podcast.cover_file,
+    imageUrl: baseUrl+podcast.cover_file,
     itunesSubtitle: podcast.subtitle,
     itunesAuthor: podcast.author,
     itunesSummary: podcast.summary,
@@ -39,7 +37,7 @@ export function generateRss( podcast: IPodcast, enumFuncs: any) : string {
           text: enumFuncs.getGenre(podcast.category_id).displaytext
         }]
     }],
-    itunesImage: BASE_URL+podcast.cover_file,
+    itunesImage: baseUrl+podcast.cover_file,
     itunesType: enumFuncs.getType(podcast.type_id).shorttext,
     generator: "https://github.com/ccfreiburg/podkashde",
     customElements: [{
@@ -59,12 +57,12 @@ export function generateRss( podcast: IPodcast, enumFuncs: any) : string {
       feed.addItem({
         title: episode.title,
         description: episode.description,
-        url: BASE_URL+"/"+episode.slug,
-        guid: BASE_URL+"/"+episode.slug,
+        url: baseUrl+"/"+episode.slug,
+        guid: baseUrl+"/"+episode.slug,
         author: episode.creator,
         date: episode.pubdate,
         enclosure: {
-          url: serverUrl(episode.link),
+          url: serverUrl(episode.link, baseUrl),
           size: episode.rawsize,
           type: "audio/mpeg"
         },
@@ -75,20 +73,20 @@ export function generateRss( podcast: IPodcast, enumFuncs: any) : string {
         itunesSubtitle: episode.subtitle,
         itunesSummary: episode.summary,
         itunesDuration: episode.duration,
-        itunesImage: serverUrl(episode.image),
+        itunesImage: serverUrl(episode.image, baseUrl),
         customElements: [
           {"itunes:block" : episode.block },
           {"googleplay:image" : [ 
             {
               _attr: {
-                "href": serverUrl(episode.image)
+                "href": serverUrl(episode.image, baseUrl)
               }
             }]}, 
           {"googleplay:description" : episode.description},
           {"googleplay:block" : (episode.block?"yes":"no")},
           {"googleplay:explicit" : (episode.explicit?"yes":"no")},
           {"image": [{
-              "url": serverUrl(episode.image)},
+              "url": serverUrl(episode.image, baseUrl)},
               {"title": episode.title
           }]}
           ]

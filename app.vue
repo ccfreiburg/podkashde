@@ -3,10 +3,10 @@
 import { useI18n } from "vue-i18n";
 import IMenuSection from "./base/types/IMenuSection";
 import { useUser, userLogout } from "./composables/authentication";
+import { useSettings } from "./composables/settingsdata";
 
 const nuxtApp = useNuxtApp();
-const defaultRoute = useAppConfig().defaultRoute;
-
+const settings= await useSettings();
 nuxtApp.hook("page:finish", () => {
   window.scrollTo(0, 0);
 });
@@ -107,7 +107,7 @@ function menuItemClicked(name) {
 </script>
 <template>
   <div>
-    <NavBar :menu="menu" :defaultRoute="defaultRoute" :availableLocales="$i18n.availableLocales" :locale="$i18n.locale" @localeChanged="localeChanged" @menuItemClicked="menuItemClicked"/>
+    <NavBar :menu="menu" :defaultRoute="settings.defaultRoute" :availableLocales="$i18n.availableLocales" :locale="$i18n.locale" @localeChanged="localeChanged" @menuItemClicked="menuItemClicked"/>
     <NuxtPage />
   </div>
 </template>

@@ -25,16 +25,16 @@ export async function useEnumerations() {
     return Enumerations.byIdOne(Enumerations.podcastGenres(enums.value), genre_id);
   };
 
-  const getAuthor = (genre_id: number): IEnumerator => {
-    return Enumerations.byIdOne(Enumerations.authors(enums.value), genre_id);
+  const getAuthor = (autor_id: number): IEnumerator => {
+    return Enumerations.byIdOne(Enumerations.authors(enums.value), autor_id);
   };
 
-  const getTag = (genre_id: number): IEnumerator => {
-    return Enumerations.byIdOne(Enumerations.tags(enums.value), genre_id);
+  const getTag = (tag_id: number): IEnumerator => {
+    return Enumerations.byIdOne(Enumerations.tags(enums.value), tag_id);
   };
 
-  const getType = (genre_id: number): IEnumerator => {
-    return Enumerations.byIdOne(Enumerations.podcastTypes(enums.value), genre_id);
+  const getType = (type_id: number): IEnumerator => {
+    return Enumerations.byIdOne(Enumerations.podcastTypes(enums.value), type_id);
   };
 
   const languages = Enumerations.languages(enums.value);

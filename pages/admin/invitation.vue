@@ -35,7 +35,9 @@ definePageMeta({
   middleware: "authentication",
 });
 const router = useRouter();
-const baseUrl = window.location.origin
+const settings= await useSettings();
+
+const baseUrl = settings.value.baseUrl
 const user = ref('');
 const url = ref('');
 
