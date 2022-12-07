@@ -11,7 +11,10 @@ import { generateRss } from '~~/base/RssGenerator';
 export const readPodcasts = async function (): Promise<Array<IPodcast>> {
   const db = await getDataSource();
   const repo = db.getRepository(Podcast);
-  return await repo.find();
+  return await repo.find({
+    order: {
+      updatedAt: 'DESC'
+    }});
 };
 
 export const readPodcast = async function (query: Partial<IPodcast>): Promise<IPodcast> {

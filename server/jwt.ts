@@ -1,57 +1,48 @@
 import { H3Event } from "h3"
 import jwt from "jsonwebtoken"
 import { IUser } from "~~/base/types/IUser"
-
+import getSecSettings from "./security"
 
 export const generateAccessToken = (user: IUser) => {
-    const config = useRuntimeConfig()
 
-    return jwt.sign({ userId: user.id }, config.jwtAccessSecret, {
+    return jwt.sign({ userId: user.id }, getSecSettings().JWT_ACCESS_TOKEN_SECRET, {
         expiresIn: '10m'
     })
 }
 
 export const generateRefreshToken = (user: IUser) => {
-    const config = useRuntimeConfig()
 
-    return jwt.sign({ userId: user.id }, config.jwtRefreshSecret, {
+    return jwt.sign({ userId: user.id }, getSecSettings().JWT_REFRESH_TOKEN_SECRET, {
         expiresIn: '4h'
     })
 }
 
 export const generateUrlToken = (username: string, purpose: string, expiry: string) => {
-    const config = useRuntimeConfig()
 
-    return jwt.sign({ username, purpose }, config.jwtUrlSecret, {
+    return jwt.sign({ username, purpose }, getSecSettings().JWT_URL_TOKEN_SECRET, {
         expiresIn: expiry
     })
 }
 
 export const decodeUrlToken = (token: string) : Object | null => {
-    const config = useRuntimeConfig()
-
     try {
-        return jwt.verify(token, config.jwtUrlSecret)
+        return jwt.verify(token, getSecSettings().JWT_URL_TOKEN_SECRET)
     } catch (error) {
         return null
     }
 }
 
 export const decodeRefreshToken = (token: string) => {
-    const config = useRuntimeConfig()
-
     try {
-        return jwt.verify(token, config.jwtRefreshSecret)
+        return jwt.verify(token, getSecSettings().JWT_REFRESH_TOKEN_SECRET)
     } catch (error) {
         return null
     }
 }
 
 export const decodeAccessToken = (token: string) => {
-    const config = useRuntimeConfig()
-
     try {
-        return jwt.verify(token, config.jwtAccessSecret)
+        return jwt.verify(token, getSecSettings().JWT_ACCESS_TOKEN_SECRET)
     } catch (error) {
         return null
     }

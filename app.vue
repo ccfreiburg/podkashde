@@ -5,7 +5,7 @@ import IMenuSection from "./base/types/IMenuSection";
 import { useUser, userLogout } from "./composables/authentication";
 
 const nuxtApp = useNuxtApp();
-const defaultRoute = useRuntimeConfig().defaultRoute;
+const defaultRoute = useAppConfig().defaultRoute;
 
 nuxtApp.hook("page:finish", () => {
   window.scrollTo(0, 0);
@@ -98,6 +98,7 @@ const menu = computed( () => getMenu(loggedin.value, user.value?.username) )
 function localeChanged(value) {
   i18n.locale.value = value;
 }
+
 function menuItemClicked(name) {
   if (name=="#logout") {
     logout()

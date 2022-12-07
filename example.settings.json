@@ -1,0 +1,7 @@
+{
+  JWT_ACCESS_TOKEN_SECRET: "a-secretaasdfadfasdgasdgasd",
+  JWT_REFRESH_TOKEN_SECRET: "aSAFDSDFDSFsdfadfasdgasdgasd",
+  JWT_URL_TOKEN_SECRET: "lkghfladskhgakhdgkasd",
+  ADMIN_USER: "admin",
+  ADMIN_PASSWORD: "password"
+}

@@ -17,7 +17,7 @@ function serverUrl( episodeLink: string ) : string {
 
 export function generateRss( podcast: IPodcast, enumFuncs: any) : string {
   if (!testing) 
-    BASE_URL = useRuntimeConfig().baseUrl;
+    BASE_URL = useAppConfig().baseUrl;
   const feedOptions = {
     title: podcast.title,
     author: podcast.author,

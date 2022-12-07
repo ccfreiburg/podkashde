@@ -2,20 +2,15 @@ version: '3.1'
 
 services:
   podkashde.app:
-    image: ghcr.io/ccfreiburg/podkashde:latest-dev
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
-    container_name: podkashde.app
-    expose:
-      - 80
-    env_file: .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: podkashde
+    ports:
+      - 8083:80
     volumes:
-      - ./public/s:/var/www/public/s
+      - ./public-docker:/var/www/public/s
+      - ./settings.json:/var/www/settings.json
     environment:
       - VIRTUAL_HOST=podk.calvarychapel.de
       - LETSENCRYPT_HOST=podk.calvarychapel.de
-
-networks:
-   default:
-      external:
-         name: nginx-proxy
