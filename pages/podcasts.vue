@@ -11,7 +11,7 @@
     </div>
     <div class="w-full h-screen bg-gray-200 flex justify-center">
       <div class="pt-6 md:pt-10 w-5/6 md:w-2/3 md:h-60 flex flex-col">
-        <div v-for="podcast in podcasts" :key="podcast.id">
+        <div v-for="podcast in sortedPodcasts" :key="podcast.id">
           <div class="mt-4 p-4 bg-white flex flex-row">
             <NuxtLink :to="'/podcast/' + podcast.slug">
               <img class="w-32 h-32" :src="podcast.cover_file" />
@@ -93,6 +93,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { FEED_SLUG } from '~~/base/Constants';
+import IPodcast from '~~/base/types/IPodcast';
 import { usePodcasts } from '~~/composables/podcastdata';
 const { refresh, podcasts } = await usePodcasts();
 
@@ -100,6 +101,12 @@ const route = useRoute();
 
 const toasterMessage = ref('');
 const showToast = ref(false);
+
+const sortedPodcasts = computed(() => {
+  return podcasts.value.sort((a : IPodcast, b : IPodcast) : number => {
+    return (b.updatedAt?new Date(b.updatedAt).getTime():0)-(a.updatedAt?new Date(a.updatedAt).getTime():0)
+  })
+})
 
 const getFeedUrl = (slug: string): string => {
   return FEED_SLUG + slug + '.xml';

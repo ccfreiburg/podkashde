@@ -11,6 +11,7 @@ services:
     volumes:
       - ./public-docker:/var/www/public/s
       - ./settings.json:/var/www/settings.json
+      - ./public/app.settings.json:/var/www/public/app.settings.json
     environment:
       - VIRTUAL_HOST=podk.calvarychapel.de
       - LETSENCRYPT_HOST=podk.calvarychapel.de

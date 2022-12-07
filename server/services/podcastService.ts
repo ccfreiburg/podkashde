@@ -80,5 +80,6 @@ export const saveNewPodcast = async function (
 
 export const updatePodcast = async function (podcastObject : IPodcast) {
   const db = await getDataSource();
+  podcastObject.updatedAt = new Date();
   await db.manager.update(Podcast, podcastObject.id, podcastObject);
 };

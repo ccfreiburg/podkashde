@@ -23,6 +23,7 @@ export default interface IPodcast {
   external_id: number;
   episodes?: Array<IEpisode>;
   series?: Array<ISerie>;
+  updatedAt?: Date;
 }
 
 export function emptyIPodcastFactory(): IPodcast {
