@@ -21,16 +21,18 @@
       :key="index"
     >
       <NuxtLink :to="episode.nuxtlink">
-        <div class="my-1 md:px-4 py-2 hover:bg-slate-100 md:rounded-xl flex flex-row place-items-top md:place-content-center md:place-items-center">
-          <div class="w-2/12">
+        <div class="my-1 md:px-4 pt-2 hover:bg-slate-100 md:rounded-xl 
+        flex flex-col sm:flex-row place-content-center place-items-center 
+        items-center bg-white sm:bg-transparent">
+          <div class="sm:w-2/12">
             <img class="max-w-20 max-h-20" :src="episode.image" />
           </div>
-          <div class="w-6/12 sm:w-5/12 pl-2 md:pl-8"> 
+          <div class="pt-2 sm:pt-0 text-sm sm:text-md font-semibold text-center sm:font-normal sm:text-left sm:w-5/12 pl-2 md:pl-8"> 
             <div v-html="episode.title" /> 
             <div class="invisible sm:visible" v-html="(episode.cross_ref)" /> 
           </div>
-          <div class="w-3/12 pl-1">{{episode.creator}}</div>
-          <div class="w-1/12 sm:2/12">{{ episode.datestring }}</div>
+          <div class="sm:w-3/12 pl-1 text-center sm:text-left text-xs sm:text-md">{{episode.creator}}</div>
+          <div class="sm:2/12 text-center sm:text-left text-xs sm:text-md">{{ episode.datestring }}</div>
           <div class="sm:w-1/12 invisible sm:visible flex justify-end">
             <button class="ccfplay rounded-2xl h-6 w-6 md:h-8 md:w-8">
               <div class="h-6 w-6 md:h-8 md:w-8 flex items-center justify-center">

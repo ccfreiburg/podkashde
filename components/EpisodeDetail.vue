@@ -6,7 +6,7 @@
   >
   <div class="w-full flex justify-center">
       <div
-        class="mt-6 md:mt-12 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs"
+        class="mt-6 md:mt-12  grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs"
       >
         &nbsp;{{
           isEdit
@@ -15,8 +15,12 @@
         }}&nbsp;
     </div>
   </div>
-    <div class="flex flex-col">
-      <div class="flex flex-row">
+  <div class="w-full mb-10 md:mb-14 flex flex-col content-center justify-center">
+    <div class="mt-6 text-gray-500 tracking-widest text-ml text-center">{{ $t('episode.forpodcast')}}</div>
+    <div class="mt-1 text-gray-500 tracking-widest text-ml text-center">{{ podcast.title }}</div>
+  </div>
+  <div class="flex flex-col">
+      <div class="flex flex-col lg:flex-row">
         <div>
           <image-selector
             :filename="fields.image"
@@ -24,14 +28,13 @@
             @imageSelected="imageSelected"
           />
         </div>
-        <div class="flex flex-col flex-grow flex-shrink">
+        <div class="flex flex-col flex-grow">
           <audio-file-selector
             :audioFileName="fields.link"
             @audioFileSelected="audioFileSelected"
             :cssclass="getClass('file')"
           />
           <single-select :name="'serie'" :label="'episode.label.serie'" :options="series" :errors="errors" v-model:value="serie_id"/>
-          <div class="mt-8 text-gray-600 text-ml">{{ podcast.title }}</div>
         </div>
       </div>
       <!-- Fields-->

@@ -10,6 +10,7 @@
           @change="updateEvent"
         >
           <option
+            class="overflow-auto"
             v-for="aOption in options"
             :key="aOption.enumvalue_id"
             :value="aOption.enumvalue_id"

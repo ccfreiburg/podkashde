@@ -86,10 +86,11 @@
     "new": "Neue Folge",
     "add": "Folge hinzuzufügen",
     "edit": "Folge bearbeiten",
+    "forpodcast": "für",
     "edit_short": "bearbeiten",
     "explicit": "explizit",
     "blocked": "blockiert",
-    "addImage": "klicken um Bild hinzuzufügen",
+    "addImage": "klicken um Bild hinzuzufügen",    
     "label": {
       "file": "Audio Datei",
       "serie": "Serie",
@@ -132,6 +133,7 @@
     "new": "Neue Serie",
     "edit": "Serie bearbeiten",
     "inthis": "in dieser Serie",
+    "tothepisodes": "zu den Folgen...",
     "label": {
       "img": "klicken um Bild hinzuzufügen",
       "title": "Titel",

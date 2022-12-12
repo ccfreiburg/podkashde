@@ -86,6 +86,7 @@
     "new": "New Episode",
     "add": "Add Episode",
     "edit": "Edit Episode",
+    "forpodcast": "for",
     "edit_short": "edit",
     "explicit": "explicit",
     "blocked": "blocked",
@@ -130,6 +131,7 @@
     "new": "New Series",
     "edit": "Edit Series",
     "inthis": "in this series",
+    "tothepisodes": "To the episodes...",
     "label": {
       "img": "klicken um Bild hinzuzufügen",
       "title": "Title",

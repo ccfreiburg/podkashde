@@ -27,21 +27,21 @@
     </div>
         <div v-for="serie in currentPage" :key="serie.id">
           <NuxtLink :to="'/serie/' + serie.slug">
-            <div class="mt-4 p-4 bg-white flex flex-row">
+            <div class="mt-4 p-4 bg-white flex flex-col sm:flex-row flex-wrap sm:flex-nowrap items-center sm:place-content-center">
               <img class="w-32 h-32" :src="serie.cover_file" />
               <div
-                class="pl-6 md:pl-12 py-2 flex flex-col justify-around items-start rounded-r-md"
+                class="sm:pl-12 py-2 flex-grow flex flex-col items-center justify-around sm:items-start"
               >
-              <div>
-                <div class="text-md md:text-xl font-semibold tracking-wider">
-                  {{ serie.title }}
+                <div class="text-center sm:text-start">
+                  <div class="text-xs sm:text-xl sm:pb-2 font-semibold tracking-wider">
+                    {{ serie.title }}
+                  </div>
+                  <div class="text-xs sm:text-sm sm:pb-4 tracking-wide break-words text-gray-500">
+                    {{ serie.subtitle }}
+                  </div>
                 </div>
-                <div class="text-xs md:text-sm tracking-wide text-gray-500">
-                  {{ serie.subtitle }}
-                </div>
-              </div>
-              <div class="grow-0 text-xs underline md:text-sm tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-orange-500 to-orange-700"
-        >To the episodes...</div>
+                <div class="grow-0 text-xs underline md:text-sm tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-orange-500 to-orange-700"
+        >{{$t('serie.tothepisodes')}}</div>
               </div>
             </div>
           </NuxtLink>

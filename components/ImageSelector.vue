@@ -5,8 +5,10 @@
         self-center
         block
         cursor-pointer
-        w-60
-        h-60
+        sm:w-60
+        sm:h-60
+        w-40
+        h-40
         border-2 border-dotted
         rounded-md
         border-gray-500

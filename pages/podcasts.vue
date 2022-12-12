@@ -12,16 +12,16 @@
     <div class="w-full h-screen bg-gray-200 flex justify-center">
       <div class="pt-6 md:pt-10 w-5/6 md:w-2/3 md:h-60 flex flex-col">
         <div v-for="podcast in sortedPodcasts" :key="podcast.id">
-          <div class="mt-4 p-4 bg-white flex flex-row">
+          <div class="p-4 mt-4 bg-white flex flex-row flex-wrap sm:flex-nowrap place-content-center">
             <NuxtLink :to="'/podcast/' + podcast.slug">
-              <img class="w-32 h-32" :src="podcast.cover_file" />
+              <img class="w-32 h-32 objext-scale-down" :src="podcast.cover_file" />
             </NuxtLink>
             <div
-              class="pl-6 md:pl-12 py-2 flex-grow flex flex-col justify-around items-start rounded-r-md"
+              class="px-4 sm:pl-12 py-2 flex-grow flex flex-col justify-around items-start rounded-r-md"
             >
               <NuxtLink :to="'/podcast/' + podcast.slug">
                 <div>
-                  <div class="text-md md:text-xl font-semibold tracking-wider">
+                  <div class="text-xs sm:text-xl md:text-2xl font-semibold tracking-wider">
                     {{ podcast.title }}
                   </div>
                   <div class="text-xs md:text-sm tracking-wide text-gray-500">
