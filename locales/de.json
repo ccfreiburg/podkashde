@@ -106,6 +106,8 @@
       "type": "Art der Veröffentlichung",
       "explicit_true": "Enthält explizites Material",
       "explicit_false": "Ist frei von expliziten Inhalten",
+      "block_true": "geblocked",
+      "block_false": "nicht geblocked",
       "keyword": "Keyword",
       "duration": "Spieldauer",
       "pubdate": "Veröffentlichungsdatum",

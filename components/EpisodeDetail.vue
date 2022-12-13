@@ -226,7 +226,7 @@ export default defineComponent({
 
     async function upload(server_path: string, fileObj: File, blob: Blob|undefined = undefined) {
       var linkToContent = "";
-      var postResult = null;
+      var postResult = {};
       var postData = {
         method: "post",
         body: null as any,
@@ -237,9 +237,11 @@ export default defineComponent({
         postData.body = getBufferInFormData(server_path, blob)
       if (postData.body) {
         try  {
+          console.log(postData)
           postResult = await $fetch(UPLOAD_AP, postData);
           } catch (err) {
             postResult.status = 500
+            console.log(JSON.stringify(err))
           }
       }
       if (postResult.status == 201 && (fileObj || blob)) {
@@ -285,7 +287,7 @@ export default defineComponent({
       if (audioMetadata.value.selectedFile) {
       var {result, link} = await upload(SERVER_MP3_PATH, audioMetadata.value.selectedFile)
         if (result.status != 201) {
-          errors.value.push({field:"", text:"upload"})
+          errors.value.push({field:"", text:"episode.validation.upload"})
           return
         }
         fields.value.link = link;
@@ -296,7 +298,7 @@ export default defineComponent({
       if (imgMetadata.value.selectedFile || imgMetadata.value.blob!=undefined) {
       var {result, link, nothingToDo} = await upload(SERVER_IMG_PATH, imgMetadata.value.selectedFile, imgMetadata.value.blob)
         if (result.status != 201) {
-          errors.value.push({field:"", text:"upoad"})
+          errors.value.push({field:"", text:"episode.validation.upload"})
           return
         }
         fields.value.image = link;

@@ -47,7 +47,6 @@ export default defineComponent({
     }
     
     function array2blob(data: Uint8Array, format: string) : Blob {
-      console.log(data)
       return new Blob( [data], { type: format});
     }
     
