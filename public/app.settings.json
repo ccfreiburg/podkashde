@@ -1,4 +1,5 @@
 {
   "baseUrl": "http://localhost:3000",
-  "defaultRoute": "/recent"
+  "defaultRoute": "/recent",
+  "menuSource": "/api/menu"
 } 

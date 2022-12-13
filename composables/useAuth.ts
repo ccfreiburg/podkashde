@@ -1,6 +1,6 @@
 import jwt_decode from "jwt-decode"
-import { AUTHUSER_AP, LOGIN_AP, LOGOUT_AP, PASSWORD_AP, REFRESH_AP } from "~~/base/Constants"
-import { IUser } from "~~/base/types/IUser"
+import { AUTHUSER_AP, LOGIN_AP, LOGOUT_AP, PASSWORD_AP, REFRESH_AP } from "../base/Constants"
+import { IUser } from "../base/types/IUser"
 
 export default () => {
     const useAuthToken = () => useState('auth_token')

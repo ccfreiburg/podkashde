@@ -1,10 +1,10 @@
 <template>
   <div>
     <messge-toast></messge-toast>
-
+    <sub-menu v-if="user != null" :items="submenu"/>
     <div class="w-full flex justify-center">
       <div
-        class="mt-6 md:mt-10 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs"
+      class="mt-4 md:mt-6 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs"
       >
         &nbsp;{{ $t('podcast.headline') }}&nbsp;
       </div>
@@ -13,13 +13,13 @@
       <div class="pt-6 md:pt-10 w-5/6 md:w-2/3 md:h-60 flex flex-col">
         <div v-for="podcast in sortedPodcasts" :key="podcast.id">
           <div class="p-4 mt-4 bg-white flex flex-row flex-wrap sm:flex-nowrap place-content-center">
-            <NuxtLink :to="'/podcast/' + podcast.slug">
+            <NuxtLink :to="localePath('/podcast/' + podcast.slug)">
               <img class="w-32 h-32 objext-scale-down" :src="podcast.cover_file" />
             </NuxtLink>
             <div
               class="px-4 sm:pl-12 py-2 flex-grow flex flex-col justify-around items-start rounded-r-md"
             >
-              <NuxtLink :to="'/podcast/' + podcast.slug">
+              <NuxtLink :to="localePath('/podcast/' + podcast.slug)">
                 <div>
                   <div class="text-xs sm:text-xl md:text-2xl font-semibold tracking-wider">
                     {{ podcast.title }}
@@ -96,8 +96,9 @@ import { FEED_SLUG } from '~~/base/Constants';
 import IPodcast from '~~/base/types/IPodcast';
 import { usePodcasts } from '~~/composables/podcastdata';
 const { refresh, podcasts } = await usePodcasts();
-
+const localePath = useLocalePath();
 const route = useRoute();
+const user = await useAuth().useAuthUser() as any;
 
 const toasterMessage = ref('');
 const showToast = ref(false);
@@ -121,4 +122,13 @@ onMounted( () =>
     query: {
   }
 }))
+const submenu = [
+{
+    id: 0,
+    name: "podcast.new",
+    slug: "/admin/new-podcast",
+    layout: "add"
+  }
+]
+
 </script>

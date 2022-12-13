@@ -20,7 +20,7 @@
       v-for="(episode, index) in sortedFilteredList"
       :key="index"
     >
-      <NuxtLink :to="episode.nuxtlink">
+      <NuxtLink :to="localePath(episode.nuxtlink)">
         <div class="my-1 md:px-4 pt-2 hover:bg-slate-100 md:rounded-xl 
         flex flex-col sm:flex-row place-content-center place-items-center 
         items-center bg-white sm:bg-transparent">
@@ -77,6 +77,7 @@ export default {
   name: 'EpisodesList',
   setup(props) {
     const dateformat = (input: Date): string => input.toLocaleDateString();
+    const localePath = useLocalePath();
     const search = ref("")
     const searchHiden = ref(true)
     const itemsperpage = ref(NUM_ITEMS_PER_PAGE)
@@ -127,7 +128,8 @@ export default {
       search,
       itemsperpage,
       page,
-      max
+      max,
+      localePath
     };
   },
 };

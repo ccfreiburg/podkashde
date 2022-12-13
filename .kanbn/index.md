@@ -21,13 +21,14 @@ sprints:
 
 ## Todo
 
-- [analytics](tasks/analytics.md)
+- [injecting-menu-for-integration-in-website](tasks/injecting-menu-for-integration-in-website.md)
 
 ## In Progress
 
 ## Done
 
 - [login-passwort-change](tasks/login-passwort-change.md)
+- [analytics](tasks/analytics.md)
 - [refresh-bug](tasks/refresh-bug.md)
 - [admin-als-super-admin-delete-podcast-und-import](tasks/admin-als-super-admin-delete-podcast-und-import.md)
 - [bibelstelle-video-editierbar](tasks/bibelstelle-video-editierbar.md)

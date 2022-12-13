@@ -1,8 +1,7 @@
-import IPageMenuItem from "./IPageMenuItem";
+import IMenuItemBase from "./IMenuItemBase";
 
-export default interface IMenuSection {
-    id: number;
+export default interface IMenuSectionBase {
     description: string;
     name: string;
-    entries: Array<IPageMenuItem>;
+    entries: Array<IMenuItemBase>;
 }

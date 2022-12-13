@@ -4,5 +4,7 @@
 <script setup lang="ts">
 const router = useRouter()
 const settings = await useSettings()
-router.replace(settings.value.defaultRoute)
+const localePath = useLocalePath();
+const url = localePath(settings.value.defaultRoute)
+router.replace(url)
 </script>

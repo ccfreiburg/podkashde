@@ -15,7 +15,7 @@
           <div class="pl-3 md:pl-5">{{ $t(item.name) }}</div>
           </div>
         </button>
-        <NuxtLink v-else :to="item.slug">
+        <NuxtLink v-else :to="localePath(item.slug)">
           <button
             class="py-1 h-5 md:h-7 w-32 md:w-36 pr-2 rounded-xl hover:bg-clip-text hover:text-transparent hover:bg-gradient-to-r from-yellow-400 via-orange-500 to-orange-700"
           >
@@ -40,6 +40,7 @@ export default defineComponent({
   },
   name: 'SubMenu',
   setup(props, {emit}) {
+    const localePath = useLocalePath();
     return {
       emit: (value : string) => emit("menuItemClicked", value)
     }

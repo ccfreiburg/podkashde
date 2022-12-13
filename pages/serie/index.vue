@@ -1,9 +1,11 @@
 <template>
 <div>
   <messge-toast></messge-toast>
+  <sub-menu v-if="user != null" :items="submenu"/>
+
 <div class="w-full flex justify-center">
         <div
-          class="mt-6 md:mt-10 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs"
+          class="mt-4 md:mt-6 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs"
         >&nbsp;Series&nbsp;
         </div>
   </div>
@@ -26,7 +28,7 @@
       </div>
     </div>
         <div v-for="serie in currentPage" :key="serie.id">
-          <NuxtLink :to="'/serie/' + serie.slug">
+          <NuxtLink :to="localePath('/serie/' + serie.slug)">
             <div class="mt-4 p-4 bg-white flex flex-col sm:flex-row flex-wrap sm:flex-nowrap items-center sm:place-content-center">
               <img class="w-32 h-32" :src="serie.cover_file" />
               <div
@@ -65,6 +67,8 @@ const searchHiden = ref(true)
 const { refresh, series } = await useSeries();
 const route = useRoute();
 const router = useRouter();
+const user = await useAuth().useAuthUser() as any;
+const localePath = useLocalePath();
 
 function sorter( a: ISerie, b: ISerie ) : number{
   return (b.lastEpisode?new Date(b.lastEpisode).getTime():0)-(a.lastEpisode?new Date(a.lastEpisode).getTime():0)
@@ -95,4 +99,13 @@ onMounted( () =>
     query: {
   }
 }))
+const submenu = [
+{
+    id: 0,
+    name: "serie.new",
+    slug: "/admin/new-serie",
+    layout: "add"
+  }
+]
+
 </script>

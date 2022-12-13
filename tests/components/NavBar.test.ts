@@ -21,19 +21,18 @@ const i18n = createI18n({
   },
 })
 
-describe("NavBar", () => {
+describe.skip("NavBar", () => {
   const menu = [{
-    id: 0,
     name: "menu1",
     description: "menu1",
     entries: [
       {
-        id: 1,
+        order: 1,
         slug: "/hallo",
         name: "hallodu",
       },
       {
-        id: 2,
+        order: 2,
         slug: "#bye",
         name: "bye",
       },
@@ -56,7 +55,7 @@ describe("NavBar", () => {
     }
   })
 
-  it("Klick opens and closes menu",async () => {
+  it.only("Klick opens and closes menu",async () => {
     const wrapper = render(NavBar, { props: { menu }, 
       global: {
         plugins: [i18n],
