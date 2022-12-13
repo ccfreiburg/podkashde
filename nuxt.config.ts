@@ -96,6 +96,18 @@ export default defineNuxtConfig({
           '.',
           'node_modules',
           'entities')
+        })        
+        packages.push({
+          dest:path.join(
+          nitro.options.output.dir,
+          'server',
+          'node_modules',
+          'sqlite3'),
+          src: path.join(
+          '.',
+          'node_modules',
+          'sqlite',
+          'lib')
         })
         try {
           packages.forEach(pack => {
