@@ -142,15 +142,13 @@ export default defineComponent({
       if (!serie)
           return;
       fields.value.keyword = serie.title;
-      if (!keepImage.value){
-        fields.value.image = serie.cover_file;
-        imgMetadata.value.preview = serie.cover_file;
-        keepImage.value = true
-      }
+      fields.value.image = serie.cover_file;
+      imgMetadata.value.preview = serie.cover_file;
+      keepImage.value = true
     })
 
     const audioMetadata = ref(new AudioFileMetadata())
-    const audioFileSelected = (data: AudioFileMetadata) => {
+    const audioFileSelected = async (data: AudioFileMetadata) => {
       fields.value.link = data.selectedFile.name;
       fields.value.duration = data.duration;
       durationText.value = durationInSecToStr( fields.value.duration);
@@ -160,6 +158,7 @@ export default defineComponent({
           fields.value[key] = data.fields[key]
       }
       if (!keepImage.value) {
+        console.log(data)
         imgMetadata.value.blob = data.imgblob
         imgMetadata.value.preview = data.cover_preview
         keepImage.value = true
@@ -219,8 +218,9 @@ export default defineComponent({
     function getBufferInFormData(path: string, blob: Blob) {
       const fd = new FormData();
       fd.append("path", path + props.podcast?.slug);
-      fd.append('cover', blob, props.podcast?.slug+extention(blob.type));
-      fd.append('filename', props.podcast?.slug+extention(blob.type));
+      fd.append('cover', blob, fields.value.slug+extention(blob.type));
+      fd.append('filename', fields.value.slug+extention(blob.type));
+      console.log(fd)
       return fd
     }
 
@@ -295,8 +295,8 @@ export default defineComponent({
 
     
       // Upload Image
-      if (imgMetadata.value.selectedFile || imgMetadata.value.blob!=undefined) {
-      var {result, link, nothingToDo} = await upload(SERVER_IMG_PATH, imgMetadata.value.selectedFile, imgMetadata.value.blob)
+      if (imgMetadata.value.preview != serie.cover_file && (imgMetadata.value.selectedFile || audioMetadata.value.imgblob!=undefined)) {
+      var {result, link, nothingToDo} = await upload(SERVER_IMG_PATH, imgMetadata.value.selectedFile, audioMetadata.value.imgblob)
         if (result.status != 201) {
           errors.value.push({field:"", text:"episode.validation.upload"})
           return

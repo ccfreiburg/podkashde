@@ -1,11 +1,11 @@
 import IEpisode from "./IEpisode";
 
 export default class AudioFileMetadata {
-    selectedFile = null;
+    selectedFile?: File;
     duration = 0;
     size = 0;
-    imgblob: Blob|undefined = undefined;
-    cover_preview = "";
+    imgblob?: Blob;
+    cover_preview?: string;
     fields: Partial<IEpisode> = {};
   }
   

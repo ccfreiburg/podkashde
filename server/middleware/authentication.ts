@@ -25,8 +25,7 @@ export default defineEventHandler(async (event) => {
     var decoded = decodeAccessToken(token)
 
     if (!decoded) {
-        token = event.node.req.headers['cookie']?.split('=')[3]
-        console.log(JSON.stringify(token))
+        token = event.node.req.headers['cookie']?.split("refresh_token=")[1]
         decoded = decodeRefreshToken(token)
         if (!decoded) {
             return sendError(event, createError({

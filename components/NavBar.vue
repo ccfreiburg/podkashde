@@ -109,7 +109,7 @@
     >
       <div
         v-if="showMenu"
-        class="fixed top-0 pt-2 z-50 bg-white w-full shadow-md"
+        class="fixed top-0 pt-2 z-50 bg-white w-full h-screen overflow-y-scroll shadow-md"
       >
         <!-- v-show="show" -->
         <div class="flex px-3 sm:px-4 justify-between">
@@ -196,7 +196,7 @@
         <div></div>
       </div>
     </transition>
-    <div class="mt-14"></div>
+    <div class="mt-4"></div>
   </div>
 </template>
 

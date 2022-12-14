@@ -36,7 +36,7 @@
           class="p-4 w-screen absolute -top-8 bg-gray-200 -z-10 flex flex-col items-center"
         ></div>
       </div>
-      <div class="w-full h-screen bg-gray-200 flex flex-col items-center">
+      <div class="w-full bg-gray-200 flex flex-col items-center">
         <div class="w-11/12 md:w-2/3 flex flex-col justify-center">
           <div
             class="md:pt-14 text-sm md:text-ml tracking-widest font-bold text-gray-500 text-center"

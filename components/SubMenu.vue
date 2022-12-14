@@ -1,30 +1,28 @@
 <template>
   <div class="relative">
     <div
-      class="absolute top-0 right-6 md:right-8 pl-4 pb-4 h-10 w-6 hover:w-24 md:hover:w-36 text-gray-400 flex flex-col text-xs md:text-sm"
+      class="absolute top-0 right-2 sm:right-4 text-gray-500 
+      flex flex-col text-xs md:text-sm rounded-xl hover:bg-white opacity-90"
     >
       <div v-for="(item, index) in items" :key="index">
         <button
           v-if="item.slug.startsWith('#')"
-          class="py-1 h-5 md:h-7 w-32 md:w-36 pr-2 rounded-xl hover:bg-clip-text hover:text-transparent hover:bg-gradient-to-r from-yellow-400 via-orange-500 to-orange-700"
+          class="pb-2 h-5  w-40 md:h-6 md:w-44"
           @click="emit(item.slug)"
         >
-        <div class="h-5 w-32 md:h-7 md:w-36 flex">
-
-          <icon-selector :layout="item.layout" />
-          <div class="pl-3 md:pl-5">{{ $t(item.name) }}</div>
+          <div class="h-5 md:h-6 w-40 z-40 md:w-44 flex place-content-center justify-end hover:bg-clip-text hover:text-transparent hover:bg-gradient-to-r from-yellow-400 via-orange-500 to-orange-700 ">
+            <div class="h-10 pr-1 text-transparent text-right">{{ $t(item.name) }}</div>
+            <icon-selector class="z-50" :layout="item.layout" />
           </div>
         </button>
-        <NuxtLink v-else :to="localePath(item.slug)">
-          <button
-            class="py-1 h-5 md:h-7 w-32 md:w-36 pr-2 rounded-xl hover:bg-clip-text hover:text-transparent hover:bg-gradient-to-r from-yellow-400 via-orange-500 to-orange-700"
-          >
-        <div class="h-5 w-32 md:h-7 md:w-36 flex">
-
-          <icon-selector :layout="item.layout" />
-            <div class="pl-3 md:pl-5">{{ $t(item.name) }}</div>
-            </div>
-          </button>
+        <NuxtLink 
+          v-else :to="localePath(item.slug)"
+          class="pb-2 pt-1 h-5 w-40 md:h-6 md:w-44" 
+        >
+          <div class="h-5 md:h-6 w-40 z-40 md:w-44 flex place-content-center justify-end hover:bg-clip-text hover:text-transparent hover:bg-gradient-to-r from-yellow-400 via-orange-500 to-orange-700 ">
+            <div class="h-10 pr-1 text-transparent text-right">{{ $t(item.name) }}</div>
+            <icon-selector class="z-50" :layout="item.layout" />
+          </div>
         </NuxtLink>
       </div>
     </div>
@@ -39,11 +37,11 @@ export default defineComponent({
     items: Object as PropType<Array<IPageMenuItem>>,
   },
   name: 'SubMenu',
-  setup(props, {emit}) {
+  setup(props, { emit }) {
     const localePath = useLocalePath();
     return {
-      emit: (value : string) => emit("menuItemClicked", value)
-    }
-  }
+      emit: (value: string) => emit('menuItemClicked', value),
+    };
+  },
 });
 </script>

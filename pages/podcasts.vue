@@ -9,12 +9,12 @@
         &nbsp;{{ $t('podcast.headline') }}&nbsp;
       </div>
     </div>
-    <div class="w-full h-screen bg-gray-200 flex justify-center">
-      <div class="pt-6 md:pt-10 w-5/6 md:w-2/3 md:h-60 flex flex-col">
+    <div class="w-full bg-gray-200 flex justify-center">
+      <div class="pt-6 md:pt-10 w-5/6 md:w-2/3 flex flex-col">
         <div v-for="podcast in sortedPodcasts" :key="podcast.id">
           <div class="p-4 mt-4 bg-white flex flex-row flex-wrap sm:flex-nowrap place-content-center">
             <NuxtLink :to="localePath('/podcast/' + podcast.slug)">
-              <img class="w-32 h-32 objext-scale-down" :src="podcast.cover_file" />
+              <img class="w-32 h-32 object-scale-down" :src="podcast.cover_file" />
             </NuxtLink>
             <div
               class="px-4 sm:pl-12 py-2 flex-grow flex flex-col justify-around items-start rounded-r-md"

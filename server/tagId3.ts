@@ -44,5 +44,11 @@ function getTagsFromPodcast( episode: IEpisode ) : id3.Tags {
 export default function writeTags( episode: IEpisode ) : true|Error {
   var tags = getTagsFromPodcast(episode)
   tags = embedCoverImage(tags, nuxtPath(episode.image))
-  return id3.write(tags, nuxtPath(episode.link))
+  try {
+    const result = id3.write(tags, nuxtPath(episode.link))
+    return result
+  } catch(err) {
+    console.log(err)
+    return err
+  }
 }

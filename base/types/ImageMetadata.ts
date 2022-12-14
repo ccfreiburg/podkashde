@@ -1,8 +1,8 @@
 export default class ImageMetadata {
-    preview = null;
-    selectedFile = null;
+    preview?: string;
+    selectedFile?: File;
     imgWidth = 0;
     imgHeight = 0;
-    blob: Blob|undefined = undefined;
+    blob?: Blob;
   }
   
