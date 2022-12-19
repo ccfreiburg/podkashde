@@ -1,3 +1,4 @@
+import { Like } from "typeorm";
 import IEpisode from "~~/base/types/IEpisode";
 import getDataSource from "../db/dbsigleton";
 import Episode, { getEpisode } from "../db/entities/Episode";
@@ -21,6 +22,18 @@ export const readEpisode = async function (query): Promise<IEpisode> {
   };
   var result:Array<IEpisode> = await repo.find(tmpQuery);
   return result.pop()
+}
+
+export const getPathForMediaFile = async function (filename: string): Promise<string> {
+  const db = await getDataSource();
+  const repo = db.getRepository(Episode);
+  var tmpQuery = {
+    where: {
+      link: Like("%"+filename)
+    }
+  };
+  var result = await repo.findOneOrFail(tmpQuery);
+  return result.link
 }
 
 export const saveNewEpisode = async function (episodeObject): Promise<Episode> {

@@ -20,3 +20,4 @@ public/s
 public-docker
 org.*
 settings.json
+docker-compose.yml

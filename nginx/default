@@ -11,10 +11,11 @@ server {
 
 	server_name _;
 
-  location ~* /.*(jpe?g|png|gif|ico|mp3|xml|pdf|md)$ {
+	rewrite ^/media/(.*mp3) /api/files?name=$2 last;
+
+  location /s/ {
 		# First attempt to serve request as static file
     root /var/www/public;
-		try_files $uri =404;
 	}
 
   #
@@ -26,7 +27,7 @@ server {
 	}
 
 	# deny access to .htaccess files, if Apache's document root
-	# concurs with nginx's one
+	# concurs with nginx's onenginx 
 	#
 	#location ~ /\.ht {
 	#	deny all;
