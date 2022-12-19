@@ -11,7 +11,7 @@ server {
 
 	server_name _;
 
-	rewrite ^/media/(.*mp3) /api/files?name=$2 last;
+	rewrite ^/media/(.*mp3) /api/files?name=$1 last;
 
   location /s/ {
 		# First attempt to serve request as static file
