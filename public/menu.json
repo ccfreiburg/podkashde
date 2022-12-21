@@ -3,6 +3,7 @@
   "en": [
     {
       "name": "About us",
+      "slug": "about-us/",
       "description": "Get to know us",
       "entries": [
         {
@@ -29,6 +30,7 @@
     },
     {
       "name": "Connect",
+      "slug": "connect/",
       "description": "Connect with the Church",
       "entries": [
         {
@@ -80,6 +82,7 @@
     },
     {
       "name": "Hör rein",
+      "slug": "https://podcast.ccfreiburg.de",
       "description": "Höre unsere Predigen, Inputs und  Biblestudies oder lies Neues und Andachten",
       "entries": [
         {
@@ -111,6 +114,7 @@
     {
       "name": "Jouarnal",
       "description": "Discover Content",
+      "slug": "journal-en/",
       "entries": [
         {
           "name": "Overview",
@@ -121,6 +125,7 @@
     },
     {
       "name": "Give",
+      "slug": "give",
       "description": "Find out how to support us",
       "entries": [
         {
@@ -135,6 +140,7 @@
   "de": [
     {
       "name": "Über uns",
+      "slug": "ueber-uns/",
       "description": "Lerne uns kennen",
       "entries": [
         {
@@ -172,6 +178,7 @@
     },
     {
       "name": "Connect",
+      "slug": "connecten/",
       "description": "Connect with the Church",
       "entries": [
         {
@@ -223,6 +230,7 @@
     }, 
     {
       "name": "Hör rein",
+      "slug": "https://podcast.ccfreiburg.de",
       "description": "Höre unsere Predigen, Inputs und  Biblestudies oder lies Neues und Andachten",
       "entries": [
         {
@@ -253,6 +261,7 @@
     },
     {
       "name": "Jouarnal",
+      "slug": "journal/",
       "description": "Content enddecken",
       "entries": [
         {
@@ -264,6 +273,7 @@
     },
     {
       "name": "Geben",
+      "slug": "geben/",
       "description": "Wie du mit Spenden unterstützen kannst",
       "entries": [
         {
