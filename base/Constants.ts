@@ -1,3 +1,4 @@
+export const VERSION ="v1.0.0";
 export const DATA_PATH ="public";
 export const PUBLIC_RESOURCES = 'public';
 export const FEED_SLUG = '/s/feed/';

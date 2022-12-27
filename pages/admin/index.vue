@@ -8,7 +8,7 @@
         &nbsp;{{ $t('menu.admin') }}&nbsp;
       </div>
     </div>
-    <div class="w-full h-screen bg-gray-200 flex justify-center">
+    <div class="w-full bg-gray-200 flex justify-center">
       <div class="py-6 md:py-10 w-5/6 md:w-2/3 md:h-60 flex flex-col">
         <div
             class="pt-2 sm:pt-8 pb-2 sm:pb-4  text-sm md:text-ml tracking-widest font-bold text-gray-500 text-center"
@@ -45,11 +45,15 @@
         </NuxtLink>
       </div>
     </div>
+    <div class="text-center text-sm text-gray-300 py-10">PodKaschde {{ version }} &copy; Alex Röhm, 2022</div>
   </div>
 </template>
 <script setup lang="ts">
+import { VERSION } from "../../base/Constants";
+
 const localePath = useLocalePath();
 const { logout, useAuthUser } = useAuth();
+const version = ref(VERSION)
 const user = useAuthUser();
 const router = useRouter();
 const logmeout = () => {
