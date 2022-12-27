@@ -21,6 +21,8 @@ sprints:
 
 ## Todo
 
+- [generate-short-info-from-author-video-and-reference](tasks/generate-short-info-from-author-video-and-reference.md)
+
 ## In Progress
 
 ## Done
