@@ -45,9 +45,9 @@ export default defineNuxtConfig({
     autoTrack: true,
     doNotTrack: false,
     cache: false,
-    domains: 'podk.calvarychapel.de, localhost:3000',
+    domains: 'podcast.ccfreiburg.de',
     websiteId: '4b79e0da-e70b-430b-b0ea-978691c32f55',
-    scriptUrl: 'https://umami.calvarychapel.de/umami.js',
+    scriptUrl: 'https://analytics.ccfreiburg.de/umami.js',
   },
   tailwindcss: {
     cssPath: '~/assets/css/tailwind.css',
