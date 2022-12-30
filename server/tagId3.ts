@@ -4,7 +4,7 @@ import { dateToIsoString, durationInSecToStr } from '~~/base/Converters';
 import IEpisode from '~~/base/types/IEpisode';
 import IPodcast from '~~/base/types/IPodcast';
 import ISerie from '~~/base/types/ISerie';
-import { nuxtPath } from './services/podcastService';
+import { nuxtPath } from './services/filesService';
 
 
 

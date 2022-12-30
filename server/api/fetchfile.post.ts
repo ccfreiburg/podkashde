@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { IFetchFileResult } from '../../base/types/IFetchFileResult';
-import { createDir, nuxtPath } from '../services/podcastService';
+import { createDir, nuxtPath } from '../services/filesService';
 
 export default defineEventHandler(async (event): Promise<IFetchFileResult> => {
   const body = await readBody(event);

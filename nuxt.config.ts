@@ -45,9 +45,9 @@ export default defineNuxtConfig({
     autoTrack: true,
     doNotTrack: false,
     cache: false,
-    domains: 'podcast.ccfreiburg.de',
-    websiteId: '4b79e0da-e70b-430b-b0ea-978691c32f55',
-    scriptUrl: 'https://analytics.ccfreiburg.de/umami.js',
+    domains: process.env.UMAMI_DOMAINS || 'podcast.ccfreiburg.de',
+    websiteId: process.env.UMAMI_KEY || '4b79e0da-e70b-430b-b0ea-978691c32f55',
+    scriptUrl: process.env.UMAMI_AP || 'https://analytics.ccfreiburg.de/umami.js',
   },
   tailwindcss: {
     cssPath: '~/assets/css/tailwind.css',

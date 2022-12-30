@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="gradient-ccf">
+      <stop offset="0" style="stop-color: rgb(239, 170, 34);"/>
+      <stop offset="0.36" style="stop-color: rgb(239, 170, 34);"/>
+      <stop offset="0.65" style="stop-color: rgb(218, 109, 41);"/>
+    </linearGradient>
+    <linearGradient id="gradient-ccf-3" gradientUnits="userSpaceOnUse" x1="13.258" y1="2.077" x2="13.258" y2="20.077" gradientTransform="matrix(1, 0, 0, 1, -1.047511, 0.823044)" xlink:href="#gradient-ccf"/>
+  </defs>
+  <rect width="24" height="24" stroke="none" fill="#000000" opacity="0"/>
+  <path stroke-linecap="round" stroke-linejoin="round" d="M 7.71 20.9 L 3.21 16.4 M 3.21 16.4 L 7.71 11.9 M 3.21 16.4 L 16.71 16.4 M 16.71 2.9 L 21.21 7.4 M 21.21 7.4 L 16.71 11.9 M 21.21 7.4 L 7.71 7.4" style="stroke: url(#gradient-ccf-3); stroke-width: 2px;"/>
+</svg>

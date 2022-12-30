@@ -55,6 +55,7 @@
       </NuxtLink>
     </div>
     <list-paginator :max="max" v-model:value="page" :itemsperpage="itemsperpage"/>
+    <div class="h-10"></div>
   </div>
 </template>
 

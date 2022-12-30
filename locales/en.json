@@ -43,6 +43,7 @@
     "title": "Podcast Episodes",
     "new": "New Podcast",
     "edit": "Edit Podcast",
+    "change": "Assign all Episodes to another Podcast",
     "addImage": "click to add image",
     "inthis": "in this podcast",
     "label": {
@@ -109,7 +110,7 @@
       "duration": "Duration",
       "pubdate": "Publication Date",
       "link": "Mp3 Url",
-      "errors": "Pleas correct the following issues:",
+      "errors": "Please correct the following issues:",
       "filesize": "Size",
       "cross_ref": "Search reference",
       "video_link": "Video link"
@@ -120,7 +121,7 @@
       "creator": "Please enter an author",
       "duration": "Please enter duration of episode",
       "slug": "Please enter an unique slug for the static episode Url",
-      "upload": "There was a problem uplaoding files",
+      "upload": "There was a problem uploading files",
       "saving": "Could not save the episode"
     },
     "saveEpisode": "Save Episode",

@@ -299,6 +299,7 @@ export default defineComponent({
       audio.value.currentTime = 0;
     }
     function play() {
+      console.log("play")
       if (playing.value && !paused.value) return;
       paused.value = false;
       audio.value.play();

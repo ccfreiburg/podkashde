@@ -6,3 +6,5 @@ public-docker
 .tmp
 tmp
 temp
+data
+docker

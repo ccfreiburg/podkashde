@@ -1,4 +1,4 @@
-import { createDir, moveUploadedImage } from '~~/server/services/podcastService';
+import { createDir, moveFile } from '~~/server/services/filesService';
 import { returnCode } from '~~/server/returncode';
 import { UPLOAD_TEMP_PATH } from '~~/base/Constants';
 import Busboy from 'busboy'
@@ -47,7 +47,7 @@ export default defineEventHandler( async (event) => {
   try {
     createDir(UPLOAD_TEMP_PATH)
     const { filename, path, uploaded } = await paseFormdata(event.node.req)
-    if (moveUploadedImage(uploaded, path, filename))
+    if (moveFile(uploaded, path, filename))
       return returnCode(201)
   } catch (err) {
     sendError(event, createError({statusCode: 500, statusMessage: err.message}));

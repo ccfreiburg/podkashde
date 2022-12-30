@@ -13,6 +13,6 @@ export const AppDataSource = new DataSource({
     type: "sqlite",
     database: defaultFilename,
     entities: [Podcast, Serie, Episode, Enumerator, User, Session],
-    logging: true,
+    logging: false,
     synchronize: true,
   });

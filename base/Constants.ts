@@ -18,6 +18,7 @@ export const PODCASTS_AP = '/api/podcasts';
 export const EPISODES_AP = '/api/episodes';
 export const EPISODE_AP = '/api/episode';
 export const EPISODEWP_AP = '/api/episodewp';
+export const EPISODEMOVE_AP = '/api/episodemove';
 export const COUNT_AP = '/api/count';
 export const ENUMERATIONS_AP = '/api/enums';
 export const GENERATE_RSS_AP = '/api/generaterss';

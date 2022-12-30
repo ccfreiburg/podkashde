@@ -1,6 +1,7 @@
 <template>
   <div>
     <messge-toast></messge-toast>
+    <select-podcast-modal v-if="dialog" :error="error" :podcasts="podcasts" @cancel="() => dialog=false" @submit="changePodcast"></select-podcast-modal>
     <sub-menu
       v-if="user != null"
       :items="submenu"
@@ -12,20 +13,29 @@
         <div
           class="pl-6 md:pl-12 pt-2 pb-8 flex flex-col justify-around items-start rounded-r-md"
         >
-          <div
-            class="text-xs md:text-sm tracking-wide uppercase bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-orange-500 to-orange-700 font-bold"
+        <div>
+        <div
+            class="text-sm md:text-md tracking-wide uppercase bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-orange-500 to-orange-700 font-bold"
           >
             <NuxtLink :to="('/serie/'+serie?.slug)">
               {{ serie?.title }} 
             </NuxtLink>
           </div>
+          <div
+            class="text-xs md:text-sm text-gray-400"
+          >
+            <NuxtLink :to="('/podcast/'+podcast?.slug)">
+              {{ podcast?.title }} 
+            </NuxtLink>
+          </div>
+        </div>
           <div class="flex flex-col">
             <div
               class="text-md md:text-2xl font-semibold tracking-wider"
               v-html="episode.title"
             />
             <div
-              class="text-xs md:text-sm tracking-wide text-gray-500"
+              class="text-xs md:text-sm tracking-wide text-gray-400"
               v-html="episode.subtitle"
             />
           </div>
@@ -55,8 +65,9 @@
     <div class="flex flex-col items-center">
       <div class="w-5/6 md:w-2/3 pt-6">
         <audio-player
+          :key="audioComponentKey"
           class="text-white bg-black"
-          :file="episode.link"
+          :file="link"
           @play="play"
         ></audio-player>
       </div>
@@ -133,7 +144,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { EPISODE_AP } from '~~/base/Constants';
+import { EPISODEMOVE_AP, EPISODE_AP } from '~~/base/Constants';
 import { durationInSecToStr } from '~~/base/Converters';
 import { useEpisode } from '~~/composables/episodedata';
 
@@ -144,9 +155,32 @@ const user = await useAuth().useAuthUser();
 const showdetail = ref(false);
 const slug = route.params.episodeslug as string;
 const { refresh, serie, podcast, remove, episode } = await useEpisode(slug);
-
+const { podcasts } = await usePodcasts();
+const link = ref(episode.value.link)
+const submenu = ref([])
 onBeforeMount(() => {
-  if (route.query.refresh) refresh();
+  refresh();
+  submenu.value = [
+  {
+    id: 0,
+    name: 'episode.edit',
+    slug: '/admin/' + slug,
+    layout: 'edit',
+  },
+  {
+    id: 1,
+    name: 'delete',
+    slug: '#delete',
+    layout: 'delete',
+  },
+];
+if (user.value && user.value.username.startsWith('admin'))
+    submenu.value.push({
+      id: 2,
+      name: 'podcast.change',
+      slug: '#change',
+      layout: 'change',
+    });
 });
 onMounted(() =>
   router.replace({
@@ -156,6 +190,9 @@ onMounted(() =>
 );
 
 const duration = () => durationInSecToStr(episode.value.duration);
+
+const dialog = ref(false);
+const error = ref("")
 
 async function menuItemClicked(value: string) {
   if (value === '#delete') {
@@ -173,25 +210,34 @@ async function menuItemClicked(value: string) {
       path: url,
       query: { refresh: 'true', msg: 'episode.deleted' },
     });
+  } else if (value === '#change') {
+    dialog.value = !dialog.value
   }
 }
-const submenu = [
-  {
-    id: 0,
-    name: 'episode.edit',
-    slug: '/admin/' + slug,
-    layout: 'edit',
-  },
-  {
-    id: 1,
-    name: 'delete',
-    slug: '#delete',
-    layout: 'delete',
-  },
-];
+const audioComponentKey = ref(0)
+async function changePodcast(podcastid: number) {
+  const newpodcast = podcasts.value.find((p) => p.id == podcastid);
+  var result;
+  try {
+    const postData = {
+        method: 'post',
+        body: {
+          episode: episode.value,
+          podcast: newpodcast,
+          serie: serie.value,
+      },
+    };
+    result = await $fetch(EPISODEMOVE_AP, postData);
+    await refresh()
+    link.value = episode.value.link
+    audioComponentKey.value++
+    dialog.value = false;
+  } catch (err) {
+    error.value = err.message;
+  }
+}
 function play() {
   const { $umami } = useNuxtApp();
-  console.log("play")
   $umami("Playing " + episode.value.title)
 }
 </script>

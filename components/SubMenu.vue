@@ -12,7 +12,7 @@
         >
           <div class="h-5 md:h-6 w-40 z-40 md:w-44 flex place-content-center justify-end hover:bg-clip-text hover:text-transparent hover:bg-gradient-to-r from-yellow-400 via-orange-500 to-orange-700 ">
             <div class="h-10 pr-1 text-transparent text-right">{{ $t(item.name) }}</div>
-            <icon-selector class="z-50" :layout="item.layout" />
+            <icon-selector :layout="item.layout" />
           </div>
         </button>
         <NuxtLink 
@@ -21,7 +21,7 @@
         >
           <div class="h-5 md:h-6 w-40 z-40 md:w-44 flex place-content-center justify-end hover:bg-clip-text hover:text-transparent hover:bg-gradient-to-r from-yellow-400 via-orange-500 to-orange-700 ">
             <div class="h-10 pr-1 text-transparent text-right">{{ $t(item.name) }}</div>
-            <icon-selector class="z-50" :layout="item.layout" />
+            <icon-selector :layout="item.layout" />
           </div>
         </NuxtLink>
       </div>

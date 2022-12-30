@@ -2,11 +2,12 @@ import fs from 'fs';
 import getDataSource from '~~/server/db/dbsigleton';
 import Podcast, { setPodcast } from '~~/server/db/entities/Podcast';
 import IPodcast from '~~/base/types/IPodcast';
-import { DATA_PATH, FEED_SLUG } from '~~/base/Constants';
+import { FEED_SLUG } from '~~/base/Constants';
 import { FindManyOptions } from 'typeorm';
 import Enumerator from '../db/entities/Enumerator';
 import Enumerations from '~~/base/Enumerations';
 import { generateRss } from '~~/base/RssGenerator';
+import { createDir, nuxtPath } from './filesService';
 
 export const readPodcasts = async function (): Promise<Array<IPodcast>> {
   const db = await getDataSource();
@@ -44,23 +45,6 @@ export const generateFeed = async (podcast: IPodcast, baseUrl: string)  => {
     fs.writeFileSync(target_file, xml)
 }
 
-export const nuxtPath = (path: string) : string => {
-  return DATA_PATH + path;
-};
-
-export const createDir = (dir: string) : void => {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-};
-
-export const moveUploadedImage = function (uploadpath: string, newpath : string, filename: string) {
-  var dir = nuxtPath(newpath);
-  createDir(dir);
-  const target_path = dir + '/' + filename;
-  fs.renameSync(uploadpath, target_path);
-  return true;
-};
 
 export const isUpdate = function (podcastObject: IPodcast): Boolean {
   if (!podcastObject) return false;
