@@ -1,0 +1,43 @@
+version: '3.1'
+
+services:
+  podkashde:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    container_name: podkashde
+    ports:
+      - 8083:80
+      - 8383:3000
+      - 24678:24678
+    volumes:
+      - .:/var/www
+      - ./docker/log:/var/log/nginx
+    environment:
+      - VIRTUAL_HOST=podk.calvarychapel.de
+      - LETSENCRYPT_HOST=podk.calvarychapel.de
+    depends_on:
+      - umami
+  umami:
+    image: ghcr.io/umami-software/umami:postgresql-latest
+    ports:
+      - 8084:3000
+    container_name: umami
+    environment:
+      DATABASE_URL: postgresql://umami:BnS5bYDnrq6sY@db:5432/umami
+      DATABASE_TYPE: postgresql
+      HASH_SALT: UizS3GG3BvnqYvtRX2egbPfxfDTQtcR
+    depends_on:
+      - db
+    restart: always
+  db:
+    image: postgres:12-alpine
+    container_name: db
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      POSTGRES_PASSWORD: BnS5bYDnrq6sY
+    volumes:
+      - ./docker/runtime/sql/schema.postgresql.sql:/docker-entrypoint-initdb.d/schema.postgresql.sql:ro
+      - ./docker/runtime/umamidb:/var/lib/postgresql/data
+    restart: always

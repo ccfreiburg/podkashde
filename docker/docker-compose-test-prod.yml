@@ -1,0 +1,14 @@
+version: '3.1'
+
+services:
+  podkashde.prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: podkashde.prod
+    ports:
+      - 8083:80
+    volumes:
+      - ./docker/log:/var/log/nginx
+      - ./public/s:/var/www/public/s
+      - ./settings.json:/var/www/settings.json
