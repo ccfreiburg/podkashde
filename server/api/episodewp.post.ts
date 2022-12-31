@@ -6,7 +6,7 @@ import { migrateEpisode } from "../services/wpMigrationService";
 export default defineEventHandler(async (event) => {
   try {
     const data = await readBody(event);
-    await migrateEpisode(data)
+    await migrateEpisode(data.episode, (data.podcastId?data.podcastId:0))
   } catch (err) {
     console.log(err);
     return returnCodeReject(500, err.message);

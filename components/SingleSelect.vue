@@ -31,7 +31,10 @@ export default defineComponent({
   props: {
     name: String,
     label: String,
-    errors: Object as PropType<Array<IValidationError>>,
+    errors: {
+      type: Object as PropType<Array<IValidationError>>,
+      default: [],
+    },
     options: Object as PropType<Array<Partial<IEnumerator>>>,
     long: {
       type: Boolean,

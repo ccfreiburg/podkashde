@@ -7,7 +7,6 @@ export default defineEventHandler(async (event) => {
     const body = await readBody(event);
     var id = body["id"];
     return getDataSource().then(async (db) => {
-      console.log(id)
       const repository = db.getRepository(Episode)
       const result = await repository.softDelete(id)
       if (result && result.affected == 1)

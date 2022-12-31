@@ -24,7 +24,7 @@ export default async function getDataSource(): Promise<DataSource> {
       shorttext: "de-DE",
     });
     if (!german) {
-      console.log("init enums")
+      console.log("init data")
       await fillDefaultEnums(dataSource);
     }
     addAdmin(dataSource);

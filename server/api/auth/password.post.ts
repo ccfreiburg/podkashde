@@ -24,7 +24,6 @@ export default defineEventHandler(async (event) => {
       const data = decodeUrlToken(token)
       username = data?.username
       credentialValid = true
-      console.log(username)
     }
 
     const user = await getUserByUserName(username) as User

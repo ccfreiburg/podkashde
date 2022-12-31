@@ -39,22 +39,26 @@ function addExistingId( existList: Array<ISerie | IPodcast | IEpisode>, id: numb
   return object
 }
 
+export function getSerieFromWp(series: Array<ISerie>, meta): ISerie {
+  const serie = addExistingId(series,meta.id,
+    {
+      cover_file: meta.image,
+      title: meta.name,
+      slug: meta.slug,
+      subtitle: meta.title,
+      external_id: meta.id,
+      description: meta.subtitle,
+      state: ContentState.metadata,
+      lastEpisode: new Date("1900-01-01"),
+      firstEpisode: new Date()
+    }) as ISerie
+  return serie
+}
+
 export function seriesfromWpMetadata(series: Array<ISerie>, wpMetadataList): Array<ISerie> {
   var list = [] as Array<ISerie>;
   wpMetadataList.forEach((meta) => {
-    const serie = addExistingId(series,meta.id,
-      {
-        cover_file: meta.image,
-        title: meta.name,
-        slug: meta.slug,
-        subtitle: meta.title,
-        external_id: meta.id,
-        description: meta.subtitle,
-        state: ContentState.metadata,
-        lastEpisode: new Date("1900-01-01"),
-        firstEpisode: new Date()
-      }) as ISerie
-    list.push(serie);
+    list.push(getSerieFromWp(series, meta))
   });
   return list;
 }
@@ -107,28 +111,14 @@ export function podcastFromWpMetadata(
 }
 
 
-export function allEpisodesFromWpMetadata(
-  episodes : Array<IEpisode>,
-  wpMetadataList,
-  wpPodcastId,
-  podcastImage,
-  enumerations
-): Array<IEpisode> {
-  var list = [] as Array<IEpisode>;
-  wpMetadataList.forEach((wpEpisode) => {
-    list.push(episodeFromWpMetadata(episodes,wpEpisode,wpPodcastId,podcastImage,enumerations))
-  })
-  return list;
-}
-
 export function episodeFromWpMetadata(
   episodes : Array<IEpisode>,
   wpEpisode,
   wpPodcastId,
+  seriesId,
   podcastImage,
   enumerations
 ): IEpisode {
-    var seriesId = wpEpisode.series.find((serieId) => serieId != wpPodcastId);
     var pubdate = strToDate(wpEpisode.meta.date_recorded);
     var image = wpEpisode.meta.cover_image;
     if (image.length < 1) image = podcastImage;

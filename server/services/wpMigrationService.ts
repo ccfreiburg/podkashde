@@ -5,14 +5,23 @@ import Episode, { getEpisode, joinEpisodePodcastAndSerie } from '../db/entities/
 import Podcast from '../db/entities/Podcast';
 import Serie from '../db/entities/Serie';
 
-export async function migrateEpisode(episode: IEpisode) {
+export async function migrateEpisode(episode: IEpisode, podcastId: number) {
   const db = await getDataSource();
   const serieRepo = db.getRepository(Serie);
   const podcastRepo = db.getRepository(Podcast);
 
-  const podcast = await podcastRepo.findOne({
-    where: { external_id: episode.ext_podcast_id },
-  });
+   const getPodcast = async () => {
+    if (podcastId>0)
+    return await podcastRepo.findOne({
+      where: { id: podcastId },
+    });
+  else
+      return await podcastRepo.findOne({
+        where: { external_id: episode.ext_podcast_id },
+      });
+    }
+    
+  const podcast = await getPodcast()
   const serie = await serieRepo.findOne({
     where: { external_id: episode.ext_series_id },
     relations: ['episodes']

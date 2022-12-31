@@ -14,7 +14,6 @@ async function paseFormdata(req: any) {
       if (filename.length==0)
         filename = "tmp"
       const path = UPLOAD_TEMP_PATH+filename;
-      console.log("WRITING to "+path)
       var ws = fs.createWriteStream(path)
       filedata = {
         fieldname: name,
@@ -32,10 +31,8 @@ async function paseFormdata(req: any) {
     })
     busboy.on('field', (name : string, value: object, info: any) => {
       fields[name] = value
-      console.log(name + " " + value)
     })
     busboy.on('close', () => {
-      console.log("finish")
       resolve({ uploaded: filedata.path, path: fields.path, filename: filedata.filename })
     })
     req.pipe(busboy)

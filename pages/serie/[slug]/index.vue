@@ -121,7 +121,6 @@ async function menuItemClicked(value: string) {
 const error = ref('');
 async function changePodcast(podcastid) {
   const podcast = podcasts.value.find((p) => p.id == podcastid);
-  console.log(serie);
   var result;
   try {
     for (const idx in episodes.value) {

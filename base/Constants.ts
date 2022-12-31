@@ -12,6 +12,7 @@ export const REQUIRED_IMG_HEIGHT = 1400;
 export const UPLOAD_AP = '/api/upload';
 export const UPLOAD_TEMP_PATH = 'public/s/upload/';
 export const FETCHLOCAL_AP = '/api/fetchfile';
+export const FROMARCHIVE_AP = '/api/fromarchive';
 export const SERIES_AP = '/api/series';
 export const SERIE_AP = '/api/serie';
 export const PODCAST_AP = '/api/podcast';

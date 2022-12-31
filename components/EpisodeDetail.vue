@@ -44,7 +44,7 @@
       <input-area :name="'pubdate'" :type="'date'" :label="'episode.label.pubdate'" :errors="errors" v-model:value="pubdateText" />
       <input-area :name="'duration'" :label="'episode.label.duration'" :errors="errors" v-model:value="durationText" />
       <input-area :name="'slug'" :disabled="isEdit" :label="'episode.label.slug'" :errors="errors" v-model:value="fields.slug" />
-      <input-area :name="'creator'" :label="'episode.label.creator'" :errors="errors" v-model:value="fields.creator"/>
+      <input-area :name="'creator'" :label="'episode.label.creator'" :errors="errors" v-model:value="fields.creator" @change="setShortInfo"/>
       <input-area :name="'summary'" :type="'textarea'" :label="'episode.label.summary'" :errors="errors" v-model:value="fields.summary" />
       <input-area :name="'description'" :type="'textarea'" :label="'episode.label.description'" :errors="errors" v-model:value="fields.description" />
       <switch-box 
@@ -59,8 +59,8 @@
           :labelChecked="$t('episode.label.explicit_true')"
           :labelUnChecked="$t('episode.label.explicit_false')"
        />
-       <input-area :name="'cross_ref'" :label="'episode.label.cross_ref'" v-model:value="fields.cross_ref" />
-       <input-area :name="'video_link'" :label="'episode.label.video_link'" v-model:value="fields.video_link" />
+       <input-area :name="'cross_ref'" :label="'episode.label.cross_ref'" v-model:value="fields.cross_ref"  @change="setShortInfo"/>
+       <input-area :name="'video_link'" :label="'episode.label.video_link'" v-model:value="fields.video_link"  @change="setShortInfo"/>
 
       <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
         <p>{{ $t("episode.label.errors") }}</p>
@@ -158,7 +158,6 @@ export default defineComponent({
           fields.value[key] = data.fields[key]
       }
       if (!keepImage.value) {
-        console.log(data)
         imgMetadata.value.blob = data.imgblob
         imgMetadata.value.preview = data.cover_preview
         keepImage.value = true
@@ -167,6 +166,11 @@ export default defineComponent({
       generateSlug()
     };
 
+    const setShortInfo = ()=>{
+      fields.value.summary = "<p> fields.value.cross_ref +" // "+ fields.value.creator + 
+        (fields.value.video_link?" // <a href='"+ fields.value.video_link+"'>Video Version</a></p>":"</p>")
+    }
+    
     const durationText = ref(durationInSecToStr(fields.value.duration));
     watch(durationText, () => {
       fields.value.duration = strToDurationInSec(durationText.value);
@@ -220,7 +224,6 @@ export default defineComponent({
       fd.append("path", path + props.podcast?.slug);
       fd.append('cover', blob, fields.value.slug+extention(blob.type));
       fd.append('filename', fields.value.slug+extention(blob.type));
-      console.log(fd)
       return fd
     }
 
@@ -237,11 +240,9 @@ export default defineComponent({
         postData.body = getBufferInFormData(server_path, blob)
       if (postData.body) {
         try  {
-          console.log(postData)
           postResult = await $fetch(UPLOAD_AP, postData);
           } catch (err) {
             postResult.status = 500
-            console.log(JSON.stringify(err))
           }
       }
       if (postResult.status == 201 && (fileObj || blob)) {
@@ -344,6 +345,7 @@ export default defineComponent({
       serie_id,
       fields,
       generateSlug,
+      setShortInfo,
       durationText,
       pubdateText,
       errors,
