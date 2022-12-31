@@ -3,7 +3,7 @@ import {sendError} from 'h3'
 import { ARCHIV_PATH } from '~~/base/Constants';
 import { findFile } from '../findFilePath';
 import { IFetchFileResult } from '../../base/types/IFetchFileResult';
-import { moveFile } from '../services/filesService';
+import { copyFile } from '../services/filesService';
 
 
 export default defineEventHandler( async (event) => {
@@ -11,7 +11,7 @@ export default defineEventHandler( async (event) => {
   const path = findFile(body.name, ARCHIV_PATH) 
   if (path && path.length>0) {
     var newpath = body.serverPath + body.slug;
-    if (moveFile(path, newpath, body.name))
+    if (copyFile(path, newpath, body.name))
       return {
         status: 201,
         message: 'File fetched',

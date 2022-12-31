@@ -19,3 +19,11 @@ export const moveFile = function (fullpath: string, newpath : string, filename: 
   fs.renameSync(fullpath, target_path);
   return true;
 };
+
+export const copyFile = function (fullpath: string, newpath : string, filename: string) {
+  var dir = nuxtPath(newpath);
+  createDir(dir);
+  const target_path = dir + '/' + filename;
+  fs.copyFileSync(fullpath, target_path);
+  return true;
+};
