@@ -27,6 +27,12 @@ server {
     root /var/www/public;
 	}
 
+	location /archiv {
+		# all other static file
+		autoindex on;
+    	root /var/www;
+	}
+
 	location /media/  {
 		# allow old style links for mp3s
 		rewrite ^/media/(.*mp3) /api/files?name=$1 break;

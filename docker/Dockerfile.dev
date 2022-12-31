@@ -18,7 +18,6 @@ RUN chmod a+w /run
 
 USER node
 WORKDIR /var/www
-RUN yarn
 
 EXPOSE 80
 EXPOSE 3000
