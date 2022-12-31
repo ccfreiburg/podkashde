@@ -1,5 +1,6 @@
-export const VERSION ="v1.0.3";
+export const VERSION ="v1.0.4";
 export const DATA_PATH ="public";
+export const ARCHIV_PATH ="archiv";
 export const PUBLIC_RESOURCES = 'public';
 export const FEED_SLUG = '/s/feed/';
 export const SERVER_IMG_PATH = '/s/covers/';

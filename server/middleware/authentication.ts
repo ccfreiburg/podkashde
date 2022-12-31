@@ -1,6 +1,6 @@
 import UrlPattern from "url-pattern"
 import { sendError } from "h3"
-import { decodeAccessToken, decodeRefreshToken } from "../jwt"
+import { decodeAccessToken, decodeRefreshToken, decodeUrlToken } from "../jwt"
 import { getUserById } from "../services/userService"
 import { d } from "vitest/dist/index-ea17aa0c"
 
@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
     const login = new UrlPattern('/api/auth/login')
 
     const isHandledByThisMiddleware = 
-        (event.req.method != 'GET' && !login.match(event.node.req.url)) ||
+        (event.node.req.method != 'GET' && !login.match(event.node.req.url)) ||
         endpoints.some(endopoint => {
             const pattern = new UrlPattern(endopoint)
             return pattern.match(event.node.req.url) 
@@ -31,12 +31,16 @@ export default defineEventHandler(async (event) => {
             cookie  = event.node.req.headers['Cookie'] as string
         const match = cookie?.match(regex)
         decoded = decodeRefreshToken((match?.length>1?match[1]:""))
-        if (!decoded) {
+    }
+    if (!decoded) {
+        const { token } = await readBody(event);
+        if (token)
+            decoded = decodeUrlToken(token)
+        if (!decoded)
             return sendError(event, createError({
                 statusCode: 401,
                 statusMessage: 'Unauthorized'
             }))
-        }
     }
 
     try {

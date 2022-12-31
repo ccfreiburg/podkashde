@@ -76,7 +76,7 @@ const submit = async () => {
         const success = await useAuth().changePassword(currentuser.value.username, password1.value, passwordOld.value)
         if (success) {
           isDone.value = true
-          var url = router.options.history.state.back as string;
+          var url = "/admin"
           router.push({
               path: url,
               query: { msg: 'login.passwordset' }
