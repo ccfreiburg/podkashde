@@ -56,8 +56,9 @@ const password = ref('');
 const onlogin = async () => {
   try {
     if (await login(user.value, password.value)) {
-      var url = router.options.history.state.back as string;
-      if (url.includes('?')) url = url.substring(0, url.indexOf('?'));
+      // var url = router.options.history.state.back as string;
+      // if (url.includes('?')) url = url.substring(0, url.indexOf('?'));
+      const url = (i18n.locale.value=='de'?'':'/'+i18n.locale.value)+'/podcasts'
       router.push({
         path: url,
         query: { refresh: 'true', msg: 'login.loggedin' },
