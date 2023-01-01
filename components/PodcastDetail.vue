@@ -40,6 +40,10 @@
       <input-area :name="'copyright'" :label="'podcast.label.copyright'" :errors="errors" v-model:value="fields.copyright" />
       <input-area :name="'owner_name'" :label="'podcast.label.owner_name'" :errors="errors" v-model:value="fields.owner_name" />
       <input-area :name="'owner_email'" :label="'podcast.label.owner_email'" :errors="errors" v-model:value="fields.owner_email" />
+      <input-area :name="'apple_url'" :label="'podcast.label.apple_url'" :errors="errors" v-model:value="fields.apple_url" />
+      <input-area :name="'spotify_url'" :label="'podcast.label.spotify_url'" :errors="errors" v-model:value="fields.spotify_url" />
+      <input-area :name="'google_url'" :label="'podcast.label.google_url'" :errors="errors" v-model:value="fields.google_url" />
+      <input-area :name="'stitcher_url'" :label="'podcast.label.stitcher_url'" :errors="errors" v-model:value="fields.stitcher_url" />
 
       <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
         <p>{{ $t("podcast.label.errors") }}</p>
@@ -149,6 +153,8 @@ export default defineComponent({
           "/" +
           imgMetadata.value.selectedFile.name
       }
+      console.log("1 hal")
+
       errors.value = validation(
         fields.value,
         imgMetadata.value.imgWidth,

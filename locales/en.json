@@ -63,6 +63,10 @@
       "link": "Url",
       "owner_email": "Owners email address",
       "owner_name": "Owners name",
+      "apple_url":"Podcast Url at Apple",
+      "spotify_url":"Podcast Url at Spotify",
+      "google_url":"Podcast Url at Google",
+      "stitcher_url":"Podcast Url at Stitcher",
       "errors": "Please correct the following issues:"
     },
     "validation": {
@@ -76,6 +80,10 @@
       "link": "Please enter the link",
       "owner_email": "Please enter a valid email address",
       "owner_name": "Please enter the owners name",
+      "apple_url":"Please enter a valid Url",
+      "spotify_url":"Please enter a valid Url",
+      "google_url":"Please enter a valid Url",
+      "stitcher_url":"Please enter a valid Url",
       "saveingimg": "Error uploading image"
     },
     "savePodcast": "Save Podcast",

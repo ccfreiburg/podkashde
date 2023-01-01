@@ -63,6 +63,10 @@
       "link": "Url",
       "owner_email": "Email verantwortliche Person",
       "owner_name": "Verantwortliche Person",
+      "apple_url":"Podcast Url bei Apple",
+      "spotify_url":"Podcast Url bei Spotify",
+      "google_url":"Podcast Url bei Google",
+      "stitcher_url":"Podcast Url bei Stitcher",
       "errors": "Folgende Fehler bitte beheben:"
     },
     "validation": {
@@ -74,6 +78,10 @@
       "category": "Bitten eine Podcastkategorie wählen",
       "type": "Bitte eine Art der Veröffentlichung wählen",
       "link": "Bitte einen Link eingeben",
+      "apple_url":"Bitte einen Link eingeben",
+      "spotify_url":"Bitte einen Link eingeben",
+      "google_url":"Bitte einen Link eingeben",
+      "stitcher_url":"Bitte einen Link eingeben",
       "owner_email": "Bitte die Email der verantwortlichen Person eingeben",
       "owner_name": "Bitte den Namen der verantwortlichen Person eingeben",
       "saveingimg": "Podcast Bild konnte nicht gespeichert werden"

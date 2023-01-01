@@ -21,11 +21,14 @@ function email(fields: Partial<IPodcast>, errors: Array<IValidationError>) {
       text: i18nstructure+'owner_email',
     });
 }
-function link(fields: Partial<IPodcast>, errors: Array<IValidationError>) {
+function link(fields: Partial<IPodcast>, key: string, errors: Array<IValidationError>, emptyallowed: boolean = false) {
+  console.log(key + " " + fields[key])
+  if (!fields[key] || fields[key].length==0 && emptyallowed)
+    return
   var re =
     /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
-  if (!fields['link'] || fields.link.length < 1 || re.test(fields.link) == false)
-    errors.push({ field: 'link', text: i18nstructure+'link' });
+  if (!fields[key] || fields[key].length < 1 || re.test(fields[key]) == false)
+    errors.push({ field: key, text: i18nstructure+key });
 }
 
 export default function validation(
@@ -34,6 +37,7 @@ export default function validation(
   imgHeight: number
 ): Array<IValidationError> {
   var errors = [] as Array<IValidationError>;
+  console.log("hallo")
   if (
     !(imgWidth == REQUIRED_IMG_WIDTH && imgHeight == REQUIRED_IMG_HEIGHT) ||
     !fields['cover_file'] || fields.cover_file.length < 1
@@ -50,6 +54,10 @@ export default function validation(
   selectionEmpty(fields, 'category', errors);
   selectionEmpty(fields, 'type', errors);
   email(fields, errors);
-  link(fields, errors);
+  link(fields, 'link', errors);
+  link(fields, 'apple_url', errors, true);
+  link(fields, 'spotify_url', errors, true);
+  link(fields, 'google_url', errors, true);
+  link(fields, 'stitcher_url', errors, true);
   return errors;
 }
