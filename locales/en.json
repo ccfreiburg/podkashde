@@ -67,6 +67,8 @@
       "spotify_url":"Podcast Url at Spotify",
       "google_url":"Podcast Url at Google",
       "stitcher_url":"Podcast Url at Stitcher",
+      "draft_true": "Non public draft",
+      "draft_false": "Public",
       "errors": "Please correct the following issues:"
     },
     "validation": {
@@ -121,6 +123,8 @@
       "errors": "Please correct the following issues:",
       "filesize": "Size",
       "cross_ref": "Search reference",
+      "draft_true": "Non public draft",
+      "draft_false": "Public",
       "video_link": "Video link"
     },
     "validation": {
@@ -147,6 +151,8 @@
       "subtitle": "Sub Title",
       "slug": "Slug",
       "description": "Description",
+      "draft_true": "Non public draft",
+      "draft_false": "Public",
       "errors": "Pleas correct the following issues:"
     },
     "validation": {

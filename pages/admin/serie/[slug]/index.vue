@@ -22,6 +22,7 @@ export default defineComponent({
 
     async function save() {
       await refresh()
+      (await useSeries()).refresh()
       router.push('/serie/' + route.params.slug);
     }
 

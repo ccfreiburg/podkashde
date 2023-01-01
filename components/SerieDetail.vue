@@ -15,7 +15,12 @@
       <input-area :name="'subtitle'" :label="'serie.label.subtitle'" :errors="errors" v-model:value="fields.subtitle" />
       <input-area :name="'slug'" :disabled="isEdit" :label="'serie.label.slug'" :errors="errors" v-model:value="fields.slug" />
       <input-area :name="'description'" :type="'textarea'" :label="'serie.label.description'" :errors="errors" v-model:value="fields.description" />
-
+      <switch-box 
+          :checked="fields.draft" 
+          @checkedChanged="(val)=>fields.draft=val" 
+          :labelChecked="$t('serie.label.draft_true')"
+          :labelUnChecked="$t('serie.label.draft_false')"
+        />
       <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
         <p>{{ $t("serie.label.errors") }}</p>
         <ul class="ml-5">

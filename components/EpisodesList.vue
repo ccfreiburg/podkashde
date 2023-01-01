@@ -21,19 +21,21 @@
       :key="index"
     >
       <NuxtLink :to="localePath(episode.nuxtlink)">
-        <div class="my-1 md:px-4 pt-2 hover:bg-slate-100 md:rounded-xl 
+        <div class="mt-1 md:px-2 py-2 hover:bg-slate-100 md:rounded-xl 
         flex flex-col sm:flex-row place-content-center place-items-center 
-        items-center bg-white sm:bg-transparent">
-          <div class="sm:w-2/12">
+        items-center bg-white sm:bg-transparent text-xs lg:text-sm xl:text-lg  2xl:text-xl">
+          <div class="flex-shrink-0">
             <img class="max-w-20 max-h-20" :src="episode.image" />
           </div>
-          <div class="pt-2 sm:pt-0 text-sm sm:text-md font-semibold text-center sm:font-normal sm:text-left sm:w-5/12 pl-2 md:pl-8"> 
-            <div v-html="episode.title" /> 
-            <div class="invisible sm:visible" v-html="(episode.cross_ref)" /> 
+          <div class="flex-grow flex flex-col sm:flex-row place-content-center place-items-center">
+            <div class="sm:w-9/12 pt-2 sm:pt-0 font-semibold text-center sm:font-normal sm:text-left pl-2 md:pl-8"> 
+              <div v-html="episode.title" /> 
+              <div class="invisible sm:visible" v-html="(episode.cross_ref)" /> 
+            </div>
+            <div class="sm:w-2/12 pl-1 text-center sm:text-left md:whitespace-nowrap sm:text-md">{{episode.creator}}</div>
           </div>
-          <div class="sm:w-3/12 pl-1 text-center sm:text-left text-xs sm:text-md">{{episode.creator}}</div>
-          <div class="sm:2/12 text-center sm:text-left text-xs sm:text-md">{{ episode.datestring }}</div>
-          <div class="sm:w-1/12 invisible sm:visible flex justify-end">
+           <div class="sm:w-26 pr-1 text-center sm:text-right">{{ episode.datestring }}</div>
+          <div class="sm:w-10 invisible sm:visible flex justify-end">
             <button class="ccfplay rounded-2xl h-6 w-6 md:h-8 md:w-8">
               <div class="h-6 w-6 md:h-8 md:w-8 flex items-center justify-center">
                 <svg
@@ -76,7 +78,7 @@ export default {
     episodes: Object as PropType<Array<IEpisode>>,
   },
   name: 'EpisodesList',
-  setup(props) {
+  async setup(props) {
     const dateformat = (input: Date): string => input.toLocaleDateString();
     const localePath = useLocalePath();
     const search = ref("")
@@ -84,6 +86,7 @@ export default {
     const itemsperpage = ref(NUM_ITEMS_PER_PAGE)
     const page = ref(1)
     const max = ref(props.episodes?.length)
+    const user = await useAuth().useAuthUser() as any;
 
     const pageFilter = (e, index) => {
         const start = (page.value-1)*itemsperpage.value -1
@@ -99,7 +102,7 @@ export default {
           e.creator.toLowerCase().includes(search.toLowerCase()) ||
           e.cross_ref?.toLowerCase().includes(search.toLowerCase())
       }
-        return list.filter(filter).map((e) => {
+      return list.filter( (e) => !e.draft || user.value ).filter(filter).map((e) => {
         const date = new Date(e.pubdate);
         return {
           ...e,

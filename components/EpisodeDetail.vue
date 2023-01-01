@@ -61,6 +61,12 @@
        />
        <input-area :name="'cross_ref'" :label="'episode.label.cross_ref'" v-model:value="fields.cross_ref"  @change="setShortInfo"/>
        <input-area :name="'video_link'" :label="'episode.label.video_link'" v-model:value="fields.video_link"  @change="setShortInfo"/>
+      <switch-box 
+          :checked="fields.draft" 
+          @checkedChanged="(val)=>fields.draft=val" 
+          :labelChecked="$t('episode.label.draft_true')"
+          :labelUnChecked="$t('episode.label.draft_false')"
+        />
 
       <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
         <p>{{ $t("episode.label.errors") }}</p>

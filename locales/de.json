@@ -67,6 +67,8 @@
       "spotify_url":"Podcast Url bei Spotify",
       "google_url":"Podcast Url bei Google",
       "stitcher_url":"Podcast Url bei Stitcher",
+      "draft_true": "Nicht öffentlicher Entwurf",
+      "draft_false": "Öffentlich publiziert",
       "errors": "Folgende Fehler bitte beheben:"
     },
     "validation": {
@@ -124,6 +126,8 @@
       "filesize": "Dateigröße",
       "errors": "Folgende Fehler bitte beheben:",
       "cross_ref": "Suchreferenz",
+      "draft_true": "Nicht öffentlicher Entwurf",
+      "draft_false": "Öffentlich publiziert",
       "video_link": "Videolink"
     },
     "validation": {
@@ -151,6 +155,9 @@
       "subtitle": "Untertitel",
       "slug": "Slug",
       "description": "Beschreibung",
+      "draft_true": "Nicht öffentlicher Entwurf",
+      "draft_false": "Öffentlich publiziert",
+
       "errors": "Folgende Fehler bitte beheben:"
     },
     "validation": {

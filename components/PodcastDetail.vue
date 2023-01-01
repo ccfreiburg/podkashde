@@ -44,7 +44,12 @@
       <input-area :name="'spotify_url'" :label="'podcast.label.spotify_url'" :errors="errors" v-model:value="fields.spotify_url" />
       <input-area :name="'google_url'" :label="'podcast.label.google_url'" :errors="errors" v-model:value="fields.google_url" />
       <input-area :name="'stitcher_url'" :label="'podcast.label.stitcher_url'" :errors="errors" v-model:value="fields.stitcher_url" />
-
+      <switch-box 
+          :checked="fields.draft" 
+          @checkedChanged="(val)=>fields.draft=val" 
+          :labelChecked="$t('podcast.label.draft_true')"
+          :labelUnChecked="$t('podcast.label.draft_false')"
+        />
       <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
         <p>{{ $t("podcast.label.errors") }}</p>
         <ul class="ml-5">

@@ -22,6 +22,7 @@ export function initSerie(serie: Serie) {
   serie.subtitle = "";
   serie.description = "";
   serie.state = ContentState.draft;
+  serie.draft = false;
   serie.lastbuild = "";
   serie.external_id = -1;
   serie.firstEpisode = null;
@@ -36,6 +37,7 @@ export function getSerie(from): Serie {
   serie.slug = from.slug;
   serie.subtitle = from.subtitle;
   serie.state = from.state;
+  serie.draft = from.draft;
   serie.firstEpisode = from.firstEpisode;
   serie.lastEpisode = from.lastEpisode;
   if (from.hasOwnProperty("id")) serie.id = from.id;

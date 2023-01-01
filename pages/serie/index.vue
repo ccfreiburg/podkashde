@@ -129,6 +129,7 @@ function sorter(a: ISerie, b: ISerie): number {
 }
 const seriesSortedFiltered = computed(() => {
   const list = series.value
+    .filter( (s) => !s.draft || user.value )
     .filter(
       (item) =>
         search.value.length < 3 ||
