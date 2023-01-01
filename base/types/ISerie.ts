@@ -9,6 +9,7 @@ export default interface ISerie {
   description: string;
   cover_file: string;
   state: number;
+  draft: boolean;
   firstEpisode?: Date;
   lastEpisode?: Date; 
   external_id?: number;
@@ -24,6 +25,7 @@ export function emptyISerieFactory(): ISerie {
     subtitle: '',
     description: '',
     state: ContentState.draft,
+    draft: false,
     lastbuild: '',
     external_id: -1,
     firstEpisode: null,

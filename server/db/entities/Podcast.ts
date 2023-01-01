@@ -34,6 +34,7 @@ export function setPodcast(podcast: Podcast, from: IPodcast): Podcast {
   podcast.type_id = from.type_id;
   podcast.explicit = from.explicit;
   podcast.link = from.link;
+  podcast.draft = from.draft;
   podcast.copyright = from.copyright;
   podcast.owner_name = from.owner_name;
   podcast.owner_email = from.owner_email;
@@ -41,6 +42,14 @@ export function setPodcast(podcast: Podcast, from: IPodcast): Podcast {
   if (from.hasOwnProperty('lastbuild')) podcast.lastbuild = from.lastbuild;
   if (from.hasOwnProperty('external_id'))
     podcast.external_id = from.external_id;
+  if (from.hasOwnProperty('apple_url'))
+    podcast.apple_url = from.apple_url;
+  if (from.hasOwnProperty('spotify_url'))
+    podcast.spotify_url = from.spotify_url;
+  if (from.hasOwnProperty('google_url'))
+    podcast.google_url = from.google_url;
+  if (from.hasOwnProperty('stitcher_url'))
+    podcast.stitcher_url = from.stitcher_url;
   return podcast;
 }
 
@@ -110,6 +119,36 @@ export default class Podcast extends BaseEntity implements IPodcast {
 
   @Column('int')
   external_id: number;
+
+  @Column({
+    type: 'boolean',
+    default: false,
+  })
+  draft: boolean;
+
+  @Column({
+    type: 'text',
+    default: '',
+  })
+  apple_url: string;
+
+  @Column({
+    type: 'text',
+    default: '',
+  })
+  spotify_url: string;
+
+  @Column({
+    type: 'text',
+    default: '',
+  })
+  google_url: string;  
+  
+  @Column({
+    type: 'text',
+    default: '',
+  })
+  stitcher_url: string;
 
   @OneToMany(() => Episode, (episode) => episode.podcast, {
     cascade: true,

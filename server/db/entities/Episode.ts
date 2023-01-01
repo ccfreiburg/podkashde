@@ -27,6 +27,7 @@ export function getEpisode(from) {
   episode.block = from.block;
   episode.link = from.link;
   episode.duration = from.duration;
+  episode.draft = from.draft;
   episode.pubdate = new Date(from.pubdate);
   if (from.hasOwnProperty("rawsize")) episode.rawsize = from.rawsize;
   if (from.hasOwnProperty("summary")) episode.description = from.summary;
@@ -134,6 +135,12 @@ export default class Episode extends BaseEntity implements IEpisode {
 
   @Column("int")
   state: number;
+
+  @Column({
+    type: 'boolean',
+    default: false,
+  })
+  draft: boolean;
 
   @Column({
     type: 'text',

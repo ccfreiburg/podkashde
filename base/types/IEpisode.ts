@@ -18,6 +18,7 @@ export default interface IEpisode {
     duration: number;
     pubdate: Date;
     state: number;
+    draft: boolean;
     rawsize: number;
     video_link?: string;
     cross_ref?: string;
@@ -47,6 +48,7 @@ export function emptyIEpisodeFactory(): IEpisode {
     duration: 0,
     pubdate: new Date(),
     state: -1,
+    draft: false,
     external_id: -1,
     ext_series_id: -1,
     ext_podcast_id: -1,

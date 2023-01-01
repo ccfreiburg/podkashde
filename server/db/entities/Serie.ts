@@ -80,6 +80,12 @@ export default class Serie extends BaseEntity implements ISerie {
   @Column("text")
   lastbuild: string;
 
+  @Column({
+    type: 'boolean',
+    default: false,
+  })
+  draft: boolean;
+
   @OneToMany(() => Episode, (episode) => episode.serie)
   episodes: Episode[];
 
