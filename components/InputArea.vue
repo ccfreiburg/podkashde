@@ -1,9 +1,10 @@
 <template>
   <div class="mt-2 flex flex-col">
     <div>
-    <label class="pl-2 text-sm text-gray-500" :for="name">{{
+    <label v-if="label" class="pl-2 text-sm text-gray-500" :for="name">{{
       $t(label)
     }}</label>
+    <div v-else class="mt-4"></div>
     <span v-if="error!==''" name="error" class="ccf-text-error">
       {{$t(error)}}
     </span>
@@ -12,6 +13,7 @@
           :class="'ccf-field' + getClass()"
           :type="type"
           :valid="error==''"
+          :id="name"
           :name="name"
           :disabled="disabled"
           :value="value"
@@ -20,6 +22,7 @@
       <textarea v-if="type==='textarea'"
           class="ccf-textarea"
           type="text"
+          :id="name"
           :name="name"
           :value="value"
           @input="updateEvent"
@@ -28,6 +31,7 @@
 </template>
 
 <script lang="ts">
+import { type } from "os";
 import { defineComponent, PropType, computed } from "vue";
 import IValidationError from "~~/base/types/IValidationError";
 
@@ -51,7 +55,7 @@ export default defineComponent({
       type: String,
       default: "",
       required: true
-    }
+    },
   },
   name: "InputArea",
   setup(props, ctx) {
@@ -74,6 +78,7 @@ export default defineComponent({
     function updateEvent(event) {
       ctx.emit('update:value', event.target.value)
     }
+
     return {
       isInputElement,
       updateEvent,
