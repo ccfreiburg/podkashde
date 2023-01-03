@@ -1,4 +1,4 @@
-export const VERSION ="v1.0.4";
+export const VERSION ="v1.0.5";
 export const DATA_PATH ="public";
 export const ARCHIV_PATH ="archiv";
 export const PUBLIC_RESOURCES = 'public';
