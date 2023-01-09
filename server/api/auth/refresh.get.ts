@@ -1,6 +1,7 @@
 import { sendError } from "h3"
-import { decodeRefreshToken, generateAccessToken } from "~~/server/jwt";
-import { getSessionByToken } from "~~/server/services/sessionService";
+import { sendRefreshToken } from "~~/server/jwt"
+import { decodeRefreshToken, generateAccessToken, deleteRefreshToken } from "~~/server/jwt";
+import { getSessionByToken, removeOldSessions } from "~~/server/services/sessionService";
 import { getUserById } from "~~/server/services/userService";
 
 export default defineEventHandler(async (event) => {
@@ -9,7 +10,7 @@ export default defineEventHandler(async (event) => {
     if (!refreshToken) {
         return sendError(event, createError({
             statusCode: 401,
-            statusMessage: 'Refresh token is invalid'
+            statusMessage: 'No Refresh token'
         }))
     }
 
@@ -23,12 +24,20 @@ export default defineEventHandler(async (event) => {
     }
 
     const token = decodeRefreshToken(refreshToken)
+    if (!token) {
+        const days = 14
+        const priorByDays = new Date(Date.now() - days * 24 * 60 * 60 * 1000)
+        await removeOldSessions(priorByDays)
+        deleteRefreshToken(event)
+
+        return sendError(event, createError({
+            statusCode: 403,
+            statusMessage: 'Session expired'
+        }))
+    }
 
     try {
-        const user = await getUserById(token.userId)
-
-        const accessToken = generateAccessToken(user)
-
+        const accessToken = generateAccessToken(session.userId)
         return { access_token: accessToken }
 
     } catch (error) {

@@ -1,11 +1,27 @@
 <script setup lang="ts">
-import { GENERATE_RSS_AP, SERIE_AP } from "~~/base/Constants";
+import { GENERATE_RSS_AP } from "~~/base/Constants";
 import { useEpisode } from "~~/composables/episodedata";
 definePageMeta({
   middleware: "authentication",
 });
-const route = useRoute();
 const router = useRouter();
+const user = useAuth().useAuthUser()
+onMounted( () =>
+router.replace({
+  ...router.currentRoute,
+  query: {
+  }
+}))
+
+watch( user, (newVal) => {
+    if (!newVal)
+      router.push({
+        path: "/admin/login",
+        query: { msg: 'login.sessionexpired' },
+      });
+    })
+
+const route = useRoute();
 const slug = route.params.episodeslug as string;
 const { refresh, episode } = await useEpisode(slug);
 const { podcast, refresh: prefresh } = await usePodcast(episode.value?.podcast?.slug as string)
@@ -14,12 +30,6 @@ const { series } = await useSeries();
 onBeforeMount( () => {
   if (route.query.refresh) refresh();
 })
-onMounted( () =>
-router.replace({
-  ...router.currentRoute,
-  query: {
-  }
-}))
 
 async function onsaved() {
   $fetch(GENERATE_RSS_AP, { query: { slug: podcast.value.slug }})

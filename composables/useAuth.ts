@@ -35,7 +35,7 @@ export default () => {
 
                 setToken(data.access_token)
                 setUser(data.user)
-
+                setTimer(360000)
                 resolve(true)
             } catch (error) {
                 reject(error)
@@ -95,6 +95,8 @@ export default () => {
                 setToken(data.access_token)
                 resolve(true)
             } catch (error) {
+                setToken(null)
+                setUser(null)
                 reject(error)
             }
         })
@@ -123,11 +125,14 @@ export default () => {
         const jwt = jwt_decode(authToken.value)
 
         const newRefreshTime = jwt.exp - 60000
+        setTimer(newRefreshTime)
+    }
 
-        setTimeout(async () => {
-            await refreshToken()
-            reRefreshAccessToken()
-        }, newRefreshTime);
+    const setTimer = (time: Number) => {
+        setTimeout(() => {
+                refreshToken().then(() => reRefreshAccessToken(), ()=>{})
+            }, 
+            time) //newRefreshTime);
     }
 
     const initAuth = () => {

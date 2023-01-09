@@ -29,6 +29,7 @@
     "newpassword": "Neues Passwort",
     "submitnewpassword": "Passwort setzen",
     "wrongpassword": "Flasches Passwort",
+    "sessionexpired": "Anmeldung veraltet. Bitte neu anmelden...",
     "loginfailed": "Passwort oder Nutzername falsch",
     "invitelink": "Einladungslink erstellen",
     "passwordset": "Das neue Passwort wurde erfolgreich gesetzt",

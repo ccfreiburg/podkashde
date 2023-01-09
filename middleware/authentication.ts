@@ -1,6 +1,12 @@
+import {CHECK_TOKEN_AP} from "~~/base/Constants"
+
 export default defineNuxtRouteMiddleware(async(to) => {
-  const user = await useAuth().useAuthUser()
-  if (user.value == null && user.value == undefined) {
-    return navigateTo('/')
+  try {
+    const user = await useAuth().useAuthUser()
+    if (!user.value) {
+      return navigateTo('/admin/login')
+    }
+  } catch {
+    return navigateTo('/admin/login')
   }
 })

@@ -19,6 +19,20 @@ definePageMeta({
 
     const route = useRoute();
     const router = useRouter();
+    onBeforeMount(() =>
+      router.replace({
+        ...router.currentRoute,
+        query: {},
+      })
+    )
+    const user = useAuth().useAuthUser()
+    watch( user, (newVal) => {
+    if (!newVal)
+      router.push({
+        path: "/admin/login",
+        query: { msg: 'login.sessionexpired' },
+      });
+    })
     const { podcast, refresh, remove } = await usePodcast(route.params.slug as string);
 
     async function goBackSaved() {
@@ -36,10 +50,4 @@ definePageMeta({
       (await usePodcasts()).refresh()
       router.push('/');
     }
-    onBeforeMount(() =>
-      router.replace({
-        ...router.currentRoute,
-        query: {},
-      })
-    );
-</script>
+ </script>

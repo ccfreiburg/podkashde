@@ -7,6 +7,20 @@ definePageMeta({
 const route = useRoute();
 const router = useRouter();
 const slug = route.params.slug as string
+onMounted( () =>
+  router.replace({
+    ...router.currentRoute,
+    query: {
+  }
+}))
+const user = useAuth().useAuthUser()
+watch( user, (newVal) => {
+  if (!newVal)
+    router.push({
+        path: "/admin/login",
+        query: { msg: 'login.sessionexpired' },
+      });
+})
 const {podcast, refresh, series} = await usePodcast(slug);
 const {series: allseries} = await useSeries();
 const episode = ref(emptyIEpisodeFactory());
@@ -18,12 +32,6 @@ async function save() {
 function cancel() {
   router.go(-1);
 }
-onMounted( () =>
-  router.replace({
-    ...router.currentRoute,
-    query: {
-  }
-}))
 </script>
 <template>
     <div class="pb-10">
