@@ -9,9 +9,6 @@
 <script setup lang="ts">
 import { emptyIPodcastFactory } from '~~/base/types/IPodcast.js';
 import { usePodcasts } from '~~/composables/podcastdata';
-definePageMeta({
-  middleware: "authentication",
-});
 
 const router = useRouter();
 onMounted(() =>
@@ -22,13 +19,6 @@ onMounted(() =>
   }))
 
 const user = useAuth().useAuthUser()
-watch(user, (newVal) => {
-  if (!newVal)
-    router.push({
-      path: "/admin/login",
-        query: { msg: 'login.sessionexpired' },
-    });
-})
 
 const podcast = ref(emptyIPodcastFactory());
 const { refresh } = await usePodcasts();
@@ -43,4 +33,12 @@ const onSave = async function () {
 const goBack = function () {
   router.go(-1);
 };
+watch( user, (newVal) => {
+  if (!newVal)
+    router.push({
+        path: "/admin/login",
+        query: { msg: 'login.sessionexpired' },
+      });
+})
+setTimeout(()=>{ if (!user.value) router.push('/admin/login')}, 200)
 </script>

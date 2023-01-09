@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { GENERATE_RSS_AP } from "~~/base/Constants";
 import { useEpisode } from "~~/composables/episodedata";
-definePageMeta({
-  middleware: "authentication",
-});
 const router = useRouter();
 const user = useAuth().useAuthUser()
 onMounted( () =>
@@ -43,9 +40,10 @@ async function onsaved() {
 function oncancel() {
   router.go(-1);
 }
+setTimeout(()=>{ if (!user.value) router.push('/admin/login')}, 200)
 </script>
 <template>
-    <div class="pb-10">
+    <div v-if="user" class="pb-10">
 <messge-toast></messge-toast>
 
         <episode-detail 

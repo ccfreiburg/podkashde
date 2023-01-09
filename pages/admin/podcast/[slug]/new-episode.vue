@@ -32,9 +32,10 @@ async function save() {
 function cancel() {
   router.go(-1);
 }
+setTimeout(()=>{ if (!user.value) router.push('/admin/login')}, 200)
 </script>
 <template>
-    <div class="pb-10">
+    <div v-if="user" class="pb-10">
         <episode-detail :podcast="podcast" :episode="episode" :series="allseries" @save="save" @cancel="cancel"/>
     </div>
 </template>

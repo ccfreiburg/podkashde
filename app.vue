@@ -12,8 +12,8 @@ nuxtApp.hook("page:finish", () => {
 });
 
 const { logout, initAuth, useAuthUser } = useAuth()
-onBeforeMount(() => {
-    initAuth()
+onBeforeMount( () => {
+  initAuth()
 })
 
 function menuItemClicked(name: string) {

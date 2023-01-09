@@ -1,14 +1,10 @@
 <template>
-  <div class="w-full h-full">
+  <div v-if="user" class="w-full h-full">
     <serie-detail :serie="serie" @save="save" @remove="removeSerie" @cancel="cancel" />
   </div>
 </template>
 
 <script lang="ts">
-definePageMeta({
-  middleware: 'authentication',
-});
-
 export default defineComponent({
   async setup() {
     const route = useRoute();
@@ -46,9 +42,11 @@ export default defineComponent({
       (await useSeries()).refresh()
       router.push('/serie');
     }
+    setTimeout(()=>{ if (!user.value) router.push('/admin/login')}, 200)
 
     return {
       serie,
+      user,
       save,
       cancel,
       removeSerie,

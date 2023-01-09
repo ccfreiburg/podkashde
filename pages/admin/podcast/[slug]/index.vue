@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full pb-10">
+  <div v-if="user" class="w-full h-full pb-10">
     <messge-toast></messge-toast>
 
     <podcast-detail
@@ -13,9 +13,6 @@
 
 <script setup lang="ts">
 import { GENERATE_RSS_AP } from '~~/base/Constants';
-definePageMeta({
-  middleware: 'authentication',
-});
 
     const route = useRoute();
     const router = useRouter();
@@ -50,4 +47,5 @@ definePageMeta({
       (await usePodcasts()).refresh()
       router.push('/');
     }
+  setTimeout(()=>{ if (!user.value) router.push('/admin/login')}, 200)
  </script>

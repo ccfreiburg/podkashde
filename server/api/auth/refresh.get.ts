@@ -2,7 +2,7 @@ import { sendError } from "h3"
 import { sendRefreshToken } from "~~/server/jwt"
 import { decodeRefreshToken, generateAccessToken, deleteRefreshToken } from "~~/server/jwt";
 import { getSessionByToken, removeOldSessions } from "~~/server/services/sessionService";
-import { getUserById } from "~~/server/services/userService";
+import { getUserById, sanitizeUserForFrontend } from "~~/server/services/userService";
 
 export default defineEventHandler(async (event) => {
     const refreshToken = getCookie(event, "refresh_token") as string
@@ -37,8 +37,10 @@ export default defineEventHandler(async (event) => {
     }
 
     try {
-        const accessToken = generateAccessToken(session.userId)
-        return { access_token: accessToken }
+        const accessToken = generateAccessToken(token.userId)
+        const user = sanitizeUserForFrontend(await getUserById(token.userId))
+        user.token = accessToken
+        return { access_token: accessToken, user }
 
     } catch (error) {
         return sendError(event, createError({

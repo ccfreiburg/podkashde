@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { emptyISerieFactory } from "~~/base/types/ISerie";
-definePageMeta({
-  middleware: "authentication",
-});
 const router = useRouter();
 onMounted(() =>
   router.replace({
@@ -12,13 +9,6 @@ onMounted(() =>
   }))
 
 const user = useAuth().useAuthUser()
-watch(user, (newVal) => {
-  if (!newVal)
-    router.push({
-      path: "/admin/login",
-        query: { msg: 'login.sessionexpired' },
-    });
-})
 const route = useRoute();
 const slug = route.params.slug as string
 const serie = ref(emptyISerieFactory());
@@ -30,9 +20,17 @@ async function save(slug: string) {
 function cancel() {
   router.go(-1)
 }
+watch( user, (newVal) => {
+  if (!newVal)
+    router.push({
+        path: "/admin/login",
+        query: { msg: 'login.sessionexpired' },
+      });
+})
+setTimeout(()=>{ if (!user.value) router.push('/admin/login')}, 200)
 </script>
 <template>
-  <div>
+  <div v-if="user">
     <messge-toast></messge-toast>
 
     <serie-detail :serie="serie" @save="save" @cancel="cancel" />

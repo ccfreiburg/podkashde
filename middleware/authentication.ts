@@ -1,13 +1,10 @@
-import {CHECK_TOKEN_AP} from "~~/base/Constants"
-
-export default defineNuxtRouteMiddleware(async(to) => {
+export default defineNuxtRouteMiddleware(async(to, from) => {
   try {
-    const localePath = useLocalePath();
-    const user = await useAuth().useAuthUser()
-     if (!user.value) {
-      return navigateTo(localePath('/admin/login'))
+    var user = useAuth().useAuthToken()
+    if (!user || !user.value) { 
+       return navigateTo('/admin/login')
     }
   } catch {
-    return navigateTo(localePath('/admin/login'))
+    return navigateTo('/admin/login')
   }
 })
