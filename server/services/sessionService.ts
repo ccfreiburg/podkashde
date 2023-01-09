@@ -28,7 +28,7 @@ export async function readSession(query): Promise<ISession> {
 export const removeSession = async (token: string) => {
     const db = await getDataSource();
     const repo = db.getRepository(Session);
-    var tmpQuery = { refreshToken }
+    var tmpQuery = { refreshToken: token }
     const result = await repo.delete(tmpQuery)
 }
 export const removeSessions = async (userId: number) => {
