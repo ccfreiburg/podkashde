@@ -50,20 +50,23 @@
 </template>
 <script setup lang="ts">
 import { VERSION } from "../../base/Constants";
-
-const localePath = useLocalePath();
-const { logout, useAuthUser } = useAuth();
+definePageMeta({
+  middleware: "authentication",
+});
 const version = ref(VERSION)
-const user = useAuthUser();
 const router = useRouter();
+const { logout, useAuthUser } = useAuth();
+const user = useAuthUser();
+onMounted( () => {
+  router.replace({
+      ...router.currentRoute,
+      query: {
+     }
+    })
+})
+const localePath = useLocalePath();
 const logmeout = () => {
   logout();
   router.push(localePath('/'))
 }
-onMounted( () =>
-  router.replace({
-    ...router.currentRoute,
-    query: {
-  }
-}))
 </script>

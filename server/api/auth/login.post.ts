@@ -36,7 +36,7 @@ export default defineEventHandler(async (event) => {
 
     const accessToken = generateAccessToken(user)
     const refreshToken = generateRefreshToken(user)
-    console.log(refreshToken)
+
     await createSession( refreshToken, user.id )
 
     sendRefreshToken(event, refreshToken)

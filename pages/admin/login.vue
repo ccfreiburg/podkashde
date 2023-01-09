@@ -18,14 +18,14 @@
               :errors="errors"
               type="text"
               :label="'login.user'"
-              v-model:value="user"
+              @change="userChange"
             ></input-area>
             <input-area
               name="password"
               type="password"
               :errors="errors"
               :label="'login.password'"
-              v-model:value="password"
+              @change="passChange"
             ></input-area>
             <div class="flex flex-row">
               <div class="flex-grow">
@@ -53,6 +53,8 @@ const { login } = useAuth();
 const errors = ref([] as Array<IValidationError>);
 const user = ref('');
 const password = ref('');
+const userChange = (event) => { user.value = event?.target.value }
+const passChange = (event) => { password.value = event?.target.value }
 
 const onlogin = async () => {
   try {

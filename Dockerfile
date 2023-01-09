@@ -2,6 +2,8 @@ FROM node:16 as builder
 LABEL authors="Alex Roehm"
 # update dependencies and install curl
 
+RUN printenv
+
 # Create app directory
 WORKDIR /build
 
