@@ -3,7 +3,7 @@ LABEL authors="Alex Roehm"
 # update dependencies and install curl
 ARG BAKE_FILE
 RUN printenv
-RUN cat ${BAKE_FILE}
+RUN echo ${BAKE_FILE}
 
 # Create app directory
 WORKDIR /build
