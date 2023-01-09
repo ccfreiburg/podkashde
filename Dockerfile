@@ -8,9 +8,9 @@ ARG REVISION
 # Create app directory
 WORKDIR /build
 COPY . . 
-RUN echo export const VERSION="${VERSION}" > version.ts
-RUN echo export const BUILDTIME="${BUILDTIME}" >> version.ts
-RUN echo export const REVISION="${REVISION}" >> version.ts
+RUN echo export const VERSION=\"${VERSION}\" > version.ts
+RUN echo export const BUILDTIME=\"${BUILDTIME}\" >> version.ts
+RUN echo export const REVISION=\"${REVISION}\" >> version.ts
 
 # update each dependency in package.json to the latest version
 RUN yarn
