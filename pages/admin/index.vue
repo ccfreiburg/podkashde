@@ -49,11 +49,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { VERSION } from "../../base/Constants";
+import { VERSION, REVISION ,BUILDTIME } from "../../version";
 definePageMeta({
   middleware: "authentication",
 });
-const version = ref(VERSION)
+const version = ref("Ver " + VERSION + " " +REVISION+ " " + BUILDTIME)
 const router = useRouter();
 const { logout, useAuthUser } = useAuth();
 const user = useAuthUser();

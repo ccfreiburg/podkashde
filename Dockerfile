@@ -1,14 +1,16 @@
 FROM node:16 as builder
 LABEL authors="Alex Roehm"
 # update dependencies and install curl
-ARG BAKE_FILE
-RUN printenv
-RUN echo ${BAKE_FILE}
+ARG BUILDTIME
+ARG VERSION
+ARG REVISION
 
 # Create app directory
 WORKDIR /build
-
 COPY . . 
+RUN echo export const VERSION="${VERSION}" > version.ts
+RUN echo export const BUILDTIME="${BUILDTIME}" >> version.ts
+RUN echo export const REVISION="${REVISION}" >> version.ts
 
 # update each dependency in package.json to the latest version
 RUN yarn
