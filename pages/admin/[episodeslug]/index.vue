@@ -51,7 +51,7 @@ setTimeout(()=>{ if (!user.value) router.push('/admin/login')}, 200)
           :episode="episode" 
           :series="series" 
           @save="onsaved"
-          @cancel="oncancel"
+          @episode-cancel="oncancel"
           />
     </div>
 </template>

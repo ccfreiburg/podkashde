@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   durationInSecToStr,
+  getSaveFilename,
   strToDurationInSec,
 } from "../../base/Converters";
 
@@ -64,5 +65,13 @@ describe("Converters", async () => {
   it("durationInSecToStr with 3552 returns string 59:12", () => {
     const actual = durationInSecToStr(3552);
     expect(actual).toBe("59:12");
+  });
+  it("getSaveFilename 2023-01-08 Acts 24.1-27 Righteousness, Self-Control & Coming Judgement%20 Alexander Röhm.mp3", () => {
+    const actual = getSaveFilename("2023-01-08 Acts 24,1-27 Righteousness, Self-Control & Coming Judgement  Alexander Röhm.mp3");
+    expect(actual).toBe("2023-01-08_Acts_24_1-27_Righteousness_Self-Control_Coming_Judgement_Alexander_Roehm.mp3");
+  });
+  it("getSaveFilename 2022-12-18 Ac. 12,1-12 The Plot to  & Kill Paul-Alexander-Röhm (copy).mp3", () => {
+    const actual = getSaveFilename("2022-12-18 Ac. 12,1-12 to  & Kill Paul-Röhm (copy).mp3")
+    expect(actual).toBe("2022-12-18_Ac_12_1-12_to_Kill_Paul-Roehm_copy.mp3");
   });
 });

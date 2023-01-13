@@ -53,16 +53,24 @@ export function dateToIsoString(date: Date) {
   );
 }
 
-export function saveSlugFormText(text: string): string {
-  var slug = text.toLowerCase();
+export function saveSlugFormText(text: string, lowercase = true): string {
+  var slug = (lowercase?text.toLowerCase():text);
   return slug
-    .replace(/([!'/()*"~#@?%&\\:;.,<>\*\+\|]|\DE\/EN)+/g, "")
+    .replace(/([:;\.,]+\s?)+/g, "_")
+    .replace(/([!'/()*"~#@?%&\\:;,<>\*\+\|]|\DE\/EN)+/g, "")
     .replace(" deen", "")
     .replace("ä", "ae")
     .replace("ö", "oe")
     .replace("ü", "ue")
     .replace("ß", "ss")
-    .replace(/\s+/g, "-");
+    .replace(/\s+/g, "_");
+}
+
+export function getSaveFilename(name: string): string {
+  const ext_index = name.lastIndexOf('.')
+  const base = name.slice(0,ext_index)
+  const ext = name.slice(ext_index)
+  return saveSlugFormText(base,false)+ext
 }
 
 export function parseHTML(html) {

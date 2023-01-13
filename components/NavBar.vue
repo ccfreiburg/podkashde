@@ -2,9 +2,9 @@
   <div>
     <nav ref="navelement" class="px-2 sm:px-4 pt-2 bg-white shadow-md">
       <div class="flex justify-between">
-        <div class="w-1/6 relative flex flex-row items-center flex-nowrap">
+        <div class="w-1/6 z-40 relative flex flex-row items-center flex-nowrap">
           <svg
-            class="w-4 h-4 sm:w-5 sm:h-5"
+            class="w-4 h-4 z-40 sm:w-5 sm:h-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
