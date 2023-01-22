@@ -1,6 +1,6 @@
 <template>
   <div>
-    <audio ref="audio" :src="audiosrc" preload="auto" style="display: none"></audio>
+    <audio ref="audio" :src="audiosrc" :preload="preload" style="display: none"></audio>
     <div class="flex flex-col">
       <div class="flex flex-row flex-nowrap">
         <div class="w-28 md:w-60 md:px-10 flex flex-row justify-around items-center">
@@ -233,12 +233,14 @@ export default defineComponent({
     function _handlePlayingUI(e) {
       currentTime.value = parseInt(audio.value.currentTime);
     }
+    const preload = ref(null)
     onMounted(() => {
       audio.value.addEventListener('timeupdate', _handlePlayingUI);
       audio.value.addEventListener('loadeddata', _handleLoaded);
       audio.value.addEventListener('loadedmetadata', _handleLoaded);
       audio.value.addEventListener('durationchange', _handleLoaded);
       audio.value.addEventListener('canplay', _handleLoaded);
+      preload.value = (!isIOSDevice() ? "metadata" : null)
       audiosrc.value = props.file;
     });
     onBeforeUnmount(() => {
@@ -270,6 +272,7 @@ export default defineComponent({
       volume,
       currentTime,
       audio,
+      preload,
       totalDuration,
       extendedControls,
     };
