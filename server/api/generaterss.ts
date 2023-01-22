@@ -12,7 +12,6 @@ export default defineEventHandler( async (event) => {
     generateFeed(podcast, settings.baseUrl)
     return true     
   } catch (error) {
-    console.log("Hallo")
     sendError(event, createError({
       statusCode: 500,
       statusMessage: "Internal server error"}))

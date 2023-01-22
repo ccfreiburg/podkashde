@@ -1,5 +1,5 @@
 <template>
-  <div v-on:keyup.enter="submit">
+  <div v-if="currentuser" v-on:keyup.enter="submit">
     <messge-toast :msg="localMessage"></messge-toast>
     <div class="w-full flex justify-center">
         <div
@@ -70,6 +70,10 @@ const submit = async () => {
     if (isInvite.value) {
       await useAuth().setFirstPassword(token as string, password1.value)
       localMessage.value = i18n.t('login.passwordset')
+      router.push({
+              path: "/admin",
+              query: { msg: 'login.passwordset' }
+            })
       isDone.value = true
     } else {
       try {
@@ -94,4 +98,6 @@ onMounted( () =>
     query: {
   }
 }))
+
+setTimeout(()=>{ if (!currentuser.value) router.push('/admin/login')}, 200)
 </script>

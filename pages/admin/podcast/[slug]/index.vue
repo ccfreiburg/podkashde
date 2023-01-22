@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full pb-10">
+  <div v-if="user" class="w-full h-full pb-10">
     <messge-toast></messge-toast>
 
     <podcast-detail
@@ -13,12 +13,23 @@
 
 <script setup lang="ts">
 import { GENERATE_RSS_AP } from '~~/base/Constants';
-definePageMeta({
-  middleware: 'authentication',
-});
 
     const route = useRoute();
     const router = useRouter();
+    onBeforeMount(() =>
+      router.replace({
+        ...router.currentRoute,
+        query: {},
+      })
+    )
+    const user = useAuth().useAuthUser()
+    watch( user, (newVal) => {
+    if (!newVal)
+      router.push({
+        path: "/admin/login",
+        query: { msg: 'login.sessionexpired' },
+      });
+    })
     const { podcast, refresh, remove } = await usePodcast(route.params.slug as string);
 
     async function goBackSaved() {
@@ -36,10 +47,5 @@ definePageMeta({
       (await usePodcasts()).refresh()
       router.push('/');
     }
-    onBeforeMount(() =>
-      router.replace({
-        ...router.currentRoute,
-        query: {},
-      })
-    );
-</script>
+  setTimeout(()=>{ if (!user.value) router.push('/admin/login')}, 200)
+ </script>

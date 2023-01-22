@@ -1,5 +1,6 @@
 <template>
   <div v-on:keyup.enter="onlogin" v-on:keyup.esc="oncancel">
+    <messge-toast></messge-toast>
     <div class="w-full flex justify-center">
       <div
         class="mt-6 md:mt-10 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs"
@@ -14,17 +15,19 @@
             <input-area
               class="w-full"
               name="user"
+              ref="userfield"
               :errors="errors"
               type="text"
               :label="'login.user'"
-              v-model:value="user"
+              value=""
             ></input-area>
             <input-area
               name="password"
+              ref="passfield"
               type="password"
               :errors="errors"
               :label="'login.password'"
-              v-model:value="password"
+              value=""
             ></input-area>
             <div class="flex flex-row">
               <div class="flex-grow">
@@ -45,18 +48,24 @@
 <script setup lang="ts">
 import IValidationError from '~~/base/types/IValidationError';
 import { useI18n } from 'vue-i18n';
-
 const router = useRouter();
+
+const userobj = useAuth().useAuthUser()
+
 const i18n = useI18n();
 const { login } = useAuth();
 const errors = ref([] as Array<IValidationError>);
-const user = ref('');
-const password = ref('');
+
+const userfield = ref(null)
+const passfield = ref(null)
 
 const onlogin = async () => {
+
   try {
-    if (await login(user.value, password.value)) {
-      // var url = router.options.history.state.back as string;
+    const username =  userfield.value.$el.childNodes[1].value
+    const password =  passfield.value.$el.childNodes[1].value
+    if (await login(username, password)) {
+      // var url = router.opasswordptions.history.state.back as string;
       // if (url.includes('?')) url = url.substring(0, url.indexOf('?'));
       const url = (i18n.locale.value=='de'?'':'/'+i18n.locale.value)+'/podcasts'
       router.push({

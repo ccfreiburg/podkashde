@@ -29,6 +29,7 @@
     "newpassword": "New Password",
     "submitnewpassword": "Set Password",
     "wrongpassword": "The password does not match",
+    "sessionexpired": "Session has expired. Please login ...",
     "loginfailed": "Wrong password or user does not exist",
     "invitelink": "Get invitation link",
     "invitationtitle": "Invite user",

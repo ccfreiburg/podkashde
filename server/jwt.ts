@@ -13,7 +13,7 @@ export const generateAccessToken = (user: IUser) => {
 export const generateRefreshToken = (user: IUser) => {
 
     return jwt.sign({ userId: user.id }, getSecSettings().JWT_REFRESH_TOKEN_SECRET, {
-        expiresIn: '4h'
+        expiresIn: '2d'
     })
 }
 
@@ -54,3 +54,8 @@ export const sendRefreshToken = (event: H3Event, token: string) => {
         sameSite: true
     })
 } 
+
+export const deleteRefreshToken = (event: H3Event) => {
+    deleteCookie(event, "refresh_token" )
+} 
+

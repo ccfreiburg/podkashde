@@ -3,9 +3,9 @@ import { AUTHUSER_AP, LOGIN_AP, LOGOUT_AP, PASSWORD_AP, REFRESH_AP } from "../ba
 import { IUser } from "../base/types/IUser"
 
 export default () => {
-    const useAuthToken = () => useState('auth_token')
-    const useAuthUser = () => useState('auth_user')
-    const useAuthLoading = () => useState('auth_loading', () => true)
+    const useAuthToken = () => useState('auth_token_pk', () => null)
+    const useAuthUser = () => useState('auth_user_pk', () => null)
+    const useAuthLoading = () => useState('auth_loading_pk', () => true)
 
     const setToken = (newToken: string) => {
         const authToken = useAuthToken()
@@ -35,7 +35,7 @@ export default () => {
 
                 setToken(data.access_token)
                 setUser(data.user)
-
+                setTimer(360000)
                 resolve(true)
             } catch (error) {
                 reject(error)
@@ -93,8 +93,12 @@ export default () => {
                 const data = await $fetch(REFRESH_AP)
 
                 setToken(data.access_token)
+                setUser(data.user)
+
                 resolve(true)
             } catch (error) {
+                setToken(null)
+                setUser(null)
                 reject(error)
             }
         })
@@ -103,7 +107,7 @@ export default () => {
     const getUser = () => {
         return new Promise(async (resolve, reject) => {
             try {
-                const data = await useFetchApi(AUTHUSER_AP)
+                const data = await $fetch(REFRESH_AP)
 
                 setUser(data.user)
                 resolve(true)
@@ -123,11 +127,14 @@ export default () => {
         const jwt = jwt_decode(authToken.value)
 
         const newRefreshTime = jwt.exp - 60000
+        setTimer(newRefreshTime)
+    }
 
-        setTimeout(async () => {
-            await refreshToken()
-            reRefreshAccessToken()
-        }, newRefreshTime);
+    const setTimer = (time: Number) => {
+        setTimeout(() => {
+                refreshToken().then(() => reRefreshAccessToken(), ()=>{})
+            }, 
+            time) //newRefreshTime);
     }
 
     const initAuth = () => {
@@ -135,7 +142,7 @@ export default () => {
             setIsAuthLoading(true)
             try {
                 await refreshToken()
-                await getUser()
+                // await getUser()
 
                 reRefreshAccessToken()
 

@@ -33,7 +33,7 @@ async function paseFormdata(req: any) {
       fields[name] = value
     })
     busboy.on('close', () => {
-      resolve({ uploaded: filedata.path, path: fields.path, filename: filedata.filename })
+      resolve({ uploaded: filedata.path, path: fields.path, filename: fields.filename })
     })
     req.pipe(busboy)
     return

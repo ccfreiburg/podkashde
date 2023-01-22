@@ -4,7 +4,7 @@ import { IUser } from '~~/base/types/IUser';
 import getDataSource from '../db/dbsigleton';
 import Session, { getSession } from '../db/entities/Session';
 import { generateAccessToken } from '../jwt';
-
+import {MoreThan} from 'typeorm';
 
 export async function createSession( refreshToken: string, userId: number ) : Promise<ISession> {
     const user = await getUserById(userId)
@@ -28,11 +28,19 @@ export async function readSession(query): Promise<ISession> {
 export const removeSession = async (token: string) => {
     const db = await getDataSource();
     const repo = db.getRepository(Session);
-    var tmpQuery = {
-        where: {
-            refreshToken: token
-        }
-    };
+    var tmpQuery = { refreshToken: token }
+    const result = await repo.delete(tmpQuery)
+}
+export const removeSessions = async (userId: number) => {
+    const db = await getDataSource();
+    const repo = db.getRepository(Session);
+    var tmpQuery = { userId }
+    const result = await repo.delete(tmpQuery)
+}
+export const removeOldSessions = async (date: Date) => {
+    const db = await getDataSource();
+    const repo = db.getRepository(Session);
+    var tmpQuery = { updatedAt: MoreThan(date) }
     const result = await repo.delete(tmpQuery)
 }
 
