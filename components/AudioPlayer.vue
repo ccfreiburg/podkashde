@@ -224,7 +224,7 @@ export default defineComponent({
       audio.value.playbackRate = playbackRate.value
     }
     function _handleLoaded() {
-      if (!loaded.value && audio.value.readyState >= 2) {
+      if (!loaded.value && audio.value.readyState >= 2 || preload.value == null) {
         if (props.autoPlay) this.play();
         loaded.value = true;
         totalDuration.value = audio.value.duration;
@@ -240,7 +240,7 @@ export default defineComponent({
       audio.value.addEventListener('loadedmetadata', _handleLoaded);
       audio.value.addEventListener('durationchange', _handleLoaded);
       audio.value.addEventListener('canplay', _handleLoaded);
-      preload.value = (!isIOSDevice() ? "metadata" : null)
+      preload.value = (isIOSDevice() ? null : "metadata")
       audiosrc.value = props.file;
     });
     onBeforeUnmount(() => {
