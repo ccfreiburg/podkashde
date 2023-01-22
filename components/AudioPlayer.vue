@@ -1,6 +1,6 @@
 <template>
   <div>
-    <audio ref="audio" :src="audiosrc" style="display: none"></audio>
+    <audio ref="audio" :src="audiosrc" preload="auto" style="display: none"></audio>
     <div class="flex flex-col">
       <div class="flex flex-row flex-nowrap">
         <div class="w-28 md:w-60 md:px-10 flex flex-row justify-around items-center">
@@ -249,6 +249,10 @@ export default defineComponent({
       audio.value.removeEventListener('canplay', _handleLoaded);
 
     });
+    function isIOSDevice() {
+      const isIos = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+      return isIos
+    }
     return {
       pause,
       forward,
