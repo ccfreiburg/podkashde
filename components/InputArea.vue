@@ -15,7 +15,8 @@
           :valid="error==''"
           :id="name"
           :name="name"
-          :disabled="disabled"
+          :disabled="$props.disabled"
+          :readonly="$props.readonly"
           :value="value"
           @input="updateEvent"
         />
@@ -48,6 +49,10 @@ export default defineComponent({
       default: []
     },
     disabled: {
+      type: Boolean,
+      default: false,
+    },  
+    readonly: {
       type: Boolean,
       default: false,
     },  

@@ -1,15 +1,6 @@
 <template>
   <div class="flex flex-col mt-3" @click="audioFileInput.click()">
-    <label class="pl-2 text-sm text-gray-500" for="file">{{
-      $t("episode.label.file")
-    }}</label>
-    <input
-      :class="cssclass"
-      type="text"
-      name="file"
-      readonly
-      v-model="audioInputValue"
-    />
+    <input-area :name="'file'" :label="label" :errors="$props.errors" :readonly="true" v-model:value="audioInputValue" />
     <input
       class="invisible"
       type="file"
@@ -30,7 +21,11 @@ import { IID3Tag } from "id3-parser/lib/interface";
 export default defineComponent({
   props: {
     audioFileName: String,
-    cssclass: String,
+    label: String,
+    errors: {
+      type: Object as PropType<Array<IValidationError>>,
+      default: []
+    },
   },
   name: "AudioFileSelector",
   setup(props, ctx) {
@@ -108,29 +103,4 @@ export default defineComponent({
   },
 });
 </script>
-<style lang="postcss" scoped>
-.field {
-  @apply border-2
-              h-10
-              px-3
-              py-1
-              mt-1
-              rounded-md
-              text-gray-600
-              valid:border-gray-200
-              focus:outline-none focus:ring-1 focus:ring-orange-300;
-}
-.error {
-  @apply ring-orange-700 ring-1;
-}
-.textarea {
-  @apply border-2
-              px-3
-              py-1
-              mt-1
-              rounded-md
-              text-gray-600
-              border-gray-200
-              focus:outline-none focus:ring-1 focus:ring-orange-300;
-}
-</style>
+

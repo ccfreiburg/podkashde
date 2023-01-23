@@ -35,7 +35,7 @@
         </div>
         <div class="flex flex-col flex-grow">
           <audio-file-selector :audioFileName="fields.link" @audioFileSelected="audioFileSelected"
-            :cssclass="getClass('file')" />
+            :error="errors" :label="'episode.label.file'" />
           <single-select :name="'serie'" :label="'episode.label.serie'" :options="series" :errors="errors"
             v-model:value="serie_id" />
         </div>
