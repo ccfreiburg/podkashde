@@ -3,34 +3,28 @@
     <div class="flex flex-col">
       <div class="flex flex-row">
         <div>
-          <image-selector
-            :filename="fields.cover_file"
-            :preview="imgMetadata.preview"
-            @imageSelected="imageSelected"
-          />
+          <image-selector :filename="fields.cover_file" :preview="imgMetadata.preview" @imageSelected="imageSelected" />
         </div>
       </div>
       <!-- Fields-->
       <input-area :name="'title'" :label="'serie.label.title'" :errors="errors" v-model:value="fields.title" />
       <input-area :name="'subtitle'" :label="'serie.label.subtitle'" :errors="errors" v-model:value="fields.subtitle" />
-      <input-area :name="'slug'" :disabled="isEdit" :label="'serie.label.slug'" :errors="errors" v-model:value="fields.slug" />
-      <input-area :name="'description'" :type="'textarea'" :label="'serie.label.description'" :errors="errors" v-model:value="fields.description" />
-      <switch-box 
-          :checked="fields.draft" 
-          @checkedChanged="(val)=>fields.draft=val" 
-          :labelChecked="$t('serie.label.draft_true')"
-          :labelUnChecked="$t('serie.label.draft_false')"
-        />
+      <input-area :name="'slug'" :disabled="isEdit" :label="'serie.label.slug'" :errors="errors"
+        v-model:value="fields.slug" />
+      <input-area :name="'description'" :type="'textarea'" :label="'serie.label.description'" :errors="errors"
+        v-model:value="fields.description" />
+      <switch-box :checked="fields.draft" @checkedChanged="(val) => fields.draft = val"
+        :labelChecked="$t('serie.label.draft_true')" :labelUnChecked="$t('serie.label.draft_false')" />
       <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
         <p>{{ $t("serie.label.errors") }}</p>
         <ul class="ml-5">
           <li class="list-disc" v-for="(err, index) in errors" :key="index">
-            {{$t(err.text)}}
+            {{ $t(err.text) }}
           </li>
         </ul>
       </div>
     </div>
-      <!-- Buttons -->
+    <!-- Buttons -->
   </FormDetail>
 </template>
 <script lang="ts">
@@ -52,10 +46,10 @@ export default defineComponent({
   async setup(props, { emit }) {
     const errors = ref([] as Array<IValidationError>);
 
-    const fields = ref({...props.serie} as ISerie);
+    const fields = ref({ ...props.serie } as ISerie);
     const isEdit = computed(() => (fields.value as any).id != undefined);
 
-    function generateSlug(){
+    function generateSlug() {
       if (!isEdit.value && fields.value.title)
         fields.value.slug = saveSlugFormText(fields.value.title);
     };
@@ -65,11 +59,11 @@ export default defineComponent({
     const imgMetadata = ref(new ImageMetadata());
     function imageSelected(data: ImageMetadata) {
       imgMetadata.value = { ...data };
-      if (data.imgWidth==0) {
-        fields.value.cover_file = "";     
-      } 
+      if (data.imgWidth == 0) {
+        fields.value.cover_file = "";
+      }
     };
-  
+
     function getFields() {
       var tmp = { ...fields.value };
 
@@ -80,14 +74,15 @@ export default defineComponent({
       const fd = new FormData();
       if (fileObj) {
         fd.append("cover", fileObj, fileObj.name);
-        fd.append("path", path )
+        fd.append("filename", fileObj.name);
+        fd.append("path", path)
       }
       return fd;
     }
 
     async function upload(server_path: string, fileObj: File) {
       var linkToContent = "";
-      const path = server_path + SERIES_IMG_PATH ;
+      const path = server_path + SERIES_IMG_PATH;
       var postResult = null;
       var postData = {
         method: "post",
@@ -109,7 +104,7 @@ export default defineComponent({
 
     async function save(event) {
       if (imgMetadata.value.selectedFile) {
-        fields.value.cover_file = 
+        fields.value.cover_file =
           SERVER_IMG_PATH +
           SERIES_IMG_PATH +
           "/" +
@@ -124,17 +119,17 @@ export default defineComponent({
 
       // server validation (if slug is unique)
       var countUrl = COUNT_AP + "?slug=" + fields.value.slug + "&serie=true" +
-            (isEdit.value?"&excludeId="+fields.value.id:"")
-      var count : number = await $fetch(countUrl);
+        (isEdit.value ? "&excludeId=" + fields.value.id : "")
+      var count: number = await $fetch(countUrl);
       if (count > 0) errors.value.push({ field: "slug", text: "serie.validation.slug" });
 
       if (errors.value.length > 0) return;
 
       // Upload Image
       if (imgMetadata.value.selectedFile) {
-      var {result, link, nothingToDo} = await upload(SERVER_IMG_PATH, imgMetadata.value.selectedFile)
+        var { result, link, nothingToDo } = await upload(SERVER_IMG_PATH, imgMetadata.value.selectedFile)
         if (result.status != 201) {
-          errors.value.push({field:"", text:"upoad"})
+          errors.value.push({ field: "", text: "upoad" })
           return
         }
         fields.value.cover_file = link;
@@ -143,11 +138,11 @@ export default defineComponent({
       // Episode Metadata
       const postData = {
         method: "post",
-        body: [ getFields() ]
+        body: [getFields()]
       }
       result = await $fetch(SERIES_AP, postData);
       if (result.status != 201) {
-        errors.value.push({field:"", text:"saving"})
+        errors.value.push({ field: "", text: "saving" })
         return
       }
       emit("save", fields.value.slug);

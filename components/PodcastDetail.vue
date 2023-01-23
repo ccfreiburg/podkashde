@@ -1,55 +1,53 @@
 <template>
-  <div
-    v-if="fields"
-    class="px-10 w-full h-full"
-    v-on:keyup.enter="savePodcast"
-    v-on:keyup.esc="cancel"
-  >
+  <div v-if="fields" class="px-10 w-full h-full" v-on:keyup.enter="savePodcast" v-on:keyup.esc="cancel">
     <div class="w-full flex justify-center">
-      <div
-        class="mt-6 md:mt-12 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs"
-      >
+      <div class="mt-6 md:mt-12 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs">
         &nbsp;{{
-          isEdit
-            ? $t("podcast.edit")
-            : $t("podcast.new")
+  isEdit
+  ? $t("podcast.edit")
+    : $t("podcast.new")
         }}&nbsp;
+      </div>
     </div>
-  </div>
     <image-selector :filename="fields.cover_file" @imageSelected="imageSelected" />
     <!-- Fields-->
     <div class="flex flex-col">
       <input-area :name="'title'" :label="'podcast.label.title'" :errors="errors" v-model:value="fields.title" />
-      <input-area :name="'subtitle'" :label="'podcast.label.subtitle'" :errors="errors" v-model:value="fields.subtitle" />
+      <input-area :name="'subtitle'" :label="'podcast.label.subtitle'" :errors="errors"
+        v-model:value="fields.subtitle" />
       <input-area :name="'slug'" :label="'podcast.label.slug'" :errors="errors" v-model:value="fields.slug" />
       <input-area :name="'author'" :label="'podcast.label.author'" :errors="errors" v-model:value="fields.author" />
-      <input-area :name="'summary'" :type="'textarea'" :label="'podcast.label.summary'" :errors="errors" v-model:value="fields.summary" />
-      <input-area :name="'description'" :type="'textarea'" :label="'podcast.label.description'" :errors="errors" v-model:value="fields.description" />
-      <single-select :name="'language'" :label="'podcast.label.language'" :options="enumerations.languages" :errors="errors" v-model:value="fields.language_id" />
-      <single-select :name="'category'" :label="'podcast.label.category'" :options="enumerations.podcastGenres" :errors="errors" :long="true" v-model:value="fields.category_id" />
-      <single-select :name="'type'" :label="'podcast.label.type'" :options="enumerations.podcastTypes" :errors="errors" v-model:value="fields.type_id" />
-      <div class="my-3"> 
-      <switch-box 
-          :checked="fields.explicit" 
-          @checkedChanged="(val)=>fields.explicit=val" 
-          :labelChecked="$t('podcast.label.explicit_true')"
-          :labelUnChecked="$t('podcast.label.explicit_false')"
-        />
+      <input-area :name="'summary'" :type="'textarea'" :label="'podcast.label.summary'" :errors="errors"
+        v-model:value="fields.summary" />
+      <input-area :name="'description'" :type="'textarea'" :label="'podcast.label.description'" :errors="errors"
+        v-model:value="fields.description" />
+      <single-select :name="'language'" :label="'podcast.label.language'" :options="enumerations.languages"
+        :errors="errors" v-model:value="fields.language_id" />
+      <single-select :name="'category'" :label="'podcast.label.category'" :options="enumerations.podcastGenres"
+        :errors="errors" :long="true" v-model:value="fields.category_id" />
+      <single-select :name="'type'" :label="'podcast.label.type'" :options="enumerations.podcastTypes" :errors="errors"
+        v-model:value="fields.type_id" />
+      <div class="my-3">
+        <switch-box :checked="fields.explicit" @checkedChanged="(val) => fields.explicit = val"
+          :labelChecked="$t('podcast.label.explicit_true')" :labelUnChecked="$t('podcast.label.explicit_false')" />
       </div>
       <input-area :name="'link'" :label="'podcast.label.link'" :errors="errors" v-model:value="fields.link" />
-      <input-area :name="'copyright'" :label="'podcast.label.copyright'" :errors="errors" v-model:value="fields.copyright" />
-      <input-area :name="'owner_name'" :label="'podcast.label.owner_name'" :errors="errors" v-model:value="fields.owner_name" />
-      <input-area :name="'owner_email'" :label="'podcast.label.owner_email'" :errors="errors" v-model:value="fields.owner_email" />
-      <input-area :name="'apple_url'" :label="'podcast.label.apple_url'" :errors="errors" v-model:value="fields.apple_url" />
-      <input-area :name="'spotify_url'" :label="'podcast.label.spotify_url'" :errors="errors" v-model:value="fields.spotify_url" />
-      <input-area :name="'google_url'" :label="'podcast.label.google_url'" :errors="errors" v-model:value="fields.google_url" />
-      <input-area :name="'stitcher_url'" :label="'podcast.label.stitcher_url'" :errors="errors" v-model:value="fields.stitcher_url" />
-      <switch-box 
-          :checked="fields.draft" 
-          @checkedChanged="(val)=>fields.draft=val" 
-          :labelChecked="$t('podcast.label.draft_true')"
-          :labelUnChecked="$t('podcast.label.draft_false')"
-        />
+      <input-area :name="'copyright'" :label="'podcast.label.copyright'" :errors="errors"
+        v-model:value="fields.copyright" />
+      <input-area :name="'owner_name'" :label="'podcast.label.owner_name'" :errors="errors"
+        v-model:value="fields.owner_name" />
+      <input-area :name="'owner_email'" :label="'podcast.label.owner_email'" :errors="errors"
+        v-model:value="fields.owner_email" />
+      <input-area :name="'apple_url'" :label="'podcast.label.apple_url'" :errors="errors"
+        v-model:value="fields.apple_url" />
+      <input-area :name="'spotify_url'" :label="'podcast.label.spotify_url'" :errors="errors"
+        v-model:value="fields.spotify_url" />
+      <input-area :name="'google_url'" :label="'podcast.label.google_url'" :errors="errors"
+        v-model:value="fields.google_url" />
+      <input-area :name="'stitcher_url'" :label="'podcast.label.stitcher_url'" :errors="errors"
+        v-model:value="fields.stitcher_url" />
+      <switch-box :checked="fields.draft" @checkedChanged="(val) => fields.draft = val"
+        :labelChecked="$t('podcast.label.draft_true')" :labelUnChecked="$t('podcast.label.draft_false')" />
       <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
         <p>{{ $t("podcast.label.errors") }}</p>
         <ul class="ml-5">
@@ -60,19 +58,13 @@
       </div>
       <!-- Buttons -->
       <div class="flex flex-row justify-end">
-        <button
-          class="ccf-button ccf-secondary"
-          @click="cancel"
-        >
+        <button class="ccf-button ccf-secondary" @click="cancel">
           {{ $t("cancel") }}
         </button>
-        <button
-          class="
+        <button class="
             ccf-button
             ccfbutton-border
-          "
-          @click="savePodcast"
-        >
+          " @click="savePodcast">
           {{ $t("podcast.savePodcast") }}
         </button>
       </div>
@@ -99,7 +91,7 @@ export default defineComponent({
     const imgMetadata = ref(new ImageMetadata())
     const errors = ref([] as Array<IValidationError>)
     const { enumerations } = await useEnumerations()
-    const fields = ref({...props.podcast} as IPodcast)
+    const fields = ref({ ...props.podcast } as IPodcast)
 
     const isEdit = computed(() => {
       return fields.value.id && fields.value.id;
@@ -121,7 +113,7 @@ export default defineComponent({
       return cssclass;
     }
 
-    function generateSlug(){
+    function generateSlug() {
       if (!isEdit.value && fields.value.title)
         fields.value.slug = saveSlugFormText(fields.value.title);
     };
@@ -137,6 +129,7 @@ export default defineComponent({
           imgMetadata.value.selectedFile,
           imgMetadata.value.selectedFile.name
         );
+        fd.append("filename", imgMetadata.value.selectedFile.name);
       }
       return fd;
     }
@@ -170,7 +163,7 @@ export default defineComponent({
           method: "POST",
           body: {},
         };
-        var postResult : any = { status: 201 }
+        var postResult: any = { status: 201 }
         try {
           if (imgMetadata.value.selectedFile) {
             postData.body = getImageInFormData()
@@ -178,8 +171,8 @@ export default defineComponent({
           }
         } catch (err) {
           postResult.status = 500
-          errors.value.push({ field:"", text: 'podcast.validation.saveingimg'})
-        }       
+          errors.value.push({ field: "", text: 'podcast.validation.saveingimg' })
+        }
         if (postResult.status == 201) {
           try {
             postData.body = getFields();
@@ -199,7 +192,7 @@ export default defineComponent({
     function imageSelected(data: ImageMetadata) {
       imgMetadata.value = { ...data };
     }
-    
+
     return {
       errors,
       fields,
