@@ -1,16 +1,12 @@
 <template>
   <div>
     <messge-toast></messge-toast>
-    <div class="flex justify-center w-full">
-      <div class="mt-6 mb-10 italic uppercase md:mt-12 md:mb-14 grow-0 text-md md:text-2xl ccf-underline-xs">
-        &nbsp;{{ $t('episode.recent') }}&nbsp;
-      </div>
+    <div class="flex justify-center w-full mt-6 mb-10 md:mt-12 md:mb-14">
+      <BaseH1>{{ $t('episode.recent') }}</BaseH1>
     </div>
-    <div class="flex justify-center w-full h-screen bg-gray-200">
-      <div class="flex flex-col w-11/12 md:w-2/3 md:h-60 md:py-10">
-        <episodes-list :episodes="episodes" />
-      </div>
-    </div>
+    <BaseContainer>
+      <episodes-list :episodes="episodes" />
+    </BaseContainer>
   </div>
 </template>
 <script setup lang="ts">

@@ -4,10 +4,69 @@
 
 @layer base {
   :root {
-    --color-primary: 218 109 41;
-  }
+      --color-text-base: 17, 24, 2;
+      --color-text-dark: 200, 200, 200;
+      --color-text-muted: 47, 67, 6;
+      --color-text-inverted: 235, 250, 204;
+      --color-text-accent: 235, 250, 204;
+      --color-bg-light: 255, 245, 255;
+      --color-bg-dark: 10, 3, 13;
+      --color-bg-muted: 200, 200, 200;
+      --color-bg-muted-dark: 20, 6, 26;
+      --color-fill: 179, 255, 23;
+      --color-button-accent: 36, 52, 3;
+      --color-button-accent-hover: 55, 79, 5;
+      --color-button-muted: 212, 255, 122;
+      --color-grad-start: 99, 102, 241;
+      --color-grad-via: 99, 102, 241;
+      --color-grad-end: 150, 102, 241;
+      --color-grad-start-dark: 36, 52, 3;
+      --color-grad-end-dark: 36, 52, 3;
+      --color-error: 255, 0, 0;
+   }
+ .theme-ccf {
+      --color-text-base: 0, 0, 0;
+      --color-text-dark: 200, 200, 200;
+      --color-text-muted: 175, 175, 175;
+      --color-text-inverted: 220, 38, 38;
+      --color-text-accent: 185, 28, 28;
+      --color-bg-light: 255, 255, 255;
+      --color-bg-dark: 14, 14, 22;
+      --color-bg-muted: 229, 231, 235;
+      --color-bg-muted-dark: 24, 24, 32;
+      --color-fill: 185, 28, 28;
+      --color-button-accent: 218, 109, 41;
+      --color-button-accent-hover: 254, 242, 242;
+      --color-button-muted: 239, 170, 34;
+      --color-grad-start: 239, 170, 34;
+      --color-grad-via: 218, 109, 41;
+      --color-grad-end: 218, 109, 41;
+      --color-grad-start-dark: 239, 170, 34;
+      --color-grad-end-dark: 218, 109, 41;
+      --color-error: 255, 0, 0;
+  } 
 }
 
+.under {
+  @apply bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-no-repeat 
+}
+
+.u-nder {
+  /* background: rgb(239,170,34); */
+  background: linear-gradient(90deg, rgb(var(--color-grad-start)) 0%, rgb(var(--color-grad-start)) 36%, rgb(var(--color-grad-end)) 65%, rgb(var(--color-grad-end)) 100%);
+  /* -0px var(--y-pos, 75%) / 100% var(--size, 20px) no-repeat;*/
+  background-repeat: no-repeat;
+  background-position: bottom, 122%, center;
+  background-size: 120% 10px;
+}
+.under-dark {
+  /* background: rgb(239,170,34); */
+  background: linear-gradient(90deg, rgb(var(--color-grad-start-dark)) 0%, rgb(var(--color-grad-start-dark)) 36%, rgb(var(--color-grad-end-dark)) 65%, rgb(var(--color-grad-end-dark)) 100%);
+  /* -0px var(--y-pos, 75%) / 100% var(--size, 20px) no-repeat;*/
+  background-repeat: no-repeat;
+  background-position: bottom, 122%, center;
+  background-size: 120% 10px;
+}
 @font-face {
   font-family: 'Mulish';
   font-weight: 200;
@@ -92,14 +151,6 @@
   background-size: var(--size) + 5px;
 }
 
-.ccfheader {
-  /* background: rgb(239,170,34); */
-  background: linear-gradient(90deg, rgba(239, 170, 34, 1) 0%, rgba(239, 170, 34, 1) 36%, rgba(218, 109, 41, 1) 65%, rgba(218, 109, 41, 1) 100%);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: var(--size) + 5px;
-}
-
 .bg-ccf-gradient {
   background: linear-gradient(90deg, rgba(239, 170, 34, 1) 0%, rgba(239, 170, 34, 1) 36%, rgba(218, 109, 41, 1) 65%, rgba(218, 109, 41, 1) 100%);
 }
@@ -110,33 +161,6 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: var(--size) + 5px;
-}
-
-.ccf-underline {
-  /* background: rgb(239,170,34); */
-  background: linear-gradient(90deg, rgba(239, 170, 34, 1) 0%, rgba(239, 170, 34, 1) 36%, rgba(218, 109, 41, 1) 65%, rgba(218, 109, 41, 1) 100%);
-  /* -0px var(--y-pos, 75%) / 100% var(--size, 20px) no-repeat;*/
-  background-repeat: no-repeat;
-  background-position: bottom, 122%, center;
-  background-size: 120% 10px;
-}
-
-.ccf-underline-sm {
-  /* background: rgb(239,170,34); */
-  background: linear-gradient(90deg, rgba(239, 170, 34, 1) 0%, rgba(239, 170, 34, 1) 36%, rgba(218, 109, 41, 1) 65%, rgba(218, 109, 41, 1) 100%);
-  /* -0px var(--y-pos, 75%) / 100% var(--size, 20px) no-repeat;*/
-  background-repeat: no-repeat;
-  background-position: bottom, 122%, center;
-  background-size: 120% 8px;
-}
-
-.ccf-underline-xs {
-  /* background: rgb(239,170,34); */
-  background: linear-gradient(90deg, rgba(239, 170, 34, 1) 0%, rgba(239, 170, 34, 1) 36%, rgba(218, 109, 41, 1) 65%, rgba(218, 109, 41, 1) 100%);
-  /* -0px var(--y-pos, 75%) / 100% var(--size, 20px) no-repeat;*/
-  background-repeat: no-repeat;
-  background-position: bottom, 122%, center;
-  background-size: 120% 6px;
 }
 
 .ccfaccent:hover {
@@ -160,7 +184,7 @@
 }
 
 .ccf-input {
-  @apply border-2 px-3 py-1 mt-1 rounded-md text-gray-600 valid:border-gray-200 focus:outline-none focus:ring-1 focus:ring-orange-300;
+  @apply border-2 px-3 py-1 mt-1 rounded-md bg-skin-dark text-skin-dark valid:text-skin-muted focus:outline-none focus:ring-1 focus:ring-orange-300;
 }
 
 .ccf-field {

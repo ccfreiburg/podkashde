@@ -1,24 +1,17 @@
 <template>
-      <div class="flex flex-col mt-3">
-        <label class="pl-2 text-sm text-gray-500" :for="name">{{
-          $t(label)
-        }}</label>
-        <select
-          :class="'ccf-field'+getClass()"
-          :name="name"
-          :value="value"
-          @change="updateEvent"
-        >
-          <option
-            class="overflow-auto"
-            v-for="aOption in options"
-            :key="aOption.enumvalue_id"
-            :value="aOption.enumvalue_id"
-          >         
-            {{(long?aOption.parentCategory + " - " + aOption.displaytext:aOption.displaytext)}}
-          </option>
-        </select>
-      </div>
+  <div class="flex flex-col mt-3">
+    <label class="pl-2 text-sm  text-skin-muted" :for="name">{{
+      $t(label)
+    }}</label>
+    <select
+      :class="getClass + 'h-10 border-[2px] dark:border-[1px] px-3 py-1 mt-1 rounded-md bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark focus:outline-none focus:ring-[1px] focus:ring-skin-fokus'"
+      :name="name" :value="value" @change="updateEvent">
+      <option class="overflow-auto" v-for="aOption in options" :key="aOption.enumvalue_id"
+        :value="aOption.enumvalue_id">
+        {{(long ? aOption.parentCategory + " - " + aOption.displaytext : aOption.displaytext) }}
+      </option>
+    </select>
+  </div>
 
 </template>
 
@@ -51,12 +44,10 @@ export default defineComponent({
     function hasError(errors) {
       return errors.find((error) => error.field === props.name);
     }
-    function getClass() {
-      if (hasError(props.errors))
-        return " ccf-error";
-      else 
-        return "";
-    }
+    const getClass = computed(() => {
+      if (hasError(props.errors)) return "ring-skin-error ring-1 ";
+      else return "";
+    })
     function updateEvent(event) {
       ctx.emit('update:value', Number.parseInt(event.target.value))
     }

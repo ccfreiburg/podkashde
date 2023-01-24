@@ -6,9 +6,9 @@
 - multiselect box links
 
 Var
-- acccent
-- accent-soft
-- bg
+- accent (dark)
+- muted (lighter)
+- bg ()
 - bg-soft
 - text 
-- text-soft
+- text-muted

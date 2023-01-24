@@ -4,7 +4,7 @@ import { getDefaultMenu, getMenu, initDefaultMenu } from "./base/Menu";
 import { useSettings } from "./composables/settingsdata";
 import useAuth from "./composables/useAuth";
 
-const settings= await useSettings();
+const settings = await useSettings();
 
 const nuxtApp = useNuxtApp();
 nuxtApp.hook("page:finish", () => {
@@ -12,12 +12,12 @@ nuxtApp.hook("page:finish", () => {
 });
 
 const { logout, initAuth, useAuthUser } = useAuth()
-onBeforeMount( () => {
+onBeforeMount(() => {
   initAuth()
 })
 
 function menuItemClicked(name: string) {
-  if (name=="#logout") {
+  if (name == "#logout") {
     logout()
   }
 }
@@ -26,25 +26,27 @@ const user = useAuthUser()
 const menu = ref({})
 var menudata = {}
 
-if (true || !settings.value.menuSource || settings.value.menuSource.length()==0) {
+if (true || !settings.value.menuSource || settings.value.menuSource.length() == 0) {
   menudata = initDefaultMenu()
 }
 
-const {locale}  = useI18n()
+const { locale } = useI18n()
 
-async function setMenu( locale: string ) {
-  if (!settings.value.menuSource || settings.value.menuSource===""){
-    menu.value = getDefaultMenu(menudata, (user.value?user.value.username:""))
+async function setMenu(locale: string) {
+  if (!settings.value.menuSource || settings.value.menuSource === "") {
+    menu.value = getDefaultMenu(menudata, (user.value ? user.value.username : ""))
   } else
     menu.value = await getMenu(settings.value.menuSource)
 }
 setMenu(locale.value)
-watch( ()=>user.value, () => setMenu(locale.value))
+watch(() => user.value, () => setMenu(locale.value))
 
 </script>
 <template>
-  <div>
-    <NavBar :menu="menu" :closeOnScroll="settings.closeOnScroll" @menuItemClicked="menuItemClicked"/> 
-    <NuxtPage />
+  <div class="theme-ccf">
+    <div class="bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark">
+      <NavBar :menu="menu" :closeOnScroll="settings.closeOnScroll" @menuItemClicked="menuItemClicked" />
+      <NuxtPage />
+    </div>
   </div>
 </template>

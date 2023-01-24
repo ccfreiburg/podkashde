@@ -1,55 +1,29 @@
 <template>
   <div>
-    <nav ref="navelement" class="px-2 sm:px-4 pt-2 bg-white shadow-md">
+    <nav ref="navelement"
+      class="px-2 sm:px-4 pt-2 bg-skin-ligt dark:bg-skin-dark text-skin-base dark:text-skin-dark shadow-md">
       <div class="flex justify-between">
         <div class="w-1/6 z-40 relative flex flex-row items-center flex-nowrap">
-          <svg
-            class="w-4 h-4 z-40 sm:w-5 sm:h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
-            ></path>
+          <svg class="w-4 h-4 z-40 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9">
+            </path>
           </svg>
-          <button
-            @click="toggle('language')"
-            class="font-medium rounded-lg text-sm text-center inline-flex items-centent"
-            type="button"
-          >
+          <button @click="toggle('language')"
+            class="font-medium rounded-lg text-sm text-center inline-flex items-centent" type="button">
             <div class="w-0 sm:w-16 invisible sm:visible">{{ localeName }}</div>
-            <svg
-              class="w-5 h-5"
-              aria-hidden="true"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 9l-7 7-7-7"
-              ></path>
+            <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
           </button>
-          <div
-            v-show="showDropdown"
-            class="absolute border-2 w-44 bg-white rounded shadow"
-          >
-            <ul class="py-1 text-sm text-gray-700">
+          <div v-show="showDropdown"
+            class="absolute top-12 border-2 w-44 bg-skin-light dark:bg-skin-dark rounded shadow">
+            <ul class="py-1 text-sm">
               <li class="p-1" v-for="local in locales" :key="local.code">
-                <NuxtLink
-                  v-if="local.code !== locale"
-                  :to="switchLocalePath(local.code)"
-                  @click="localeChanged(local.code)"
-                  >{{ local.name }}
+                <NuxtLink v-if="local.code !== locale" :to="switchLocalePath(local.code)"
+                  @click="localeChanged(local.code)">{{ local.name }}
                 </NuxtLink>
                 <div v-else>{{ local.name }}</div>
               </li>
@@ -58,136 +32,77 @@
         </div>
         <div class="flex-grow content-center text-center align-middle">
           <a :href="homeLink" class="inline-block">
-            <img src="/img/logo.png" class="h-7 sm:h-10 m-1" />
+            <img v-if="colorMode.value === 'dark'" src="/img/logo-w.png" class="h-7 sm:h-10 m-1" />
+            <img v-else src="/img/logo.png" class="h-7 sm:h-10 m-1" />
           </a>
         </div>
         <div class="w-1/6 flex flex-row items-center place-content-end">
-          <div
-            class="text-gray-500 hover:text-orange-500"
-            data-testid="NavBar.clickableElement"
-            @click="toggle('menu')"
-          >
-            <svg
-              v-if="!showMenu"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-5 h-5 sm:w-6 sm:h-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
+          <div class="hover:text-skin-accent" data-testid="NavBar.clickableElement" @click="toggle('menu')">
+            <svg v-if="!showMenu" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="w-5 h-5 sm:w-6 sm:h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
-            <svg
-              v-else
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              class="w-6 h-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
+            <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+              stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </div>
         </div>
       </div>
     </nav>
-    <transition
-      enter-from-class="translate-y-[150%] opacity-0"
-      enter-active-class="transition duration-400"
-      leave-active-class="transition duration-400"
-      leave-to-class="translate-y-[150%] opacity-0"
-    >
-      <div
-        v-if="showMenu"
-        class="fixed top-0 pt-2 z-50 bg-white w-full h-screen overflow-y-scroll shadow-md"
-      >
+    <transition enter-from-class="translate-y-[150%] opacity-0" enter-active-class="transition duration-400"
+      leave-active-class="transition duration-400" leave-to-class="translate-y-[150%] opacity-0">
+      <div v-if="showMenu"
+        class="fixed top-0 pt-2 z-50 bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark w-full h-screen overflow-y-scroll shadow-md">
         <!-- v-show="show" -->
         <div class="flex px-3 sm:px-4 justify-between">
           <div class="w-1/6"></div>
           <div class="flex-grow content-center text-center align-middle">
             <div class="inline-block">
-              <img src="/img/logo.png" class="h-7 sm:h-10 m-1" />
+              <img v-if="colorMode.value === 'dark'" src="/img/logo-w.png" class="h-7 sm:h-10 m-1" />
+              <img v-else src="/img/logo.png" class="h-7 sm:h-10 m-1" />
             </div>
           </div>
+          <div @click.stop="colorMode.value = (colorMode.value == 'dark' ? 'light' : 'dark')">
+            <svg v-if="colorMode.value == 'dark'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+              stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+            </svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+            </svg>
+          </div>
           <div class="w-1/6 flex justify-end content-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              class="w-6 h-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+              stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </div>
         </div>
-        <div
-          class="flex flex-row flex-wrap justify-evenly p-5"
-          @click="hideDropdown"
-        >
-          <div
-            class="w-80 mb-8"
-            v-for="section in menuSections"
-            :key="section.order"
-          >
+        <div class="flex flex-row flex-wrap justify-evenly p-5" @click="hideDropdown">
+          <div class="w-80 mb-8" v-for="section in menuSections" :key="section.order">
             <div class="container px-4 mx-auto flex flex-col">
-              <div class="flex flex-row">
-                <div
-                  class="mb-4 px-2 leading-tight tracking-tighter shrink ccfunderline2"
-                >
-                  <h1 class="ccf-underline text-xl md:text-2xl font-bold">
-                    &nbsp;{{ (hasI18nKeysMenue?$t(section.name):section.name) }}&nbsp;
-                  </h1>
-                </div>
-                <div class="flex-grow"></div>
-              </div>
-              <p class="text-sm mt-2 mb-6 font-thin">
-                {{ (hasI18nKeysMenue?$t(section.description):section.description) }}
-              </p>
+              <BaseH1>{{ (hasI18nKeysMenue ? $t(section.name) : section.name) }}</BaseH1>
+              <BaseSubtitle>{{ (hasI18nKeysMenue ? $t(section.description) : section.description) }}</BaseSubtitle>
               <div v-for="(entry, index) in section.entries" :key="index">
-                <button
-                  v-if="entry.slug.startsWith('#')"
-                  data-testid="NavBar.menuItemEvent"
-                  @click="menuItemClicked(entry.slug)"
-                >
-                  {{ (hasI18nKeysMenue?$t(entry.name):entry.name) }}
+                <button v-if="entry.slug.startsWith('#')" data-testid="NavBar.menuItemEvent"
+                  @click="menuItemClicked(entry.slug)">
+                  {{ (hasI18nKeysMenue ? $t(entry.name) : entry.name) }}
                 </button>
-                <button
-                  v-else-if="!entry.local && entry.slug.startsWith('http')"
-                  data-testid="NavBar.menuItemEvent"
-                >
+                <button v-else-if="!entry.local && entry.slug.startsWith('http')" data-testid="NavBar.menuItemEvent">
                   <a :href="entry.slug">
-                    {{ (hasI18nKeysMenue?$t(entry.name):entry.name) }}
+                    {{ (hasI18nKeysMenue ? $t(entry.name) : entry.name) }}
                   </a>
-                </button>                <button
-                  v-else-if="!entry.local && baseUrl.length > 4"
-                  data-testid="NavBar.menuItemEvent"
-                >
+                </button> <button v-else-if="!entry.local && baseUrl.length > 4" data-testid="NavBar.menuItemEvent">
                   <a :href="getExternalLink(entry)">
-                    {{ (hasI18nKeysMenue?$t(entry.name):entry.name) }}
+                    {{ (hasI18nKeysMenue ? $t(entry.name) : entry.name) }}
                   </a>
                 </button>
-                <NuxtLink
-                  v-else
-                  data-testid="NavBar.menuItem"
-                  :to="localePath('/' + entry.slug)"
-                >
-                  {{ (hasI18nKeysMenue?$t(entry.name):entry.name) }}
+                <NuxtLink v-else data-testid="NavBar.menuItem" :to="localePath('/' + entry.slug)">
+                  {{ (hasI18nKeysMenue ? $t(entry.name) : entry.name) }}
                 </NuxtLink>
               </div>
             </div>
@@ -215,6 +130,7 @@ export default defineComponent({
   async setup(props, ctx) {
     const navelement = ref(null);
     const localePath = useLocalePath();
+    const colorMode = useColorMode()
     const showMenu = ref(false);
     const showDropdown = ref(false);
     const { locale, locales, setLocale, t } = useI18n();
@@ -241,12 +157,12 @@ export default defineComponent({
 
     const setMenu = (locale: string) => {
       hasI18nKeysMenue.value = props.menu.hasOwnProperty('keys')
-      if (props.menu.defaultBase!="/" )
+      if (props.menu.defaultBase != "/")
         baseUrl.value = props.menu.defaultBase
-      menuSections.value = (hasI18nKeysMenue.value?props.menu['keys']:props.menu[locale])
-      homeLink.value = baseUrl.value+"/"+(locale=="de"?"":locale)
+      menuSections.value = (hasI18nKeysMenue.value ? props.menu['keys'] : props.menu[locale])
+      homeLink.value = baseUrl.value + "/" + (locale == "de" ? "" : locale)
     }
-    watch( ()=>props.menu, (newVal) => {
+    watch(() => props.menu, (newVal) => {
       if (newVal)
         setMenu(locale.value)
     })
@@ -315,7 +231,8 @@ export default defineComponent({
       localeChanged,
       getExternalLink,
       hasI18nKeysMenue,
-      homeLink
+      homeLink,
+      colorMode
     };
   },
 });

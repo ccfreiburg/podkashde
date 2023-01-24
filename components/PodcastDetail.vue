@@ -1,13 +1,9 @@
 <template>
   <div v-if="fields" class="px-10 w-full h-full" v-on:keyup.enter="savePodcast" v-on:keyup.esc="cancel">
-    <div class="w-full flex justify-center">
-      <div class="mt-6 md:mt-12 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs">
-        &nbsp;{{
-  isEdit
-  ? $t("podcast.edit")
-    : $t("podcast.new")
-        }}&nbsp;
-      </div>
+    <div class="flex justify-center w-full mt-6 mb-6 md:mt-12 md:mb-8">
+      <BaseH1>
+        {{(isEdit ? $t("podcast.edit") : $t("podcast.new"))}}
+      </BaseH1>
     </div>
     <image-selector :filename="fields.cover_file" @imageSelected="imageSelected" />
     <!-- Fields-->
@@ -58,15 +54,12 @@
       </div>
       <!-- Buttons -->
       <div class="flex flex-row justify-end">
-        <button class="ccf-button ccf-secondary" @click="cancel">
+        <BaseButtonSecondary class="mr-4" @click="cancel">
           {{ $t("cancel") }}
-        </button>
-        <button class="
-            ccf-button
-            ccfbutton-border
-          " @click="savePodcast">
+        </BaseButtonSecondary>
+        <BaseButtonPrimary @click="savePodcast">
           {{ $t("podcast.savePodcast") }}
-        </button>
+        </BaseButtonPrimary>
       </div>
     </div>
   </div>
