@@ -6,8 +6,8 @@
     "adminsub": "Administrative tasks",
     "login": "Log in",
     "logout": "Log out",
-    "import": "Import from Wordpress", 
-    "podcasts": "Podcasts", 
+    "import": "Import from Wordpress",
+    "podcasts": "Podcasts",
     "podcastsub": "All about podcasts, series and episodes",
     "list": "List of podcasts",
     "new": "Start a new podcast",
@@ -38,7 +38,7 @@
       "nomatch": "The two passwords do not match",
       "length": "A password needs at least 8 characters"
     }
- },
+  },
   "podcast": {
     "headline": "Podcasts",
     "title": "Podcast Episodes",
@@ -64,10 +64,10 @@
       "link": "Url",
       "owner_email": "Owners email address",
       "owner_name": "Owners name",
-      "apple_url":"Podcast Url at Apple",
-      "spotify_url":"Podcast Url at Spotify",
-      "google_url":"Podcast Url at Google",
-      "stitcher_url":"Podcast Url at Stitcher",
+      "apple_url": "Podcast Url at Apple",
+      "spotify_url": "Podcast Url at Spotify",
+      "google_url": "Podcast Url at Google",
+      "stitcher_url": "Podcast Url at Stitcher",
       "draft_true": "Non public draft",
       "draft_false": "Public",
       "errors": "Please correct the following issues:"
@@ -83,10 +83,10 @@
       "link": "Please enter the link",
       "owner_email": "Please enter a valid email address",
       "owner_name": "Please enter the owners name",
-      "apple_url":"Please enter a valid Url",
-      "spotify_url":"Please enter a valid Url",
-      "google_url":"Please enter a valid Url",
-      "stitcher_url":"Please enter a valid Url",
+      "apple_url": "Please enter a valid Url",
+      "spotify_url": "Please enter a valid Url",
+      "google_url": "Please enter a valid Url",
+      "stitcher_url": "Please enter a valid Url",
       "saveingimg": "Error uploading image"
     },
     "savePodcast": "Save Podcast",
@@ -138,12 +138,13 @@
       "saving": "Could not save the episode"
     },
     "saveEpisode": "Save Episode",
-    "saved" : "The Episode has been saved",
-    "deleted" : "The Episode has been deleted"
+    "saved": "The Episode has been saved",
+    "deleted": "The Episode has been deleted"
   },
   "serie": {
     "new": "New Series",
     "edit": "Edit Series",
+    "episodes": "Series Episodes",
     "inthis": "in this series",
     "tothepisodes": "To the episodes...",
     "label": {
@@ -177,9 +178,9 @@
     "options": "Options",
     "importArchive": "Copy from local archive",
     "importCoverImages": "Download Cover Images to server",
-    "importMp3s": "Download Mp3s to server", 
+    "importMp3s": "Download Mp3s to server",
     "importMetadata": "Import tags, authors and series metadata",
-        "loading": "Loading from WordPress..."
+    "loading": "Loading from WordPress..."
   },
   "paginator": {
     "next": "Next",

@@ -22,7 +22,7 @@
                 <div class="text-xs sm:text-xl md:text-2xl font-semibold tracking-wider">
                   {{ podcast.title }}
                 </div>
-                <div class="text-xs md:text-sm tracking-wide text-gray-500">
+                <div class="text-xs md:text-sm tracking-wide text-skin-muted dark:text-skin-muted-dark">
                   {{ podcast.subtitle }}
                 </div>
               </div>
@@ -30,7 +30,7 @@
                 {{ podcast.author }}
               </div>
               <div
-                class="grow-0 text-xs underline md:text-sm tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-orange-500 to-orange-700">
+                class="grow-0 text-xs underline md:text-sm tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-skin-from via-skin-via to-skin-to">
                 {{ $t('podcast.tothepisodes') }}
               </div>
             </NuxtLink>

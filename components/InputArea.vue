@@ -10,11 +10,11 @@
       </span>
     </div>
     <input v-if="isInputElement()"
-      :class="getClass + 'h-10 border-[2px] dark:border-[1px] px-3 py-1 mt-1 rounded-md bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark focus:outline-none focus:ring-[1px] focus:ring-skin-fokus'"
+      :class="getClass + 'h-10 border-[2px] border-skin-light dark:border-skin-dark dark:border-[1px] px-3 py-1 mt-1 rounded-md bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark focus:outline-none focus:ring-[1px] focus:ring-skin-fokus'"
       :type="type" :valid="error == ''" :id="name" :name="name" :disabled="$props.disabled" :readonly="$props.readonly"
       :value="value" @input="updateEvent" />
     <textarea v-if="type === 'textarea'"
-      class="h-10 border-[2px] dark:border-[1px] px-3 py-1 mt-1 rounded-md bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark focus:outline-none focus:ring-[1px] focus:ring-skin-fokus"
+      class="h-24 border-[2px] border-skin-light dark:border-skin-dark dark:border-[1px] px-3 py-1 mt-1 rounded-md bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark focus:outline-none focus:ring-[1px] focus:ring-skin-fokus"
       type="text" :id="name" :name="name" :value="value" @input="updateEvent" />
   </div>
 </template>

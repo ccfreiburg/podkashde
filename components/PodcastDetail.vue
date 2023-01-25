@@ -1,67 +1,69 @@
 <template>
-  <div v-if="fields" class="px-10 w-full h-full" v-on:keyup.enter="savePodcast" v-on:keyup.esc="cancel">
+  <div v-if="fields" class="w-full h-full" v-on:keyup.enter="savePodcast" v-on:keyup.esc="cancel">
     <div class="flex justify-center w-full mt-6 mb-6 md:mt-12 md:mb-8">
       <BaseH1>
         {{(isEdit ? $t("podcast.edit") : $t("podcast.new"))}}
       </BaseH1>
     </div>
-    <image-selector :filename="fields.cover_file" @imageSelected="imageSelected" />
-    <!-- Fields-->
-    <div class="flex flex-col">
-      <input-area :name="'title'" :label="'podcast.label.title'" :errors="errors" v-model:value="fields.title" />
-      <input-area :name="'subtitle'" :label="'podcast.label.subtitle'" :errors="errors"
-        v-model:value="fields.subtitle" />
-      <input-area :name="'slug'" :label="'podcast.label.slug'" :errors="errors" v-model:value="fields.slug" />
-      <input-area :name="'author'" :label="'podcast.label.author'" :errors="errors" v-model:value="fields.author" />
-      <input-area :name="'summary'" :type="'textarea'" :label="'podcast.label.summary'" :errors="errors"
-        v-model:value="fields.summary" />
-      <input-area :name="'description'" :type="'textarea'" :label="'podcast.label.description'" :errors="errors"
-        v-model:value="fields.description" />
-      <single-select :name="'language'" :label="'podcast.label.language'" :options="enumerations.languages"
-        :errors="errors" v-model:value="fields.language_id" />
-      <single-select :name="'category'" :label="'podcast.label.category'" :options="enumerations.podcastGenres"
-        :errors="errors" :long="true" v-model:value="fields.category_id" />
-      <single-select :name="'type'" :label="'podcast.label.type'" :options="enumerations.podcastTypes" :errors="errors"
-        v-model:value="fields.type_id" />
-      <div class="my-3">
-        <switch-box :checked="fields.explicit" @checkedChanged="(val) => fields.explicit = val"
-          :labelChecked="$t('podcast.label.explicit_true')" :labelUnChecked="$t('podcast.label.explicit_false')" />
+    <BaseContainer>
+      <image-selector :filename="fields.cover_file" @imageSelected="imageSelected" />
+      <!-- Fields-->
+      <div class="flex flex-col">
+        <input-area :name="'title'" :label="'podcast.label.title'" :errors="errors" v-model:value="fields.title" />
+        <input-area :name="'subtitle'" :label="'podcast.label.subtitle'" :errors="errors"
+          v-model:value="fields.subtitle" />
+        <input-area :name="'slug'" :label="'podcast.label.slug'" :errors="errors" v-model:value="fields.slug" />
+        <input-area :name="'author'" :label="'podcast.label.author'" :errors="errors" v-model:value="fields.author" />
+        <input-area :name="'summary'" :type="'textarea'" :label="'podcast.label.summary'" :errors="errors"
+          v-model:value="fields.summary" />
+        <input-area :name="'description'" :type="'textarea'" :label="'podcast.label.description'" :errors="errors"
+          v-model:value="fields.description" />
+        <single-select :name="'language'" :label="'podcast.label.language'" :options="enumerations.languages"
+          :errors="errors" v-model:value="fields.language_id" />
+        <single-select :name="'category'" :label="'podcast.label.category'" :options="enumerations.podcastGenres"
+          :errors="errors" :long="true" v-model:value="fields.category_id" />
+        <single-select :name="'type'" :label="'podcast.label.type'" :options="enumerations.podcastTypes"
+          :errors="errors" v-model:value="fields.type_id" />
+        <div class="my-3">
+          <switch-box :checked="fields.explicit" @checkedChanged="(val) => fields.explicit = val"
+            :labelChecked="$t('podcast.label.explicit_true')" :labelUnChecked="$t('podcast.label.explicit_false')" />
+        </div>
+        <input-area :name="'link'" :label="'podcast.label.link'" :errors="errors" v-model:value="fields.link" />
+        <input-area :name="'copyright'" :label="'podcast.label.copyright'" :errors="errors"
+          v-model:value="fields.copyright" />
+        <input-area :name="'owner_name'" :label="'podcast.label.owner_name'" :errors="errors"
+          v-model:value="fields.owner_name" />
+        <input-area :name="'owner_email'" :label="'podcast.label.owner_email'" :errors="errors"
+          v-model:value="fields.owner_email" />
+        <input-area :name="'apple_url'" :label="'podcast.label.apple_url'" :errors="errors"
+          v-model:value="fields.apple_url" />
+        <input-area :name="'spotify_url'" :label="'podcast.label.spotify_url'" :errors="errors"
+          v-model:value="fields.spotify_url" />
+        <input-area :name="'google_url'" :label="'podcast.label.google_url'" :errors="errors"
+          v-model:value="fields.google_url" />
+        <input-area :name="'stitcher_url'" :label="'podcast.label.stitcher_url'" :errors="errors"
+          v-model:value="fields.stitcher_url" />
+        <switch-box :checked="fields.draft" @checkedChanged="(val) => fields.draft = val"
+          :labelChecked="$t('podcast.label.draft_true')" :labelUnChecked="$t('podcast.label.draft_false')" />
+        <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
+          <p>{{ $t("podcast.label.errors") }}</p>
+          <ul class="ml-5">
+            <li class="list-disc" v-for="(err, index) in errors" :key="index">
+              {{ $t(err.text) }}
+            </li>
+          </ul>
+        </div>
+        <!-- Buttons -->
+        <div class="flex flex-row justify-end">
+          <BaseButtonSecondary class="mr-4" @click="cancel">
+            {{ $t("cancel") }}
+          </BaseButtonSecondary>
+          <BaseButtonPrimary @click="savePodcast">
+            {{ $t("podcast.savePodcast") }}
+          </BaseButtonPrimary>
+        </div>
       </div>
-      <input-area :name="'link'" :label="'podcast.label.link'" :errors="errors" v-model:value="fields.link" />
-      <input-area :name="'copyright'" :label="'podcast.label.copyright'" :errors="errors"
-        v-model:value="fields.copyright" />
-      <input-area :name="'owner_name'" :label="'podcast.label.owner_name'" :errors="errors"
-        v-model:value="fields.owner_name" />
-      <input-area :name="'owner_email'" :label="'podcast.label.owner_email'" :errors="errors"
-        v-model:value="fields.owner_email" />
-      <input-area :name="'apple_url'" :label="'podcast.label.apple_url'" :errors="errors"
-        v-model:value="fields.apple_url" />
-      <input-area :name="'spotify_url'" :label="'podcast.label.spotify_url'" :errors="errors"
-        v-model:value="fields.spotify_url" />
-      <input-area :name="'google_url'" :label="'podcast.label.google_url'" :errors="errors"
-        v-model:value="fields.google_url" />
-      <input-area :name="'stitcher_url'" :label="'podcast.label.stitcher_url'" :errors="errors"
-        v-model:value="fields.stitcher_url" />
-      <switch-box :checked="fields.draft" @checkedChanged="(val) => fields.draft = val"
-        :labelChecked="$t('podcast.label.draft_true')" :labelUnChecked="$t('podcast.label.draft_false')" />
-      <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
-        <p>{{ $t("podcast.label.errors") }}</p>
-        <ul class="ml-5">
-          <li class="list-disc" v-for="(err, index) in errors" :key="index">
-            {{ $t(err.text) }}
-          </li>
-        </ul>
-      </div>
-      <!-- Buttons -->
-      <div class="flex flex-row justify-end">
-        <BaseButtonSecondary class="mr-4" @click="cancel">
-          {{ $t("cancel") }}
-        </BaseButtonSecondary>
-        <BaseButtonPrimary @click="savePodcast">
-          {{ $t("podcast.savePodcast") }}
-        </BaseButtonPrimary>
-      </div>
-    </div>
+    </BaseContainer>
   </div>
 </template>
 

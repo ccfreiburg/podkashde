@@ -4,10 +4,10 @@
       $t(label)
     }}</label>
     <select
-      :class="getClass + 'h-10 border-[2px] dark:border-[1px] px-3 py-1 mt-1 rounded-md bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark focus:outline-none focus:ring-[1px] focus:ring-skin-fokus'"
+      :class="getClass + 'w-full h-10 border-[2px] border-skin-light dark:border-skin-dark dark:border-[1px] px-3 py-1 mt-1 rounded-md bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark focus:outline-none focus:ring-[1px] focus:ring-skin-fokus'"
       :name="name" :value="value" @change="updateEvent">
-      <option class="overflow-auto" v-for="aOption in options" :key="aOption.enumvalue_id"
-        :value="aOption.enumvalue_id">
+      <option class="max-w-full overflow-y-scroll overflow-x-hidden " v-for="aOption in options"
+        :key="aOption.enumvalue_id" :value="aOption.enumvalue_id">
         {{(long ? aOption.parentCategory + " - " + aOption.displaytext : aOption.displaytext) }}
       </option>
     </select>

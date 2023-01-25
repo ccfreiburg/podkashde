@@ -1,10 +1,12 @@
 <template>
-  <div class="px-10 w-full h-full" :class="(uploadIndicator?'overflow-hidden':'overflow-scroll')" v-on:keyup.enter="save" v-on:keyup.esc="cancel">
-    <div v-if="uploadIndicator" class="fixed top-0 z-50 w-screen h-screen flex justify-center items-center bg-white opacity-70">
+  <div class="w-full h-full" :class="(uploadIndicator ? 'overflow-hidden' : 'overflow-auto')" v-on:keyup.enter="save"
+    v-on:keyup.esc="cancel">
+    <div v-if="uploadIndicator"
+      class="fixed top-0 z-50 w-screen h-screen flex justify-center items-center bg-skin-light dark:bg-skin-dark opacity-70">
       <div class="flex flex-col items-center">
         <div class="my-10">Uploading ...</div>
         <svg aria-hidden="true"
-          class="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-orange-600"
+          class="inline w-8 h-8 mr-2 text-skin-muted animate-spin dark:text-skin-muted-dark fill-skin-fill"
           viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
@@ -15,82 +17,81 @@
         </svg>
       </div>
     </div>
-    <div class="w-full flex justify-center">
-      <div class="mt-6 md:mt-12  grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs">
-        &nbsp;{{
+    <div class="mt-6 md:mt-12 w-full flex justify-center">
+      <BaseH1>
+        {{
   isEdit
   ? $t("episode.edit")
     : $t("episode.new")
-        }}&nbsp;
-      </div>
+        }}
+      </BaseH1>
     </div>
-    <div class="w-full mb-10 md:mb-14 flex flex-col content-center justify-center">
-      <div class="mt-6 text-gray-500 tracking-widest text-ml text-center">{{ $t('episode.forpodcast') }}</div>
-      <div class="mt-1 text-gray-500 tracking-widest text-ml text-center">{{ podcast.title }}</div>
+    <div
+      class="w-full mb-8 md:mb-10 flex flex-col content-center justify-center text-skin-muted dark:text-skin-muted-dark">
+      <div class="mt-2 tracking-widest text-ml text-center">{{ $t('episode.forpodcast') }}</div>
+      <div class="mt-1 tracking-widest text-ml text-center">{{ podcast.title }}</div>
     </div>
-    <div class="flex flex-col">
-      <div class="flex flex-col lg:flex-row">
-        <div>
-          <image-selector :filename="fields.image" :preview="imgMetadata.preview" @imageSelected="imageSelected" />
+    <BaseContainer>
+      <div class="w-full flex flex-col">
+        <div class="w-full flex flex-col lg:flex-row">
+          <div>
+            <image-selector :filename="fields.image" :preview="imgMetadata.preview" @imageSelected="imageSelected" />
+          </div>
+          <div class="w-full flex flex-col flex-grow">
+            <audio-file-selector :audioFileName="fields.link" @audioFileSelected="audioFileSelected" :error="errors"
+              :label="'episode.label.file'" />
+            <single-select :name="'serie'" :label="'episode.label.serie'" :options="series" :errors="errors"
+              v-model:value="serie_id" />
+          </div>
         </div>
-        <div class="flex flex-col flex-grow">
-          <audio-file-selector :audioFileName="fields.link" @audioFileSelected="audioFileSelected"
-            :error="errors" :label="'episode.label.file'" />
-          <single-select :name="'serie'" :label="'episode.label.serie'" :options="series" :errors="errors"
-            v-model:value="serie_id" />
-        </div>
-      </div>
-      <!-- Fields-->
-      <input-area :name="'title'" :label="'episode.label.title'" :errors="errors" v-model:value="fields.title" />
-      <input-area :name="'subtitle'" :label="'episode.label.subtitle'" :errors="errors"
-        v-model:value="fields.subtitle" />
-      <input-area :name="'keyword'" :label="'episode.label.keyword'" :errors="errors" v-model:value="fields.keyword" />
-      <input-area :name="'pubdate'" :type="'date'" :label="'episode.label.pubdate'" :errors="errors"
-        v-model:value="pubdateText" />
-      <input-area :name="'duration'" :label="'episode.label.duration'" :errors="errors" v-model:value="durationText" />
-      <input-area :name="'slug'" :disabled="isEdit" :label="'episode.label.slug'" :errors="errors"
-        v-model:value="fields.slug" />
-      <input-area :name="'creator'" :label="'episode.label.creator'" :errors="errors" v-model:value="fields.creator"
-        @change="setShortInfo" />
-      <input-area :name="'summary'" :type="'textarea'" :label="'episode.label.summary'" :errors="errors"
-        v-model:value="fields.summary" />
-      <input-area :name="'description'" :type="'textarea'" :label="'episode.label.description'" :errors="errors"
-        v-model:value="fields.description" />
-      <switch-box :checked="fields.block" @checkedChanged="(val) => fields.block = val"
-        :labelChecked="$t('episode.label.block_true')" :labelUnChecked="$t('episode.label.block_false')" />
-      <switch-box :checked="fields.explicit" @checkedChanged="(val) => fields.explicit = val"
-        :labelChecked="$t('episode.label.explicit_true')" :labelUnChecked="$t('episode.label.explicit_false')" />
-      <input-area :name="'cross_ref'" :label="'episode.label.cross_ref'" v-model:value="fields.cross_ref"
-        @change="setShortInfo" />
-      <input-area :name="'video_link'" :label="'episode.label.video_link'" v-model:value="fields.video_link"
-        @change="setShortInfo" />
-      <switch-box :checked="fields.draft" @checkedChanged="(val) => fields.draft = val"
-        :labelChecked="$t('episode.label.draft_true')" :labelUnChecked="$t('episode.label.draft_false')" />
+        <!-- Fields-->
+        <input-area :name="'title'" :label="'episode.label.title'" :errors="errors" v-model:value="fields.title" />
+        <input-area :name="'subtitle'" :label="'episode.label.subtitle'" :errors="errors"
+          v-model:value="fields.subtitle" />
+        <input-area :name="'keyword'" :label="'episode.label.keyword'" :errors="errors"
+          v-model:value="fields.keyword" />
+        <input-area :name="'pubdate'" :type="'date'" :label="'episode.label.pubdate'" :errors="errors"
+          v-model:value="pubdateText" />
+        <input-area :name="'duration'" :label="'episode.label.duration'" :errors="errors"
+          v-model:value="durationText" />
+        <input-area :name="'slug'" :disabled="isEdit" :label="'episode.label.slug'" :errors="errors"
+          v-model:value="fields.slug" />
+        <input-area :name="'creator'" :label="'episode.label.creator'" :errors="errors" v-model:value="fields.creator"
+          @change="setShortInfo" />
+        <input-area :name="'summary'" :type="'textarea'" :label="'episode.label.summary'" :errors="errors"
+          v-model:value="fields.summary" />
+        <input-area :name="'description'" :type="'textarea'" :label="'episode.label.description'" :errors="errors"
+          v-model:value="fields.description" />
+        <switch-box :checked="fields.block" @checkedChanged="(val) => fields.block = val"
+          :labelChecked="$t('episode.label.block_true')" :labelUnChecked="$t('episode.label.block_false')" />
+        <switch-box :checked="fields.explicit" @checkedChanged="(val) => fields.explicit = val"
+          :labelChecked="$t('episode.label.explicit_true')" :labelUnChecked="$t('episode.label.explicit_false')" />
+        <input-area :name="'cross_ref'" :label="'episode.label.cross_ref'" v-model:value="fields.cross_ref"
+          @change="setShortInfo" />
+        <input-area :name="'video_link'" :label="'episode.label.video_link'" v-model:value="fields.video_link"
+          @change="setShortInfo" />
+        <switch-box :checked="fields.draft" @checkedChanged="(val) => fields.draft = val"
+          :labelChecked="$t('episode.label.draft_true')" :labelUnChecked="$t('episode.label.draft_false')" />
 
-      <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
-        <p>{{ $t("episode.label.errors") }}</p>
-        <ul class="ml-5">
-          <li class="list-disc" v-for="(err, index) in errors" :key="index">
-            {{ $t(err.text) }}
-          </li>
-        </ul>
+        <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
+          <p>{{ $t("episode.label.errors") }}</p>
+          <ul class="ml-5">
+            <li class="list-disc" v-for="(err, index) in errors" :key="index">
+              {{ $t(err.text) }}
+            </li>
+          </ul>
+        </div>
+        <!-- Buttons -->
+        <div class="flex flex-row justify-end">
+          <BaseButtonSecondary class="mr-4" @click="cancel">
+            {{ $t("cancel") }}
+          </BaseButtonSecondary>
+          <BaseButtonPrimary @click="save">
+            {{ $t("episode.saveEpisode") }}
+          </BaseButtonPrimary>
+        </div>
       </div>
-      <!-- Buttons -->
-      <div class="flex flex-row justify-end">
-        <button class="
-            ccf-button
-            ccf-secondary
-          " @click="cancel">
-          {{ $t("cancel") }}
-        </button>
-        <button class="
-            ccf-button
-            ccfbutton-border
-           " @click="save">
-          {{ $t("episode.saveEpisode") }}
-        </button>
-      </div>
-    </div>
+    </BaseContainer>
   </div>
 </template>
 <script lang="ts">
@@ -210,7 +211,7 @@ export default defineComponent({
         fd.append("path", path + props.podcast.slug);
         const fn = getSaveFilename(fileObj.name)
         fd.append("filename", fn);
-        fd.append("cover", fileObj, fileObj.name); 
+        fd.append("cover", fileObj, fileObj.name);
       }
       return fd;
     }
@@ -259,48 +260,48 @@ export default defineComponent({
     }
 
     async function doTheSaving() {
-        // for(var i=0; i<30000; i++) console.log(i);
-        // set relations
-        fields.value.serie =
-          serie && "id" in serie ? serie : null;
-        fields.value.podcast = props.podcast;
+      // set relations
+      fields.value.serie =
+        serie && "id" in serie ? serie : null;
+      fields.value.podcast = props.podcast;
 
-        // Upload Mp3
-        if (audioMetadata.value.selectedFile) {
-          var { result, link } = await upload(SERVER_MP3_PATH, audioMetadata.value.selectedFile)
-          if (result.status != 201) {
-            errors.value.push({ field: "", text: "episode.validation.upload" })
-            return
-          }
-          fields.value.link = link;
-        }
-
-
-        // Upload Image
-        if (imgMetadata.value.preview != serie.cover_file && (imgMetadata.value.selectedFile || audioMetadata.value.imgblob != undefined)) {
-          var { result, link, nothingToDo } = await upload(SERVER_IMG_PATH, imgMetadata.value.selectedFile, audioMetadata.value.imgblob)
-          if (result.status != 201) {
-            errors.value.push({ field: "", text: "episode.validation.upload" })
-            return
-          }
-          fields.value.image = link;
-        }
-
-        // Episode Metadata
-        const postData = {
-          method: "post",
-          body: getFields()
-        }
-        result = await $fetch(EPISODE_AP, postData);
+      // Upload Mp3
+      if (audioMetadata.value.selectedFile) {
+        var { result, link } = await upload(SERVER_MP3_PATH, audioMetadata.value.selectedFile)
         if (result.status != 201) {
-          errors.value.push({ field: "", text: "saving" })
+          errors.value.push({ field: "", text: "episode.validation.upload" })
           return
         }
-        if (serie_id != previousSeries_id && previousSeries_id > 0) {
-          const slug = await $fetch(SERIE_AP, { method: "post", body: { id: previousSeries_id } })
-            ; (await useSerie(slug)).refresh()
+        fields.value.link = link;
+      }
+
+
+      // Upload Image
+      if (imgMetadata.value.preview != serie.cover_file && (imgMetadata.value.selectedFile || audioMetadata.value.imgblob != undefined)) {
+        var { result, link, nothingToDo } = await upload(SERVER_IMG_PATH, imgMetadata.value.selectedFile, audioMetadata.value.imgblob)
+        if (result.status != 201) {
+          errors.value.push({ field: "", text: "episode.validation.upload" })
+          return
         }
-        emit("save", fields.value.title);
+        fields.value.image = link;
+      }
+
+      // Episode Metadata
+      const postData = {
+        method: "post",
+        body: getFields()
+      }
+      result = await $fetch(EPISODE_AP, postData);
+      if (result.status != 201) {
+        errors.value.push({ field: "", text: "saving" })
+        return
+      }
+      if (serie_id != previousSeries_id && previousSeries_id > 0) {
+        const slug = await $fetch(SERIE_AP, { method: "post", body: { id: previousSeries_id } })
+          ; (await useSerie(slug)).refresh()
+      }
+      hideIdicator()
+      emit("save", fields.value.title);
     }
 
     async function save(event) {
@@ -326,13 +327,8 @@ export default defineComponent({
 
       if (errors.value.length > 0) return;
 
-      showIdicator() 
-      try {
-        await nextTick()
-        await doTheSaving()
-      } catch {} finally {
-        hideIdicator()
-      }
+      showIdicator()
+      doTheSaving()
     }
 
     function showIdicator() {

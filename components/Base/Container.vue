@@ -1,6 +1,17 @@
 <template>
-  <div class="flex justify-center w-full h-screen bg-skin-muted dark:bg-skin-muted-dark">
-    <div class="flex flex-col w-11/12 md:w-2/3 md:h-60 md:py-10">
+  <div class="
+        w-full
+        bg-skin-muted dark:bg-skin-muted-dark
+        flex flex-col 
+        items-center
+      ">
+    <div class="
+          flex flex-col 
+          items-stretch
+          w-11/12
+          lg:w-4/5
+          py-10
+        ">
       <slot />
     </div>
   </div>
