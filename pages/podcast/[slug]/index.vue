@@ -25,14 +25,17 @@
           </div>
           <div class="hidden md:inline-flex">
             <div class="flex flex-row flex-wrap">
-              <div class="text-xs text-white font-bold rounded-md ccfheader px-1 my-1 mr-1 whitespace-nowrap">
+              <div
+                class="text-xs text-skin-inverted font-bold rounded-md bg-gradient-to-r from-skin-from via-skin-via to-skin-to px-1 my-1 mr-1 whitespace-nowrap">
                 {{ podcastGenre.parentCategory }} -
                 {{ podcastGenre.displaytext }}
               </div>
-              <div v-if="podcast.explicit" class="text-xs text-white font-bold rounded-md bg-orange-900 px-1 m-1">
+              <div v-if="podcast.explicit"
+                class="text-xs text-skin-inverted font-bold rounded-md bg-gradient-to-r from-skin-from via-skin-via to-skin-to px-1 m-1">
                 explicit
               </div>
-              <div class="text-xs text-white font-bold rounded-md ccfheader px-1 m-1">
+              <div
+                class="text-xs text-skin-inverted font-bold rounded-md bg-gradient-to-r from-skin-from via-skin-via to-skin-to px-1 m-1">
                 {{ language.displaytext }}
               </div>
             </div>

@@ -146,6 +146,7 @@
     "deleted": "Die Folge wurde gelöscht"
   },
   "serie": {
+    "title": "Serien",
     "new": "Neue Serie",
     "episodes": "Folgen der Serie",
     "edit": "Serie bearbeiten",

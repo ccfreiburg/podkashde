@@ -1,33 +1,27 @@
 <template>
   <div v-if="currentuser" v-on:keyup.enter="submit">
     <messge-toast :msg="localMessage"></messge-toast>
-    <div class="w-full flex justify-center">
-        <div
-          class="mt-6 md:mt-10 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs"
-        >&nbsp;{{ $t("login.newpassword") }}&nbsp;
-        </div>
-  </div>
-  <div class="w-full h-screen bg-gray-200 flex justify-center">
-      <div class="container px-4 mx-auto flex flex-col">
-        <div class="flex flex-row flex-wrap content-start justify-evenly">
-          <div v-if="(!isDone)" class="w-2/3 flex flex-col">
-            <input-area v-if="(!isInvite)" name="passwordOld" type="password" :errors="errors" :label="'login.oldpassword'" v-model:value="passwordOld"></input-area>
-            <input-area name="password1" type="password" :errors="errors" :label="'login.password'" v-model:value="password1"></input-area>
-            <input-area name="password2" type="password" :errors="errors" :label="'login.passwordrepeat'" v-model:value="password2"></input-area>
-            <div class="flex flex-row">
-            <div class="flex-grow">
-            <button
-              class="float-right h-12 w-40 mt-8 px-2 rounded-md ccfbutton-border"
-              @click="submit"
-            >
-              {{ $t("login.submitnewpassword") }}
-            </button>
-            </div>
-          </div>
-          </div>
+    <div class="mt-6 md:mt-10 mb-10 md:mb-14 w-full flex justify-center">
+      <BaseH1>
+        {{ $t("login.newpassword") }}
+      </BaseH1>
+    </div>
+    <BaseContainer>
+      <div v-if="(!isDone)" class="w-2/3 flex flex-col">
+        <input-area v-if="(!isInvite)" name="passwordOld" type="password" :errors="errors" :label="'login.oldpassword'"
+          v-model:value="passwordOld"></input-area>
+        <input-area name="password1" type="password" :errors="errors" :label="'login.password'"
+          v-model:value="password1"></input-area>
+        <input-area name="password2" type="password" :errors="errors" :label="'login.passwordrepeat'"
+          v-model:value="password2"></input-area>
+        <div class="flex flex-row justify-end">
+          <BaseButtonPrimary @click="submit">
+            {{ $t("login.submitnewpassword") }}
+          </BaseButtonPrimary>
         </div>
       </div>
-  </div>
+      <div class="h-screen"></div>
+    </BaseContainer>
   </div>
 </template>
 <script setup lang="ts">
@@ -44,8 +38,8 @@ const currentuser = useAuth().useAuthUser()
 const token = route.query.token
 const localMessage = ref("")
 if (isInvite.value) {
-  const {access, user} = await $fetch(CHECK_TOKEN_AP+token)
-  if (access!==INVITE_TOKEN)
+  const { access, user } = await $fetch(CHECK_TOKEN_AP + token)
+  if (access !== INVITE_TOKEN)
     router.go(-1)
   if (!user)
     router.go(-1)
@@ -58,12 +52,12 @@ const password2 = ref("");
 const errors = ref([] as Array<IValidationError>);
 
 const validate = () => {
-  errors.value.length=0
-  if (password1.value!==password2.value) 
+  errors.value.length = 0
+  if (password1.value !== password2.value)
     errors.value.push({ field: "password2", text: i18n.t("login.validation.nomatch") })
-  if (password1.value.length<8) 
+  if (password1.value.length < 8)
     errors.value.push({ field: "password1", text: i18n.t("login.validation.length") })
-  return errors.value.length==0 
+  return errors.value.length == 0
 }
 const submit = async () => {
   if (validate()) {
@@ -71,9 +65,9 @@ const submit = async () => {
       await useAuth().setFirstPassword(token as string, password1.value)
       localMessage.value = i18n.t('login.passwordset')
       router.push({
-              path: "/admin",
-              query: { msg: 'login.passwordset' }
-            })
+        path: "/admin",
+        query: { msg: 'login.passwordset' }
+      })
       isDone.value = true
     } else {
       try {
@@ -82,9 +76,9 @@ const submit = async () => {
           isDone.value = true
           var url = "/admin"
           router.push({
-              path: url,
-              query: { msg: 'login.passwordset' }
-            })
+            path: url,
+            query: { msg: 'login.passwordset' }
+          })
         }
       } catch {
         errors.value.push({ field: "passwordOld", text: i18n.t("login.wrongpassword") })
@@ -92,12 +86,12 @@ const submit = async () => {
     }
   }
 }
-onMounted( () =>
+onMounted(() =>
   router.replace({
     ...router.currentRoute,
     query: {
-  }
-}))
+    }
+  }))
 
-setTimeout(()=>{ if (!currentuser.value) router.push('/admin/login')}, 200)
+setTimeout(() => { if (!currentuser.value) router.push('/admin/login') }, 200)
 </script>

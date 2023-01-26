@@ -6,20 +6,20 @@
   :root {
       --color-text-base: 17, 24, 2;
       --color-text-dark: 200, 200, 200;
-      --color-text-muted: 47, 67, 6;
-      --color-text-muted-dark: 175, 175, 175;
+      --color-text-muted: 80, 80, 80;
+      --color-text-muted-dark: 175, 155, 175;
       --color-text-inverted: 235, 250, 204;
-      --color-text-accent: 235, 250, 204;
+      --color-text-accent: 25, 0, 24;
       --color-bg-light: 255, 245, 255;
       --color-bg-dark: 10, 3, 13;
-      --color-bg-muted: 200, 200, 200;
+      --color-bg-muted: 220, 215, 235;
       --color-bg-muted-dark: 20, 6, 26;
-      --color-bg-player: 10, 10, 14;
+      --color-bg-player: 6, 0, 8;
       --color-fill: 179, 255, 23;
-      --color-button-accent: 36, 52, 3;
-      --color-button-accent-hover: 55, 79, 5;
+      --color-button-accent: 99, 102, 241;
+      --color-button-accent-hover: 150, 102, 241;
       --color-button-muted: 212, 255, 122;
-      --color-grad-start: 99, 102, 241;
+      --color-grad-start: 220, 122, 251;
       --color-grad-via: 99, 102, 241;
       --color-grad-end: 150, 102, 241;
       --color-grad-start-dark: 36, 52, 3;
@@ -51,26 +51,6 @@
   } 
 }
 
-.under {
-  @apply bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-no-repeat 
-}
-
-.u-nder {
-  /* background: rgb(239,170,34); */
-  background: linear-gradient(90deg, rgb(var(--color-grad-start)) 0%, rgb(var(--color-grad-start)) 36%, rgb(var(--color-grad-end)) 65%, rgb(var(--color-grad-end)) 100%);
-  /* -0px var(--y-pos, 75%) / 100% var(--size, 20px) no-repeat;*/
-  background-repeat: no-repeat;
-  background-position: bottom, 122%, center;
-  background-size: 120% 10px;
-}
-.under-dark {
-  /* background: rgb(239,170,34); */
-  background: linear-gradient(90deg, rgb(var(--color-grad-start-dark)) 0%, rgb(var(--color-grad-start-dark)) 36%, rgb(var(--color-grad-end-dark)) 65%, rgb(var(--color-grad-end-dark)) 100%);
-  /* -0px var(--y-pos, 75%) / 100% var(--size, 20px) no-repeat;*/
-  background-repeat: no-repeat;
-  background-position: bottom, 122%, center;
-  background-size: 120% 10px;
-}
 @font-face {
   font-family: 'Mulish';
   font-weight: 200;
@@ -111,101 +91,6 @@
   src: url('/assets/fonts/Mulish/static/Mulish-SemiBold.ttf') format('truetype');
 }
 
-.ccfbutton-border {
-  border: 4px solid transparent;
-  background:
-    linear-gradient(to right, white, white),
-    linear-gradient(90deg, rgba(239, 170, 34, 1) 0%, rgba(239, 170, 34, 1) 36%, rgba(218, 109, 41, 1) 65%, rgba(218, 109, 41, 1) 100%);
-  background-clip: padding-box, border-box;
-  background-origin: padding-box, border-box;
-  transition: 0.7s;
-}
-
-.ccfbutton-border:hover {
-  border: 4px solid transparent;
-  background:
-    linear-gradient(to right, rgba(255, 255, 255, .4), rgba(255, 255, 255, .4)),
-    linear-gradient(to right, rgba(239, 170, 34, 1) 0%, rgba(239, 170, 34, 1) 36%, rgba(218, 109, 41, 1) 65%, rgba(218, 109, 41, 1) 100%);
-  background-clip: padding-box, border-box;
-  background-origin: padding-box, border-box;
-  color: white
-}
-
-.ccfbutton-border:active {
-  border: 4px solid transparent;
-  background:
-    linear-gradient(to right, rgba(255, 255, 255, .1), rgba(255, 255, 255, .1)),
-    linear-gradient(to right, rgba(239, 170, 34, 1) 0%, rgba(239, 170, 34, 1) 36%, rgba(218, 109, 41, 1) 65%, rgba(218, 109, 41, 1) 100%);
-  background-clip: padding-box, border-box;
-  background-origin: padding-box, border-box;
-  color: white
-}
-
-.ccfbuttons1 {
-  background: linear-gradient(90deg, rgba(239, 170, 34, .7) 0%, rgba(239, 170, 34, .7) 36%, rgba(218, 109, 41, .7) 65%, rgba(218, 109, 41, .7) 100%);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: var(--size) + 5px;
-}
-
-.ccfbuttons1:hover {
-  background: linear-gradient(90deg, rgba(239, 170, 34, 1) 0%, rgba(239, 170, 34, 1) 36%, rgba(218, 109, 41, 1) 65%, rgba(218, 109, 41, 1) 100%);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: var(--size) + 5px;
-}
-
-.bg-ccf-gradient {
-  background: linear-gradient(90deg, rgba(239, 170, 34, 1) 0%, rgba(239, 170, 34, 1) 36%, rgba(218, 109, 41, 1) 65%, rgba(218, 109, 41, 1) 100%);
-}
-
-.ccfplay {
-  /* background: rgb(239,170,34); */
-  background: linear-gradient(135deg, rgba(239, 170, 34, 1) 0%, rgba(239, 170, 34, 1) 36%, rgba(218, 109, 41, 1) 65%, rgba(218, 109, 41, 1) 100%);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: var(--size) + 5px;
-}
-
-.ccfaccent:hover {
-  background: linear-gradient(90deg, #efd934, #f49c03, #f49c03, #c99d1a) -0px var(--y-pos, 65%) / 40px var(--size, 8px) no-repeat;
-}
-
-.ccf-button {
-  @apply mt-5 ml-3 px-5 h-10 rounded-md;
-}
-
-.ccf-primary {
-  @apply bg-orange-300 hover:bg-orange-400 border-2;
-}
-
-.ccf-alert {
-  @apply bg-red-300 hover:bg-red-400 border-2;
-}
-
-.ccf-secondary {
-  @apply bg-gray-300 hover:bg-gray-400 border-2;
-}
-
-.ccf-input {
-  @apply border-2 px-3 py-1 mt-1 rounded-md bg-skin-dark text-skin-dark valid:text-skin-muted focus:outline-none focus:ring-1 focus:ring-orange-300;
-}
-
-.ccf-field {
-  @apply ccf-input h-10;
-}
-
-.ccf-textarea {
-  @apply ccf-input h-28;
-}
-
-.ccf-error {
-  @apply ring-1 ring-orange-600 focus:ring-2 focus:ring-orange-600;
-}
-
-.ccf-text-error {
-  @apply text-orange-700 text-sm pl-2;
-}
 
 .volumerange {
   height: 10px;
@@ -250,10 +135,10 @@
   height: 10px;
   width: 2px;
   background: linear-gradient(135deg,
-      rgba(239, 170, 34, 1) 0%,
-      rgba(239, 170, 34, 1) 25%,
-      rgba(218, 109, 41, 1) 65%,
-      rgba(218, 109, 41, 1) 100%);
+      rgb(var(--color-grad-start)) 0%,
+      rgb(var(--color-grad-start)) 25%,
+      rgb(var(--color-grad-end)) 65%,
+      rgb(var(--color-grad-end)) 100%);
   cursor: pointer;
 }
 
@@ -263,10 +148,10 @@
   height: 10px;
   width: 3px;
   background: linear-gradient(135deg,
-      rgba(239, 170, 34, 1) 0%,
-      rgba(239, 170, 34, 1) 25%,
-      rgba(218, 109, 41, 1) 65%,
-      rgba(218, 109, 41, 1) 100%);
+        rgb(var(--color-grad-start)) 0%,
+        rgb(var(--color-grad-start)) 25%,
+        rgb(var(--color-grad-end)) 65%,
+        rgb(var(--color-grad-end)) 100%);
   cursor: pointer;
 }
 
@@ -275,10 +160,10 @@
   height: 10px;
   width: 3px;
   background: linear-gradient(135deg,
-      rgba(239, 170, 34, 1) 0%,
-      rgba(239, 170, 34, 1) 25%,
-      rgba(218, 109, 41, 1) 65%,
-      rgba(218, 109, 41, 1) 100%);
+        rgb(var(--color-grad-start)) 0%,
+        rgb(var(--color-grad-start)) 25%,
+        rgb(var(--color-grad-end)) 65%,
+        rgb(var(--color-grad-end)) 100%);
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: -3px;
@@ -373,10 +258,10 @@
   width: 10px;
   border-radius: 10px;
   background: linear-gradient(135deg,
-      rgba(239, 170, 34, 1) 0%,
-      rgba(239, 170, 34, 1) 25%,
-      rgba(218, 109, 41, 1) 65%,
-      rgba(218, 109, 41, 1) 100%);
+        rgb(var(--color-grad-start)) 0%,
+        rgb(var(--color-grad-start)) 25%,
+        rgb(var(--color-grad-end)) 65%,
+        rgb(var(--color-grad-end)) 100%);
   cursor: pointer;
 }
 
@@ -388,10 +273,10 @@
   width: 10px;
   border-radius: 10px;
   background: linear-gradient(135deg,
-      rgba(239, 170, 34, 1) 0%,
-      rgba(239, 170, 34, 1) 25%,
-      rgba(218, 109, 41, 1) 65%,
-      rgba(218, 109, 41, 1) 100%);
+        rgb(var(--color-grad-start)) 0%,
+        rgb(var(--color-grad-start)) 25%,
+        rgb(var(--color-grad-end)) 65%,
+        rgb(var(--color-grad-end)) 100%);
   cursor: pointer;
 }
 
@@ -402,10 +287,10 @@
   width: 10px;
   border-radius: 10px;
   background: linear-gradient(135deg,
-      rgba(239, 170, 34, 1) 0%,
-      rgba(239, 170, 34, 1) 25%,
-      rgba(218, 109, 41, 1) 65%,
-      rgba(218, 109, 41, 1) 100%);
+        rgb(var(--color-grad-start)) 0%,
+        rgb(var(--color-grad-start)) 25%,
+        rgb(var(--color-grad-end)) 65%,
+        rgb(var(--color-grad-end)) 100%);
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: -3px;

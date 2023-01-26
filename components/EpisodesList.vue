@@ -39,7 +39,7 @@
           </div>
           <div class="sm:w-26 pr-1 text-center sm:text-right">{{ episode.datestring }}</div>
           <div class="sm:w-10 invisible sm:visible flex justify-end text-skin-inverted">
-            <button class="ccfplay rounded-2xl h-6 w-6 md:h-8 md:w-8">
+            <button class=" bg-gradient-to-r from-skin-from via-skin-via to-skin-to rounded-2xl h-6 w-6 md:h-8 md:w-8">
               <div class="h-6 w-6 md:h-8 md:w-8 flex items-center justify-center">
                 <svg class="h-3 w-3 md:h-5 md:w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                   fill="currentColor">

@@ -22,66 +22,21 @@
     </div>
 
     <div class="flex flex-col">
-      <div class="shrink ccfunderline">
-        <h1 class="text-2xl font-semibold">&nbsp;{{ $t("import.title") }}&nbsp;</h1>
-      </div>
+      <BaseH1>
+        {{ $t("import.title") }}
+      </BaseH1>
       <div>
         <p class="text-sm mt-2 mb-4 font-thin">{{ $t("import.subtitle") }}</p>
       </div>
-      <!-- Enter API Url for Wordpress -->
-      <div class="flex flex-row items-end mt-3">
-        <input-area class="flex-grow" :name="'wpurl'" :label="'import.label.wpurl'" :errors="[]"
-          v-model:value="wpurl" />
-        <button class="
-                mt-5
-                ml-5
-                px-2
-                h-10
-                rounded-md
-                ccfbutton-border
-                " @click="loadMetadata">
-          {{ $t("import.metadata") }}
-        </button>
-      </div>
-      <!-- Select Podcasts from Categories -->
-      <div class="
-        mt-10
-        text-sm
-        flex
-        sm:flex-row
-        flex-col
-        place-content-stretch
-      ">
-        <multi-select class="sm:w-1/2 w-full" title="WordPress Categories" :showAllways="true"
-          :options="wpMetadata.series" @checked="onCheckSeries"></multi-select>
-        <div class="flex flex-col sm:w-1/2 w-full">
-
-          <single-select class="mx-3" :options="podcastOptions" :name="'test'" label="podcast.change"
-            v-model:value="selectedPodcast"></single-select>
-          <button class="
-                mt-5
-                mx-3
-                px-2
-                h-14
-                rounded-md
-                ccfbutton-border
-            " @click="selectWpSeries">
-            {{ (selectedPodcast > 0 ? $t("import.selectSeries") : $t("import.selectWpSeries")) }}
-          </button>
-          <div class="m-3 h-full border-2 rounded-md mt-4">
-            <div class="text-ml p-1">Selected</div>
-            <div class="p-1">
-              <div v-for="(podcast, index) in wpPodcasts" :key="index">
-                {{ podcast.text }}
-              </div>
-            </div>
-          </div>
+      <BaseContainer>
+        <!-- Enter API Url for Wordpress -->
+        <div class="flex flex-row items-end mt-3">
+          <input-area class="flex-grow" :name="'wpurl'" :label="'import.label.wpurl'" :errors="[]"
+            v-model:value="wpurl" />
+          <BaseButtonPrimary class="ml-5 mt-5 mr-3" @click="loadMetadata">{{ $t("import.metadata") }}
+          </BaseButtonPrimary>
         </div>
-      </div>
-
-      <!-- Analyse Data -->
-      <div class="mt-10 flex flex-col justify-end">
-        <h1 class="text-xl">{{ $t("import.preview") }}</h1>
+        <!-- Select Podcasts from Categories -->
         <div class="
         mt-10
         text-sm
@@ -90,58 +45,74 @@
         flex-col
         place-content-stretch
       ">
-          <button class="
-            mt-5
-            px-3
-            h-10
-            rounded-md
-            ccfbutton-border
-          " @click="loadPreview">
-            {{ $t("import.preview") }}
-          </button>
-          <div class="ml-8 w-fill flex flex-col">
-            <div>{{ wpMetadata.speakers.length }} - speakers</div>
-            <div>{{ wpMetadata.tags.length }} - tags</div>
-            <div>{{ wpMetadata.series.length }} - series</div>
-            <div>{{ wpPodcasts.length }} - {{(selectedPodcast > 0 ? "Series" : "Podcasts")}}</div>
-            <div v-for="(episodes, index) in wpPodcastEpisodesCount" :key="index">
-              {{(selectedPodcast > 0 ? "Serie" : "Podcast")}}: {{ wpPodcasts[index].title }} - {{ episodes }} Episodes
+          <multi-select class="sm:w-1/2 w-full" title="WordPress Categories" :showAllways="true"
+            :options="wpMetadata.series" @checked="onCheckSeries"></multi-select>
+          <div class="flex flex-col sm:w-1/2 w-full px-3">
+
+            <single-select :options="podcastOptions" :name="'test'" label="podcast.change"
+              v-model:value="selectedPodcast"></single-select>
+            <base-button-secondary class="h-20 s-full" @click="selectWpSeries">{{ (selectedPodcast > 0 ?
+            $t("import.selectSeries") :
+            $t("import.selectWpSeries")) }}</base-button-secondary>
+            <div class="mt-3 h-full border-2 rounded-md mt-4">
+              <div class="text-ml p-1">Selected</div>
+              <div class="p-1">
+                <div v-for="(podcast, index) in wpPodcasts" :key="index">
+                  {{ podcast.text }}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="
+
+        <!-- Analyse Data -->
+        <div class="mt-10 flex flex-col justify-end">
+          <h1 class="text-xl">{{ $t("import.preview") }}</h1>
+          <div class="
+        mt-10
+        text-sm
+        flex
+        sm:flex-row
+        flex-col
+        place-content-stretch
+      ">
+            <BaseButtonSecondary @click="loadPreview">{{ $t("import.preview") }}</BaseButtonSecondary>
+            <div class="ml-8 w-fill flex flex-col">
+              <div>{{ wpMetadata.speakers.length }} - speakers</div>
+              <div>{{ wpMetadata.tags.length }} - tags</div>
+              <div>{{ wpMetadata.series.length }} - series</div>
+              <div>{{ wpPodcasts.length }} - {{(selectedPodcast > 0 ? "Series" : "Podcasts")}}</div>
+              <div v-for="(episodes, index) in wpPodcastEpisodesCount" :key="index">
+                {{(selectedPodcast > 0 ? "Serie" : "Podcast")}}: {{ wpPodcasts[index].title }} - {{ episodes }} Episodes
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="
         mt-10
         flex
         flex-col
         place-content-stretch
         items-stretch
       ">
-        <h1 class="text-xl">{{ $t("import.options") }}</h1>
-        <div class="flex flex-col sm:flex-row justify-end content-between">
-          <div class="flex flex-col">
-            <switch-box :checked="isCheckedImportFromArchiv" @checkedChanged="(val) => isCheckedImportFromArchiv = val"
-              :labelChecked="$t('import.importArchive')" />
-            <switch-box :checked="isCheckedImportMp3s" @checkedChanged="(val) => isCheckedImportMp3s = val"
-              :labelChecked="$t('import.importMp3s')" />
-            <switch-box :checked="isCheckedImportCovers" @checkedChanged="(val) => isCheckedImportCovers = val"
-              :labelChecked="$t('import.importCoverImages')" />
-            <switch-box :checked="isCheckedImportMetadata" :disabled="!isEnabledMetadata"
-              @checkedChanged="(val) => isCheckedImportMetadata = val" :labelChecked="$t('import.importMetadata')" />
+          <h1 class="text-xl">{{ $t("import.options") }}</h1>
+          <div class="flex flex-col sm:flex-row justify-end content-between">
+            <div class="flex flex-col">
+              <switch-box :checked="isCheckedImportFromArchiv"
+                @checkedChanged="(val) => isCheckedImportFromArchiv = val" :labelChecked="$t('import.importArchive')" />
+              <switch-box :checked="isCheckedImportMp3s" @checkedChanged="(val) => isCheckedImportMp3s = val"
+                :labelChecked="$t('import.importMp3s')" />
+              <switch-box :checked="isCheckedImportCovers" @checkedChanged="(val) => isCheckedImportCovers = val"
+                :labelChecked="$t('import.importCoverImages')" />
+              <switch-box :checked="isCheckedImportMetadata" :disabled="!isEnabledMetadata"
+                @checkedChanged="(val) => isCheckedImportMetadata = val" :labelChecked="$t('import.importMetadata')" />
+            </div>
+            <div class="flex-grow"></div>
+            <BaseButtonPrimary @click="importAll">{{ $t("import.import") }}</BaseButtonPrimary>
           </div>
-          <div class="flex-grow"></div>
-          <button class="
-                mt-5
-                ml-5
-                px-2
-                h-10
-                rounded-md
-                ccfbutton-border
-          " @click="importAll">
-            {{ $t("import.import") }}
-          </button>
         </div>
-      </div>
+        <div class="h-10"></div>
+      </BaseContainer>
     </div>
   </div>
 </template>

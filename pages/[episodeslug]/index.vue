@@ -92,7 +92,7 @@
                 <th class="bg-skin-button-accent text-skin-inverted">Value</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody class="text-skin-muted dark:text-skin-muted-dark">
               <tr v-for="(objectkey, index) in Object.keys(episode)" :key="index">
                 <td>{{ objectkey }}</td>
                 <td>

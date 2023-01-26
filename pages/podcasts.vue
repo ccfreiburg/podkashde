@@ -45,9 +45,9 @@
                       xlink:href="#gradient-ccf">
                     </linearGradient>
                     <linearGradient id="gradient-ccf">
-                      <stop offset="0" style="stop-color: rgb(239, 170, 34)"></stop>
-                      <stop offset="0.36" style="stop-color: rgb(239, 170, 34)"></stop>
-                      <stop offset="0.65" style="stop-color: rgb(218, 109, 41)"></stop>
+                      <stop offset="0" style="stop-color: rgb(var(--color-grad-start))"></stop>
+                      <stop offset="0.36" style="stop-color: rgb(var(--color-grad-via))"></stop>
+                      <stop offset="0.65" style="stop-color: rgb(var(--color-grad-end))"></stop>
                     </linearGradient>
                   </defs>
                   <rect width="24" height="24" stroke="none" fill="#000000" opacity="0"></rect>

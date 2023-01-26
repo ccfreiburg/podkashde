@@ -2,10 +2,10 @@
   <div>
     <messge-toast></messge-toast>
     <sub-menu v-if="user != null" :items="submenu" />
-    <div class="w-full flex justify-center">
-      <div class="mt-4 md:mt-6 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs">
-        &nbsp;Series&nbsp;
-      </div>
+    <div class="mt-4 md:mt-6 mb-10 md:mb-14 w-full flex justify-center">
+      <BaseH1>
+        {{ $t('serie.title') }}
+      </BaseH1>
     </div>
     <BaseContainer>
       <div v-if="series?.length > 0" class="flex place-items-end place-content-end px-1 md:px-4">
@@ -31,17 +31,17 @@
           </svg>
         </div>
       </div>
-      <div class="bg-gray-200" v-for="serie in currentPage" :key="serie.id">
+      <div v-for="serie in currentPage" :key="serie.id">
         <NuxtLink :to="localePath('/serie/' + serie.slug)">
           <div
-            class="mt-4 p-4 bg-white flex flex-col sm:flex-row flex-wrap sm:flex-nowrap items-center sm:place-content-center">
+            class="mt-4 p-4 bg-skin-light dark:bg-skin-dark flex flex-col sm:flex-row flex-wrap sm:flex-nowrap items-center sm:place-content-center">
             <img class="w-32 h-32" :src="serie.cover_file" />
             <div class="sm:pl-12 py-2 flex-grow flex flex-col items-center justify-around sm:items-start">
               <div class="text-center sm:text-start">
                 <div class="text-xs sm:text-xl sm:pb-2 font-semibold tracking-wider">
                   {{ serie.title }}
                 </div>
-                <div class="text-xs sm:text-sm sm:pb-4 tracking-wide break-words text-gray-500">
+                <div class="text-xs sm:text-sm sm:pb-4 tracking-wide break-words">
                   {{ serie.subtitle }}
                 </div>
               </div>

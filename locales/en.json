@@ -142,6 +142,7 @@
     "deleted": "The Episode has been deleted"
   },
   "serie": {
+    "title": "Series",
     "new": "New Series",
     "edit": "Edit Series",
     "episodes": "Series Episodes",

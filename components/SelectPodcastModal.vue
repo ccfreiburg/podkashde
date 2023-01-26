@@ -11,21 +11,20 @@
             {{ $t('podcast.change') }}
           </h5>
         </div>
-        <div class="modal-body relative p-4"></div>
-        <single-select title="podcast" label="podcast.headline" v-model:value="selectedPodcast" :options="podselect"
-          :errors="[]"></single-select>
-      </div>
-      <div class="px-5 text-sm text-skin-error">
-        {{ error }}
-      </div>
-      <div class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end px-4 pb-5 rounded-b-md">
-        <div class="flex flex-row justify-end">
-          <BaseButtonSecondary class="mr-4" @click="cancel">
-            {{ $t("cancel") }}
-          </BaseButtonSecondary>
-          <BaseButtonPrimary @click="submit">
-            {{ $t('episode.saveEpisode') }}
-          </BaseButtonPrimary>
+        <single-select class="p-4" title="podcast" label="podcast.headline" v-model:value="selectedPodcast"
+          :options="podselect" :errors="[]"></single-select>
+        <div class="px-5 text-sm text-skin-error">
+          {{ error }}
+        </div>
+        <div class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end px-4 pb-5 rounded-b-md">
+          <div class="flex flex-row justify-end">
+            <BaseButtonSecondary class="mr-4" @click="cancel">
+              {{ $t("cancel") }}
+            </BaseButtonSecondary>
+            <BaseButtonPrimary @click="submit">
+              {{ $t('episode.saveEpisode') }}
+            </BaseButtonPrimary>
+          </div>
         </div>
       </div>
     </div>
