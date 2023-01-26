@@ -1,5 +1,6 @@
 {
   "baseUrl": "http://localhost:3000",
   "defaultRoute": "/recent",
-  "menuSourdce": "/api/menu"
-} 
+  "menuSourdce": "/api/menu",
+  "skin": "theme-ccf"
+}

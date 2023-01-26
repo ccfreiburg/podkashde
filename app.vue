@@ -25,9 +25,14 @@ function menuItemClicked(name: string) {
 const user = useAuthUser()
 const menu = ref({})
 var menudata = {}
+const theme = ref("")
 
 if (true || !settings.value.menuSource || settings.value.menuSource.length() == 0) {
   menudata = initDefaultMenu()
+}
+
+if (settings.value.skin) {
+  theme.value = settings.value.skin
 }
 
 const { locale } = useI18n()
@@ -43,7 +48,7 @@ watch(() => user.value, () => setMenu(locale.value))
 
 </script>
 <template>
-  <div class="theme-ccf">
+  <div :class="theme">
     <div class="bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark">
       <NavBar :menu="menu" :closeOnScroll="settings.closeOnScroll" @menuItemClicked="menuItemClicked" />
       <NuxtPage />
