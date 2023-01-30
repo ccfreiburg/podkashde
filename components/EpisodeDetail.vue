@@ -169,7 +169,7 @@ export default defineComponent({
     };
 
     const setShortInfo = () => {
-      fields.value.summary = "<p> fields.value.cross_ref +" // "+ fields.value.creator + 
+      fields.value.summary = "<p> " + fields.value.cross_ref + (fields.value.creator ? " // " + fields.value.creator : "") +
         (fields.value.video_link ? " // <a href='" + fields.value.video_link + "'>Video Version</a></p>" : "</p>")
     }
 
