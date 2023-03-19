@@ -66,7 +66,8 @@ function switchColorMode() {
   <div :class="settings.skin">
     <div class="bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark">
       <NavBar :menu="menu" :closeOnScroll="settings.closeOnScroll" @menuItemClicked="menuItemClicked"
-        :logo="(darkmode ? settings.logo_w : settings.logo)" :darkmode="darkmode" @colorModeChanged="switchColorMode" />
+        :enableDarkOption="settings.enableDarkOption" :logo="(darkmode ? settings.logo_w : settings.logo)"
+        :darkmode="darkmode" @colorModeChanged="switchColorMode" />
       <NuxtPage />
     </div>
   </div>
