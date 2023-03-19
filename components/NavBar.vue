@@ -37,7 +37,7 @@
           </a>
         </div>
         <div class="w-1/6 flex flex-row items-center place-content-end">
-          <div @click.stop="switchColorMode">
+          <div v-if="$props.enableDarkOption" @click.stop="switchColorMode">
             <svg v-if="$props.darkmode" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
               stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round"
@@ -113,7 +113,11 @@ export default defineComponent({
     closeOnScroll: Boolean,
     menu: Object,
     logo: String,
-    darkmode: Boolean
+    darkmode: Boolean,
+    enableDarkOption: {
+      type: Boolean,
+      default: false
+    }
   },
   //emits: ["menuItemClicked"],
   async setup(props, ctx) {

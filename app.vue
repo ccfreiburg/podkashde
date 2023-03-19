@@ -17,7 +17,12 @@ onBeforeMount(() => {
 })
 
 onMounted(() => {
-  darkmode.value = (colorMode.value == 'dark')
+  if (settings.value.enableDarkOption)
+    darkmode.value = (colorMode.value == 'dark')
+  else {
+    colorMode.value = 'light'
+    colorMode.preference = 'light'
+  }
 })
 
 function menuItemClicked(name: string) {
@@ -48,6 +53,8 @@ watch(() => user.value, () => setMenu(locale.value))
 const colorMode = useColorMode()
 const darkmode = ref(false)
 function switchColorMode() {
+  if (!settings.value.enableDarkOption)
+    return
   colorMode.value = (colorMode.value == 'dark' ? 'light' : 'dark')
   colorMode.preference = colorMode.value
   darkmode.value = (colorMode.value == 'dark')

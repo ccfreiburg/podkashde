@@ -5,6 +5,7 @@ export interface ISettings {
   skin: string
   logo: string
   logo_w: string
+  enableDarkOption: boolean,
   nondefault: boolean
 }
 
@@ -16,6 +17,7 @@ export async function useSettings() : Promise<Ref<ISettings>> {
     skin: "",
     logo: "/img/logo.png",
     logo_w: "/img/logo-w.png",
+    enableDarkOption: false,
     closeOnScroll: false,
     nondefault: false
   }})
@@ -28,6 +30,8 @@ export async function useSettings() : Promise<Ref<ISettings>> {
       settings.value.defaultRoute = set.defaultRoute
     if (set.menuSource)
       settings.value.menuSource = set.menuSource
+    if (set.enableDarkOption)
+      settings.value.enableDarkOption = set.enableDarkOption
     if (set.skin)
       settings.value.skin = set.skin
     if (set.logo)

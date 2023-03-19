@@ -4,5 +4,6 @@
   "menuSourdce": "/api/menu",
   "skin": "theme-ccf",
   "logo": "/img/ccf-logo.png",
-  "logo_w": "/img/ccf-logo-w.png"
+  "logo_w": "/img/ccf-logo-w.png",
+  "enableDarkOption": true
 }
