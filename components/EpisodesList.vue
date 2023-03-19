@@ -4,8 +4,8 @@
       <div v-if="!searchHiden" class="flex flex-row flex-nowrap items-center">
         <input-area class="pb-8" :name="'search'" label="" v-model:value="search" />
         <div @click="() => { search = ''; searchHiden = true }">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-            stroke="currentColor" class="w-6 h-6">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </div>
@@ -21,20 +21,20 @@
     <div class="flex flex-col" v-for="(episode, index) in sortedFilteredList" :key="index">
       <NuxtLink :to="localePath(episode.nuxtlink)">
         <div class="mt-1 py-2 md:px-2 md:rounded-xl text-xs lg:text-sm xl:text-lg  2xl:text-xl
-        flex flex-col place-content-center place-items-center items-center 
-        hover:bg-skin-light dark:hover:bg-skin-dark
-        sm:flex-row sm:bg-transparent">
+          flex flex-col place-content-center place-items-center items-center 
+          hover:bg-skin-light dark:hover:bg-skin-dark
+          sm:flex-row sm:bg-transparent">
           <div class="flex-shrink-0">
             <img class="h-20" :src="episode.image" />
           </div>
           <div class="flex-grow flex flex-col items-center
-              sm:flex-row ">
+                sm:flex-row ">
             <div class="sm:w-9/12 pt-2 sm:pt-0 text-center sm:text-left pl-2 lg:pl-4 2xl:pl-8">
               <div class="font-semibold " v-html="episode.title" />
               <div class="invisible sm:visible sm:pt-1 text-skin-muted dark:text-skin-muted-dark"
                 v-html="(episode.cross_ref)" />
             </div>
-            <div class="sm:w-3/12 pl-1 text-center sm:text-left overflow-hidden lg:whitespace-nowrap sm:text-md">
+            <div class="sm:w-3/12 pl-1 text-center sm:text-left overflow-hidden sm:text-md">
               {{ episode.creator }}</div>
           </div>
           <div class="sm:w-26 pr-1 text-center sm:text-right">{{ episode.datestring }}</div>
