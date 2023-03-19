@@ -46,7 +46,7 @@
                 </div>
               </div>
               <div
-                class="grow-0 text-xs underline md:text-sm tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-orange-500 to-orange-700">
+                class="grow-0 text-xs underline md:text-sm tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-skin-from via-skin-via to-skin-to">
                 {{ $t('serie.tothepisodes') }}
               </div>
             </div>

@@ -4,8 +4,8 @@
     <select-podcast-modal v-if="dialog" :error="error" :podcasts="podcasts" @cancel="() => dialog = false"
       @submit="changePodcast"></select-podcast-modal>
     <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked" />
-    <div class="flex flex-col items-center">
-      <div class="relative z-20 w-5/6 md:w-2/3 md:h-60 mt-6 md:mt-12 flex flex-row">
+    <div class="flex flex-col items-center ">
+      <div class="relative z-20 w-11/12 lg:w-4/5 md:h-60 mt-6 md:mt-12 flex flex-row">
         <img class="h-28 md:h-60 w-28 md:w-60 shrink-0" :src="episode.image" />
         <div class="pl-6 md:pl-12 pt-2 pb-8 flex flex-col justify-around items-start rounded-r-md">
           <div>
@@ -47,42 +47,42 @@
       <div class="w-screen h-40 absolute -top-4 md:-top-8 bg-skin-player"></div>
     </div>
     <div class="relative z-10 flex flex-col items-center">
-      <div class="w-5/6 md:w-2/3 pt-6">
+      <div class="w-11/12 lg:w-4/5 pt-6">
         <audio-player :key="audioComponentKey" class="bg-skin-player text-skin-inverted" :file="link"
           @play="play"></audio-player>
       </div>
     </div>
     <div class="h-4 w-screen bg-skin-light"></div>
 
-    <BaseContainer class="text-skin-muted dark:text-skin-muted-player">
-      <div>{{ $t('episode.episode') }}</div>
+    <BaseContainer class="text-skin-base dark:text-skin-dark px-2">
+      <div class="text-skin-muted">{{ $t('episode.episode') }}</div>
       <div class="flex flex-row justify-between">
         <div class="flex flex-row flex-wrap">
           {{ $t('episode.label.duration') + ' ' + duration() }}
         </div>
         <div class="mx-3 flex flex-row flex-wrap">
           {{
-  $t('episode.label.pubdate') +
-  ' ' +
-  new Date(episode.pubdate).toLocaleDateString()
+            $t('episode.label.pubdate') +
+            ' ' +
+            new Date(episode.pubdate).toLocaleDateString()
           }}
         </div>
         <div class="flex flex-row flex-wrap">
           {{
-  $t('episode.label.filesize') +
-  ' ' +
-  (episode.rawsize / (1024 * 1024)).toFixed(2)
+            $t('episode.label.filesize') +
+            ' ' +
+            (episode.rawsize / (1024 * 1024)).toFixed(2)
           }}MB
         </div>
       </div>
-      <div class="pt-6">
+      <div class="pt-6 text-skin-muted">
         {{ $t('episode.label.description') }}
       </div>
       <div v-if="episode.description != null" v-html="episode.description" />
       <div v-if="episode.summary != null" class="pt-2 break-normal" v-html="episode.summary"></div>
       <div v-if="user != null" class="pt-10">
         <div class="text-skin-accent" @click="showdetail = !showdetail">
-          {{ showdetail? 'less details': 'more details' }}
+          {{ showdetail ? 'less details' : 'more details' }}
         </div>
         <div v-if="showdetail">
           <table class="border-separate border-spacing-3">
@@ -98,9 +98,9 @@
                 <td>
                   <div v-if="episode[objectkey]">
                     {{
-  ['podcast', 'serie'].includes(objectkey)
-    ? episode[objectkey].title
-    : episode[objectkey]
+                      ['podcast', 'serie'].includes(objectkey)
+                      ? episode[objectkey].title
+                      : episode[objectkey]
                     }}
                   </div>
                 </td>

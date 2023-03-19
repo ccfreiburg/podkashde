@@ -18,16 +18,16 @@ async function save(slug: string) {
   router.push("/serie");
 }
 function cancel() {
-  router.go(-1)
+  router.push("/serie");
 }
-watch( user, (newVal) => {
+watch(user, (newVal) => {
   if (!newVal)
     router.push({
-        path: "/admin/login",
-        query: { msg: 'login.sessionexpired' },
-      });
+      path: "/admin/login",
+      query: { msg: 'login.sessionexpired' },
+    });
 })
-setTimeout(()=>{ if (!user.value) router.push('/admin/login')}, 200)
+setTimeout(() => { if (!user.value) router.push('/admin/login') }, 200)
 </script>
 <template>
   <div v-if="user">

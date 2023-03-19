@@ -19,7 +19,7 @@
       <div class="hidden sm:pt-6 sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
           <p class="text-sm md:text-ml tracking-widest">
-            {{ $t('paginator.status', getStatus())}}
+            {{ $t('paginator.status', getStatus()) }}
           </p>
         </div>
         <div>
@@ -39,7 +39,7 @@
             <div v-for="page in pagesList" :key="page">
               <div v-if="page == selectedPage">
                 <button disabled
-                  class="relative text-skin-accent w-8 inline-flex items-center text-b text-sm font-medium focus:z-20 px-2 py-2">{{
+                  class="relative text-skin-accent dark:text-skin-muted w-8 inline-flex items-center text-b text-sm font-medium focus:z-20 px-2 py-2">{{
                     page
                   }}</button>
               </div>
