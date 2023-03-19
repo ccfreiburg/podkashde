@@ -57,7 +57,11 @@ export default defineNuxtConfig({
     viewer: true,
   },
   colorMode: {
-    classSuffix: ''
+    darkMode: 'class',
+    preference: 'light', 
+    fallback: 'light', 
+    classSuffix: '',
+    classPrefix: '',
   },
   postcss: {
     plugins: {

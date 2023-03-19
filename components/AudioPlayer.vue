@@ -19,55 +19,40 @@
             @click="pause">
             <svg v-if="paused" viewBox="0 0 24 24" class="h-10 w-10">
               <defs>
-                <linearGradient id="gradient-ccf-0" gradientUnits="userSpaceOnUse" x1="12.749" y1="7.332" x2="12.749"
-                  y2="16.753" gradientTransform="matrix(0.919647, 0, 0, 1.061533, 1.274691, -0.78271)"
-                  xlink:href="#gradient-ccf"></linearGradient>
                 <linearGradient id="gradient-ccf">
-                  <stop offset="0" style="stop-color: rgb(239, 170, 34)"></stop>
-                  <stop offset="0.36" style="stop-color: rgb(239, 170, 34)"></stop>
-                  <stop offset="0.65" style="stop-color: rgb(218, 109, 41)"></stop>
+                  <stop offset="0" style="stop-color: rgb(var(--color-grad-start))"></stop>
+                  <stop offset="0.36" style="stop-color: rgb(var(--color-grad-via))"></stop>
+                  <stop offset="0.65" style="stop-color: rgb(var(--color-grad-end))"></stop>
                 </linearGradient>
-                <linearGradient id="gradient-ccf-1" gradientUnits="userSpaceOnUse" x1="11.41" y1="4.087" x2="11.41"
-                  y2="20.367" gradientTransform="matrix(1.264939, 0, 0, 1.237333, -2.54417, -3.380649)"
-                  xlink:href="#gradient-ccf"></linearGradient>
               </defs>
               <rect width="24" height="24" stroke="none" fill="#000000" opacity="0"></rect>
               <path stroke-linecap="round" stroke-linejoin="round"
                 d="M 16.755 11.53 L 9.701 7.069 C 9.386 6.869 9 7.127 9 7.537 L 9 16.461 C 9 16.871 9.386 17.131 9.701 16.932 L 16.755 12.47 C 16.761 12.468 16.766 12.463 16.771 12.461 C 17.082 12.248 17.075 11.73 16.755 11.53 Z"
-                style="paint-order: fill; fill: url(#gradient-ccf-0)" data-bx-origin="0.375014 0.499992"></path>
+                style="paint-order: fill; fill: url(#gradient-ccf)" data-bx-origin="0.375014 0.499992"></path>
               <ellipse style="
                   fill: none;
-                  stroke: url(#gradient-ccf-1);
+                  stroke: url(#gradient-ccf);
                   stroke-width: 1.5px;
                 " cx="12" cy="12" rx="10" ry="10"></ellipse>
             </svg>
             <svg v-else viewBox="0 0 24 24" class="h-9 w-9">
               <defs>
-                <linearGradient id="gradient-ccf-1" gradientUnits="userSpaceOnUse" x1="11.41" y1="4.087" x2="11.41"
-                  y2="20.367" gradientTransform="matrix(1.264939, 0, 0, 1.237333, -2.54417, -3.380649)"
-                  xlink:href="#gradient-ccf"></linearGradient>
                 <linearGradient id="gradient-ccf">
-                  <stop offset="0" style="stop-color: rgb(239, 170, 34)"></stop>
-                  <stop offset="0.36" style="stop-color: rgb(239, 170, 34)"></stop>
-                  <stop offset="0.65" style="stop-color: rgb(218, 109, 41)"></stop>
+                  <stop offset="0" style="stop-color: rgb(var(--color-grad-start))"></stop>
+                  <stop offset="0.36" style="stop-color: rgb(var(--color-grad-via))"></stop>
+                  <stop offset="0.65" style="stop-color: rgb(var(--color-grad-end))"></stop>
                 </linearGradient>
-                <linearGradient id="gradient-ccf-0" gradientUnits="userSpaceOnUse" x1="9.693" y1="7.653" x2="9.693"
-                  y2="15.942" gradientTransform="matrix(1.12965, 0, 0, 1.206404, -0.678692, -2.041866)"
-                  xlink:href="#gradient-ccf"></linearGradient>
-                <linearGradient id="gradient-ccf-2" gradientUnits="userSpaceOnUse" x1="9.693" y1="7.653" x2="9.693"
-                  y2="15.942" gradientTransform="matrix(1.121797, 0, 0, 1.206404, 3.249403, -2.124129)"
-                  xlink:href="#gradient-ccf"></linearGradient>
               </defs>
               <rect width="24" height="24" stroke="none" fill="#000000" opacity="0"></rect>
               <ellipse style="
                   fill: none;
-                  stroke: url(#gradient-ccf-1);
+                  stroke: url(#gradient-ccf);
                   stroke-width: 1.5px;
                 " cx="12" cy="12" rx="10" ry="10"></ellipse>
-              <path style="fill: url(#gradient-ccf-0)"
+              <path style="fill: url(#gradient-ccf)"
                 d="M 10.263 7.19 H 11.277 V 17.19 H 10.263 A 1 1 0 0 1 9.263 16.19 V 8.19 A 1 1 0 0 1 10.263 7.19 Z"
                 data-bx-shape="rect 9.263 7.19 2.014 10 1 0 0 1 1@691415ba"></path>
-              <path style="fill: url(#gradient-ccf-2)"
+              <path style="fill: url(#gradient-ccf)"
                 d="M 13.123 7.108 H 14.123 A 1 1 0 0 1 15.123 8.108 V 16.108 A 1 1 0 0 1 14.123 17.108 H 13.123 V 7.108 Z"
                 data-bx-shape="rect 13.123 7.108 2 10 0 1 1 0 1@33f88c23"></path>
             </svg>
@@ -280,252 +265,3 @@ export default defineComponent({
 });
 </script>
 
-<style lang="postcss" scoped>
-.volumerange {
-  height: 10px;
-  margin-top: 4px;
-  -webkit-appearance: none;
-  width: 100%;
-  background: none;
-}
-
-.volumerange:focus {
-  outline: none;
-}
-
-.volumerange::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 5px;
-  cursor: pointer;
-  animate: 0.2s;
-  box-shadow: 0px 0px 0px #000000;
-  background: #9b9b9b;
-  border-radius: 1px;
-  border: 0px solid #000000;
-}
-
-.volumerange:focus::-webkit-slider-runnable-track {
-  background: #9b9b9b;
-}
-
-.volumerange::-moz-range-track {
-  width: 100%;
-  height: 2px;
-  cursor: pointer;
-  animate: 0.2s;
-  box-shadow: 0px 0px 0px #000000;
-  background: #9b9b9b;
-  border-radius: 1px;
-  border: 0px solid #000000;
-}
-
-.volumerange::-moz-range-thumb {
-  box-shadow: 0px 0px 0px #000000;
-  height: 10px;
-  width: 2px;
-  background: linear-gradient(135deg,
-      rgba(239, 170, 34, 1) 0%,
-      rgba(239, 170, 34, 1) 25%,
-      rgba(218, 109, 41, 1) 65%,
-      rgba(218, 109, 41, 1) 100%);
-  cursor: pointer;
-}
-
-.volumerange::-ms-thumb {
-  margin-top: 1px;
-  box-shadow: 0px 0px 0px #000000;
-  height: 10px;
-  width: 3px;
-  background: linear-gradient(135deg,
-      rgba(239, 170, 34, 1) 0%,
-      rgba(239, 170, 34, 1) 25%,
-      rgba(218, 109, 41, 1) 65%,
-      rgba(218, 109, 41, 1) 100%);
-  cursor: pointer;
-}
-
-.volumerange::-webkit-slider-thumb {
-  box-shadow: 0px 0px 0px #000000;
-  height: 10px;
-  width: 3px;
-  background: linear-gradient(135deg,
-      rgba(239, 170, 34, 1) 0%,
-      rgba(239, 170, 34, 1) 25%,
-      rgba(218, 109, 41, 1) 65%,
-      rgba(218, 109, 41, 1) 100%);
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-top: -3px;
-}
-
-.volumerange::-ms-track {
-  width: 100%;
-  height: 5px;
-  cursor: pointer;
-  animate: 0.2s;
-  background: transparent;
-  border-color: transparent;
-  color: transparent;
-}
-
-.volumerange::-ms-fill-lower {
-  background: #9b9b9b;
-  border: 0px solid #000000;
-  border-radius: 2px;
-  box-shadow: 0px 0px 0px #000000;
-}
-
-.volumerange::-ms-fill-upper {
-  background: #9b9b9b;
-  border: 0px solid #000000;
-  border-radius: 2px;
-  box-shadow: 0px 0px 0px #000000;
-}
-
-.volumerange:focus::-ms-fill-lower {
-  background: #9b9b9b;
-}
-
-.volumerange:focus::-ms-fill-upper {
-  height: 2px;
-  background: rgb(216, 216, 216);
-}
-
-.progressbar::-moz-range-progress {
-  height: 2px;
-  background: rgb(216, 216, 216);
-  border-radius: 3px;
-}
-
-.volumerange::-moz-range-progress {
-  height: 2px;
-  background: rgb(216, 216, 216);
-}
-
-.progressbar {
-  height: 18px;
-  margin-top: 10px;
-  -webkit-appearance: none;
-  width: 100%;
-  background: none;
-}
-
-.progressbar:focus {
-  outline: none;
-}
-
-.progressbar::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 5px;
-  cursor: pointer;
-  animate: 0.2s;
-  box-shadow: 0px 0px 0px #000000;
-  background: #9b9b9b;
-  border-radius: 1px;
-  border: 0px solid #000000;
-}
-
-.progressbar:focus::-webkit-slider-runnable-track {
-  background: #9b9b9b;
-}
-
-.progressbar::-moz-range-track {
-  width: 100%;
-  height: 3px;
-  cursor: pointer;
-  animate: 0.2s;
-  box-shadow: 0px 0px 0px #000000;
-  background: #9b9b9b;
-  border-radius: 3px;
-  border: 0px solid #000000;
-}
-
-.progressbar::-moz-range-thumb {
-  box-shadow: 0px 0px 0px #000000;
-  border: 2px solid #ffffff;
-  height: 10px;
-  width: 10px;
-  border-radius: 10px;
-  background: linear-gradient(135deg,
-      rgba(239, 170, 34, 1) 0%,
-      rgba(239, 170, 34, 1) 25%,
-      rgba(218, 109, 41, 1) 65%,
-      rgba(218, 109, 41, 1) 100%);
-  cursor: pointer;
-}
-
-.progressbar::-ms-thumb {
-  margin-top: 1px;
-  box-shadow: 0px 0px 0px #000000;
-  border: 2px solid #ffffff;
-  height: 10px;
-  width: 10px;
-  border-radius: 10px;
-  background: linear-gradient(135deg,
-      rgba(239, 170, 34, 1) 0%,
-      rgba(239, 170, 34, 1) 25%,
-      rgba(218, 109, 41, 1) 65%,
-      rgba(218, 109, 41, 1) 100%);
-  cursor: pointer;
-}
-
-.progressbar::-webkit-slider-thumb {
-  box-shadow: 0px 0px 0px #000000;
-  border: 2px solid #ffffff;
-  height: 10px;
-  width: 10px;
-  border-radius: 10px;
-  background: linear-gradient(135deg,
-      rgba(239, 170, 34, 1) 0%,
-      rgba(239, 170, 34, 1) 25%,
-      rgba(218, 109, 41, 1) 65%,
-      rgba(218, 109, 41, 1) 100%);
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-top: -3px;
-}
-
-.progressbar::-ms-track {
-  width: 100%;
-  height: 5px;
-  cursor: pointer;
-  animate: 0.2s;
-  background: transparent;
-  border-color: transparent;
-  color: transparent;
-}
-
-.progressbar::-ms-fill-lower {
-  background: #9b9b9b;
-  border: 0px solid #000000;
-  border-radius: 2px;
-  box-shadow: 0px 0px 0px #000000;
-}
-
-.progressbar::-ms-fill-upper {
-  background: #9b9b9b;
-  border: 0px solid #000000;
-  border-radius: 2px;
-  box-shadow: 0px 0px 0px #000000;
-}
-
-.progressbar:focus::-ms-fill-lower {
-  background: #9b9b9b;
-}
-
-.progressbar:focus::-ms-fill-upper {
-  height: 4px;
-  background: rgb(216, 216, 216);
-}
-
-.progressbar::-moz-range-progress {
-  height: 4px;
-  background: rgb(216, 216, 216);
-  border-radius: 3px;
-}
-
-.progressbar::-moz-range-progress {
-  height: 4px;
-  background: rgb(216, 216, 216);
-}
-</style>

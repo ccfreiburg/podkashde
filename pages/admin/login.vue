@@ -1,48 +1,26 @@
 <template>
   <div v-on:keyup.enter="onlogin" v-on:keyup.esc="oncancel">
     <messge-toast></messge-toast>
-    <div class="w-full flex justify-center">
-      <div
-        class="mt-6 md:mt-10 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs"
-      >
-        &nbsp;{{ $t('login.title') }}&nbsp;
-      </div>
+    <div class="w-full mt-20 flex justify-center">
+      <BaseH1>{{ $t('login.title') }}</BaseH1>
     </div>
-    <div class="w-full h-screen bg-gray-200 flex justify-center">
-      <div class="container px-4 mx-auto flex flex-col">
-        <div class="flex flex-row flex-wrap content-start justify-evenly">
-          <div class="w-2/3 flex flex-col">
-            <input-area
-              class="w-full"
-              name="user"
-              ref="userfield"
-              :errors="errors"
-              type="text"
-              :label="'login.user'"
-              value=""
-            ></input-area>
-            <input-area
-              name="password"
-              ref="passfield"
-              type="password"
-              :errors="errors"
-              :label="'login.password'"
-              value=""
-            ></input-area>
-            <div class="flex flex-row">
-              <div class="flex-grow">
-                <button
-                  class="float-right h-12 w-40 mt-8 px-2 rounded-md ccfbutton-border"
-                  @click="onlogin"
-                >
-                  {{ $t('login.submit') }}
-                </button>
-              </div>
+    <BaseContainer>
+      <div class="flex flex-row flex-wrap content-start justify-evenly">
+        <div class="w-2/3 flex flex-col">
+          <input-area class="w-full" name="user" ref="userfield" :errors="errors" type="text" :label="'login.user'"
+            value=""></input-area>
+          <input-area name="password" ref="passfield" type="password" :errors="errors" :label="'login.password'"
+            value=""></input-area>
+          <div class="flex flex-row">
+            <div class="flex-grow">
+              <BaseButtonPrimary class="mt-8 float-right" @click="onlogin">{{ $t('login.submit') }}
+              </BaseButtonPrimary>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      <div class="h-screen"></div>
+    </BaseContainer>
   </div>
 </template>
 <script setup lang="ts">
@@ -62,12 +40,12 @@ const passfield = ref(null)
 const onlogin = async () => {
 
   try {
-    const username =  userfield.value.$el.childNodes[1].value
-    const password =  passfield.value.$el.childNodes[1].value
+    const username = userfield.value.$el.childNodes[1].value
+    const password = passfield.value.$el.childNodes[1].value
     if (await login(username, password)) {
       // var url = router.opasswordptions.history.state.back as string;
       // if (url.includes('?')) url = url.substring(0, url.indexOf('?'));
-      const url = (i18n.locale.value=='de'?'':'/'+i18n.locale.value)+'/podcasts'
+      const url = (i18n.locale.value == 'de' ? '' : '/' + i18n.locale.value) + '/podcasts'
       router.push({
         path: url,
         query: { refresh: 'true', msg: 'login.loggedin' },

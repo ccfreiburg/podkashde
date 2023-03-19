@@ -6,8 +6,8 @@
     "adminsub": "Administrative Aufgaben",
     "login": "Anmelden",
     "logout": "Abmelden",
-    "import": "Import von Wordpress", 
-    "podcasts": "Podcasts", 
+    "import": "Import von Wordpress",
+    "podcasts": "Podcasts",
     "podcastsub": "Alles was mit Podcasts, Serien and Episoden",
     "list": "Alle Podcasts",
     "new": "Neuen podcast beginnen",
@@ -64,10 +64,10 @@
       "link": "Url",
       "owner_email": "Email verantwortliche Person",
       "owner_name": "Verantwortliche Person",
-      "apple_url":"Podcast Url bei Apple",
-      "spotify_url":"Podcast Url bei Spotify",
-      "google_url":"Podcast Url bei Google",
-      "stitcher_url":"Podcast Url bei Stitcher",
+      "apple_url": "Podcast Url bei Apple",
+      "spotify_url": "Podcast Url bei Spotify",
+      "google_url": "Podcast Url bei Google",
+      "stitcher_url": "Podcast Url bei Stitcher",
       "draft_true": "Nicht öffentlicher Entwurf",
       "draft_false": "Öffentlich publiziert",
       "errors": "Folgende Fehler bitte beheben:"
@@ -81,10 +81,10 @@
       "category": "Bitten eine Podcastkategorie wählen",
       "type": "Bitte eine Art der Veröffentlichung wählen",
       "link": "Bitte einen Link eingeben",
-      "apple_url":"Bitte einen Link eingeben",
-      "spotify_url":"Bitte einen Link eingeben",
-      "google_url":"Bitte einen Link eingeben",
-      "stitcher_url":"Bitte einen Link eingeben",
+      "apple_url": "Bitte einen Link eingeben",
+      "spotify_url": "Bitte einen Link eingeben",
+      "google_url": "Bitte einen Link eingeben",
+      "stitcher_url": "Bitte einen Link eingeben",
       "owner_email": "Bitte die Email der verantwortlichen Person eingeben",
       "owner_name": "Bitte den Namen der verantwortlichen Person eingeben",
       "saveingimg": "Podcast Bild konnte nicht gespeichert werden"
@@ -102,7 +102,7 @@
     "edit_short": "bearbeiten",
     "explicit": "explizit",
     "blocked": "blockiert",
-    "addImage": "klicken um Bild hinzuzufügen",    
+    "addImage": "klicken um Bild hinzuzufügen",
     "label": {
       "file": "Audio Datei",
       "serie": "Serie",
@@ -142,11 +142,13 @@
       "saving": "Folge konnte nicht gespeichert werden"
     },
     "saveEpisode": "Folge speichern",
-    "saved" : "Die Folge wurde erfolgreich gespeichert",
-    "deleted" : "Die Folge wurde gelöscht"
+    "saved": "Die Folge wurde erfolgreich gespeichert",
+    "deleted": "Die Folge wurde gelöscht"
   },
   "serie": {
+    "title": "Serien",
     "new": "Neue Serie",
+    "episodes": "Folgen der Serie",
     "edit": "Serie bearbeiten",
     "inthis": "in dieser Serie",
     "tothepisodes": "zu den Folgen...",
@@ -158,7 +160,6 @@
       "description": "Beschreibung",
       "draft_true": "Nicht öffentlicher Entwurf",
       "draft_false": "Öffentlich publiziert",
-
       "errors": "Folgende Fehler bitte beheben:"
     },
     "validation": {
@@ -182,9 +183,9 @@
     "options": "Optionen",
     "importArchive": "Vom localen Archiv kopieren",
     "importCoverImages": "Die Podcast-Bilder auf herunterladen",
-    "importMp3s": "Die Mp3s auf den Server herunterladen", 
+    "importMp3s": "Die Mp3s auf den Server herunterladen",
     "importMetadata": "Metadaten: Tags, Authors and Serien importiern",
-        "loading": "Laden aus WordPress..."
+    "loading": "Laden aus WordPress..."
   },
   "paginator": {
     "next": "nächste",
@@ -193,6 +194,6 @@
     "statusshort": "Seite {0} von {1}"
   },
   "cancel": "Zurück",
-  "delete": "Löschen", 
+  "delete": "Löschen",
   "newPodcast": "Neuer Podcast"
 }

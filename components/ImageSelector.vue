@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div
-      class="
+    <div class="
         self-center
         block
         cursor-pointer
@@ -13,14 +12,8 @@
         rounded-md
         border-gray-500
         bg-center bg-cover
-      "
-      @click="chooseImageFile"
-      :style="{ 'background-image': `url(${preview})` }"
-    >
-      <div
-        v-if="preview.length<1"
-        class="flex flex-col h-full w-full justify-center bg-slate-200"
-      >
+      " @click="chooseImageFile" :style="{ 'background-image': `url(${preview})` }">
+      <div v-if="preview.length < 1" class="flex flex-col h-full w-full justify-center bg-skin-light dark:bg-skin-dark">
         <div class="text-gray-500 text-center">
           {{ $t("podcast.label.img") }}
         </div>
@@ -30,14 +23,8 @@
       </div>
     </div>
     <div>
-      <input
-        class="invisible"
-        ref="imageFileInput"
-        type="file"
-        id="imageFileInput"
-        accept=".jpg,.jpeg,.png,.gif"
-        @change="imageFileSelected"
-      />
+      <input class="invisible" ref="imageFileInput" type="file" id="imageFileInput" accept=".jpg,.jpeg,.png,.gif"
+        @change="imageFileSelected" />
     </div>
   </div>
 </template>
@@ -56,26 +43,26 @@ export default defineComponent({
     const imgMetadata = ref(new ImageMetadata());
     const imageFileInput = ref(null);
 
-    const setImageMetaString = ( filename: string, width: number, height: number )=>{
-      if (filename.length<1)
+    const setImageMetaString = (filename: string, width: number, height: number) => {
+      if (filename.length < 1)
         return
-      imgMetadata.value.preview=filename;
+      imgMetadata.value.preview = filename;
       imgMetadata.value.imgWidth = width;
       imgMetadata.value.imgHeight = height;
       emit("imageSelected", imgMetadata.value)
     }
-    watch( ()=>props.filename, (newVal) => {
-      setImageMetaString(props.filename,REQUIRED_IMG_WIDTH,REQUIRED_IMG_HEIGHT)
+    watch(() => props.filename, (newVal) => {
+      setImageMetaString(props.filename, REQUIRED_IMG_WIDTH, REQUIRED_IMG_HEIGHT)
     })
 
-    watch( ()=>props.preview, (newVal) => {
-        imgMetadata.value.preview = props.preview;
-        calcImageSizePx(props.preview, ()=>{
-          emit("imageSelected", imgMetadata.value)
-        })
+    watch(() => props.preview, (newVal) => {
+      imgMetadata.value.preview = props.preview;
+      calcImageSizePx(props.preview, () => {
+        emit("imageSelected", imgMetadata.value)
+      })
     })
-        if (props.filename && props.filename.length>0)
-      setImageMetaString(props.filename,REQUIRED_IMG_WIDTH,REQUIRED_IMG_HEIGHT)
+    if (props.filename && props.filename.length > 0)
+      setImageMetaString(props.filename, REQUIRED_IMG_WIDTH, REQUIRED_IMG_HEIGHT)
 
     const preview = computed(() => {
       if (imgMetadata.value && imgMetadata.value.preview)

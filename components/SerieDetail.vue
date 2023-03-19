@@ -1,30 +1,23 @@
 <template>
   <FormDetail type="serie" :fields="fields" @frmsave="save" @frmremove="remove" @frmcancel="cancel">
-    <div class="flex flex-col">
-      <div class="flex flex-row">
-        <div>
-          <image-selector :filename="fields.cover_file" :preview="imgMetadata.preview" @imageSelected="imageSelected" />
-        </div>
-      </div>
-      <!-- Fields-->
-      <input-area :name="'title'" :label="'serie.label.title'" :errors="errors" v-model:value="fields.title" />
-      <input-area :name="'subtitle'" :label="'serie.label.subtitle'" :errors="errors" v-model:value="fields.subtitle" />
-      <input-area :name="'slug'" :disabled="isEdit" :label="'serie.label.slug'" :errors="errors"
-        v-model:value="fields.slug" />
-      <input-area :name="'description'" :type="'textarea'" :label="'serie.label.description'" :errors="errors"
-        v-model:value="fields.description" />
-      <switch-box :checked="fields.draft" @checkedChanged="(val) => fields.draft = val"
-        :labelChecked="$t('serie.label.draft_true')" :labelUnChecked="$t('serie.label.draft_false')" />
-      <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
-        <p>{{ $t("serie.label.errors") }}</p>
-        <ul class="ml-5">
-          <li class="list-disc" v-for="(err, index) in errors" :key="index">
-            {{ $t(err.text) }}
-          </li>
-        </ul>
-      </div>
+    <image-selector :filename="fields.cover_file" :preview="imgMetadata.preview" @imageSelected="imageSelected" />
+    <!-- Fields-->
+    <input-area :name="'title'" :label="'serie.label.title'" :errors="errors" v-model:value="fields.title" />
+    <input-area :name="'subtitle'" :label="'serie.label.subtitle'" :errors="errors" v-model:value="fields.subtitle" />
+    <input-area :name="'slug'" :disabled="isEdit" :label="'serie.label.slug'" :errors="errors"
+      v-model:value="fields.slug" />
+    <input-area :name="'description'" :type="'textarea'" :label="'serie.label.description'" :errors="errors"
+      v-model:value="fields.description" />
+    <switch-box :checked="fields.draft" @checkedChanged="(val) => fields.draft = val"
+      :labelChecked="$t('serie.label.draft_true')" :labelUnChecked="$t('serie.label.draft_false')" />
+    <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
+      <p>{{ $t("serie.label.errors") }}</p>
+      <ul class="ml-5">
+        <li class="list-disc" v-for="(err, index) in errors" :key="index">
+          {{ $t(err.text) }}
+        </li>
+      </ul>
     </div>
-    <!-- Buttons -->
   </FormDetail>
 </template>
 <script lang="ts">

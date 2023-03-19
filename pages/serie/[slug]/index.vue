@@ -4,20 +4,20 @@
     <select-podcast-modal v-if="dialog" :error="error" :podcasts="podcasts" @cancel="() => dialog = false"
       @submit="changePodcast"></select-podcast-modal>
     <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked" />
-    <div class="w-full flex justify-center">
-      <div class="mt-6 md:mt-12 mb-10 md:mb-14 grow-0 text-md md:text-2xl uppercase italic ccf-underline-xs">
-        &nbsp;Series Episodes&nbsp;
-      </div>
+    <div class="w-full flex justify-center mt-6 md:mt-12 mb-10 md:mb-14 ">
+      <BaseH1>
+        <div class="text-skin-muted dark:text-skin-muted-dark">{{ $t('serie.episodes') }}</div>
+      </BaseH1>
     </div>
     <div class="flex flex-col items-center">
       <div class="w-11/12 md:w-2/3 md:h-60 flex flex-row">
-        <img class="h-20 md:h-60 shrink-0" :src="serie.cover_file" />
+        <img class="relative z-10 h-20 md:h-60 shrink-0" :src="serie.cover_file" />
         <div class="pl-4 md:pl-14 pt-1 pb-10 flex flex-col justify-around rounded-r-md">
           <div>
             <div class="text-md md:text-2xl font-semibold tracking-wider">
               {{ serie.title }}
             </div>
-            <div class="text-xs md:text-sm tracking-wide text-gray-500">
+            <div class="text-xs md:text-sm tracking-wide text-skin-muted dark:text-skin-muted-dark">
               {{ serie.subtitle }}
             </div>
           </div>
@@ -27,17 +27,16 @@
         </div>
       </div>
     </div>
-    <div class="w-full relative">
-      <div class="p-4 w-screen absolute -top-8 bg-gray-200 -z-10 flex flex-col items-center"></div>
+    <div class="w-full relative z-0">
+      <div class="p-4 w-full absolute -top-8 bg-skin-muted dark:bg-skin-muted-dark flex flex-col items-center"></div>
     </div>
-    <div class="w-full bg-gray-200 flex flex-col items-center">
-      <div class="w-11/12 lg:w-2/3 flex flex-col justify-center">
-        <div class="md:pt-14 text-sm md:text-ml tracking-widest font-bold text-gray-500 text-center">
-          {{ $t('serie.inthis') }}
-        </div>
-        <episodes-list :episodes="episodes" />
+    <BaseContainer>
+      <div class="md:pt-14 text-sm md:text-ml tracking-widest font-bold text-center">
+        {{ $t('serie.inthis') }}
       </div>
-    </div>
+      <episodes-list :episodes="episodes" />
+      <div class="h-screen"></div>
+    </BaseContainer>
   </div>
 </template>
 <script setup lang="ts">

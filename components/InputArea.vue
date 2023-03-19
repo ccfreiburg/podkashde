@@ -1,32 +1,21 @@
 <template>
   <div class="mt-2 flex flex-col">
     <div>
-    <label v-if="label" class="pl-2 text-sm text-gray-500" :for="name">{{
-      $t(label)
-    }}</label>
-    <div v-else class="mt-4"></div>
-    <span v-if="error!==''" name="error" class="ccf-text-error">
-      {{$t(error)}}
-    </span>
+      <label v-if="label" class="pl-2 text-sm text-skin-muted" :for="name">{{
+        $t(label)
+      }}</label>
+      <div v-else class="mt-4"></div>
+      <span v-if="error !== ''" name="error" class="pl-2 text-sm text-skin-error">
+        {{ $t(error) }}
+      </span>
     </div>
-      <input v-if="isInputElement()"
-          :class="'ccf-field' + getClass()"
-          :type="type"
-          :valid="error==''"
-          :id="name"
-          :name="name"
-          :disabled="disabled"
-          :value="value"
-          @input="updateEvent"
-        />
-      <textarea v-if="type==='textarea'"
-          class="ccf-textarea"
-          type="text"
-          :id="name"
-          :name="name"
-          :value="value"
-          @input="updateEvent"
-      />
+    <input v-if="isInputElement()"
+      :class="getClass + 'h-10 border-[2px] border-skin-light dark:border-skin-dark dark:border-[1px] px-3 py-1 mt-1 rounded-md bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark focus:outline-none focus:ring-[1px] focus:ring-skin-fokus'"
+      :type="type" :valid="error == ''" :id="name" :name="name" :disabled="$props.disabled" :readonly="$props.readonly"
+      :value="value" @input="updateEvent" />
+    <textarea v-if="type === 'textarea'"
+      class="h-24 border-[2px] border-skin-light dark:border-skin-dark dark:border-[1px] px-3 py-1 mt-1 rounded-md bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark focus:outline-none focus:ring-[1px] focus:ring-skin-fokus"
+      type="text" :id="name" :name="name" :value="value" @input="updateEvent" />
   </div>
 </template>
 
@@ -45,46 +34,47 @@ export default defineComponent({
     label: String,
     errors: {
       type: Object as PropType<Array<IValidationError>>,
-      default: []
+      default: [],
     },
     disabled: {
       type: Boolean,
       default: false,
-    },  
+    },
+    readonly: {
+      type: Boolean,
+      default: false,
+    },
     value: {
       type: String,
       default: "",
-      required: true
+      required: true,
     },
   },
   name: "InputArea",
   setup(props, ctx) {
-    function getClass() {
-      if (hasError(props.errors)) 
-        return " ccf-error";
-      else 
-        return "";
-    }
+    const getClass = computed(() => {
+      if (hasError(props.errors)) return "ring-skin-error ring-1 ";
+      else return "";
+    })
     function isInputElement() {
-      return ["text","number","date","password"].includes(props.type)
+      return ["text", "number", "date", "password"].includes(props.type);
     }
     function hasError(errors) {
       return errors.find((error) => error.field === props.name);
     }
     const error = computed(() => {
-      const err = hasError(props.errors)
-      return (err?err.text:"")
-    })
+      const err = hasError(props.errors);
+      return err ? err.text : "";
+    });
     function updateEvent(event) {
-      ctx.emit('update:value', event.target.value)
+      ctx.emit("update:value", event.target.value);
     }
 
     return {
       isInputElement,
       updateEvent,
       getClass,
-      error
-      
+      error,
     };
   },
 });

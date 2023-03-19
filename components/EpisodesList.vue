@@ -1,56 +1,51 @@
 <template>
   <div class="text-xs md:text-md lg:text-base w-full flex flex-col">
-    <div v-if="(episodes?.length>0)" class="flex place-items-end place-content-end pt-1 px-1 md:px-4 text-gray-500">
+    <div v-if="(episodes?.length > 0)" class="flex place-items-end place-content-end pt-1 px-1 md:px-4">
       <div v-if="!searchHiden" class="flex flex-row flex-nowrap items-center">
         <input-area class="pb-8" :name="'search'" label="" v-model:value="search" />
-        <div @click="() => {search='';searchHiden=true}">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <div @click="() => { search = ''; searchHiden = true }">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </div>
       </div>
       <div v-else @click="toggleSearch">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-        </svg>  
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+        </svg>
       </div>
     </div>
-    <div
-      class="flex flex-col"
-      v-for="(episode, index) in sortedFilteredList"
-      :key="index"
-    >
+    <div class="flex flex-col" v-for="(episode, index) in sortedFilteredList" :key="index">
       <NuxtLink :to="localePath(episode.nuxtlink)">
         <div class="mt-1 py-2 md:px-2 md:rounded-xl text-xs lg:text-sm xl:text-lg  2xl:text-xl
         flex flex-col place-content-center place-items-center items-center 
-        bg-white hover:bg-slate-100 text-gray-700
+        hover:bg-skin-light dark:hover:bg-skin-dark
         sm:flex-row sm:bg-transparent">
           <div class="flex-shrink-0">
             <img class="h-20" :src="episode.image" />
           </div>
           <div class="flex-grow flex flex-col items-center
               sm:flex-row ">
-            <div class="sm:w-9/12 pt-2 sm:pt-0 text-center sm:text-left pl-2 lg:pl-4 2xl:pl-8"> 
-              <div class="font-semibold " v-html="episode.title" /> 
-              <div class="invisible sm:visible sm:pt-1 text-gray-500" v-html="(episode.cross_ref)" /> 
+            <div class="sm:w-9/12 pt-2 sm:pt-0 text-center sm:text-left pl-2 lg:pl-4 2xl:pl-8">
+              <div class="font-semibold " v-html="episode.title" />
+              <div class="invisible sm:visible sm:pt-1 text-skin-muted dark:text-skin-muted-dark"
+                v-html="(episode.cross_ref)" />
             </div>
-            <div class="sm:w-3/12 pl-1 text-center sm:text-left overflow-hidden lg:whitespace-nowrap sm:text-md">{{episode.creator}}</div>
+            <div class="sm:w-3/12 pl-1 text-center sm:text-left overflow-hidden lg:whitespace-nowrap sm:text-md">
+              {{ episode.creator }}</div>
           </div>
           <div class="sm:w-26 pr-1 text-center sm:text-right">{{ episode.datestring }}</div>
-          <div class="sm:w-10 invisible sm:visible flex justify-end">
-            <button class="ccfplay rounded-2xl h-6 w-6 md:h-8 md:w-8">
+          <div class="sm:w-10 invisible sm:visible flex justify-end text-skin-inverted">
+            <button class=" bg-gradient-to-r from-skin-from via-skin-via to-skin-to rounded-2xl h-6 w-6 md:h-8 md:w-8">
               <div class="h-6 w-6 md:h-8 md:w-8 flex items-center justify-center">
-                <svg
-                  class="h-3 w-3 md:h-5 md:w-5"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
+                <svg class="h-3 w-3 md:h-5 md:w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                  fill="currentColor">
+                  <path fill-rule="evenodd"
                     d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z"
-                    clip-rule="evenodd"
-                  />
+                    clip-rule="evenodd" />
                 </svg>
               </div>
             </button>
@@ -58,7 +53,7 @@
         </div>
       </NuxtLink>
     </div>
-    <list-paginator :max="max" v-model:value="page" :itemsperpage="itemsperpage"/>
+    <list-paginator :max="max" v-model:value="page" :itemsperpage="itemsperpage" />
     <div class="h-10"></div>
   </div>
 </template>
@@ -91,20 +86,20 @@ export default {
     const user = await useAuth().useAuthUser() as any;
 
     const pageFilter = (e, index) => {
-        const start = (page.value-1)*itemsperpage.value -1
-        const end = start + itemsperpage.value
-        return index>start && index<=end
+      const start = (page.value - 1) * itemsperpage.value - 1
+      const end = start + itemsperpage.value
+      return index > start && index <= end
     }
 
     function expandAndFilter(list: Array<IEpisode>, search: string): Array<IDisplayEpisode> {
       if (!list || list.length < 1) return [];
-      const filter = (e) =>  {
-        return search.length<3 ||
+      const filter = (e) => {
+        return search.length < 3 ||
           e.title.toLowerCase().includes(search.toLowerCase()) ||
           e.creator.toLowerCase().includes(search.toLowerCase()) ||
           e.cross_ref?.toLowerCase().includes(search.toLowerCase())
       }
-      return list.filter( (e) => !e.draft || user.value ).filter(filter).map((e) => {
+      return list.filter((e) => !e.draft || user.value).filter(filter).map((e) => {
         const date = new Date(e.pubdate);
         return {
           ...e,
@@ -121,20 +116,20 @@ export default {
           b.sortdate.valueOf() - a.sortdate.valueOf()
       );
     }
-    const sortedFilteredList = computed(() =>{
-        const sortlist = sortList(expandAndFilter(props.episodes, search.value))
-        max.value = sortlist.length
-        if (itemsperpage.value==0 || page.value==0) return sortlist
-        return sortlist.filter(pageFilter)
-      }
+    const sortedFilteredList = computed(() => {
+      const sortlist = sortList(expandAndFilter(props.episodes, search.value))
+      max.value = sortlist.length
+      if (itemsperpage.value == 0 || page.value == 0) return sortlist
+      return sortlist.filter(pageFilter)
+    }
     );
-    const toggleSearch = function() {
-      searchHiden.value=!searchHiden.value; 
-      nextTick( () => {
-       if(!searchHiden.value) {
-         const el = document.getElementById('search')
-         if (el)
-          el.focus()
+    const toggleSearch = function () {
+      searchHiden.value = !searchHiden.value;
+      nextTick(() => {
+        if (!searchHiden.value) {
+          const el = document.getElementById('search')
+          if (el)
+            el.focus()
         }
       })
     }
