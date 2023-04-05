@@ -64,7 +64,7 @@ function switchColorMode() {
 <template>
   <div class="theme-ccf"></div> <!-- this is to prevent postcss to remove the theme -->
   <div :class="settings.skin">
-    <div class="bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark">
+    <div class="bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark h-screen">
       <NavBar :menu="menu" :closeOnScroll="settings.closeOnScroll" @menuItemClicked="menuItemClicked"
         :enableDarkOption="settings.enableDarkOption" :logo="(darkmode ? settings.logo_w : settings.logo)"
         :darkmode="darkmode" @colorModeChanged="switchColorMode" />
