@@ -209,8 +209,6 @@ export default defineComponent({
       audio.value.playbackRate = playbackRate.value
     }
     function _handleLoaded(e) {
-      console.log(e)
-      console.log(audio.value.readyState)
       if (!loaded.value && audio.value.readyState >= 1 || preload.value == null) {
         if (props.autoPlay) this.play();
         loaded.value = true;
