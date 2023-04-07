@@ -208,8 +208,10 @@ export default defineComponent({
       playbackRate.value = rates[(index + 1) % (rates.length)]
       audio.value.playbackRate = playbackRate.value
     }
-    function _handleLoaded() {
-      if (!loaded.value && audio.value.readyState >= 2 || preload.value == null) {
+    function _handleLoaded(e) {
+      console.log(e)
+      console.log(audio.value.readyState)
+      if (!loaded.value && audio.value.readyState >= 1 || preload.value == null) {
         if (props.autoPlay) this.play();
         loaded.value = true;
         totalDuration.value = audio.value.duration;
