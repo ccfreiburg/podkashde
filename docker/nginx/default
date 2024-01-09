@@ -1,62 +1,53 @@
 server {
-	listen 80 default_server;
-	listen [::]:80 default_server;
+    listen 80 default_server;
+    listen [::]:80 default_server;
 
-  client_max_body_size 125M;
-	
-  root /var/www;
+	client_max_body_size 200M;
 
-	# Add index.php to the list if you are using PHP
-	index index.html index.htm index.nginx-debian.html;
+  	root /var/www;
 
-	server_name _;
+    # Add index.php to the list if you are using PHP
+    index index.html index.htm index.nginx-debian.html;
 
+    server_name _;
 
-	location /s/audio/ {
-		# static mp3 files in audio dir
-	  sendfile           on;
-    sendfile_max_chunk 1m;
-		tcp_nodelay       on;
-    keepalive_timeout 65;
-		access_log /var/log/nginx/mp3access.log custom buffer=1k flush=1m;
-    root /var/www/public;
-	}
+    location /s/audio/ {
+        # static mp3 files in audio dir
+        sendfile           on;
+    	sendfile_max_chunk 1m;
+        tcp_nodelay       on;
+    	keepalive_timeout 65;
+        access_log /var/log/nginx/mp3access.log custom buffer=1k flush=1m;
+    	root /var/www/public;
+    }
 
-	location /s/ {
-		# all other static file
-    root /var/www/public;
-	}
+    location /s/ {
+        # all other static file
+    	root /var/www/public;
+    }
 
-	location /archiv {
-		# all other static file
-		autoindex on;
-    	root /var/www;
-	}
+    location /archiv {
+        # backup archive 
+        autoindex on;
+        root /var/www;
+    }
 
-	location /media/  {
-		# allow old style links for mp3s
-		rewrite ^/media/(.*mp3) /api/files?name=$1 break;
-   	proxy_buffering off;
-	  proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_pass http://localhost:3000;
-		access_log /var/log/nginx/mp3access.log custom buffer=1k flush=1m;
-		# access_log /var/log/nginx/mediaaccess.log;
-	}
+    location /media/  {
+        # allow old style links from previous podcast tool for mp3s
+        rewrite ^/media/(.*mp3) /api/files?name=$1 break;
+        proxy_buffering off;
+        proxy_set_header Host $host;
+    	proxy_set_header X-Real-IP $remote_addr;
+    	proxy_pass http://localhost:3000;
+        access_log /var/log/nginx/mp3access.log custom buffer=1k flush=1m;
+        # access_log /var/log/nginx/mediaaccess.log;
+    }
 
-  
-  #
-	location / {
-   	proxy_buffering off;
-	  proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_pass http://localhost:3000;
-	}
-
-	# deny access to .htaccess files, if Apache's document root
-	# concurs with nginx's onenginx 
-	#
-	#location ~ /\.ht {
-	#	deny all;
-	#}
-}
+    location / {
+        proxy_buffering off;
+        proxy_set_header Host $host;
+    	proxy_set_header X-Real-IP $remote_addr;
+    	proxy_pass http://localhost:3000;
+    }
+ }
+ 
