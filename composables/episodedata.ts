@@ -7,10 +7,10 @@ import type ISerie from "~~/base/types/ISerie";
 export async function useEpisodes() {
     const episodes = useState<Array<IEpisode>>('episodes', () => [] )
 
-    const { apiBase } = useRuntimeConfig()
+    const config = useRuntimeConfig()
 
     const refresh = async () => {
-        episodes.value = await $fetch( apiBase + EPISODES_AP);
+        episodes.value = await $fetch( config.public.apiBase + EPISODES_AP);
     }
     if (episodes.value.length<1) {
         await refresh();
@@ -24,12 +24,12 @@ export async function useEpisodes() {
 export async function useEpisode(slug:string) {
     const episode = useState<IEpisode>(slug, () => null )
     const podcast = useState<IPodcast>("podcast-of-"+slug, () => null )
-    const { apiBase } = useRuntimeConfig()
+    const config = useRuntimeConfig()
 
     const serie = useState<ISerie>("serie-of-"+slug, () => null )
 
     const refresh = async () => {
-        episode.value = await $fetch( apiBase + EPISODE_AP+"?slug="+slug)     
+        episode.value = await $fetch( config.public.apiBase +  EPISODE_AP+"?slug="+slug)     
         podcast.value = episode.value.podcast;
         serie.value = episode.value.serie;
     }

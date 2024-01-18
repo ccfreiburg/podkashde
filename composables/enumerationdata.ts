@@ -7,10 +7,10 @@ export async function useEnumerations() {
     'enumeration',
     () => []
   );
-  const { apiBase } = useRuntimeConfig()
+  const config = useRuntimeConfig()
 
   const refresh = async () => {
-    const list = await $fetch( apiBase + ENUMERATIONS_AP);
+    const list = await $fetch( config.public.apiBase + ENUMERATIONS_AP);
     enums.value = list as Array<IEnumerator>;
   };
   // if not init fetch and init

@@ -5,12 +5,12 @@
       @submit="changePodcast"></select-podcast-modal>
     <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked" /> -->
     <div class="flex flex-col items-center ">
-      <div class="relative z-20 w-11/12 lg:w-4/5 md:h-60 mt-6 md:mt-12 flex flex-row">
+      <div class="relative z-20 flex flex-row w-11/12 mt-6 lg:w-4/5 md:h-60 md:mt-12">
         <img class="h-28 md:h-60 w-28 md:w-60 shrink-0" :src="ContentFile.getMediaUrl(episode.image)" />
-        <div class="pl-6 md:pl-12 pt-2 pb-8 flex flex-col justify-around items-start rounded-r-md">
+        <div class="flex flex-col items-start justify-around pt-2 pb-8 pl-6 md:pl-12 rounded-r-md">
           <div>
             <div
-              class="grow-0 text-xs font-bold uppercase md:text-sm tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-skin-from via-skin-via to-skin-to">
+              class="text-xs font-bold tracking-wide text-transparent uppercase grow-0 md:text-sm bg-clip-text bg-gradient-to-r from-skin-from via-skin-via to-skin-to">
               <NuxtLink :to="('/serie/' + serie?.slug)">
                 {{ serie?.title }}
               </NuxtLink>
@@ -22,20 +22,20 @@
             </div>
           </div>
           <div class="flex flex-col">
-            <div class="text-sm md:text-xl font-semibold tracking-wider" v-html="episode.title" />
-            <div class="text-xs md:text-sm tracking-wide text-skin-muted dark:text-skin-muted-dark"
+            <div class="text-sm font-semibold tracking-wider md:text-xl" v-html="episode.title" />
+            <div class="text-xs tracking-wide md:text-sm text-skin-muted dark:text-skin-muted-dark"
               v-html="episode.subtitle" />
           </div>
-          <div class="text-xs md:text-sm tracking-wider">
+          <div class="text-xs tracking-wider md:text-sm">
             {{ episode.creator }}
           </div>
           <div class="flex flex-row flex-wrap">
             <div v-if="episode.explicit"
-              class="text-xs text-skin-inverted font-bold px-2 m-1 rounded-md bg-gradient-to-r from-skin-from via-skin-via to-skin-to">
+              class="px-2 m-1 text-xs font-bold rounded-md text-skin-inverted bg-gradient-to-r from-skin-from via-skin-via to-skin-to">
               {{ $t('episode.explicit') }}
             </div>
             <div v-if="episode.block"
-              class="text-xs text-skin-inverted font-bold px-2 m-1 rounded-md bg-gradient-to-r from-skin-from via-skin-via to-skin-to">
+              class="px-2 m-1 text-xs font-bold rounded-md text-skin-inverted bg-gradient-to-r from-skin-from via-skin-via to-skin-to">
               {{ $t('episode.blocked') }}
             </div>
           </div>
@@ -43,24 +43,23 @@
       </div>
     </div>
 
-    <div class="w-full relative flex flex-row -z-0">
-      <div class="w-screen h-40 absolute -top-4 md:-top-8 bg-skin-player"></div>
+    <div class="relative flex flex-row w-full -z-0">
+      <div class="absolute w-screen h-40 -top-4 md:-top-8 bg-skin-player"></div>
     </div>
     <div class="relative z-10 flex flex-col items-center">
-      <div class="w-11/12 lg:w-4/5 pt-6">
-        <AudioPlayer :key="audioComponentKey" class="bg-skin-player text-skin-inverted" :file="ContentFile.getMediaUrl(link)"
-          @play="play"></AudioPlayer>
+      <div class="w-11/12 pt-6 lg:w-4/5">
+        <AudioPlayer :key="audioComponentKey" class="bg-skin-player text-skin-inverted" :file="ContentFile.getMediaUrl(link)" @play="play"></AudioPlayer>
       </div>
     </div>
-    <div class="h-4 w-screen bg-skin-light"></div>
+    <div class="w-screen h-4 bg-skin-light"></div>
 
-    <BaseContainer class="text-skin-base dark:text-skin-dark px-2">
+    <BaseContainer class="px-2 text-skin-base dark:text-skin-dark">
       <div class="text-skin-muted">{{ $t('episode.episode') }}</div>
       <div class="flex flex-row justify-between">
         <div class="flex flex-row flex-wrap">
           {{ $t('episode.label.duration') + ' ' + duration() }}
         </div>
-        <div class="mx-3 flex flex-row flex-wrap">
+        <div class="flex flex-row flex-wrap mx-3">
           {{
             $t('episode.label.pubdate') +
             ' ' +
@@ -117,8 +116,8 @@
 import { EPISODEMOVE_AP, EPISODE_AP } from '~~/base/Constants';
 import { durationInSecToStr } from '~~/base/Converters';
 import { useEpisode } from '~~/composables/episodedata';
-import { ContentFile } from '~~/base/ContentFile'
 import { dateToString } from '~~/base/Converters'
+import { ContentFile } from '~/base/ContentFile';
 
 const route = useRoute();
 const router = useRouter();
@@ -130,7 +129,7 @@ const { locale } = useI18n();
 const slug = route.params.episodeslug as string;
 const { refresh, serie, podcast, remove, episode } = await useEpisode(slug);
 const { podcasts } = await usePodcasts();
-const { apiBase } = useRuntimeConfig()
+const config = useRuntimeConfig()
 const link = ref(episode.value.link)
 const submenu = ref([])
 onBeforeMount(() => {
@@ -177,7 +176,7 @@ async function menuItemClicked(value: string) {
         id: episode.value.id,
       },
     };
-    await $fetch( apiBase + EPISODE_AP, request);
+    await $fetch( config.public.apiBase + EPISODE_AP, request);
     (await useEpisodes()).refresh();
     var url = router.options.history.state.back as string;
     if (url.includes('?')) url = url.substring(0, url.indexOf('?'));
@@ -202,7 +201,7 @@ async function changePodcast(podcastid: number) {
         serie: serie.value,
       },
     };
-    result = await $fetch( apiBase + EPISODEMOVE_AP, postData);
+    result = await $fetch( config.public.apiBase + EPISODEMOVE_AP, postData);
     await refresh()
     link.value = episode.value.link
     audioComponentKey.value++

@@ -48,7 +48,7 @@ import {
 import { useEnumerations } from '~~/composables/enumerationdata';
 import { ContentFile } from '~~/base/ContentFile'
 import { useSerie } from '~~/composables/seriedata';
-const { apiBase } = useRuntimeConfig()
+const config = useRuntimeConfig()
 
 const user = await useAuth().useAuthUser();
 const route = useRoute();
@@ -99,7 +99,7 @@ async function menuItemClicked(value: string) {
         title: serie.value.title,
       },
     };
-    var postResult: Response = await $fetch( apiBase + SERIE_AP, postData);
+    var postResult: Response = await $fetch( config.public.apiBase + SERIE_AP, postData);
     if (postResult.status == 201) {
       refresh()
       router.go(-1)
@@ -122,7 +122,7 @@ async function changePodcast(podcastid) {
           serie: serie.value,
         },
       };
-      result = await $fetch( apiBase + EPISODEMOVE_AP, postData);
+      result = await $fetch( config.public.apiBase + EPISODEMOVE_AP, postData);
     }
     dialog.value = false;
   } catch (err) {
