@@ -130,6 +130,7 @@ const { locale } = useI18n();
 const slug = route.params.episodeslug as string;
 const { refresh, serie, podcast, remove, episode } = await useEpisode(slug);
 const { podcasts } = await usePodcasts();
+const { apiBase } = useRuntimeConfig()
 const link = ref(episode.value.link)
 const submenu = ref([])
 onBeforeMount(() => {
@@ -176,7 +177,7 @@ async function menuItemClicked(value: string) {
         id: episode.value.id,
       },
     };
-    await $fetch( API_BASE + EPISODE_AP, request);
+    await $fetch( apiBase + EPISODE_AP, request);
     (await useEpisodes()).refresh();
     var url = router.options.history.state.back as string;
     if (url.includes('?')) url = url.substring(0, url.indexOf('?'));
@@ -201,7 +202,7 @@ async function changePodcast(podcastid: number) {
         serie: serie.value,
       },
     };
-    result = await $fetch( API_BASE + EPISODEMOVE_AP, postData);
+    result = await $fetch( apiBase + EPISODEMOVE_AP, postData);
     await refresh()
     link.value = episode.value.link
     audioComponentKey.value++

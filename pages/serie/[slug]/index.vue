@@ -4,34 +4,34 @@
     <select-podcast-modal v-if="dialog" :error="error" :podcasts="podcasts" @cancel="() => dialog = false"
       @submit="changePodcast"></select-podcast-modal>
     <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked" /> -->
-    <div class="w-full flex justify-center mt-6 md:mt-12 mb-10 md:mb-14 ">
+    <div class="flex justify-center w-full mt-6 mb-10 md:mt-12 md:mb-14 ">
       <BaseH1>
         <div class="text-skin-muted dark:text-skin-muted-dark">{{ $t('serie.episodes') }}</div>
       </BaseH1>
     </div>
     <div class="flex flex-col items-center">
-      <div class="w-11/12 md:w-2/3 md:h-60 flex flex-row">
+      <div class="flex flex-row w-11/12 md:w-2/3 md:h-60">
         <img class="relative z-10 h-20 md:h-60 shrink-0" :src="ContentFile.getMediaUrl(serie.cover_file)" />
-        <div class="pl-4 md:pl-14 pt-1 pb-10 flex flex-col justify-around rounded-r-md">
+        <div class="flex flex-col justify-around pt-1 pb-10 pl-4 md:pl-14 rounded-r-md">
           <div>
-            <div class="text-md md:text-2xl font-semibold tracking-wider">
+            <div class="font-semibold tracking-wider text-md md:text-2xl">
               {{ serie.title }}
             </div>
-            <div class="text-xs md:text-sm tracking-wide text-skin-muted dark:text-skin-muted-dark">
+            <div class="text-xs tracking-wide md:text-sm text-skin-muted dark:text-skin-muted-dark">
               {{ serie.subtitle }}
             </div>
           </div>
-          <div class="hidden md:inline-flex pt-2 w-full h-12 text-sm break-normal overflow-y-auto">
+          <div class="hidden w-full h-12 pt-2 overflow-y-auto text-sm break-normal md:inline-flex">
             {{ serie.description }}
           </div>
         </div>
       </div>
     </div>
-    <div class="w-full relative z-0">
-      <div class="p-4 w-full absolute -top-8 bg-skin-muted dark:bg-skin-muted-dark flex flex-col items-center"></div>
+    <div class="relative z-0 w-full">
+      <div class="absolute flex flex-col items-center w-full p-4 -top-8 bg-skin-muted dark:bg-skin-muted-dark"></div>
     </div>
     <BaseContainer>
-      <div class="md:pt-14 text-sm md:text-ml tracking-widest font-bold text-center">
+      <div class="text-sm font-bold tracking-widest text-center md:pt-14 md:text-ml">
         {{ $t('serie.inthis') }}
       </div>
       <episodes-list :episodes="episodes" />
@@ -48,6 +48,8 @@ import {
 import { useEnumerations } from '~~/composables/enumerationdata';
 import { ContentFile } from '~~/base/ContentFile'
 import { useSerie } from '~~/composables/seriedata';
+const { apiBase } = useRuntimeConfig()
+
 const user = await useAuth().useAuthUser();
 const route = useRoute();
 const router = useRouter();
@@ -97,7 +99,7 @@ async function menuItemClicked(value: string) {
         title: serie.value.title,
       },
     };
-    var postResult: Response = await $fetch( API_BASE + SERIE_AP, postData);
+    var postResult: Response = await $fetch( apiBase + SERIE_AP, postData);
     if (postResult.status == 201) {
       refresh()
       router.go(-1)
@@ -120,7 +122,7 @@ async function changePodcast(podcastid) {
           serie: serie.value,
         },
       };
-      result = await $fetch( API_BASE + EPISODEMOVE_AP, postData);
+      result = await $fetch( apiBase + EPISODEMOVE_AP, postData);
     }
     dialog.value = false;
   } catch (err) {

@@ -2,51 +2,51 @@
   <div>
     <!-- <messge-toast></messge-toast>
     <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked" /> -->
-    <div class="w-full mt-6 md:mt-12 mb-10 md:mb-14 flex justify-center">
+    <div class="flex justify-center w-full mt-6 mb-10 md:mt-12 md:mb-14">
       <BaseH1>
         {{ $t('podcast.title') }}
       </BaseH1>
     </div>
     <div class="flex flex-col items-center">
-      <div class="w-11/12 md:w-2/3 md:h-60 flex flex-row">
+      <div class="flex flex-row w-11/12 md:w-2/3 md:h-60">
         <img class="relative z-10 h-20 md:h-60 shrink-0" :src="ContentFile.getMediaUrl(podcast.cover_file)" />
-        <div class="pl-4 md:pl-14 pt-1 pb-10 flex flex-col justify-around rounded-r-md">
+        <div class="flex flex-col justify-around pt-1 pb-10 pl-4 md:pl-14 rounded-r-md">
           <div>
-            <div class="text-md md:text-2xl font-semibold tracking-wider">
+            <div class="font-semibold tracking-wider text-md md:text-2xl">
               {{ podcast.title }}
             </div>
-            <div class="text-xs md:text-sm tracking-wide text-gray-500">
+            <div class="text-xs tracking-wide text-gray-500 md:text-sm">
               {{ podcast.subtitle }}
             </div>
           </div>
           <div class="text-xs md:text-sm">{{ podcast.author }}</div>
-          <div class="hidden md:inline-flex pt-2 w-full h-12 text-sm break-normal overflow-y-auto">
+          <div class="hidden w-full h-12 pt-2 overflow-y-auto text-sm break-normal md:inline-flex">
             {{ podcast.summary }}
           </div>
           <div class="hidden md:inline-flex">
             <div class="flex flex-row flex-wrap">
               <div
-                class="text-xs text-skin-inverted font-bold rounded-md bg-gradient-to-r from-skin-from via-skin-via to-skin-to px-1 my-1 mr-1 whitespace-nowrap">
+                class="px-1 my-1 mr-1 text-xs font-bold rounded-md text-skin-inverted bg-gradient-to-r from-skin-from via-skin-via to-skin-to whitespace-nowrap">
                 {{ podcastGenre.parentCategory }} -
                 {{ podcastGenre.displaytext }}
               </div>
               <div v-if="podcast.explicit"
-                class="text-xs text-skin-inverted font-bold rounded-md bg-gradient-to-r from-skin-from via-skin-via to-skin-to px-1 m-1">
+                class="px-1 m-1 text-xs font-bold rounded-md text-skin-inverted bg-gradient-to-r from-skin-from via-skin-via to-skin-to">
                 explicit
               </div>
               <div
-                class="text-xs text-skin-inverted font-bold rounded-md bg-gradient-to-r from-skin-from via-skin-via to-skin-to px-1 m-1">
+                class="px-1 m-1 text-xs font-bold rounded-md text-skin-inverted bg-gradient-to-r from-skin-from via-skin-via to-skin-to">
                 {{ language.displaytext }}
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="w-full relative z-0">
-        <div class="p-4 w-full absolute -top-8 bg-skin-muted dark:bg-skin-muted-dark flex flex-col items-center"></div>
+      <div class="relative z-0 w-full">
+        <div class="absolute flex flex-col items-center w-full p-4 -top-8 bg-skin-muted dark:bg-skin-muted-dark"></div>
       </div>
       <BaseContainer>
-        <div class="md:pt-14 text-sm md:text-ml tracking-widest font-bold text-center">
+        <div class="text-sm font-bold tracking-widest text-center md:pt-14 md:text-ml">
           {{ $t('podcast.inthis') }}
         </div>
 
@@ -62,6 +62,7 @@ import type { IUser } from '~~/base/types/IUser';
 import { useEnumerations } from '~~/composables/enumerationdata';
 import { usePodcast, usePodcasts } from '~~/composables/podcastdata';
 import { ContentFile } from '~~/base/ContentFile'
+const { apiBase } = useRuntimeConfig()
 
 
 const user = (await useAuth().useAuthUser()) as any;
@@ -113,7 +114,7 @@ async function menuItemClicked(value: string) {
         title: podcast.value.title,
       },
     };
-    var postResult: Response = await $fetch( API_BASE + PODCAST_AP, postData);
+    var postResult: Response = await $fetch( apiBase + PODCAST_AP, postData);
 
     if (postResult.status == 201) {
       const { refresh } = await usePodcasts();

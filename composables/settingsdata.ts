@@ -21,8 +21,10 @@ export async function useSettings() : Promise<Ref<ISettings>> {
     closeOnScroll: false,
     nondefault: false
   }})
+  const { apiBase } = useRuntimeConfig()
+
   if (!settings.value.nondefault) {
-    const set = await $fetch( API_BASE + "/settings") as Partial<ISettings>
+    const set = await $fetch( apiBase + "/settings") as Partial<ISettings>
     settings.value.nondefault = true
     if (set.baseUrl)
       settings.value.baseUrl = set.baseUrl

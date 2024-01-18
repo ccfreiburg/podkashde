@@ -1,5 +1,4 @@
 import url from "url";
-import { API_BASE, MEDIA_BASE } from "./Constants";
 
 export class ContentFile {
   public static isQualifiedUrl(target: string): Boolean {
@@ -21,7 +20,8 @@ export class ContentFile {
   }
 
   public static getMediaUrl(path: string): string {
-    return MEDIA_BASE + path ;
+    const { mediaBase } = useRuntimeConfig()
+    return mediaBase + path ;
   }
 
 }

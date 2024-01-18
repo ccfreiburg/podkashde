@@ -6,6 +6,8 @@ export default () => {
     const useAuthToken = () => useState('auth_token_pk', () => null)
     const useAuthUser = () => useState('auth_user_pk', () => null)
     const useAuthLoading = () => useState('auth_loading_pk', () => true)
+    const { apiBase } = useRuntimeConfig()
+
 
     const setToken = (newToken: string) => {
         const authToken = useAuthToken()
@@ -23,9 +25,10 @@ export default () => {
     }
 
     const login = (username: string, password: string) => {
+        
         return new Promise(async (resolve, reject) => {
             try {
-                const data = await $fetch( API_BASE + LOGIN_AP, {
+                const data = await $fetch( apiBase + LOGIN_AP, {
                     method: 'POST',
                     body: {
                         username,
@@ -46,7 +49,7 @@ export default () => {
     const setFirstPassword = (token: string, password: string) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const data = await $fetch( API_BASE + PASSWORD_AP, {
+                const data = await $fetch( apiBase + PASSWORD_AP, {
                     method: 'POST',
                     body: {
                         token,
@@ -68,7 +71,7 @@ export default () => {
     const changePassword = (username: string, password: string, oldpassword: string) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const data = await $fetch( API_BASE + PASSWORD_AP, {
+                const data = await $fetch( apiBase + PASSWORD_AP, {
                     method: 'POST',
                     body: {
                         username,
@@ -90,7 +93,7 @@ export default () => {
     const refreshToken = () => {
         return new Promise(async (resolve, reject) => {
             try {
-                const data = await $fetch( API_BASE + REFRESH_AP)
+                const data = await $fetch( apiBase + REFRESH_AP)
 
                 setToken(data.access_token)
                 setUser(data.user)
@@ -107,7 +110,7 @@ export default () => {
     const getUser = () => {
         return new Promise(async (resolve, reject) => {
             try {
-                const data = await $fetch( API_BASE + REFRESH_AP)
+                const data = await $fetch( apiBase + REFRESH_AP)
 
                 setUser(data.user)
                 resolve(true)
