@@ -3,8 +3,8 @@
     <audio ref="audio" :src="audiosrc" :preload="preload" style="display: none"></audio>
     <div class="flex flex-col">
       <div class="flex flex-row flex-nowrap">
-        <div class="w-28 md:w-60 md:px-10 flex flex-row justify-around items-center">
-          <button class="border-0 rounded-3xl h-6 w-6" @click="back">
+        <div class="flex flex-row items-center justify-around w-28 md:w-60 md:px-10">
+          <button class="w-6 h-6 border-0 rounded-3xl" @click="back">
             <svg viewBox="2 3 20 20" fill="currentColor" class="w-5 h-5">
               <path
                 d="M 8.582 14.072 C 8.297 14.072 8.015 14.014 7.753 13.899 C 7.475 13.779 7.221 13.609 7 13.398 L 7 14.629 C 7.22 14.802 7.468 14.933 7.733 15.016 C 8.043 15.109 8.365 15.153 8.688 15.148 C 8.958 15.149 9.228 15.102 9.483 15.009 C 9.729 14.922 9.954 14.783 10.144 14.601 C 10.556 14.224 10.762 13.731 10.761 13.122 C 10.761 12.693 10.651 12.329 10.429 12.03 C 10.194 11.724 9.872 11.502 9.508 11.396 L 10.732 8.983 L 10.732 8.954 L 7.049 8.954 L 7.049 10.065 L 9.064 10.065 L 8.041 12.067 L 8.041 12.098 C 8.518 12.084 8.901 12.167 9.189 12.346 C 9.466 12.502 9.634 12.805 9.624 13.13 C 9.624 13.442 9.534 13.677 9.354 13.835 C 9.174 13.994 8.916 14.073 8.582 14.072 Z M 15.606 9.075 C 15.013 8.777 14.319 8.777 13.726 9.075 C 13.432 9.23 13.177 9.452 12.979 9.724 C 12.761 10.026 12.6 10.366 12.501 10.728 C 12.276 11.559 12.276 12.438 12.501 13.269 C 12.6 13.63 12.762 13.97 12.979 14.271 C 13.177 14.544 13.432 14.766 13.726 14.922 C 14.32 15.219 15.013 15.219 15.606 14.922 C 15.9 14.766 16.156 14.544 16.354 14.271 C 16.571 13.97 16.732 13.63 16.831 13.269 C 17.056 12.438 17.056 11.559 16.831 10.728 C 16.732 10.366 16.571 10.026 16.354 9.724 C 16.156 9.452 15.9 9.23 15.606 9.075 Z M 15.51 13.474 C 15.321 13.835 15.039 14.015 14.666 14.015 C 14.287 14.015 14 13.821 13.808 13.43 C 13.628 13.105 13.537 12.629 13.538 12 C 13.539 11.372 13.635 10.879 13.827 10.521 C 14.02 10.164 14.3 9.985 14.666 9.985 C 15.026 9.985 15.304 10.166 15.5 10.531 C 15.697 10.896 15.794 11.384 15.794 12 C 15.794 12.616 15.699 13.112 15.51 13.474 Z"
@@ -15,9 +15,9 @@
               </path>
             </svg>
           </button>
-          <button class="mx-4 disabled:text-slate-500 border-0 rounded-3xl h-10 w-10" :disabled="!loaded"
+          <button class="w-10 h-10 mx-4 border-0 disabled:text-slate-500 rounded-3xl" :disabled="!loaded"
             @click="pause">
-            <svg v-if="paused" viewBox="0 0 24 24" class="h-10 w-10">
+            <svg v-if="paused" viewBox="0 0 24 24" class="w-10 h-10">
               <defs>
                 <linearGradient id="gradient-ccf">
                   <stop offset="0" style="stop-color: rgb(var(--color-grad-start))"></stop>
@@ -57,7 +57,7 @@
                 data-bx-shape="rect 13.123 7.108 2 10 0 1 1 0 1@33f88c23"></path>
             </svg>
           </button>
-          <button class="border-0 rounded-3xl h-6 w-6" @click="forward">
+          <button class="w-6 h-6 border-0 rounded-3xl" @click="forward">
             <svg viewBox="2 3 20 20" fill="currentColor" class="w-5 h-5">
               <path
                 d="M 8.582 14.072 C 8.297 14.072 8.015 14.014 7.753 13.899 C 7.475 13.779 7.221 13.609 7 13.398 L 7 14.629 C 7.22 14.802 7.468 14.933 7.733 15.016 C 8.043 15.109 8.365 15.153 8.688 15.148 C 8.958 15.149 9.228 15.102 9.483 15.009 C 9.729 14.922 9.954 14.783 10.144 14.601 C 10.556 14.224 10.762 13.731 10.761 13.122 C 10.761 12.693 10.651 12.329 10.429 12.03 C 10.194 11.724 9.872 11.502 9.508 11.396 L 10.732 8.983 L 10.732 8.954 L 7.049 8.954 L 7.049 10.065 L 9.064 10.065 L 8.041 12.067 L 8.041 12.098 C 8.518 12.084 8.901 12.167 9.189 12.346 C 9.466 12.502 9.634 12.805 9.624 13.13 C 9.624 13.442 9.534 13.677 9.354 13.835 C 9.174 13.994 8.916 14.073 8.582 14.072 Z M 15.606 9.075 C 15.013 8.777 14.319 8.777 13.726 9.075 C 13.432 9.23 13.177 9.452 12.979 9.724 C 12.761 10.026 12.6 10.366 12.501 10.728 C 12.276 11.559 12.276 12.438 12.501 13.269 C 12.6 13.63 12.762 13.97 12.979 14.271 C 13.177 14.544 13.432 14.766 13.726 14.922 C 14.32 15.219 15.013 15.219 15.606 14.922 C 15.9 14.766 16.156 14.544 16.354 14.271 C 16.571 13.97 16.732 13.63 16.831 13.269 C 17.056 12.438 17.056 11.559 16.831 10.728 C 16.732 10.366 16.571 10.026 16.354 9.724 C 16.156 9.452 15.9 9.23 15.606 9.075 Z M 15.51 13.474 C 15.321 13.835 15.039 14.015 14.666 14.015 C 14.287 14.015 14 13.821 13.808 13.43 C 13.628 13.105 13.537 12.629 13.538 12 C 13.539 11.372 13.635 10.879 13.827 10.521 C 14.02 10.164 14.3 9.985 14.666 9.985 C 15.026 9.985 15.304 10.166 15.5 10.531 C 15.697 10.896 15.794 11.384 15.794 12 C 15.794 12.616 15.699 13.112 15.51 13.474 Z"
@@ -68,15 +68,15 @@
             </svg>
           </button>
         </div>
-        <div class="pl-6 md:pl-12 flex-grow flex flex-row items-center">
+        <div class="flex flex-row items-center flex-grow pl-6 md:pl-12">
           <div class="w-10 text-xs">
             {{ currentTimeString }}
           </div>
-          <div class="flex-grow pb-1 px-2">
+          <div class="flex-grow px-2 pb-1">
             <input class="progressbar" type="range" id="progressRange" name="progressRange" min="0" step="1"
               :value="currentTime" :max="totalDuration" @change="setCurrentTime" />
           </div>
-          <div class="text-xs w-10 text-right">{{ duration }}</div>
+          <div class="w-10 text-xs text-right">{{ duration }}</div>
         </div>
       </div>
       <div class="flex flex-row justify-end text-gray-400">
@@ -92,12 +92,12 @@
               d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
           </svg>
         </button>
-        <div v-if="extendedControls" class="text-xs h-5 w-10 text-center">
+        <div v-if="extendedControls" class="w-10 h-5 text-xs text-center">
           <input class="volumerange" v-model="volume" min=0 max=10 type="range">
         </div>
-        <button v-if="extendedControls" class="text-xs mx-5 h-5 w-12 rounded-md border-2 border-gray-800"
+        <button v-if="extendedControls" class="w-12 h-5 mx-5 text-xs border-2 border-gray-800 rounded-md"
           @click="togglePlaybackRate">
-          <div class="px-1 flex flex-row justify-center">
+          <div class="flex flex-row justify-center px-1">
             {{ playbackRate }} x
           </div>
         </button>

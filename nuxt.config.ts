@@ -22,8 +22,10 @@ export default defineNuxtConfig({
     langDir: 'locales',
   },
   runtimeConfig: {
-    apiBase: (process.env.API_BASE?process.env.API_BASE as string:'/api/'),
-    mediaBase: (process.env.MEDIA_BASE?process.env.MEDIA_BASE as string:''),
+    public: {
+      apiBase: '/api/',
+      mediaBase: ''
+    }
   },
   devtools: { enabled: true }
 })

@@ -20,8 +20,8 @@ export class ContentFile {
   }
 
   public static getMediaUrl(path: string): string {
-    const { mediaBase } = useRuntimeConfig()
-    return mediaBase + path ;
+    const config = useRuntimeConfig()
+    return config.public.mediaBase + path ;
   }
 
 }
