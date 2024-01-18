@@ -1,12 +1,12 @@
 <template>
   <div>
-    <messge-toast></messge-toast>
-    <select-podcast-modal v-if="dialog" :error="error" :podcasts="podcasts" @cancel="() => dialog = false"
+    <MessageToast></MessageToast>
+    <!-- <select-podcast-modal v-if="dialog" :error="error" :podcasts="podcasts" @cancel="() => dialog = false"
       @submit="changePodcast"></select-podcast-modal>
-    <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked" />
+    <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked" /> -->
     <div class="flex flex-col items-center ">
       <div class="relative z-20 w-11/12 lg:w-4/5 md:h-60 mt-6 md:mt-12 flex flex-row">
-        <img class="h-28 md:h-60 w-28 md:w-60 shrink-0" :src="episode.image" />
+        <img class="h-28 md:h-60 w-28 md:w-60 shrink-0" :src="ContentFile.getMediaUrl(episode.image)" />
         <div class="pl-6 md:pl-12 pt-2 pb-8 flex flex-col justify-around items-start rounded-r-md">
           <div>
             <div
@@ -48,8 +48,8 @@
     </div>
     <div class="relative z-10 flex flex-col items-center">
       <div class="w-11/12 lg:w-4/5 pt-6">
-        <audio-player :key="audioComponentKey" class="bg-skin-player text-skin-inverted" :file="link"
-          @play="play"></audio-player>
+        <AudioPlayer :key="audioComponentKey" class="bg-skin-player text-skin-inverted" :file="ContentFile.getMediaUrl(link)"
+          @play="play"></AudioPlayer>
       </div>
     </div>
     <div class="h-4 w-screen bg-skin-light"></div>
@@ -64,7 +64,7 @@
           {{
             $t('episode.label.pubdate') +
             ' ' +
-            new Date(episode.pubdate).toLocaleDateString()
+            dateToString(new Date(episode.pubdate), locale)
           }}
         </div>
         <div class="flex flex-row flex-wrap">
@@ -117,12 +117,16 @@
 import { EPISODEMOVE_AP, EPISODE_AP } from '~~/base/Constants';
 import { durationInSecToStr } from '~~/base/Converters';
 import { useEpisode } from '~~/composables/episodedata';
+import { ContentFile } from '~~/base/ContentFile'
+import { dateToString } from '~~/base/Converters'
 
 const route = useRoute();
 const router = useRouter();
-const user = await useAuth().useAuthUser();
+const user = ref(undefined); // await useAuth().useAuthUser();
 
 const showdetail = ref(false);
+
+const { locale } = useI18n();
 const slug = route.params.episodeslug as string;
 const { refresh, serie, podcast, remove, episode } = await useEpisode(slug);
 const { podcasts } = await usePodcasts();
@@ -172,7 +176,7 @@ async function menuItemClicked(value: string) {
         id: episode.value.id,
       },
     };
-    await $fetch(EPISODE_AP, request);
+    await $fetch( API_BASE + EPISODE_AP, request);
     (await useEpisodes()).refresh();
     var url = router.options.history.state.back as string;
     if (url.includes('?')) url = url.substring(0, url.indexOf('?'));
@@ -197,7 +201,7 @@ async function changePodcast(podcastid: number) {
         serie: serie.value,
       },
     };
-    result = await $fetch(EPISODEMOVE_AP, postData);
+    result = await $fetch( API_BASE + EPISODEMOVE_AP, postData);
     await refresh()
     link.value = episode.value.link
     audioComponentKey.value++

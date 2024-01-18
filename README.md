@@ -1,36 +1,75 @@
-# Podkashde
+# Nuxt 3 Minimal Starter
 
-Podkashde is a jamstack podcast management system. It is based on [nuxt 3](https://v3.nuxtjs.org). It is suposed to be a replacement for a podcast hostet on wordpress with seriously simple podcast and allows to migrate the podsts and metadata.
+Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-It uses a sqlite database. That way backup is easy, just backup the files in the directory public/s
-All assets (mp3s, cover images) can be served statically from the public/s directoy
+## Setup
 
-## Development
-
-You need node version 16. 
-Clone the repo. Install the dependencies:
+Make sure to install the dependencies:
 
 ```bash
-# yarn
-yarn install
-
 # npm
 npm install
 
 # pnpm
-pnpm install --shamefully-hoist
+pnpm install
+
+# yarn
+yarn install
+
+# bun
+bun install
 ```
 
-Start the development server on http://localhost:3000
+## Development Server
+
+Start the development server on `http://localhost:3000`:
 
 ```bash
+# npm
 npm run dev
+
+# pnpm
+pnpm run dev
+
+# yarn
+yarn dev
+
+# bun
+bun run dev
 ```
 
-## Standalone Production
+## Production
 
 Build the application for production:
 
 ```bash
+# npm
 npm run build
+
+# pnpm
+pnpm run build
+
+# yarn
+yarn build
+
+# bun
+bun run build
 ```
+
+Locally preview production build:
+
+```bash
+# npm
+npm run preview
+
+# pnpm
+pnpm run preview
+
+# yarn
+yarn preview
+
+# bun
+bun run preview
+```
+
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <messge-toast></messge-toast>
-    <sub-menu v-if="user != null" :items="submenu" />
+    <MessageToast></MessageToast>
+    <!-- <sub-menu v-if="user != null" :items="submenu" /> -->
     <div class="flex justify-center w-full mt-6 mb-10 md:mt-12 md:mb-14">
       <BaseH1 class="">
         {{ $t('podcast.headline') }}
@@ -10,32 +10,32 @@
     <BaseContainer>
       <div v-for="podcast in sortedPodcasts" :key="podcast.id">
         <div
-          class="p-4 mt-4 bg-skin-light dark:bg-skin-dark flex flex-row flex-wrap sm:flex-nowrap place-content-center">
-          <div class="w-32 h-32 flex-shrink-0">
+          class="flex flex-row flex-wrap p-4 mt-4 bg-skin-light dark:bg-skin-dark sm:flex-nowrap place-content-center">
+          <div class="flex-shrink-0 w-32 h-32">
             <NuxtLink :to="localePath('/podcast/' + podcast.slug)">
-              <img class="w-32 h-32 object-scale-down" :src="podcast.cover_file" />
+              <img class="object-scale-down w-32 h-32" :src="ContentFile.getMediaUrl(podcast.cover_file)" />
             </NuxtLink>
           </div>
-          <div class="px-4 sm:pl-12 py-2 flex-grow flex flex-col justify-around items-start rounded-r-md">
+          <div class="flex flex-col items-start justify-around flex-grow px-4 py-2 sm:pl-12 rounded-r-md">
             <NuxtLink :to="localePath('/podcast/' + podcast.slug)">
               <div>
-                <div class="text-xs sm:text-xl md:text-2xl font-semibold tracking-wider">
+                <div class="text-xs font-semibold tracking-wider sm:text-xl md:text-2xl">
                   {{ podcast.title }}
                 </div>
-                <div class="text-xs md:text-sm tracking-wide text-skin-muted dark:text-skin-muted-dark">
+                <div class="text-xs tracking-wide md:text-sm text-skin-muted dark:text-skin-muted-dark">
                   {{ podcast.subtitle }}
                 </div>
               </div>
-              <div class="text-xs md:text-sm tracking-wide">
+              <div class="text-xs tracking-wide md:text-sm">
                 {{ podcast.author }}
               </div>
               <div
-                class="grow-0 text-xs underline md:text-sm tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-skin-from via-skin-via to-skin-to">
+                class="text-xs tracking-wide text-transparent underline grow-0 md:text-sm bg-clip-text bg-gradient-to-r from-skin-from via-skin-via to-skin-to">
                 {{ $t('podcast.tothepisodes') }}
               </div>
             </NuxtLink>
           </div>
-          <div class="flex flex-col justify-start items-center">
+          <div class="flex flex-col items-center justify-start">
             <div class="w-6 h-6">
               <a :href="getFeedUrl(podcast.slug)" target="_new">
                 <svg viewBox="0 0 24 24">
@@ -110,10 +110,10 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
 import { FEED_SLUG } from '~~/base/Constants';
-import IPodcast from '~~/base/types/IPodcast';
+import type IPodcast from '~~/base/types/IPodcast';
 import { usePodcasts } from '~~/composables/podcastdata';
+import { ContentFile } from '~~/base/ContentFile'
 const { refresh, podcasts } = await usePodcasts();
 const localePath = useLocalePath();
 const route = useRoute();

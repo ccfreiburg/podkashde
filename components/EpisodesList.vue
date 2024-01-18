@@ -25,7 +25,7 @@
           hover:bg-skin-light dark:hover:bg-skin-dark
           sm:flex-row sm:bg-transparent">
           <div class="flex-shrink-0">
-            <img class="h-20" :src="episode.image" />
+            <img class="h-20" :src="ContentFile.getMediaUrl(episode.image)" />
           </div>
           <div class="flex-grow flex flex-col items-center
                 sm:flex-row ">
@@ -59,10 +59,11 @@
 </template>
 
 <script lang="ts">
-import { tSImportType } from '@babel/types';
-import { PropType } from 'vue';
-import IEpisode from '~~/base/types/IEpisode';
+import type IEpisode from '~~/base/types/IEpisode';
 import { NUM_ITEMS_PER_PAGE } from '~~/base/Constants';
+import { ContentFile } from '~~/base/ContentFile'
+import { dateToString } from '~~/base/Converters'
+
 
 interface IDisplayEpisode extends IEpisode {
   nuxtlink: string;
@@ -73,17 +74,20 @@ interface IDisplayEpisode extends IEpisode {
 export default {
   props: {
     episodes: Object as PropType<Array<IEpisode>>,
+    showDrafts: {
+      type: Boolean,
+      default: false
+    } 
   },
   name: 'EpisodesList',
   async setup(props) {
-    const dateformat = (input: Date): string => input.toLocaleDateString();
+    const {locale} = useI18n();
     const localePath = useLocalePath();
     const search = ref("")
     const searchHiden = ref(true)
     const itemsperpage = ref(NUM_ITEMS_PER_PAGE)
     const page = ref(1)
     const max = ref(props.episodes?.length)
-    const user = await useAuth().useAuthUser() as any;
 
     const pageFilter = (e, index) => {
       const start = (page.value - 1) * itemsperpage.value - 1
@@ -99,13 +103,13 @@ export default {
           e.creator.toLowerCase().includes(search.toLowerCase()) ||
           e.cross_ref?.toLowerCase().includes(search.toLowerCase())
       }
-      return list.filter((e) => !e.draft || user.value).filter(filter).map((e) => {
+      return list.filter((e) => !e.draft || props.showDrafts).filter(filter).map((e) => {
         const date = new Date(e.pubdate);
         return {
           ...e,
           nuxtlink: '/' + e.slug,
           sortdate: date,
-          datestring: date.toLocaleDateString(),
+          datestring: dateToString(date,locale.value),
         };
       });
     }
@@ -141,7 +145,8 @@ export default {
       itemsperpage,
       page,
       max,
-      localePath
+      localePath,
+      ContentFile
     };
   },
 };

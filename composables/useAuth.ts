@@ -1,4 +1,4 @@
-import jwt_decode from "jwt-decode"
+//import jwt_decode from "jwt-decode"
 import { AUTHUSER_AP, LOGIN_AP, LOGOUT_AP, PASSWORD_AP, REFRESH_AP } from "../base/Constants"
 import { IUser } from "../base/types/IUser"
 
@@ -25,7 +25,7 @@ export default () => {
     const login = (username: string, password: string) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const data = await $fetch(LOGIN_AP, {
+                const data = await $fetch( API_BASE + LOGIN_AP, {
                     method: 'POST',
                     body: {
                         username,
@@ -46,7 +46,7 @@ export default () => {
     const setFirstPassword = (token: string, password: string) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const data = await $fetch(PASSWORD_AP, {
+                const data = await $fetch( API_BASE + PASSWORD_AP, {
                     method: 'POST',
                     body: {
                         token,
@@ -68,7 +68,7 @@ export default () => {
     const changePassword = (username: string, password: string, oldpassword: string) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const data = await $fetch(PASSWORD_AP, {
+                const data = await $fetch( API_BASE + PASSWORD_AP, {
                     method: 'POST',
                     body: {
                         username,
@@ -90,7 +90,7 @@ export default () => {
     const refreshToken = () => {
         return new Promise(async (resolve, reject) => {
             try {
-                const data = await $fetch(REFRESH_AP)
+                const data = await $fetch( API_BASE + REFRESH_AP)
 
                 setToken(data.access_token)
                 setUser(data.user)
@@ -107,7 +107,7 @@ export default () => {
     const getUser = () => {
         return new Promise(async (resolve, reject) => {
             try {
-                const data = await $fetch(REFRESH_AP)
+                const data = await $fetch( API_BASE + REFRESH_AP)
 
                 setUser(data.user)
                 resolve(true)

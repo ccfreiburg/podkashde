@@ -155,7 +155,7 @@ export default defineComponent({
     const paused = ref(true);
     const currentTime = ref(0);
     const volume = ref(baseVolumeValue);
-    const audio = ref(undefined);
+    const audio = ref<any>(undefined);
     const extendedControls = ref(false)
     watch(volume, (newValue) => {
       audio.value.volume = newValue / 10;

@@ -1,25 +1,24 @@
-.idea/
-.vscode/
-node_modules/
-build/
-tmp/
-temp/
-.tmp/
-.nuxt
-dist
+# Nuxt dev/build outputs
 .output
-*.log*
+.data
+.nuxt
 .nitro
 .cache
+dist
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
 .env
-*.lock
-upload/
-coverage
-secret
-public/s
-public-docker
-org.*
-settings.json
-docker-compose.yml
-docker/runtime
-archiv
+.env.*
+!.env.example

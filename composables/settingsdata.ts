@@ -22,7 +22,7 @@ export async function useSettings() : Promise<Ref<ISettings>> {
     nondefault: false
   }})
   if (!settings.value.nondefault) {
-    const set = await $fetch("/api/settings") as Partial<ISettings>
+    const set = await $fetch( API_BASE + "/settings") as Partial<ISettings>
     settings.value.nondefault = true
     if (set.baseUrl)
       settings.value.baseUrl = set.baseUrl

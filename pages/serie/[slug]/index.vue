@@ -1,9 +1,9 @@
 <template>
   <div>
-    <messge-toast></messge-toast>
+    <!-- <messge-toast></messge-toast>
     <select-podcast-modal v-if="dialog" :error="error" :podcasts="podcasts" @cancel="() => dialog = false"
       @submit="changePodcast"></select-podcast-modal>
-    <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked" />
+    <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked" /> -->
     <div class="w-full flex justify-center mt-6 md:mt-12 mb-10 md:mb-14 ">
       <BaseH1>
         <div class="text-skin-muted dark:text-skin-muted-dark">{{ $t('serie.episodes') }}</div>
@@ -11,7 +11,7 @@
     </div>
     <div class="flex flex-col items-center">
       <div class="w-11/12 md:w-2/3 md:h-60 flex flex-row">
-        <img class="relative z-10 h-20 md:h-60 shrink-0" :src="serie.cover_file" />
+        <img class="relative z-10 h-20 md:h-60 shrink-0" :src="ContentFile.getMediaUrl(serie.cover_file)" />
         <div class="pl-4 md:pl-14 pt-1 pb-10 flex flex-col justify-around rounded-r-md">
           <div>
             <div class="text-md md:text-2xl font-semibold tracking-wider">
@@ -46,6 +46,7 @@ import {
   SERIE_AP,
 } from '~~/base/Constants';
 import { useEnumerations } from '~~/composables/enumerationdata';
+import { ContentFile } from '~~/base/ContentFile'
 import { useSerie } from '~~/composables/seriedata';
 const user = await useAuth().useAuthUser();
 const route = useRoute();
@@ -96,7 +97,7 @@ async function menuItemClicked(value: string) {
         title: serie.value.title,
       },
     };
-    var postResult: Response = await $fetch(SERIE_AP, postData);
+    var postResult: Response = await $fetch( API_BASE + SERIE_AP, postData);
     if (postResult.status == 201) {
       refresh()
       router.go(-1)
@@ -119,7 +120,7 @@ async function changePodcast(podcastid) {
           serie: serie.value,
         },
       };
-      result = await $fetch(EPISODEMOVE_AP, postData);
+      result = await $fetch( API_BASE + EPISODEMOVE_AP, postData);
     }
     dialog.value = false;
   } catch (err) {

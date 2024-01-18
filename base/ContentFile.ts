@@ -1,4 +1,5 @@
 import url from "url";
+import { API_BASE, MEDIA_BASE } from "./Constants";
 
 export class ContentFile {
   public static isQualifiedUrl(target: string): Boolean {
@@ -18,4 +19,9 @@ export class ContentFile {
   public static getFilename(target: string): string {
     return target.split("/").slice(-1)[0];
   }
+
+  public static getMediaUrl(path: string): string {
+    return MEDIA_BASE + path ;
+  }
+
 }

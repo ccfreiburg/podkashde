@@ -43,7 +43,7 @@ export function strToDate(str: string): Date {
   return new Date(result);
 }
 
-export function dateToIsoString(date: Date) {
+export function dateToIsoString(date: Date) : string {
   return (
     date.getFullYear() +
     "-" +
@@ -51,6 +51,15 @@ export function dateToIsoString(date: Date) {
     "-" +
     ("0" + (date.getDate())).slice(-2)
   );
+}
+
+export function dateToString(date: Date, locale: string) : string {
+  if (locale=="de")
+    return (date.getDate() + "." + date.getMonth()+1 +"." +date.getFullYear())
+  else if (locale=="en")
+    return (date.getMonth()+1 +"/" +date.getDate() + "/" +date.getFullYear())
+  else 
+    return dateToIsoString(date)
 }
 
 export function saveSlugFormText(text: string, lowercase = true): string {

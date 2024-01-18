@@ -1,7 +1,7 @@
 <template>
   <div>
-    <messge-toast></messge-toast>
-    <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked" />
+    <!-- <messge-toast></messge-toast>
+    <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked" /> -->
     <div class="w-full mt-6 md:mt-12 mb-10 md:mb-14 flex justify-center">
       <BaseH1>
         {{ $t('podcast.title') }}
@@ -9,7 +9,7 @@
     </div>
     <div class="flex flex-col items-center">
       <div class="w-11/12 md:w-2/3 md:h-60 flex flex-row">
-        <img class="relative z-10 h-20 md:h-60 shrink-0" :src="podcast.cover_file" />
+        <img class="relative z-10 h-20 md:h-60 shrink-0" :src="ContentFile.getMediaUrl(podcast.cover_file)" />
         <div class="pl-4 md:pl-14 pt-1 pb-10 flex flex-col justify-around rounded-r-md">
           <div>
             <div class="text-md md:text-2xl font-semibold tracking-wider">
@@ -50,7 +50,7 @@
           {{ $t('podcast.inthis') }}
         </div>
 
-        <episodes-list :episodes="episodes" />
+        <EpisodesList :episodes="episodes" />
         <div class="h-screen"></div>
       </BaseContainer>
     </div>
@@ -58,9 +58,11 @@
 </template>
 <script setup lang="ts">
 import { NUM_ITEMS_PER_PAGE, PODCAST_AP } from '~~/base/Constants';
-import { IUser } from '~~/base/types/IUser';
+import type { IUser } from '~~/base/types/IUser';
 import { useEnumerations } from '~~/composables/enumerationdata';
 import { usePodcast, usePodcasts } from '~~/composables/podcastdata';
+import { ContentFile } from '~~/base/ContentFile'
+
 
 const user = (await useAuth().useAuthUser()) as any;
 const route = useRoute();
@@ -111,7 +113,7 @@ async function menuItemClicked(value: string) {
         title: podcast.value.title,
       },
     };
-    var postResult: Response = await $fetch(PODCAST_AP, postData);
+    var postResult: Response = await $fetch( API_BASE + PODCAST_AP, postData);
 
     if (postResult.status == 201) {
       const { refresh } = await usePodcasts();

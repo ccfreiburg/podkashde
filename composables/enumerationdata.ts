@@ -1,6 +1,6 @@
-import { ENUMERATIONS_AP } from '~~/base/Constants';
+import { API_BASE, ENUMERATIONS_AP } from '~~/base/Constants';
 import Enumerations from '~~/base/Enumerations';
-import IEnumerator from '~~/base/types/IEnumerator';
+import type IEnumerator from '~~/base/types/IEnumerator';
 
 export async function useEnumerations() {
   const enums = useState<Array<IEnumerator>>(
@@ -9,7 +9,7 @@ export async function useEnumerations() {
   );
 
   const refresh = async () => {
-    const list = await $fetch(ENUMERATIONS_AP);
+    const list = await $fetch( API_BASE + ENUMERATIONS_AP);
     enums.value = list as Array<IEnumerator>;
   };
   // if not init fetch and init

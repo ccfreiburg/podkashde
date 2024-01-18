@@ -6,7 +6,7 @@ describe('App', async () => {
     server: true
   })
   it('my test', async () => {
-    const html = await $fetch('/podcasts')
+    const html = await $fetch( API_BASE + '/podcasts')
     expect(html).toContain("Podcasts")
 })
 })

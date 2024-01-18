@@ -20,9 +20,7 @@
 </template>
 
 <script lang="ts">
-import { type } from "os";
-import { defineComponent, PropType, computed } from "vue";
-import IValidationError from "~~/base/types/IValidationError";
+import type IValidationError from "~~/base/types/IValidationError";
 
 export default defineComponent({
   props: {
