@@ -1,12 +1,6 @@
 <template>
   <div>
-    <!-- <messge-toast></messge-toast>
-    <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked" /> -->
-    <div class="flex justify-center w-full mt-6 mb-10 md:mt-12 md:mb-14">
-      <BaseH1>
-        {{ $t('podcast.title') }}
-      </BaseH1>
-    </div>
+    <PageLayout :title="$t('podcast.title')" :submenu="submenu" @menuItemClicked="menuItemClicked">
     <div class="flex flex-col items-center">
       <div class="flex flex-row w-11/12 md:w-2/3 md:h-60">
         <img class="relative z-10 h-20 md:h-60 shrink-0" :src="ContentFile.getMediaUrl(podcast.cover_file)" />
@@ -54,6 +48,7 @@
         <div class="h-screen"></div>
       </BaseContainer>
     </div>
+    </PageLayout>
   </div>
 </template>
 <script setup lang="ts">
@@ -62,7 +57,7 @@ import type { IUser } from '~~/base/types/IUser';
 import { useEnumerations } from '~~/composables/enumerationdata';
 import { usePodcast, usePodcasts } from '~~/composables/podcastdata';
 import { ContentFile } from '~~/base/ContentFile'
-const { apiBase } = useRuntimeConfig()
+const { apiBase } = useRuntimeConfig().public
 
 
 const user = (await useAuth().useAuthUser()) as any;
@@ -99,24 +94,29 @@ onBeforeMount(() => {
     });
 });
 const router = useRouter();
-onMounted(() =>
+onMounted(() => {
+  if (!podcast.value || Object.keys(podcast.value).length === 0)
+    router.push({ path: "/podcasts", query: {refresh: 'true', msg: 'podcast.notfound' }})
+  else
+
   router.replace({
     ...router.currentRoute,
     query: {},
   })
-);
+})
+
 async function menuItemClicked(value: string) {
   if (value === '#delete') {
     const postData = {
-      method: 'delete',
+      method: 'DELETE',
       body: {
         id: podcast.value.id,
         title: podcast.value.title,
       },
     };
-    var postResult: Response = await $fetch( apiBase + PODCAST_AP, postData);
+    var postResult: Response = await useFetchApi()( apiBase + PODCAST_AP, postData);
 
-    if (postResult.status == 201) {
+    if (postResult.statusCode == 201) {
       const { refresh } = await usePodcasts();
       await refresh();
       router.push('/podcasts');

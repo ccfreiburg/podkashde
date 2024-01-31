@@ -8,17 +8,18 @@
     >
       <div
         v-if="showToast"
-        class="absolute top-12 ml-10 w-3/5 flex justify-center"
+        class="absolute z-50 flex justify-center w-full place-content-center top-18"
       >
         <div
           id="toast-default"
-          class="relative flex items-center w-3/5 p-4 text-gray-500 bg-white rounded-lg shadow shadow-orange-600 dark:text-gray-400 dark:bg-gray-800"
+          class="relative w-3/5 h-16 p-1 text-gray-500 rounded-lg bg-gradient-to-r from-skin-from via-skin-via to-skin-to dark:text-gray-400 dark:bg-gray-800"
           role="alert"
         >
-          <div class="ml-3 text-sm font-normal">{{ toasterMessage }}</div>
+        <div class="flex items-center w-full h-full bg-white rounded-md place-content-between ">
+          <div class="ml-3">{{ toasterMessage }}</div>
           <button
             type="button"
-            class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+            class="ml-1 mr-2 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
             aria-label="Close"
             @click="showToast = false"
           >
@@ -37,6 +38,7 @@
               ></path>
             </svg>
           </button>
+        </div>
         </div>
       </div>
     </transition>

@@ -1,14 +1,10 @@
 <template>
   <div>
-    <!-- <messge-toast></messge-toast>
-    <select-podcast-modal v-if="dialog" :error="error" :podcasts="podcasts" @cancel="() => dialog = false"
-      @submit="changePodcast"></select-podcast-modal>
-    <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked" /> -->
-    <div class="flex justify-center w-full mt-6 mb-10 md:mt-12 md:mb-14 ">
-      <BaseH1>
-        <div class="text-skin-muted dark:text-skin-muted-dark">{{ $t('serie.episodes') }}</div>
-      </BaseH1>
-    </div>
+    <PageLayout :title="$t('serie.episodes')" :submenu="submenu" @menuItemClicked="menuItemClicked">
+
+    <SelectPodcastModal v-if="dialog" :error="error" :podcasts="podcasts" @cancel="() => dialog = false"
+      @submit="changePodcast"></SelectPodcastModal>
+
     <div class="flex flex-col items-center">
       <div class="flex flex-row w-11/12 md:w-2/3 md:h-60">
         <img class="relative z-10 h-20 md:h-60 shrink-0" :src="ContentFile.getMediaUrl(serie.cover_file)" />
@@ -37,27 +33,27 @@
       <episodes-list :episodes="episodes" />
       <div class="h-screen"></div>
     </BaseContainer>
+    </PageLayout>
   </div>
 </template>
 <script setup lang="ts">
 import {
   EPISODEMOVE_AP,
-  NUM_ITEMS_PER_PAGE,
   SERIE_AP,
 } from '~~/base/Constants';
-import { useEnumerations } from '~~/composables/enumerationdata';
 import { ContentFile } from '~~/base/ContentFile'
 import { useSerie } from '~~/composables/seriedata';
-const config = useRuntimeConfig()
 
+const myFetch = useFetchApi();
 const user = await useAuth().useAuthUser();
 const route = useRoute();
 const router = useRouter();
-
 const slug = route.params.slug as string;
 const { refresh, episodes, serie } = await useSerie(slug);
 const { podcasts } = await usePodcasts();
-const submenu = ref([]);
+const submenu = ref([] as Array<any>);
+
+
 onBeforeMount(() => {
   refresh();
   submenu.value = [
@@ -82,12 +78,16 @@ onBeforeMount(() => {
       layout: 'change',
     });
 });
-onMounted(() =>
+
+onMounted(() => {
+  if (!serie.value || Object.keys(serie.value).length === 0)
+    router.push({ path: "/podcasts", query: {refresh: 'true', msg: 'serie.notfound' }})
+  else
   router.replace({
     ...router.currentRoute,
     query: {},
   })
-);
+})
 
 const dialog = ref(false);
 async function menuItemClicked(value: string) {
@@ -99,8 +99,8 @@ async function menuItemClicked(value: string) {
         title: serie.value.title,
       },
     };
-    var postResult: Response = await $fetch( config.public.apiBase + SERIE_AP, postData);
-    if (postResult.status == 201) {
+    var postResult = await myFetch( SERIE_AP, postData) as any;
+    if (postResult.statusCode == 201) {
       refresh()
       router.go(-1)
     }
@@ -109,7 +109,7 @@ async function menuItemClicked(value: string) {
   }
 }
 const error = ref('')
-async function changePodcast(podcastid) {
+async function changePodcast(podcastid: number) {
   const podcast = podcasts.value.find((p) => p.id == podcastid);
   var result;
   try {
@@ -122,10 +122,10 @@ async function changePodcast(podcastid) {
           serie: serie.value,
         },
       };
-      result = await $fetch( config.public.apiBase + EPISODEMOVE_AP, postData);
+      result = await myFetch( EPISODEMOVE_AP, postData);
     }
     dialog.value = false;
-  } catch (err) {
+  } catch (err: any) {
     error.value = err.message;
   }
 }

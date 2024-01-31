@@ -22,7 +22,6 @@ function email(fields: Partial<IPodcast>, errors: Array<IValidationError>) {
     });
 }
 function link(fields: Partial<IPodcast>, key: string, errors: Array<IValidationError>, emptyallowed: boolean = false) {
-  console.log(key + " " + fields[key])
   if (!fields[key] || fields[key].length==0 && emptyallowed)
     return
   var re =
@@ -37,7 +36,6 @@ export default function validation(
   imgHeight: number
 ): Array<IValidationError> {
   var errors = [] as Array<IValidationError>;
-  console.log("hallo")
   if (
     !(imgWidth == REQUIRED_IMG_WIDTH && imgHeight == REQUIRED_IMG_HEIGHT) ||
     !fields['cover_file'] || fields.cover_file.length < 1

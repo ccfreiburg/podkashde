@@ -46,6 +46,7 @@
     "edit": "Edit Podcast",
     "change": "Assign all Episodes to another Podcast",
     "addImage": "click to add image",
+    "notfound": "Podcast not found",
     "inthis": "in this podcast",
     "label": {
       "img": "click to add image",
@@ -99,6 +100,7 @@
     "add": "Add Episode",
     "edit": "Edit Episode",
     "forpodcast": "for",
+    "notfound": "Episode not found",
     "edit_short": "edit",
     "explicit": "explicit",
     "blocked": "blocked",
@@ -147,6 +149,7 @@
     "edit": "Edit Series",
     "episodes": "Series Episodes",
     "inthis": "in this series",
+    "notfound": "Series not found",
     "tothepisodes": "To the episodes...",
     "label": {
       "img": "klicken um Bild hinzuzufügen",

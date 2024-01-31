@@ -1,15 +1,9 @@
 <template>
   <div>
-    <!-- <messge-toast></messge-toast>
-    <sub-menu v-if="user != null" :items="submenu" /> -->
-    <div class="mt-4 md:mt-6 mb-10 md:mb-14 w-full flex justify-center">
-      <BaseH1>
-        {{ $t('serie.title') }}
-      </BaseH1>
-    </div>
+    <PageLayout :title="$t('serie.title')" :submenu="submenu">
     <BaseContainer>
-      <div v-if="series?.length > 0" class="flex place-items-end place-content-end px-1 md:px-4">
-        <div v-if="!searchHiden" class="flex flex-row flex-nowrap items-center">
+      <div v-if="series?.length > 0" class="flex px-1 place-items-end place-content-end md:px-4">
+        <div v-if="!searchHiden" class="flex flex-row items-center flex-nowrap">
           <input-area class="pb-8" :name="'search'" label="" v-model:value="search" />
           <div @click="
             () => {
@@ -34,19 +28,19 @@
       <div v-for="serie in currentPage" :key="serie.id">
         <NuxtLink :to="localePath('/serie/' + serie.slug)">
           <div
-            class="mt-4 p-4 bg-skin-light dark:bg-skin-dark flex flex-col sm:flex-row flex-wrap sm:flex-nowrap items-center sm:place-content-center">
+            class="flex flex-col flex-wrap items-center p-4 mt-4 bg-skin-light dark:bg-skin-dark sm:flex-row sm:flex-nowrap sm:place-content-center">
             <img class="w-32 h-32" :src="ContentFile.getMediaUrl(serie.cover_file)" />
-            <div class="sm:pl-12 py-2 flex-grow flex flex-col items-center justify-around sm:items-start">
+            <div class="flex flex-col items-center justify-around flex-grow py-2 sm:pl-12 sm:items-start">
               <div class="text-center sm:text-start">
-                <div class="text-xs sm:text-xl sm:pb-2 font-semibold tracking-wider">
+                <div class="text-xs font-semibold tracking-wider sm:text-xl sm:pb-2">
                   {{ serie.title }}
                 </div>
-                <div class="text-xs sm:text-sm sm:pb-4 tracking-wide break-words">
+                <div class="text-xs tracking-wide break-words sm:text-sm sm:pb-4">
                   {{ serie.subtitle }}
                 </div>
               </div>
               <div
-                class="grow-0 text-xs underline md:text-sm tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-skin-from via-skin-via to-skin-to">
+                class="text-xs tracking-wide text-transparent underline grow-0 md:text-sm bg-clip-text bg-gradient-to-r from-skin-from via-skin-via to-skin-to">
                 {{ $t('serie.tothepisodes') }}
               </div>
             </div>
@@ -55,13 +49,13 @@
       </div>
       <list-paginator :max="max" v-model:value="page" :itemsperpage="pagesize" />
     </BaseContainer>
+    </PageLayout>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NUM_ITEMS_PER_PAGE } from '~~/base/Constants';
 import { ContentFile } from '~~/base/ContentFile'
-import ISerie from '~~/base/types/ISerie';
+import type ISerie from '~~/base/types/ISerie';
 import { useSeries } from '~~/composables/seriedata';
 const pagesize = ref(4);
 const page = ref(1);
@@ -73,6 +67,7 @@ const route = useRoute();
 const router = useRouter();
 const user = (await useAuth().useAuthUser()) as any;
 const localePath = useLocalePath();
+
 
 function sorter(a: ISerie, b: ISerie): number {
   return (

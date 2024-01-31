@@ -1,12 +1,6 @@
 <template>
   <div>
-    <MessageToast></MessageToast>
-    <!-- <sub-menu v-if="user != null" :items="submenu" /> -->
-    <div class="flex justify-center w-full mt-6 mb-10 md:mt-12 md:mb-14">
-      <BaseH1 class="">
-        {{ $t('podcast.headline') }}
-      </BaseH1>
-    </div>
+    <PageLayout :title="$t('podcast.headline')" :submenu="submenu">
     <BaseContainer>
       <div v-for="podcast in sortedPodcasts" :key="podcast.id">
         <div
@@ -106,6 +100,7 @@
         </div>
       </div>
     </BaseContainer>
+  </PageLayout>
   </div>
 </template>
 
@@ -119,17 +114,15 @@ const localePath = useLocalePath();
 const route = useRoute();
 const user = await useAuth().useAuthUser() as any;
 
-const toasterMessage = ref('');
-const showToast = ref(false);
-
 const sortedPodcasts = computed(() => {
+  if (!podcasts.value) return []
   return podcasts.value.filter((p) => !p.draft || user.value).sort((a: IPodcast, b: IPodcast): number => {
     return (b.updatedAt ? new Date(b.updatedAt).getTime() : 0) - (a.updatedAt ? new Date(a.updatedAt).getTime() : 0)
   })
 })
 
 const getFeedUrl = (slug: string): string => {
-  return FEED_SLUG + slug + '.xml';
+  return ContentFile.getMediaUrl(FEED_SLUG) + slug + '.xml';
 }
 onBeforeMount(() => {
   if (route.query.refresh) refresh();

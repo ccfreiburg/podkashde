@@ -21,7 +21,8 @@ export class ContentFile {
 
   public static getMediaUrl(path: string): string {
     const config = useRuntimeConfig()
-    return config.public.mediaBase + path ;
+    const ret = (path && path.length>3?config.public.mediaBase + path:"");
+    return ret
   }
 
 }

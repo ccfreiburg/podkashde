@@ -1,22 +1,60 @@
-//import jwt_decode from "jwt-decode"
-import { AUTHUSER_AP, LOGIN_AP, LOGOUT_AP, PASSWORD_AP, REFRESH_AP } from "../base/Constants"
-import { IUser } from "../base/types/IUser"
+import { jwtPayload } from 'jwt-payloader';
+import { LOGIN_AP, LOGOUT_AP, PASSWORD_AP, REFRESH_AP } from "../base/Constants"
+import type { IUser } from "../base/types/IUser"
 
-export default () => {
-    const useAuthToken = () => useState('auth_token_pk', () => null)
-    const useAuthUser = () => useState('auth_user_pk', () => null)
+export default function useAuth() {
+    const authToken = useState<string|undefined>('auth_token_pk', () => undefined)
+    const refreshToken = useState<string|undefined>('refresh_token_pk', () => undefined)
+    const authUser = useState<IUser|undefined>('auth_user_pk', () => undefined)
     const useAuthLoading = () => useState('auth_loading_pk', () => true)
-    const { apiBase } = useRuntimeConfig()
 
+    const { apiBase } = useRuntimeConfig().public
 
     const setToken = (newToken: string) => {
-        const authToken = useAuthToken()
         authToken.value = newToken
+        // if (process.client)
+        //     localStorage.setItem('auth_token', newToken)
     }
 
-    const setUser = (newUser: IUser) => {
-        const authUser = useAuthUser()
+    const getToken = () => {
+        var token = authToken.value
+        // if (!token && process.client)
+        //     token = localStorage.getItem('auth_token') as string
+        return token
+    }
+
+    const setRefreshToken = (newToken: string) => {
+        refreshToken.value = newToken
+        if (process.client)
+             localStorage.setItem('refresh_token', newToken)
+    }
+
+    const getRefreshToken = () => {
+        var token = refreshToken.value 
+        if (!token && process.client)
+             token = localStorage.getItem('refresh_token') || undefined
+        return token
+    }
+
+    const clearTokens = () => {
+        refreshToken.value = undefined
+        localStorage.clear()
+        authToken.value = undefined
+        authUser.value = undefined
+    }
+    
+    const setUser = (newUser: IUser | undefined ) => {
         authUser.value = newUser
+    }
+
+    const useAuthUser = async () => {
+        if (!authUser.value && (getRefreshToken() || getToken() )) {
+            try {
+                await refreshTheToken().then(()=>reRefreshAccessToken())
+            }
+            catch {}
+        }
+        return authUser
     }
 
     const setIsAuthLoading = (value: boolean) => {
@@ -34,11 +72,11 @@ export default () => {
                         username,
                         password
                     }
-                })
-
+                }) as { user: IUser, refresh_token: string, access_token: string } 
                 setToken(data.access_token)
+                setRefreshToken(data.refresh_token)
                 setUser(data.user)
-                setTimer(360000)
+                setTimer(10000)
                 resolve(true)
             } catch (error) {
                 reject(error)
@@ -49,15 +87,16 @@ export default () => {
     const setFirstPassword = (token: string, password: string) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const data = await $fetch( apiBase + PASSWORD_AP, {
+                const data = await useFetchApi()( PASSWORD_AP, {
                     method: 'POST',
                     body: {
                         token,
                         password
                     }
-                })
+                }) as { user: IUser, refresh_token: string, access_token: string } 
 
                 setToken(data.access_token)
+                setRefreshToken(data.refresh_token)
                 setUser(data.user)
 
                 resolve(true)
@@ -71,16 +110,17 @@ export default () => {
     const changePassword = (username: string, password: string, oldpassword: string) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const data = await $fetch( apiBase + PASSWORD_AP, {
+                const data = await useFetchApi()( PASSWORD_AP, {
                     method: 'POST',
                     body: {
                         username,
                         password,
                         oldpassword
                     }
-                })
+                }) as { user: IUser, refresh_token: string, access_token: string } 
 
                 setToken(data.access_token)
+                setRefreshToken(data.refresh_token)
                 setUser(data.user)
 
                 resolve(true)
@@ -90,61 +130,54 @@ export default () => {
         })
       
     }
-    const refreshToken = () => {
+    const refreshTheToken = () => {
         return new Promise(async (resolve, reject) => {
             try {
-                const data = await $fetch( apiBase + REFRESH_AP)
+                const myFetch = useFetchApi()
+                const data = await myFetch( REFRESH_AP, {  method: 'POST', body: { refresh_token: getRefreshToken()}} )  as { user: IUser, refresh_token: string, access_token: string } 
 
                 setToken(data.access_token)
+                setRefreshToken(data.refresh_token)
                 setUser(data.user)
 
                 resolve(true)
             } catch (error) {
-                setToken(null)
-                setUser(null)
-                reject(error)
-            }
-        })
-    }
-
-    const getUser = () => {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const data = await $fetch( apiBase + REFRESH_AP)
-
-                setUser(data.user)
-                resolve(true)
-            } catch (error) {
+                setToken("")
+                setUser(undefined)
                 reject(error)
             }
         })
     }
 
     const reRefreshAccessToken = () => {
-        const authToken = useAuthToken()
+        const authToken = getToken()
 
-        if (!authToken.value) {
+        if (!authToken) {
             return
         }
-
-        const jwt = jwt_decode(authToken.value)
-
+        const request = {
+            headers: {
+              'content-Type': 'application/json',
+              authorization: `Bearer ${authToken}`,
+            },
+          };
+        const jwt = jwtPayload(request)
         const newRefreshTime = jwt.exp - 60000
         setTimer(newRefreshTime)
     }
 
-    const setTimer = (time: Number) => {
+    const setTimer = (time: number) => {
         setTimeout(() => {
-                refreshToken().then(() => reRefreshAccessToken(), ()=>{})
+            refreshTheToken().then(() => reRefreshAccessToken(), ()=>{})
             }, 
-            time) //newRefreshTime);
+            time);
     }
 
     const initAuth = () => {
         return new Promise(async (resolve, reject) => {
             setIsAuthLoading(true)
             try {
-                await refreshToken()
+                await refreshTheToken()
                 // await getUser()
 
                 reRefreshAccessToken()
@@ -162,15 +195,11 @@ export default () => {
     const logout = () => {
         return new Promise(async (resolve, reject) => {
             try {
-                await useFetchApi(LOGOUT_AP, {
+                await useFetchApi()(LOGOUT_AP, {
                     method: 'POST'
                 })
-
-                setToken(null)
-                setUser(null)
-                resolve()
+                clearTokens()
             } catch (error) {
-                reject(error)
             }
         })
     }
@@ -178,8 +207,9 @@ export default () => {
     return {
         login,
         useAuthUser,
-        useAuthToken,
         initAuth,
+        getToken,
+        getRefreshToken,
         useAuthLoading,
         setFirstPassword,
         changePassword,

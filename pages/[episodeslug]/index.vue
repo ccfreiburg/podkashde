@@ -1,9 +1,6 @@
 <template>
   <div>
-    <MessageToast></MessageToast>
-    <!-- <select-podcast-modal v-if="dialog" :error="error" :podcasts="podcasts" @cancel="() => dialog = false"
-      @submit="changePodcast"></select-podcast-modal>
-    <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked" /> -->
+    <PageLayout :title="$t('episode.episode')" :submenu="submenu" @menuItemClicked="menuItemClicked">
     <div class="flex flex-col items-center ">
       <div class="relative z-20 flex flex-row w-11/12 mt-6 lg:w-4/5 md:h-60 md:mt-12">
         <img class="h-28 md:h-60 w-28 md:w-60 shrink-0" :src="ContentFile.getMediaUrl(episode.image)" />
@@ -110,6 +107,7 @@
       </div>
       <div class="h-screen"></div>
     </BaseContainer>
+    </PageLayout>
   </div>
 </template>
 <script setup lang="ts">
@@ -121,17 +119,18 @@ import { ContentFile } from '~/base/ContentFile';
 
 const route = useRoute();
 const router = useRouter();
-const user = ref(undefined); // await useAuth().useAuthUser();
+const user = await useAuth().useAuthUser();
+const myFetch = useFetchApi()
+const { locale } = useI18n();
 
+const slug = route.params.episodeslug as string;
 const showdetail = ref(false);
 
-const { locale } = useI18n();
-const slug = route.params.episodeslug as string;
-const { refresh, serie, podcast, remove, episode } = await useEpisode(slug);
 const { podcasts } = await usePodcasts();
-const config = useRuntimeConfig()
-const link = ref(episode.value.link)
+const { refresh, serie, podcast, remove, episode } = await useEpisode(slug);
+const link = ref(episode.value?.link)
 const submenu = ref([])
+
 onBeforeMount(() => {
   refresh();
   submenu.value = [
@@ -147,7 +146,7 @@ onBeforeMount(() => {
       slug: '#delete',
       layout: 'delete',
     },
-  ];
+  ] as Array<{id: number, name: string, slug: string, layout: string}>;
   if (user.value && user.value.username.startsWith('admin'))
     submenu.value.push({
       id: 2,
@@ -156,12 +155,16 @@ onBeforeMount(() => {
       layout: 'change',
     });
 });
-onMounted(() =>
-  router.replace({
-    ...router.currentRoute,
-    query: {},
-  })
-);
+
+onMounted(() => {
+  if (!episode.value || Object.keys(episode.value).length === 0)
+    router.push({ path: "/", query: {refresh: 'true', msg: 'episode.notfound' }})
+  else
+    router.replace({
+      ...router.currentRoute,
+      query: {},
+    })
+})
 
 const duration = () => durationInSecToStr(episode.value.duration);
 
@@ -176,14 +179,15 @@ async function menuItemClicked(value: string) {
         id: episode.value.id,
       },
     };
-    await $fetch( config.public.apiBase + EPISODE_AP, request);
-    (await useEpisodes()).refresh();
+    const result = await myFetch( EPISODE_AP, request);
+    if (result.resutlCode="201") {
     var url = router.options.history.state.back as string;
     if (url.includes('?')) url = url.substring(0, url.indexOf('?'));
     router.push({
       path: url,
       query: { refresh: 'true', msg: 'episode.deleted' },
     });
+  }
   } else if (value === '#change') {
     dialog.value = !dialog.value
   }
@@ -201,7 +205,7 @@ async function changePodcast(podcastid: number) {
         serie: serie.value,
       },
     };
-    result = await $fetch( config.public.apiBase + EPISODEMOVE_AP, postData);
+    result = await myFetch( EPISODEMOVE_AP, postData);
     await refresh()
     link.value = episode.value.link
     audioComponentKey.value++

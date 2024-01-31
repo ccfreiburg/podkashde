@@ -22,24 +22,24 @@ export async function usePodcasts() {
 }
 
 export async function usePodcast(slug:string) {
-    const podcast = useState<IPodcast>(slug, () => null )
+    const podcast = useState<IPodcast | undefined>(slug, () => undefined )
     const episodes = useState<Array<IEpisode>>("episodes-of-"+slug, () => [] )
     const config = useRuntimeConfig()
 
     const refresh = async () => {
         const data: IPodcast = await $fetch( config.public.apiBase + PODCAST_AP+"?slug="+slug)
         podcast.value = data;
-        episodes.value = data.episodes
+        episodes.value = data.episodes as Array<IEpisode>
     }
     const remove = async () => {
         const request : IPostdata = {
             method: "DELETE",
             body: {
-                id: podcast.value.id
+                id: podcast.value?.id
             }
         }
-        await $fetch( apiBase + PODCAST_AP, request)
-        podcast.value = null;
+        await $fetch( config.public.apiBase + PODCAST_AP, request as any)
+        podcast.value = undefined;
     }
     if (!podcast.value) {
        await refresh()

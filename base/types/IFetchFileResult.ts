@@ -1,5 +1,5 @@
 export interface IFetchFileResult {
-  status: number,
+  statusCode: number,
   message: string,
   path?: string
 }

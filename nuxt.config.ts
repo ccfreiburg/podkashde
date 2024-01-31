@@ -23,8 +23,15 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiBase: '/api/',
-      mediaBase: ''
+      appBase: 'http://localhost:3000',
+      apiBase: 'http://localhost:3003/api/',
+      mediaBase: 'http://localhost:3003'
+    }
+  },
+  nitro: {
+    routeRules: {
+      "/api/**": { proxy: 'localhost:3003' },
+      "/s/**": { proxy: 'localhost:3003' }
     }
   },
   devtools: { enabled: true }

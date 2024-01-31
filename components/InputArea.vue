@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-2 flex flex-col">
+  <div class="flex flex-col mt-2">
     <div>
       <label v-if="label" class="pl-2 text-sm text-skin-muted" :for="name">{{
         $t(label)
@@ -57,14 +57,14 @@ export default defineComponent({
     function isInputElement() {
       return ["text", "number", "date", "password"].includes(props.type);
     }
-    function hasError(errors) {
+    function hasError(errors: Array<IValidationError>) {
       return errors.find((error) => error.field === props.name);
     }
     const error = computed(() => {
       const err = hasError(props.errors);
       return err ? err.text : "";
     });
-    function updateEvent(event) {
+    function updateEvent(event: any) {
       ctx.emit("update:value", event.target.value);
     }
 

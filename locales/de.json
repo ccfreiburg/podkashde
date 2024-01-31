@@ -46,6 +46,7 @@
     "edit": "Podcast bearbeiten",
     "change": "Podcast zuordnen",
     "addImage": "Klicken um Bild hinzuzufügen",
+    "notfound": "Podcast wurde nicht gefunden",
     "inthis": "in diesem Podcast",
     "label": {
       "img": "Klicken um Bild hinzuzufügen",
@@ -98,6 +99,7 @@
     "new": "Neue Folge",
     "add": "Folge hinzuzufügen",
     "edit": "Folge bearbeiten",
+    "notfound": "Folge wurde nicht gefunden",
     "forpodcast": "für",
     "edit_short": "bearbeiten",
     "explicit": "explizit",
@@ -151,6 +153,7 @@
     "episodes": "Folgen der Serie",
     "edit": "Serie bearbeiten",
     "inthis": "in dieser Serie",
+    "notfound": "Serie wurde nicht gefunden",
     "tothepisodes": "zu den Folgen...",
     "label": {
       "img": "klicken um Bild hinzuzufügen",

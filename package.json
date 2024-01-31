@@ -15,5 +15,12 @@
     "nuxt": "^3.9.3",
     "vue": "^3.4.14",
     "vue-router": "^4.2.5"
+  },
+  "dependencies": {
+    "id3-parser": "^3.0.0",
+    "jwt-payloader": "^1.0.1"
+  },
+  "resolutions": {
+    "string-width": "4.2.3"
   }
 }
