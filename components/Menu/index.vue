@@ -25,7 +25,7 @@
               </p>
               <div class="flex flex-row flex-wrap justify-center">
               <div v-for="(entry, index) in section.menu_items" :key="index">
-                <MenuButton  :item="entry" @menuItemClicked="menuItemClicked">
+                <MenuButton v-if="!section.admin || notxor(entry.loggedin, user)"  :item="entry" @menuItemClicked="menuItemClicked">
                   <div class="flex flex-row flex-nowrap">
                   <div>
                     {{ entry.Name }}&nbsp;
@@ -59,10 +59,11 @@ export default defineComponent({
     }
   },
   //emits: ["menuItemClicked"],
-  setup(props, ctx) {
+  async setup(props, ctx) {
     var itWasMe = '';
     const showMenu = ref(false);
     const localePath = useLocalePath();
+    const user = await useAuth().useAuthUser();
     
     function menuItemClicked(name: string) {
       ctx.emit('menuItemClicked', name);
@@ -70,12 +71,17 @@ export default defineComponent({
     function emptyClick() {
       ctx.emit('emptyClick');
     }
+    function notxor(b1: boolean, b2: boolean): boolean {
+      return b1 && b2 || !b1 && !b2
+    }
     
     return {
       showMenu,
       localePath,
       menuItemClicked,
-      emptyClick
+      emptyClick,
+      notxor,
+      user
     };
   },
 });
