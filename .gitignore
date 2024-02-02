@@ -23,7 +23,7 @@ logs
 .env.*
 !.env.example
 
-public
+public/s
 backend/node_modules 
 backend/public/s 
 backend/dist 
