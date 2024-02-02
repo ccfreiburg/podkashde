@@ -16,7 +16,7 @@ jobs:
       - run: |
           cd backend &&
           yarn &&
-          yarn start 
+          yarn start &
       - name: Run E2E tests
         uses: cypress-io/github-action@v5
         with:
