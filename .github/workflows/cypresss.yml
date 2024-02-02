@@ -15,9 +15,10 @@ jobs:
           node-version: 18
       - run: |
           yarn &&
+          yarn build &&
           ./startbe.sh
       - name: Run E2E tests
         uses: cypress-io/github-action@v5
         with:
-          start: yarn build && yarn preview
+          start: yarn preview
           wait-on: http://localhost:3000
