@@ -16,9 +16,7 @@ jobs:
       - run: |
           cd backend &&
           yarn &&
-          yarn start &
-          sleep 5 &&
-          curl http://localhost:3003 -I
+          yarn start 
       - name: Run E2E tests
         uses: cypress-io/github-action@v5
         with:
