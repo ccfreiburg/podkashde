@@ -19,5 +19,5 @@ jobs:
       - name: Run E2E tests
         uses: cypress-io/github-action@v5
         with:
-          start: yarn preview
+          start: yarn build && yarn preview
           wait-on: http://localhost:3000
