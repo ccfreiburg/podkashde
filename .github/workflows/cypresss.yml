@@ -1,7 +1,7 @@
 name: End-to-end tests
 on: 
     push: 
-        branches: [ "refactor/" ]
+        branches: [ "refactor/separate-backend" ]
     workflow_dispatch:
 jobs:
   cypress-run:
