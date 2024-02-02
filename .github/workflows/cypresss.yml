@@ -21,4 +21,4 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           start: yarn preview
-          wait-on: http://localhost:3000
+          wait-on: http://[::]:3000
