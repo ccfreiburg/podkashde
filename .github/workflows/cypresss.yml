@@ -14,9 +14,8 @@ jobs:
         with:
           node-version: 18
       - run: |
-          cd backend &&
           yarn &&
-          yarn start &
+          ./startbe.sh
       - name: Run E2E tests
         uses: cypress-io/github-action@v5
         with:
