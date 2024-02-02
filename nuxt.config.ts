@@ -34,5 +34,5 @@ export default defineNuxtConfig({
       "/s/**": { proxy: 'localhost:3003' }
     }
   },
-  devtools: { enabled: true }
+  devtools: { enabled: false }
 })
