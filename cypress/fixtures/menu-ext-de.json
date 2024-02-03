@@ -1,0 +1,142 @@
+{
+    "settings": {
+        "baseUrl": "http://localhost:3000",
+        "defaultRoute": "/recent",
+        "menuSource": "",
+        "skin": "",
+        "logo": "/img/logo.png",
+        "logo_w": "/img/logo-w.png",
+        "enableDarkOption": false,
+        "closeOnScroll": false,
+        "nondefault": false
+    },
+    "menu": {
+        "de": [
+        {
+            "Description": "Höre aktuelle und zuletzt erschienene Folgen",
+            "Name": "Hör rein",
+            "Replaces": "Hör rein",
+            "link": "/recent",
+            "menu_items": [
+                {
+                    "Name": "Aktuelle Folgen",
+                    "locale": "de",
+                    "link": "/recent",
+                    "local": true
+                },
+                {
+                    "Name": "Aktuelle Serien",
+                    "locale": "de",
+                    "link": "/series",
+                    "local": true
+                },
+                {
+                    "Name": "Podcasts",
+                    "locale": "de",
+                    "link": "/podcasts",
+                    "local": true
+                }
+            ]
+        },
+        {
+            "Description": "Podcasts, Serien und Folgen verwalten ",
+            "Name": "Administrator",
+            "admin": true,
+            "link": "/admin",
+            "menu_items": [
+                {
+                    "Name": "Andministrator Login",
+                    "locale": "de",
+                    "loggedin": false,
+                    "link": "/admin/login",
+                    "local": true
+                },
+                {
+                    "Name": "Passwort ändern",
+                    "loggedin": true,
+                    "locale": "de",
+                    "link": "/admin/setpassword",
+                    "local": true
+                },
+                {
+                    "Name": "Benutzer einladen",
+                    "locale": "de",
+                    "loggedin": true,
+                    "link": "/admin/invitation",
+                    "local": true
+                },
+                {
+                    "Name": "Abmelden",
+                    "locale": "de",
+                    "loggedin": true,
+                    "link": "#logout",
+                    "local": true
+                }
+            ]
+        }
+    ],
+    "en": [
+        {
+            "Description": "Listen to our content",
+            "Name": "Listen",
+            "Replaces": "Listen",
+            "link": "/recent",
+            "menu_items": [
+                {
+                    "Name": "Recent Episodes",
+                    "locale": "en",
+                    "link": "/recent",
+                    "local": true
+                },
+                {
+                    "Name": "Current Series",
+                    "locale": "en",
+                    "link": "/series",
+                    "local": true
+                },
+                {
+                    "Name": "Podcasts",
+                    "locale": "en",
+                    "link": "/podcasts",
+                    "local": true
+                }
+            ]
+        },
+        {
+            "Description": "Manage podcasts, series and episodes",
+            "Name": "Administration",
+            "admin": true,
+            "link": "/admin",
+            "menu_items": [
+                {
+                    "Name": "Andmin Login",
+                    "locale": "en",
+                    "loggedin": false,
+                    "link": "/admin/login",
+                    "local": true
+                },
+                {
+                    "Name": "Change Password",
+                    "loggedin": true,
+                    "locale": "en",
+                    "link": "/admin/setpassword",
+                    "local": true
+                },
+                {
+                    "Name": "Invite User",
+                    "locale": "en",
+                    "loggedin": true,
+                    "link": "/admin/invitation",
+                    "local": true
+                },
+                {
+                    "Name": "Logout",
+                    "locale": "en",
+                    "loggedin": true,
+                    "link": "#logout",
+                    "local": true
+                }
+            ]
+        }
+    ]}
+}

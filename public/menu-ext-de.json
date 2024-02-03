@@ -10,15 +10,16 @@
         "closeOnScroll": false,
         "nondefault": false
     },
-    "menu": [
+    "menu": {
+        "de": [
         {
-            "Description": "Höre unsere Predigen, Inputs und  Biblestudies oder lies Neues und Andachten",
+            "Description": "Höre aktuelle und zuletzt erschienene Folgen",
             "Name": "Hör rein",
             "Replaces": "Hör rein",
             "link": "/recent",
             "menu_items": [
                 {
-                    "Name": "Aktuelle Predigten",
+                    "Name": "Aktuelle Folgen",
                     "locale": "de",
                     "link": "/recent",
                     "local": true
@@ -73,5 +74,69 @@
                 }
             ]
         }
-    ]
+    ],
+    "en": [
+        {
+            "Description": "Listen to our content",
+            "Name": "Listen",
+            "Replaces": "Listen",
+            "link": "/recent",
+            "menu_items": [
+                {
+                    "Name": "Recent Episodes",
+                    "locale": "en",
+                    "link": "/recent",
+                    "local": true
+                },
+                {
+                    "Name": "Current Series",
+                    "locale": "en",
+                    "link": "/series",
+                    "local": true
+                },
+                {
+                    "Name": "Podcasts",
+                    "locale": "en",
+                    "link": "/podcasts",
+                    "local": true
+                }
+            ]
+        },
+        {
+            "Description": "Manage podcasts, series and episodes",
+            "Name": "Administration",
+            "admin": true,
+            "link": "/admin",
+            "menu_items": [
+                {
+                    "Name": "Andmin Login",
+                    "locale": "en",
+                    "loggedin": false,
+                    "link": "/admin/login",
+                    "local": true
+                },
+                {
+                    "Name": "Change Password",
+                    "loggedin": true,
+                    "locale": "en",
+                    "link": "/admin/setpassword",
+                    "local": true
+                },
+                {
+                    "Name": "Invite User",
+                    "locale": "en",
+                    "loggedin": true,
+                    "link": "/admin/invitation",
+                    "local": true
+                },
+                {
+                    "Name": "Logout",
+                    "locale": "en",
+                    "loggedin": true,
+                    "link": "#logout",
+                    "local": true
+                }
+            ]
+        }
+    ]}
 }

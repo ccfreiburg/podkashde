@@ -8,7 +8,7 @@
           <InputArea name="password" type="password" v-model:value="password" :errors="errors" :label="'login.password'"></InputArea>
           <div class="flex flex-row">
             <div class="flex-grow">
-              <BaseButtonPrimary class="float-right mt-8" @click="onlogin">{{ $t('login.submit') }}
+              <BaseButtonPrimary data-testid="submit" class="float-right mt-8" @click="onlogin">{{ $t('login.submit') }}
               </BaseButtonPrimary>
             </div>
           </div>

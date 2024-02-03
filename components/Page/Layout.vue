@@ -42,7 +42,8 @@ export default defineComponent({
   },
   async setup(props, ctx) {
     const { locale } = useI18n()
-    const { menu } = await useMetaData(locale.value)
+    const meta = await $fetch(useRuntimeConfig().public.appBase+'/menu-ext-de.json') as any
+    const menu = ref(meta?.menu[locale.value])
     const user = await useAuth().useAuthUser() as any;
     const showMenu = ref(false);
 
