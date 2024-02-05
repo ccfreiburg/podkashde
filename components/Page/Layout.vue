@@ -1,11 +1,11 @@
 
 <template>
     <div>
-<PageNavBar :closeOnScroll="false" :menuVisible="showMenu"  @menuButtonClick="menuButtonClick" class="sticky top-0 z-40" />
+<PageNavBar :closeOnScroll="false" :menuVisible="showMenu" :showMenuButton="!loading" @menuButtonClick="menuButtonClick" class="sticky top-0 z-40" />
 <div v-if="showMenu" class="w-full h-full bg-white shadow-md">
   <transition enter-from-class="translate-y-[150%] opacity-100" enter-active-class="transition duration-400"
 leave-active-class="transition duration-800" leave-to-class="translate-y-[150%] opacity-0">
-    <Menu :menu="menu" @emptyClick="menuButtonClick" @menuItemClicked="menuItemClicked"/>  
+    <Menu v-if="menu" :menu="menu" @emptyClick="menuButtonClick" @menuItemClicked="menuItemClicked"/>  
   </transition>
 </div>
 <div :hidden="showMenu">
@@ -42,8 +42,7 @@ export default defineComponent({
   },
   async setup(props, ctx) {
     const { locale } = useI18n()
-    const meta = await $fetch(useRuntimeConfig().public.appBase+'/menu-ext-de.json') as any
-    const menu = ref(meta?.menu[locale.value])
+    const {menu, refresh, loading } = useMetaData(locale.value, true)
     const user = await useAuth().useAuthUser() as any;
     const showMenu = ref(false);
 
@@ -65,6 +64,7 @@ export default defineComponent({
         menuItemClicked,
         showMenu,
         menu,
+        loading,
         user
     }
   }

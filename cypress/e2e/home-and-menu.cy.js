@@ -2,13 +2,14 @@ import './cypress/support/e2e.js'
 
 describe('template spec', () => {
   beforeEach('Visit Home', () => {
-    cy.visit('/en')
+    cy.visitNuxtDev('/en')
+    cy.intercept('GET', '/api/episodes').as('episodes')
+    cy.wait('@episodes')
   })
   it('Shows Title', () => {
     cy.contains('h1','Recent Episodes')
   });
   it('Menu Sandwich Button clicked shows menu with podcasts link', () => {
-    cy.wait(2000)
     cy.getBySel('NavBar.clickableElement').click({ force: true })
     cy.contains('Podcasts').should('have.attr', 'href')
     cy.getBySel('NavBar.clickableElement').click({ force: true })

@@ -42,3 +42,4 @@ export const CHECK_TOKEN_AP = 'auth/checktoken?token=';
 export const PASSWORD_AP = 'auth/password'
 export const NUM_PAGINATION_LINKS = 7
 export const NUM_ITEMS_PER_PAGE = 6
+export const TOKEN_REFRESH_TIME = 60000

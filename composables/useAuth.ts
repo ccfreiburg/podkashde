@@ -1,25 +1,27 @@
 import { jwtPayload } from 'jwt-payloader';
-import { LOGIN_AP, LOGOUT_AP, PASSWORD_AP, REFRESH_AP } from "../base/Constants"
+import { LOGIN_AP, LOGOUT_AP, PASSWORD_AP, REFRESH_AP, TOKEN_REFRESH_TIME } from "../base/Constants"
 import type { IUser } from "../base/types/IUser"
+import { checkToken } from '~/backend/src/controller/Auth';
 
 export default function useAuth() {
     const authToken = useState<string|undefined>('auth_token_pk', () => undefined)
     const refreshToken = useState<string|undefined>('refresh_token_pk', () => undefined)
     const authUser = useState<IUser|undefined>('auth_user_pk', () => undefined)
     const useAuthLoading = () => useState('auth_loading_pk', () => true)
+    var timer:any = undefined
 
     const { apiBase } = useRuntimeConfig().public
 
     const setToken = (newToken: string) => {
         authToken.value = newToken
-        // if (process.client)
-        //     localStorage.setItem('auth_token', newToken)
+        if (process.client)
+            localStorage.setItem('auth_token', newToken)
     }
 
     const getToken = () => {
         var token = authToken.value
-        // if (!token && process.client)
-        //     token = localStorage.getItem('auth_token') as string
+        if (!token && process.client)
+            token = localStorage.getItem('auth_token') as string
         return token
     }
 
@@ -43,12 +45,21 @@ export default function useAuth() {
         authUser.value = undefined
     }
     
-    const setUser = (newUser: IUser | undefined ) => {
+    const setUser = (newUser: IUser) => {
         authUser.value = newUser
+        if (process.client)
+             localStorage.setItem('user', JSON.stringify(newUser))
     }
 
     const useAuthUser = async () => {
-        if (!authUser.value && (getRefreshToken() || getToken() )) {
+        if (!authUser.value && process.client) {
+            const user = localStorage.getItem('user')
+            authUser.value = (user && user.startsWith("{")?JSON.parse(user):undefined)
+        }
+        if (authUser.value && getToken()) {
+            if (!timer) setTimer()
+            return authUser
+        } else if (getRefreshToken()) {
             try {
                 await refreshTheToken().then(()=>reRefreshAccessToken())
             }
@@ -76,7 +87,7 @@ export default function useAuth() {
                 setToken(data.access_token)
                 setRefreshToken(data.refresh_token)
                 setUser(data.user)
-                setTimer(10000)
+                setTimer(TOKEN_REFRESH_TIME)
                 resolve(true)
             } catch (error) {
                 reject(error)
@@ -162,12 +173,12 @@ export default function useAuth() {
             },
           };
         const jwt = jwtPayload(request)
-        const newRefreshTime = jwt.exp - 60000
+        const newRefreshTime = jwt.exp - TOKEN_REFRESH_TIME
         setTimer(newRefreshTime)
     }
 
     const setTimer = (time: number) => {
-        setTimeout(() => {
+        timer = setTimeout(() => {
             refreshTheToken().then(() => reRefreshAccessToken(), ()=>{})
             }, 
             time);
@@ -184,7 +195,6 @@ export default function useAuth() {
 
                 resolve(true)
             } catch (error) {
-                console.log(error)
                 reject(error)
             } finally {
                 setIsAuthLoading(false)

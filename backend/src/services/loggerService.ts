@@ -1,6 +1,6 @@
 import {Request} from "express";
 
-var loglevel = 3
+var loglevel = 2
 
 export const logger = (level:number, message: string) => {
     if (level<=loglevel)

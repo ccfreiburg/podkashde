@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { GENERATE_RSS_AP } from "~~/base/Constants";
-import { useEpisode } from "~~/composables/episodedata";
 
 const router = useRouter();
 const user = await useAuth().useAuthUser()
@@ -28,7 +27,8 @@ watch( user, (newVal) => {
 
 const route = useRoute();
 const slug = route.params.episodeslug as string;
-const { refresh, episode } = await useEpisode(slug);
+const { refresh, episode, loading } = useEpisode(slug);
+await refresh()
 const { podcast, refresh: prefresh } = await usePodcast(episode.value?.podcast?.slug as string)
 const { series } = await useSeries();
 

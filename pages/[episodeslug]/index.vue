@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageLayout :title="$t('episode.episode')" :submenu="submenu" @menuItemClicked="menuItemClicked">
+    <PageLayout v-if="episode" :title="$t('episode.episode')" :submenu="submenu" @menuItemClicked="menuItemClicked">
     <div class="flex flex-col items-center ">
       <div class="relative z-20 flex flex-row w-11/12 mt-6 lg:w-4/5 md:h-60 md:mt-12">
         <img class="h-28 md:h-60 w-28 md:w-60 shrink-0" :src="ContentFile.getMediaUrl(episode.image)" />
@@ -39,13 +39,12 @@
         </div>
       </div>
     </div>
-
     <div class="relative flex flex-row w-full -z-0">
       <div class="absolute w-screen h-40 -top-4 md:-top-8 bg-skin-player"></div>
     </div>
     <div class="relative z-10 flex flex-col items-center">
       <div class="w-11/12 pt-6 lg:w-4/5">
-        <AudioPlayer :key="audioComponentKey" class="bg-skin-player text-skin-inverted" :file="ContentFile.getMediaUrl(link)" @play="play"></AudioPlayer>
+        <AudioPlayer :key="audioComponentKey" class="bg-skin-player text-skin-inverted" :file="ContentFile.getMediaUrl(episode.link)" @play="play"></AudioPlayer>
       </div>
     </div>
     <div class="w-screen h-4 bg-skin-light"></div>
@@ -113,7 +112,6 @@
 <script setup lang="ts">
 import { EPISODEMOVE_AP, EPISODE_AP } from '~~/base/Constants';
 import { durationInSecToStr } from '~~/base/Converters';
-import { useEpisode } from '~~/composables/episodedata';
 import { dateToString } from '~~/base/Converters'
 import { ContentFile } from '~/base/ContentFile';
 
@@ -127,8 +125,7 @@ const slug = route.params.episodeslug as string;
 const showdetail = ref(false);
 
 const { podcasts } = await usePodcasts();
-const { refresh, serie, podcast, remove, episode } = await useEpisode(slug);
-const link = ref(episode.value?.link)
+const { refresh, serie, podcast, episode, loading } = useEpisode(slug);
 const submenu = ref([])
 
 onBeforeMount(() => {
@@ -156,8 +153,9 @@ onBeforeMount(() => {
     });
 });
 
-onMounted(() => {
-  if (!episode.value || Object.keys(episode.value).length === 0)
+
+watch(loading, () => {
+  if (!loading && !episode.value || Object.keys(episode.value).length === 0)
     router.push({ path: "/", query: {refresh: 'true', msg: 'episode.notfound' }})
   else
     router.replace({
@@ -207,7 +205,6 @@ async function changePodcast(podcastid: number) {
     };
     result = await myFetch( EPISODEMOVE_AP, postData);
     await refresh()
-    link.value = episode.value.link
     audioComponentKey.value++
     dialog.value = false;
   } catch (err) {

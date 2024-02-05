@@ -148,7 +148,7 @@ export async function checkToken(request: Request, response: Response) {
   });
 }
 
-export async function login(request: Request, response: Response) {
+export async function login(request: Request, response: Response) : Promise<boolean> {
   const username: string = request.body.username;
   const password: string = request.body.password;
 
@@ -157,6 +157,7 @@ export async function login(request: Request, response: Response) {
       statusCode: 400,
       statusMessage: "Ivalid params",
     });
+    return false
   }
 
   const user = await getUserByUserName(username);
@@ -166,7 +167,7 @@ export async function login(request: Request, response: Response) {
       statusCode: 400,
       statusMessage: "Username or password is invalid",
     });
-    return;
+    return false;
   }
   const doesThePasswordMatch = await bcrypt.compare(password, user.password);
 
@@ -175,6 +176,7 @@ export async function login(request: Request, response: Response) {
       statusCode: 400,
       statusMessage: "Username or password is invalid",
     });
+    return false;
   }
 
   const accessToken = generateAccessToken(user);
@@ -189,6 +191,7 @@ export async function login(request: Request, response: Response) {
     refresh_token: refreshToken,
     user: sanitizeUserForFrontend(user),
   });
+  return true;
 }
 
 export async function logout(request: Request, response: Response) {

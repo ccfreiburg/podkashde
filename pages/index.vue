@@ -2,24 +2,22 @@
   <div>
     <PageLayout :title="$t('episode.recent') ">
     <BaseContainer>
-      <episodes-list :episodes="episodes" />
+      <EpisodesList v-if="episodes" :episodes="episodes" />
     </BaseContainer>
     </PageLayout>
-    </div>
-
+  </div>
 </template>
 <script setup lang="ts">
-const { refresh, episodes } = await useEpisodes();
-const router = useRouter()
-const route = useRoute()
-
+const { refresh, episodes } = useEpisodes();
 onBeforeMount(() => {
-  if (route.query.refresh) refresh();
+  const route = useRoute()
+  refresh();
 })
-onMounted(() =>
+onMounted(() =>{
+  const router = useRouter()
   router.replace({
     ...router.currentRoute,
     query: {
     }
-  }))
+  })})
 </script>

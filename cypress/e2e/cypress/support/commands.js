@@ -37,3 +37,11 @@ Cypress.Commands.add('getInput', (selector, ...args) => {
 Cypress.Commands.add('getBySelLike', (selector, ...args) => {
   return cy.get(`[data-test*=${selector}]`, ...args)
 })
+
+Cypress.Commands.add('visitNuxtDev', (url) => {
+  if (Cypress.env('NUXT_MODE') === 'development'){
+    cy.intercept('GET', '/_nuxt/builds/meta/dev.json').as('nuxtDev')
+    cy.visit(url).wait('@nuxtDev')
+  } else
+    cy.visit(url)
+})
