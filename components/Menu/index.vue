@@ -61,9 +61,9 @@ export default defineComponent({
   //emits: ["menuItemClicked"],
   async setup(props, ctx) {
     var itWasMe = '';
-    const showMenu = ref(false);
-    const localePath = useLocalePath();
-    const user = await useAuth().useAuthUser();
+    const showMenu = ref(false)
+    const localePath = useLocalePath()
+    const {user} = useAuth()
     
     function menuItemClicked(name: string) {
       ctx.emit('menuItemClicked', name);

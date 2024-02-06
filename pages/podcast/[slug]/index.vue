@@ -1,7 +1,7 @@
 <template>
   <div>
     <PageLayout :title="$t('podcast.title')" :submenu="submenu" @menuItemClicked="menuItemClicked">
-    <div class="flex flex-col items-center">
+    <div v-if="!(podcastLoading || enumsLoading)" class="flex flex-col items-center">
       <div class="flex flex-row w-11/12 md:w-2/3 md:h-60">
         <img class="relative z-10 h-20 md:h-60 shrink-0" :src="ContentFile.getMediaUrl(podcast.cover_file)" />
         <div class="flex flex-col justify-around pt-1 pb-10 pl-4 md:pl-14 rounded-r-md">
@@ -52,27 +52,37 @@
   </div>
 </template>
 <script setup lang="ts">
-import { NUM_ITEMS_PER_PAGE, PODCAST_AP } from '~~/base/Constants';
-import type { IUser } from '~~/base/types/IUser';
-import { useEnumerations } from '~~/composables/enumerationdata';
-import { usePodcast, usePodcasts } from '~~/composables/podcastdata';
 import { ContentFile } from '~~/base/ContentFile'
-const { apiBase } = useRuntimeConfig().public
 
+const {user} = useAuth()
+const route = useRoute()
+const router = useRouter()
 
-const user = (await useAuth().useAuthUser()) as any;
-const route = useRoute();
 const slug = route.params.slug as string;
 
-const { refresh, podcast, episodes } = await usePodcast(slug);
-const { enumerations } = await useEnumerations();
-const language = ref(enumerations.getLanguage(podcast.value.language_id));
-const podcastGenre = ref(enumerations.getGenre(podcast.value.category_id));
-const submenu = ref([]);
-onBeforeMount(() => {
-  refresh();
-  submenu.value = [
-    {
+const { refresh, remove, loading: podcastLoading, podcast, episodes } = usePodcast(slug);
+const { enumerations, loading: enumsLoading } = useEnumerations();
+const language = ref()
+const podcastGenre = ref()
+
+const doneLoading = () => {
+  if (!podcastLoading.value && !enumsLoading.value) {
+    if (!podcast.value || Object.keys(podcast.value).length === 0) {
+      router.push({ path: "/podcasts", query: {refresh: 'true', msg: 'podcast.notfound' }})
+    } else {
+      router.replace({
+        ...router.currentRoute,
+        query: {},
+      })
+      language.value = enumerations.getLanguage(podcast.value.language_id);
+      podcastGenre.value = enumerations.getGenre(podcast.value.category_id);
+    }
+  }
+}
+doneLoading()
+watch( [podcastLoading, enumsLoading], doneLoading)
+
+const submenu = ref([{
       id: 0,
       name: 'podcast.edit',
       slug: '/admin/podcast/' + slug,
@@ -84,43 +94,17 @@ onBeforeMount(() => {
       slug: '/admin/podcast/' + slug + '/new-episode',
       layout: 'add',
     },
-  ];
-  if (user.value && user.value.username.startsWith('admin'))
-    submenu.value.push({
-      id: 2,
-      name: 'delete',
-      slug: '#delete',
-      layout: 'delete',
-    });
-});
-const router = useRouter();
-onMounted(() => {
-  if (!podcast.value || Object.keys(podcast.value).length === 0)
-    router.push({ path: "/podcasts", query: {refresh: 'true', msg: 'podcast.notfound' }})
-  else
-
-  router.replace({
-    ...router.currentRoute,
-    query: {},
+  ])
+if (user.value && user.value.username.toLowerCase().startsWith('admin'))
+  submenu.value.push({
+    id: 2,
+    name: 'delete',
+    slug: '#delete',
+    layout: 'delete'
   })
-})
 
 async function menuItemClicked(value: string) {
-  if (value === '#delete') {
-    const postData = {
-      method: 'DELETE',
-      body: {
-        id: podcast.value.id,
-        title: podcast.value.title,
-      },
-    };
-    var postResult: Response = await useFetchApi()( apiBase + PODCAST_AP, postData);
-
-    if (postResult.statusCode == 201) {
-      const { refresh } = await usePodcasts();
-      await refresh();
-      router.push('/podcasts');
-    }
-  }
+  if (value=="#delete")
+      remove().then(refresh).then(() => router.push('/podcasts'))
 }
 </script>

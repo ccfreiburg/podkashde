@@ -5,7 +5,7 @@
         {{(isEdit ? $t("podcast.edit") : $t("podcast.new"))}}
       </BaseH1>
     </div>
-    <BaseContainer>
+    <BaseContainer v-if="!loading">
       <image-selector :filename="fields.cover_file" @imageSelected="imageSelected" />
       <!-- Fields-->
       <div class="flex flex-col">
@@ -18,11 +18,11 @@
           v-model:value="fields.summary" />
         <input-area :name="'description'" :type="'textarea'" :label="'podcast.label.description'" :errors="errors"
           v-model:value="fields.description" />
-        <single-select :name="'language'" :label="'podcast.label.language'" :options="enumerations.languages"
+        <single-select :name="'language'" :label="'podcast.label.language'" :options="enumerations.languages()"
           :errors="errors" v-model:value="fields.language_id" />
-        <single-select :name="'category'" :label="'podcast.label.category'" :options="enumerations.podcastGenres"
+        <single-select :name="'category'" :label="'podcast.label.category'" :options="enumerations.podcastGenres()"
           :errors="errors" :long="true" v-model:value="fields.category_id" />
-        <single-select :name="'type'" :label="'podcast.label.type'" :options="enumerations.podcastTypes"
+        <single-select :name="'type'" :label="'podcast.label.type'" :options="enumerations.podcastTypes()"
           :errors="errors" v-model:value="fields.type_id" />
         <div class="my-3">
           <switch-box :checked="fields.explicit" @checkedChanged="(val) => fields.explicit = val"
@@ -84,7 +84,7 @@ export default defineComponent({
   async setup(props, ctx) {
     const imgMetadata = ref(new ImageMetadata())
     const errors = ref([] as Array<IValidationError>)
-    const { enumerations } = await useEnumerations()
+    const { enumerations, loading } = useEnumerations()
     const fields = ref({ ...props.podcast } as IPodcast)
 
     const isEdit = computed(() => {
@@ -161,6 +161,7 @@ export default defineComponent({
         try {
           if (imgMetadata.value.selectedFile) {
             postData.body = getImageInFormData()
+            console.log(postData)
             postResult = await myFetch( UPLOAD_AP, postData)
           }
         } catch (err) {
@@ -191,6 +192,7 @@ export default defineComponent({
       errors,
       fields,
       enumerations,
+      loading,
       hasError,
       getError,
       isEdit,

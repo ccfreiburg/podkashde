@@ -7,7 +7,6 @@
 
 <script setup lang="ts">
 import { emptyIPodcastFactory } from '~~/base/types/IPodcast';
-import { usePodcasts } from '~~/composables/podcastdata';
 
 const router = useRouter();
 onMounted(() =>
@@ -17,27 +16,25 @@ onMounted(() =>
     }
   }))
 
-const user = await useAuth().useAuthUser()
+const {user, haveUser} = useAuth()
+if (!user.value) router.push('/admin/login')
 
 const podcast = ref(emptyIPodcastFactory());
-const { refresh } = await usePodcasts();
-(await usePodcasts()).refresh()
 
 const onSave = async function () {
-  await refresh()
   router.push('/podcasts');
-};
+}
 
 
 const goBack = function () {
   router.go(-1);
-};
-watch( user, (newVal) => {
-  if (!newVal)
+}
+
+watch( user, () => {
+  if (!user.value)
     router.push({
         path: "/admin/login",
         query: { msg: 'login.sessionexpired' },
       });
 })
-setTimeout(()=>{ if (!user.value) router.push('/admin/login')}, 200)
 </script>

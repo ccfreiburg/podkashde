@@ -65,8 +65,8 @@ export async function deleteIdGen(T: any, id: number) : Promise<Boolean> {
 
 export async function deleteGen(T: any, query: ObjectLiteral) : Promise<Boolean> {
     const manager = getDbManager();
-    const result = await manager.delete(T,query);
-    return (result && result.affected == 1)
+    const result = await manager.softDelete(T,query);
+    return (result && result.affected >= 1)
 }
 
 export function isUpdate(podcastObject: any): Boolean {

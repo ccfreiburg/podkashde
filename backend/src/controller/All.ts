@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import { deleteIdGen, getAllGen, getExtManyGen, getExtQueryAllGen, getExtQueryGen, isUpdate, saveGen, updateGen } from "../services/genericService";
+import { deleteGen, deleteIdGen, getAllGen, getExtManyGen, getExtQueryAllGen, getExtQueryGen, isUpdate, saveGen, updateGen } from "../services/genericService";
 import { respond, sendResponse } from "../tools/Controller";
 
 /**
@@ -36,11 +36,10 @@ export async function getQuery(T: any, relations: Array<string>, request: Reques
     sendResponse( response, await getExtQueryGen(T, tmpQuery));
 }
 
-export async function deleteId(T: any,request: Request, response: Response) {
+export async function deleteQuery(T: any,request: Request, response: Response) {
 
-    var id = request.body["id"];
-    if (await deleteIdGen(T, id))
-        respond(response, 201, {statusCode: 201, message: "id="+id+" deleted successfully"})
+    if (await deleteGen(T, request.body))
+        respond(response, 201, {statusCode: 201, message: JSON.stringify(request.body) +" deleted successfully"})
     else 
         respond(response, 500, {statusCode: 500, message: "Delete did not work"});
 }

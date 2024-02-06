@@ -1,4 +1,4 @@
-import { deleteId, getAll, getExtMany, getExtQuery, getExtQueryAll, getQuery, simpleSave, simpleSaveMultiple } from "./controller/All";
+import { deleteQuery, getAll, getExtMany, getExtQuery, getExtQueryAll, getQuery, simpleSave, simpleSaveMultiple } from "./controller/All";
 import { checkRefreshToken, checkToken, getUserToken, login, logout, setPassword } from "./controller/Auth";
 import { count } from "./controller/Count";
 import { setEnums } from "./controller/Enums";
@@ -49,7 +49,7 @@ export const AuthRoutes = [
     {
         path: getRouteSlug("EPISODE_AP"),
         method: "delete",
-        action:  (req, res) => deleteId(Episode,req,res)
+        action:  (req, res) => deleteQuery(Episode,req,res)
     }, 
     {
         path: getRouteSlug("EPISODE_AP"),
@@ -69,12 +69,12 @@ export const AuthRoutes = [
     {
         path: getRouteSlug("PODCAST_AP"),
         method: "delete",
-        action:  (req, res) => deleteId(Podcast,req,res)
+        action:  (req, res) => deleteQuery(Podcast,req,res)
     }, 
     {
         path: getRouteSlug("SERIE_AP"),
         method: "delete",
-        action:  (req, res) => deleteId(Serie,req,res)
+        action:  (req, res) => deleteQuery(Serie,req,res)
     },
     {
         path: getRouteSlug("SERIES_AP"),
@@ -137,7 +137,7 @@ export const AppRoutes = [
     {
         path: getRouteSlug("PODCAST_AP"),
         method: "get",
-        action: (req, res) => getQuery(Podcast, ["episodes" ], req, res)
+        action: (req, res) => getQuery(Podcast, ["episodes"], req, res)
     }, 
     {
         path: getRouteSlug("SERIES_AP"),

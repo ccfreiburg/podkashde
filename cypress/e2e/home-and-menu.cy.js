@@ -2,8 +2,8 @@ import './cypress/support/e2e.js'
 
 describe('template spec', () => {
   beforeEach('Visit Home', () => {
-    cy.visitNuxtDev('/en')
     cy.intercept('GET', '/api/episodes').as('episodes')
+    cy.visitNuxtDev('/en')
     cy.wait('@episodes')
   })
   it('Shows Title', () => {

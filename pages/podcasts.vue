@@ -3,7 +3,7 @@
     <PageLayout :title="$t('podcast.headline')" :submenu="submenu">
     <BaseContainer>
       <div v-for="podcast in sortedPodcasts" :key="podcast.id">
-        <div
+        <div :data-testid="'podcast.' + podcast.slug"
           class="flex flex-row flex-wrap p-4 mt-4 bg-skin-light dark:bg-skin-dark sm:flex-nowrap place-content-center">
           <div class="flex-shrink-0 w-32 h-32">
             <NuxtLink :to="localePath('/podcast/' + podcast.slug)">
@@ -107,12 +107,13 @@
 <script setup lang="ts">
 import { FEED_SLUG } from '~~/base/Constants';
 import type IPodcast from '~~/base/types/IPodcast';
-import { usePodcasts } from '~~/composables/podcastdata';
 import { ContentFile } from '~~/base/ContentFile'
-const { refresh, podcasts } = await usePodcasts();
-const localePath = useLocalePath();
-const route = useRoute();
-const user = await useAuth().useAuthUser() as any;
+import {usePodcasts} from '~/composables/usePodcast';
+
+const { refresh, podcasts } = usePodcasts()
+const localePath = useLocalePath()
+const route = useRoute()
+const {user} = useAuth()
 
 const sortedPodcasts = computed(() => {
   if (!podcasts.value) return []

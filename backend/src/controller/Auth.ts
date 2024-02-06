@@ -185,7 +185,6 @@ export async function login(request: Request, response: Response) : Promise<bool
   
   const refreshToken = generateRefreshToken(user);
   await createSession(refreshToken, user.id);
-
   sendResponse( response, {
     access_token: accessToken,
     refresh_token: refreshToken,

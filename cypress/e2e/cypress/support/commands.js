@@ -33,13 +33,15 @@ Cypress.Commands.add('getBySel', (selector, ...args) => {
 Cypress.Commands.add('getInput', (selector, ...args) => {
   return cy.get(`input[name='${selector}']`, ...args)
 })
-
+Cypress.Commands.add('getSelect', (selector, ...args) => {
+  return cy.get(`select[name='${selector}']`, ...args)
+})
 Cypress.Commands.add('getBySelLike', (selector, ...args) => {
   return cy.get(`[data-test*=${selector}]`, ...args)
 })
 
 Cypress.Commands.add('visitNuxtDev', (url) => {
-  if (Cypress.env('NUXT_MODE') === 'development'){
+  if (Cypress.env('NUXT_MODE') == 'development'){
     cy.intercept('GET', '/_nuxt/builds/meta/dev.json').as('nuxtDev')
     cy.visit(url).wait('@nuxtDev')
   } else

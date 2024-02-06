@@ -8,7 +8,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "dev:backend": "cd backend; yarn dev"
+    "dev:be": "cd backend; yarn dev",
+    "dev:cy": "npx cypress open --env NUXT_MODE=development"
   },
   "devDependencies": {
     "@nuxtjs/i18n": "^8.0.0",

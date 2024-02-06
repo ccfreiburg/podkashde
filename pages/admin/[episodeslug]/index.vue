@@ -1,9 +1,16 @@
 <script setup lang="ts">
 import { GENERATE_RSS_AP } from "~~/base/Constants";
 
-const router = useRouter();
-const user = await useAuth().useAuthUser()
+const router = useRouter()
+const route = useRoute();
+const {user} = await useAuth()
+
+const slug = route.params.episodeslug as string;
+const { refresh, episode, podcast, loading: loadingEpisode } = useEpisode(slug);
+
 const myFetch = useFetchApi()
+
+
 
 onMounted( () => {
   if (!user.value) {
@@ -16,21 +23,6 @@ onMounted( () => {
     ...router.currentRoute,
     query: {}
 })})
-
-watch( user, (newVal) => {
-    if (!newVal)
-      router.push({
-        path: "/admin/login",
-        query: { msg: 'login.sessionexpired' },
-      });
-    })
-
-const route = useRoute();
-const slug = route.params.episodeslug as string;
-const { refresh, episode, loading } = useEpisode(slug);
-await refresh()
-const { podcast, refresh: prefresh } = await usePodcast(episode.value?.podcast?.slug as string)
-const { series } = await useSeries();
 
 onBeforeMount( () => {
   if (route.query.refresh) refresh();

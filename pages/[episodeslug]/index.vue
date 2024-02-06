@@ -115,19 +115,19 @@ import { durationInSecToStr } from '~~/base/Converters';
 import { dateToString } from '~~/base/Converters'
 import { ContentFile } from '~/base/ContentFile';
 
-const route = useRoute();
-const router = useRouter();
-const user = await useAuth().useAuthUser();
+const route = useRoute()
+const router = useRouter()
+const {user} =  useAuth()
 const myFetch = useFetchApi()
-const { locale } = useI18n();
+const { locale } = useI18n()
 
 const slug = route.params.episodeslug as string;
 const showdetail = ref(false);
 
 const { podcasts } = await usePodcasts();
 const { refresh, serie, podcast, episode, loading } = useEpisode(slug);
-const submenu = ref([])
 
+const submenu = ref()
 onBeforeMount(() => {
   refresh();
   submenu.value = [

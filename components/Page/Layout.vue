@@ -1,73 +1,90 @@
-
 <template>
-    <div>
-<PageNavBar :closeOnScroll="false" :menuVisible="showMenu" :showMenuButton="!loading" @menuButtonClick="menuButtonClick" class="sticky top-0 z-40" />
-<div v-if="showMenu" class="w-full h-full bg-white shadow-md">
-  <transition enter-from-class="translate-y-[150%] opacity-100" enter-active-class="transition duration-400"
-leave-active-class="transition duration-800" leave-to-class="translate-y-[150%] opacity-0">
-    <Menu v-if="menu" :menu="menu" @emptyClick="menuButtonClick" @menuItemClicked="menuItemClicked"/>  
-  </transition>
-</div>
-<div :hidden="showMenu">
-<MessageToast></MessageToast>
-<PageSubMenu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked"/>
-<div v-if="title" class="flex justify-center w-full mt-6 mb-10 md:mt-12 md:mb-14">
-  <BaseH1 class="">
-    {{ title }}
-  </BaseH1>
-</div>
-<slot />
-</div>
-</div>
+  <div>
+    <PageNavBar
+      :closeOnScroll="false"
+      :menuVisible="showMenu"
+      :showMenuButton="!loading"
+      @menuButtonClick="menuButtonClick"
+      class="sticky top-0 z-40"
+    />
+    <div v-if="showMenu" class="w-full h-full bg-white shadow-md">
+      <transition
+        enter-from-class="translate-y-[150%] opacity-100"
+        enter-active-class="transition duration-400"
+        leave-active-class="transition duration-800"
+        leave-to-class="translate-y-[150%] opacity-0"
+      >
+        <Menu
+          v-if="menu"
+          :menu="menu"
+          @emptyClick="menuButtonClick"
+          @menuItemClicked="menuItemClicked"
+        />
+      </transition>
+    </div>
+    <div :hidden="showMenu">
+      <MessageToast></MessageToast>
+      <PageSubMenu
+        v-if="user != null"
+        :items="submenu"
+        @menuItemClicked="menuItemClicked"
+      />
+      <div
+        v-if="title"
+        class="flex justify-center w-full mt-6 mb-10 md:mt-12 md:mb-14"
+      >
+        <BaseH1 class="">
+          {{ title }}
+        </BaseH1>
+      </div>
+      <slot />
+    </div>
+  </div>
 </template>
 
-
 <script lang="ts">
-
 export default defineComponent({
-  name: 'NavBar',
+  name: "NavBar",
   props: {
     title: {
       type: String,
-      default: undefined
+      default: undefined,
     },
     submenu: {
       type: Object,
-      default: undefined
+      default: undefined,
     },
     otherLanguagesNav: {
       type: Object,
-      default: { de: '/', en: '/en' }
-    }
+      default: { de: "/", en: "/en" },
+    },
   },
   async setup(props, ctx) {
-    const { locale } = useI18n()
-    const {menu, refresh, loading } = useMetaData(locale.value, true)
-    const user = await useAuth().useAuthUser() as any;
+    const { locale } = useI18n();
+    const { menu, refresh, loading } = useMetaData(locale.value, true);
+    const { user } = useAuth();
     const showMenu = ref(false);
 
     const menuButtonClick = () => {
-        showMenu.value = !showMenu.value
-    }
-    
-    const menuItemClicked = (event : any) => {
-      if (event=="#logout") {
-        const { logout } = useAuth()  
-        logout()
+      showMenu.value = !showMenu.value;
+    };
+
+    const menuItemClicked = (event: any) => {
+      if (event == "#logout") {
+        const { logout } = useAuth();
+        logout();
       } else {
-        ctx.emit("menuItemClicked",event)
+        ctx.emit("menuItemClicked", event);
       }
-    }
-
+    };
     return {
-        menuButtonClick,
-        menuItemClicked,
-        showMenu,
-        menu,
-        loading,
-        user
+      menuButtonClick,
+      menuItemClicked,
+      showMenu,
+      menu,
+      loading,
+      user
     }
-  }
-})
-
+  },
+});
 </script>
