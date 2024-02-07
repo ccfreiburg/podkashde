@@ -105,6 +105,6 @@ if (user.value && user.value.username.toLowerCase().startsWith('admin'))
 
 async function menuItemClicked(value: string) {
   if (value=="#delete")
-      remove().then(refresh).then(() => router.push('/podcasts'))
+      remove().then(() => router.push('/podcasts?refresh=true'))
 }
 </script>

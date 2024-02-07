@@ -2,6 +2,13 @@ import * as fs from 'fs';
 import * as path from 'path'
 import { DATA_PATH } from './Configuration';
 
+export const getRandomFileName = () => {
+  var timestamp = new Date().toISOString().replace(/[-:.]/g,"");  
+  var random = ("" + Math.random()).substring(2, 8); 
+  var random_number = timestamp+random;  
+  return random_number;
+}
+
 export const dataPath = (path: string) : string => {
   return DATA_PATH + path;
 };

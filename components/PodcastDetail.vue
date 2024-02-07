@@ -68,7 +68,7 @@
 </template>
 
 <script lang="ts">
-import { PODCAST_AP, UPLOAD_AP, SERVER_IMG_PATH } from "~~/base/Constants";
+import { PODCAST_AP, UPLOAD_AP, SERVER_IMG_PATH, COUNT_AP } from "~~/base/Constants";
 import type IPodcast from "~~/base/types/IPodcast";
 import type IPostdata from "~~/base/types/IPostdata";
 import validation from "~~/base/PodcastDetailValidation";
@@ -138,6 +138,7 @@ export default defineComponent({
     async function savePodcast(event) {
       event.preventDefault();
       event.stopImmediatePropagation();
+      
       const myFetch = useFetchApi()
       if (imgMetadata.value.selectedFile) {
         fields.value.cover_file =
@@ -152,6 +153,12 @@ export default defineComponent({
         imgMetadata.value.imgWidth,
         imgMetadata.value.imgHeight
       )
+
+      // server validation (if slug is unique) 
+      var countUrl = COUNT_AP + "?slug=" + fields.value.slug + "&podcast=true" + (isEdit.value ? "&excludeId=" + fields.value.id : "")
+      var count = await myFetch( countUrl ) as number;
+      if (count > 0) errors.value.push({ field: "slug", text: "podcast.validation.slug" });
+      
       if (errors.value.length == 0) {
         const postData: IPostdata = {
           method: "POST",

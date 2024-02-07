@@ -1,7 +1,6 @@
 import './cypress/support/e2e.js'
 import './cypress/support/authServices.js'
-import { login } from './cypress/support/authServices.js'
-import { deletePodcast } from './cypress/support/dbCleanup.js'
+import './cypress/support/podcastServices.js'
 
 describe('', () => {
   before('', () => {
@@ -10,7 +9,7 @@ describe('', () => {
     cy.visitNuxtDev('/admin/new-podcast')
     cy.login()
   })
-  it('Shows Title', () => {
+  it('New Podcast Page', () => {
     cy.contains('h1','Neu')
   })
   it('Shows All Errors on Empty Form submitted', () => {
@@ -38,6 +37,7 @@ describe('', () => {
   })
   it('Form without Errors saving', () => {
     cy.intercept('POST','podcast').as('postPodcast')
+    cy.intercept('POST','upload').as('upload')
     cy.get('input[type=file]').selectFile('cypress/fixtures/pod-cover1.jpg', {
       action: "select",
       force: true,
@@ -49,9 +49,17 @@ describe('', () => {
     cy.getSelect('type').select(1)
     cy.getInput('owner_name').type('owner_name')
     cy.getInput('owner_email').type('owner@ema.il{Enter}')
+    cy.wait('@upload')
     cy.wait('@postPodcast')
     cy.getBySel("podcast.title");
-    deletePodcast('title')
+    cy.deletePodcast('title')
   })
-
+  it('Displays Error when slug already exists', () => {
+    const slug = "a_new_podcast"
+    cy.createPodcast(slug)
+    cy.intercept('GET','count*').as('count')
+    cy.getInput('slug').type(slug+"{Enter}").wait('@count')
+    cy.contains('Bitte einen eindeutingen Slug')
+    cy.deletePodcast(slug)
+  })
 })

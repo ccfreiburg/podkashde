@@ -37,7 +37,9 @@
           {{ title }}
         </BaseH1>
       </div>
+      <div data-testid="content-area">
       <slot />
+    </div>
     </div>
   </div>
 </template>

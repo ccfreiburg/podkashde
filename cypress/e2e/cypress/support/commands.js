@@ -47,3 +47,13 @@ Cypress.Commands.add('visitNuxtDev', (url) => {
   } else
     cy.visit(url)
 })
+
+Cypress.Commands.add('clickLinkNuxtDev', (text) => {
+  if (Cypress.env('NUXT_MODE') == 'development'){
+    cy.intercept('GET', '/_nuxt/builds/meta/dev.json').as('nuxtDev')
+    cy.contains('Podcast bearbeiten').trigger('mouseover').click().wait('@nuxtDev')
+  } else {
+    cy.wait(3)
+    cy.contains('Podcast bearbeiten').click()
+  }
+})

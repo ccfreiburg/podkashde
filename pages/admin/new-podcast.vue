@@ -1,8 +1,7 @@
 <template>
-  <div class="w-full h-full pb-10">
-    <MessageToast></MessageToast>
+  <PageLayout>
     <PodcastDetail :podcast="podcast" @oncancel="goBack" @onsaved="onSave" />
-  </div>
+  </PageLayout>
 </template>
 
 <script setup lang="ts">
@@ -22,7 +21,7 @@ if (!user.value) router.push('/admin/login')
 const podcast = ref(emptyIPodcastFactory());
 
 const onSave = async function () {
-  router.push('/podcasts');
+  router.push('/podcasts?refresh=true');
 }
 
 
