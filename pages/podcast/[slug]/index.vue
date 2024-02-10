@@ -45,7 +45,7 @@
         </div>
 
         <EpisodesList :episodes="episodes" />
-        <div class="h-screen"></div>
+        <div class="h-10"></div>
       </BaseContainer>
     </div>
     </PageLayout>

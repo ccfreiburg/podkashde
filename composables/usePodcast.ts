@@ -1,7 +1,6 @@
 import type IEpisode from "~/base/types/IEpisode";
 import type IPodcast from "~/base/types/IPodcast";
-import {  PODCASTS_AP, PODCAST_AP } from "~~/base/Constants";
-
+import {  PODCASTS_AP, PODCAST_AP, GENERATE_RSS_AP } from "~~/base/Constants";
 
 const podcasts = ref([] as Array<IPodcast>)
 
@@ -32,6 +31,12 @@ export default function usePodcast(slug:string) {
         loading.value = false
     }
 
+    const gernerateRss = async () => {
+        if (!podcast.value) return
+        const myFetch = useFetchApi()
+        await myFetch( GENERATE_RSS_AP, { query: { slug: podcast.value.slug }})
+    }
+
     if (!podcast.value)
         refresh()
     
@@ -39,6 +44,7 @@ export default function usePodcast(slug:string) {
         episodes,
         podcast,
         remove,
+        gernerateRss,
         refresh,
         loading
     }

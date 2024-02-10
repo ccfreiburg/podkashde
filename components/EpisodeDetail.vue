@@ -120,7 +120,10 @@ export default defineComponent({
   props: {
     episode: Object as PropType<IEpisode>,
     podcast: Object as PropType<IPodcast>,
-    series: Object as PropType<Array<ISerie>>,
+    series: {
+      type: Array<ISerie>,
+      default: []
+    }
   },
   name: "episode",
   async setup(props, { emit }) {
