@@ -42,7 +42,6 @@ import {
   SERIE_AP,
 } from '~~/base/Constants';
 import { ContentFile } from '~~/base/ContentFile'
-import { useSerie } from '~~/composables/seriedata';
 
 const myFetch = useFetchApi();
 const user = await useAuth().useAuthUser();

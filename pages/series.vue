@@ -56,7 +56,6 @@
 <script setup lang="ts">
 import { ContentFile } from '~~/base/ContentFile'
 import type ISerie from '~~/base/types/ISerie';
-import { useSeries } from '~~/composables/seriedata';
 const pagesize = ref(4);
 const page = ref(1);
 const max = ref(1);
