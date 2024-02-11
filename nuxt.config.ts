@@ -1,3 +1,5 @@
+import { darkMode } from "./tailwind.config";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
@@ -31,7 +33,11 @@ export default defineNuxtConfig({
     public: {
       appBase: 'http://localhost:3000',
       apiBase: 'http://localhost:3003/api/',
-      mediaBase: 'http://localhost:3003'
+      mediaBase: 'http://localhost:3003',
+      skin: '',
+      logo: '/img/logo.png',
+      logoDark: '/img/logo-w.png',
+      enableDarkMode: false
     }
   },
   nitro: {

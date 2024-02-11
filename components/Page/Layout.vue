@@ -1,18 +1,17 @@
 <template>
-    <div class="theme-ccf"></div> <!-- this is to prevent postcss to remove the theme -->
-  <div :class="settings.skin">
-    <div class="h-screen bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark">
+<div>
     <PageNavBar
       :closeOnScroll="false"
       :menuVisible="showMenu"
       :showMenuButton="!loading"
       :darkmode="darkmode"
-      :logo="(darkmode ? settings.logo_w : settings.logo)"
+      :logo="logo"
+      :enable-dark-option="enableDarkMode"
       @menuButtonClick="menuButtonClick"
       @colorModeChanged="switchColorMode"
       class="sticky top-0 z-40"
     />
-    <div v-if="showMenu" class="w-full h-full bg-white shadow-md">
+    <div v-if="showMenu" class="w-full h-full shadow-md">
       <transition
         enter-from-class="translate-y-[150%] opacity-100"
         enter-active-class="transition duration-400"
@@ -44,7 +43,6 @@
       </div>
       <div data-testid="content-area">
       <slot />
-    </div>
     </div>
   </div>
   </div>
@@ -93,19 +91,24 @@ function switchColorMode() {
   darkmode.value = (colorMode.value == 'dark')
 }
 
-// onMounted(() => {
-//     darkmode.value = true // (colorMode.value == 'dark')
-//   // else {
-//   //   colorMode.value = 'light'
-//   //   colorMode.preference = 'light'
-//   //     }
-//    })
+const enableDarkMode = useRuntimeConfig().public.enableDarkMode
+
+onMounted(() => {
+  if (enableDarkMode)
+    darkmode.value = (colorMode.value == 'dark')
+  else {
+    colorMode.value = 'light'
+  }
+})
+    const logo = computed( () => (darkmode.value ? useRuntimeConfig().public.logoDark : useRuntimeConfig().public.logo) )
     return {
       menuButtonClick,
       menuItemClicked,
       switchColorMode,
       darkmode,
+      enableDarkMode,
       showMenu,
+      logo,
       menu,
       settings,
       loading,

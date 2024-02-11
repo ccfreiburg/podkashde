@@ -29,9 +29,8 @@
     <div
       class="flex flex-col content-center justify-center w-full mb-8 md:mb-10 text-skin-muted dark:text-skin-muted-dark">
       <div class="mt-2 tracking-widest text-center text-ml">{{ $t('episode.forpodcast') }}</div>
-      <div class="mt-1 tracking-widest text-center text-ml">{{ podcast.title }}</div>
+      <div v-if="podcast" class="mt-1 tracking-widest text-center text-ml">{{ podcast.title }}</div>
     </div>
-    <BaseContainer>
       <div class="flex flex-col w-full">
         <div class="flex flex-col w-full lg:flex-row">
           <div>
@@ -82,7 +81,7 @@
           </ul>
         </div>
         <!-- Buttons -->
-        <div class="flex flex-row justify-end">
+        <div class="flex flex-row justify-end pb-10">
           <BaseButtonSecondary class="mr-4" @click="cancel">
             {{ $t("cancel") }}
           </BaseButtonSecondary>
@@ -91,7 +90,6 @@
           </BaseButtonPrimary>
         </div>
       </div>
-    </BaseContainer>
   </div>
 </template>
 <script lang="ts">

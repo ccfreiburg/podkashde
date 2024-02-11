@@ -1,7 +1,7 @@
 <template>
   <div>
     <PageLayout :title="$t('podcast.headline')" :submenu="submenu">
-    <BaseContainer>
+    <BaseContainerClean class="pt-4 pb-10 bg-skin-muted dark:bg-skin-muted-dark">
       <div v-for="podcast in sortedPodcasts" :key="podcast.id">
         <div :data-testid="'podcast.' + podcast.slug"
           class="flex flex-row flex-wrap p-4 mt-4 bg-skin-light dark:bg-skin-dark sm:flex-nowrap place-content-center">
@@ -99,7 +99,7 @@
           </div>
         </div>
       </div>
-    </BaseContainer>
+    </BaseContainerClean>
   </PageLayout>
   </div>
 </template>

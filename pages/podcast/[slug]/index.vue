@@ -39,13 +39,12 @@
       <div class="relative z-0 w-full">
         <div class="absolute flex flex-col items-center w-full p-4 -top-8 bg-skin-muted dark:bg-skin-muted-dark"></div>
       </div>
-      <BaseContainer>
+      <BaseContainer class="w-full pb-10">
         <div class="text-sm font-bold tracking-widest text-center md:pt-14 md:text-ml">
           {{ $t('podcast.inthis') }}
         </div>
 
         <EpisodesList :episodes="episodes" />
-        <div class="h-10"></div>
       </BaseContainer>
     </div>
     </PageLayout>

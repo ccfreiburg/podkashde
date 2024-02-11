@@ -1,9 +1,9 @@
 <template>
   <div>
     <PageLayout :title="$t('episode.recent') ">
-    <BaseContainer>
+    <BaseContainerClean class="bg-skin-muted dark:bg-skin-muted-dark">
       <EpisodesList v-if="episodes" :episodes="episodes" />
-    </BaseContainer>
+    </BaseContainerClean>
     </PageLayout>
   </div>
 </template>

@@ -51,7 +51,7 @@ Cypress.Commands.add('visitNuxtDev', (url) => {
 Cypress.Commands.add('clickLinkNuxtDev', (text) => {
   if (Cypress.env('NUXT_MODE') == 'development'){
     cy.intercept('GET', '/_nuxt/builds/meta/dev.json').as('nuxtDev')
-    cy.contains(text).trigger('mouseover').click().wait('@nuxtDev')
+    cy.contains(text).trigger('mouseover').wait(3).click().wait('@nuxtDev')
   } else {
     cy.wait(3)
     cy.contains(text).click()

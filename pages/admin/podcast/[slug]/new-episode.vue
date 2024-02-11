@@ -30,9 +30,9 @@ function cancel() {
 setTimeout(()=>{ if (!user.value) router.push('/admin/login')}, 200)
 </script>
 <template>
-    <div class="pb-10">
       <PageLayout>
-        <episode-detail v-if="user" :podcast="podcast" :episode="episode" :series="series" @save="save" @episode-cancel="cancel"/>
+        <BaseContainerClean>
+          <episode-detail v-if="user" :podcast="podcast" :episode="episode" :series="series" @save="save" @episode-cancel="cancel"/>
+        </BaseContainerClean>
       </PageLayout>
-    </div>
 </template>

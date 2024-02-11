@@ -21,7 +21,7 @@ describe('', () => {
     cy.contains('h1','Neue Folge')
     cy.contains('A New Podcast')
   })
-  it('When submitting empty form, displays all validation errrors', () => {
+  it.only('When submitting empty form, displays all validation errrors', () => {
     cy.getInput('title').type('{Enter}')
     cy.contains('Bitte ein Podcast Titelbild mit 1400x1400 Pixel auswählen')
     cy.contains('Bitte einen Titel eingeben')
