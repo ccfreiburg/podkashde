@@ -1,4 +1,5 @@
 const menu = ref(undefined)
+const settings = ref(undefined)
 
 export default function useMetaData(locale: string, load = true) {
     const {apiBase} = useRuntimeConfig().public
@@ -10,6 +11,7 @@ export default function useMetaData(locale: string, load = true) {
             .then(response => response.json())
             .then(response => {
                 menu.value = response.menu
+                settings.value = response.settings
                 loading.value = false
             })
     }
@@ -17,6 +19,7 @@ export default function useMetaData(locale: string, load = true) {
         refresh()
     return {
         menu,
+        settings,
         loading,
         refresh
     }

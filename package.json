@@ -12,6 +12,7 @@
     "dev:cy": "npx cypress open --env NUXT_MODE=development"
   },
   "devDependencies": {
+    "@nuxtjs/color-mode": "^3.3.2",
     "@nuxtjs/i18n": "^8.0.0",
     "@nuxtjs/tailwindcss": "^6.10.4",
     "cypress": "^13.6.4",

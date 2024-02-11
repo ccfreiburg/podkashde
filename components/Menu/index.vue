@@ -1,5 +1,5 @@
 <template>
-    <div class="z-50 w-full h-full pt-2 shadow-md" @click="emptyClick">
+    <div class="z-50 w-full h-full pt-2 shadow-md bg-skin-ligt dark:bg-skin-dark text-skin-base dark:text-skin-dark" @click="emptyClick">
         <div class="flex flex-col p-5 place-items-center">
           <div class="w-2/3 my-6" v-for="(section, idx) in menu" :key="idx">
             <div class="container flex flex-col mx-auto mt-8 place-items-center">

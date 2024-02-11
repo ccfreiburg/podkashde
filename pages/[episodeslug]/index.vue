@@ -47,15 +47,15 @@
         <AudioPlayer :key="audioComponentKey" class="bg-skin-player text-skin-inverted" :file="ContentFile.getMediaUrl(episode.link)" @play="play"></AudioPlayer>
       </div>
     </div>
-    <div class="w-screen h-4 bg-skin-light"></div>
+    <div class="w-screen h-14 md:h-10"></div>
 
-    <BaseContainer class="px-2 text-skin-base dark:text-skin-dark">
+    <BaseContainerClean class="bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark">
       <div class="text-skin-muted">{{ $t('episode.episode') }}</div>
-      <div class="flex flex-row justify-between">
+      <div class="flex flex-col justify-between sm:flex-row ">
         <div class="flex flex-row flex-wrap">
           {{ $t('episode.label.duration') + ' ' + duration() }}
         </div>
-        <div class="flex flex-row flex-wrap mx-3">
+        <div class="flex flex-row flex-wrap sm:mx-3">
           {{
             $t('episode.label.pubdate') +
             ' ' +
@@ -75,8 +75,10 @@
       </div>
       <div v-if="episode.description != null" v-html="episode.description" />
       <div v-if="episode.summary != null" class="pt-2 break-normal" v-html="episode.summary"></div>
-      <div v-if="user != null" class="pt-10">
-        <div class="text-skin-accent" @click="showdetail = !showdetail">
+    </BaseContainerClean>
+
+      <BaseContainerClean v-if="user != null" class="pt-10 bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark">
+        <div class="text-skin-accent dark:text-skin-dark" @click="showdetail = !showdetail">
           {{ showdetail ? 'less details' : 'more details' }}
         </div>
         <div v-if="showdetail">
@@ -103,9 +105,7 @@
             </tbody>
           </table>
         </div>
-      </div>
-      <div class="h-screen"></div>
-    </BaseContainer>
+      </BaseContainerClean>
     </PageLayout>
   </div>
 </template>

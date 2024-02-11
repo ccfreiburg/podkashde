@@ -21,6 +21,11 @@ describe('', () => {
     cy.contains('h1','Neue Folge')
     cy.contains('A New Podcast')
   })
-  it('deletes podcast, when click delete', () => {
+  it('When submitting empty form, displays all validation errrors', () => {
+    cy.getInput('title').type('{Enter}')
+    cy.contains('Bitte ein Podcast Titelbild mit 1400x1400 Pixel auswählen')
+    cy.contains('Bitte einen Titel eingeben')
+    cy.contains('Bitte einen Autor eingeben')
+    cy.contains('Bitte einen Slug eingeben, der noich nicht verwendet wurd')
   })
 })  

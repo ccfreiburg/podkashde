@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
-    '@nuxtjs/i18n', '@nuxtjs/tailwindcss'
+    '@nuxtjs/i18n', '@nuxtjs/tailwindcss', '@nuxtjs/color-mode'
   ],
   i18n: {
     strategy: 'prefix_except_default',
@@ -20,6 +20,12 @@ export default defineNuxtConfig({
     ],
     lazy: true,
     langDir: 'locales',
+  },
+  colorMode: {
+    preference: 'system', // default value of $colorMode.preference
+    fallback: 'light', // fallback value if not system preference found
+    classSuffix: '',
+    classPrefix: '',
   },
   runtimeConfig: {
     public: {

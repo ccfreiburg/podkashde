@@ -1,6 +1,10 @@
 <template>
-  <div class="relative">
-    <div class="absolute top-0 flex flex-col text-xs right-2 sm:right-4 text-skin-muted dark:text-skin-muted-dark md:text-sm rounded-xl hover:bg-skin-light dark:hover:bg-skin-dark opacity-90">
+  <div>
+    <BaseContainerClean >
+      <div> </div>
+      <div class="relative">
+      
+    <div class="absolute top-0 right-0 flex flex-col text-xs sm:right-0 text-skin-muted dark:text-skin-muted-dark md:text-sm rounded-xl hover:bg-skin-light dark:hover:bg-skin-dark opacity-90">
       <div v-for="(item, index) in items" :key="index">
         <button v-if="item.slug.startsWith('#')" class="w-40 h-5 pb-2 md:h-6 md:w-44" @click="emit(item.slug)">
           <div
@@ -17,7 +21,8 @@
           </div>
         </NuxtLink>
       </div>
-    </div>
+    </div></div>
+  </BaseContainerClean>
   </div>
 </template>
 <script lang="ts">
