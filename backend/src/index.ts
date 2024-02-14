@@ -19,6 +19,7 @@ initDataSource().then(() => {
     // create express app
     const app = express();
     app.use("/s", express.static('./public/s'));
+    app.use("/img", express.static('./public/img'));
     app.use(bodyParser.json());
     app.use(cookieParser());
     
