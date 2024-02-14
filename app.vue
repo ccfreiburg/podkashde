@@ -1,10 +1,11 @@
 <template>
-  <div>
-      <div class="theme-ccf"></div> <!-- this is to prevent postcss to remove the theme -->
-    <div :class="useRuntimeConfig().public.skin">
-    <div class="h-screen bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark">
     <NuxtPage />
-  </div>
-  </div>
-  </div>
+    <div class="theme-ccf"> </div> <!-- it is here to prevent postcsss to remove the theme during build -->
 </template>
+<script setup lang="ts">
+useHead({
+      bodyAttrs: {
+        class: useRuntimeConfig().public.skin+' bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark'
+      }
+    })
+</script>

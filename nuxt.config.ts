@@ -31,13 +31,13 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      appBase: 'http://localhost:3000',
-      apiBase: 'http://localhost:3003/api/',
-      mediaBase: 'http://localhost:3003',
-      skin: '',
-      logo: '/img/logo.png',
-      logoDark: '/img/logo-w.png',
-      enableDarkMode: false
+      appBase: process.env.NUXT_PUBLIC_APP_BASE ?? 'http://localhost:3000',
+      apiBase: process.env.NUXT_PUBLIC_API_BASE ??'http://localhost:3003/api/',
+      mediaBase: process.env.NUXT_PUBLIC_MEDIA_BASE ??'http://localhost:3003',
+      skin: process.env.NUXT_PUBLIC_SKIN ?? '',
+      logo: process.env.NUXT_PUBLIC_LOGO ?? '/img/logo.png',
+      logoDark: process.env.NUXT_PUBLIC_LOGO_DARK ??'/img/logo-w.png',
+      enableDarkMode: process.env.NUXT_PUBLIC_ENABLE_DARK_MODE ?? false
     }
   },
   nitro: {

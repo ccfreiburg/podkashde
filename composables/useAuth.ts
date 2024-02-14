@@ -17,9 +17,9 @@ const initialValue = {
     access_token: ""
 }
 var authData : IAuthenticationData = initialValue
+var refreshTimer:any = undefined
 
 export default function useAuth() {
-    var timer:any = undefined
     const { apiBase } = useRuntimeConfig().public  
 
     const persistData = (data : IAuthenticationData) => {
@@ -110,10 +110,11 @@ export default function useAuth() {
     }
 
     const setTimer = (time: number) => {
-        timer = setTimeout(() => {
-            refreshTheToken().then(() => reRefreshAccessToken(), ()=>{})
-            }, 
-            time);
+        if (!refreshTimer)
+            refreshTimer = setTimeout(() => {
+                    refreshTheToken().then(() => reRefreshAccessToken(), ()=>{})
+                }, 
+                time);
     }
 
     const logout = async () => {
@@ -132,6 +133,7 @@ export default function useAuth() {
         return authData.access_token
     }
     unPersistData()
+    setTimer(30)
     return {
         login,
         haveUser,

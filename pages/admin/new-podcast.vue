@@ -1,6 +1,8 @@
 <template>
   <PageLayout>
+    <BaseContainerClean>
     <PodcastDetail :podcast="podcast" @oncancel="goBack" @onsaved="onSave" />
+  </BaseContainerClean>
   </PageLayout>
 </template>
 
@@ -15,7 +17,7 @@ onMounted(() =>
     }
   }))
 
-const {user, haveUser} = useAuth()
+const {user} = useAuth()
 if (!user.value) router.push('/admin/login')
 
 const podcast = ref(emptyIPodcastFactory());

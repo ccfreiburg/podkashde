@@ -1,11 +1,9 @@
 <template>
-  <div v-if="fields" class="w-full h-full" v-on:keyup.enter="savePodcast" v-on:keyup.esc="cancel">
-    <div class="flex justify-center w-full mt-6 mb-6 md:mt-12 md:mb-8">
+  <div v-if="fields" class="w-full" v-on:keyup.enter="savePodcast" v-on:keyup.esc="cancel">
       <BaseH1>
         {{(isEdit ? $t("podcast.edit") : $t("podcast.new"))}}
       </BaseH1>
-    </div>
-    <BaseContainer v-if="!loading">
+    <div v-if="!loading">
       <image-selector :filename="fields.cover_file" @imageSelected="imageSelected" />
       <!-- Fields-->
       <div class="flex flex-col">
@@ -63,7 +61,7 @@
           </BaseButtonPrimary>
         </div>
       </div>
-    </BaseContainer>
+    </div>
   </div>
 </template>
 
