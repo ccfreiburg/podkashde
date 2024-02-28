@@ -35,7 +35,7 @@
         </div>
         <div class="content-center flex-grow text-center align-middle">
           <NuxtLink :to="localePath('/')" class="inline-block">
-            <img :src="`@/assets/${$props.logo}`" class="m-1 h-7 sm:h-10" />
+            <img :src="$props.logo" class="m-1 h-7 sm:h-10" />
           </NuxtLink>
         </div>
         <div class="flex flex-row items-center w-1/6 place-content-end">

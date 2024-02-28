@@ -286,7 +286,7 @@ export default defineComponent({
         if (result.statusCode != 201) {
           errors.value.push({ field: "", text: "episode.validation.upload" })
           return
-        }
+        } 
         fields.value.image = link;
       }
 
