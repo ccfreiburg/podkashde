@@ -5,7 +5,7 @@ export function respond( response: Response, code: number, body: any ) {
     const cod = code || 500
     var bod = (body || {}) 
     response.status(cod).send(bod);
-    logResponse(cod, bod)
+    logResponse(response, cod, bod)
 }
 
 export function sendResponse( response: Response, body: any ) {

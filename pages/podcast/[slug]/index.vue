@@ -64,6 +64,10 @@ const { enumerations, loading: enumsLoading } = useEnumerations();
 const language = ref()
 const podcastGenre = ref()
 
+onBeforeMount(() => {
+  if (route.query.refresh) refresh();
+})
+
 const doneLoading = () => {
   if (!podcastLoading.value && !enumsLoading.value) {
     if (!podcast.value || Object.keys(podcast.value).length === 0) {

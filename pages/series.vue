@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageLayout :title="$t('serie.title')" :submenu="submenu">
+    <!-- PageLayout :title="$t('serie.title')" :submenu="submenu" -->
     <BaseContainer>
       <div v-if="series?.length > 0" class="flex px-1 place-items-end place-content-end md:px-4">
         <div v-if="!searchHiden" class="flex flex-row items-center flex-nowrap">
@@ -9,8 +9,7 @@
             () => {
               search = '';
               searchHiden = true;
-            }
-          ">
+            }">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
               stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -49,7 +48,7 @@
       </div>
       <list-paginator :max="max" v-model:value="page" :itemsperpage="pagesize" />
     </BaseContainer>
-    </PageLayout>
+    <!-- </PageLayout> -->
   </div>
 </template>
 
@@ -61,10 +60,11 @@ const page = ref(1);
 const max = ref(1);
 const search = ref('');
 const searchHiden = ref(true);
-const { refresh, series } = await useSeries();
+// const { user } = useAuth()
+// const { refresh, series } = useSeries();
+const series = ref([])
 const route = useRoute();
 const router = useRouter();
-const user = (await useAuth().useAuthUser()) as any;
 const localePath = useLocalePath();
 
 
@@ -94,7 +94,7 @@ const currentPage = computed(() => {
   });
 });
 onBeforeMount(() => {
-  if (route.query.refresh) refresh();
+  //if (route.query.refresh) refresh();
 });
 onMounted(() =>
   router.replace({

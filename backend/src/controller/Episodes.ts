@@ -6,7 +6,7 @@ import { respond } from "../tools/Controller";
 export async function saveEpisodeAction(request: Request, response: Response) {
   try {
     const episode = await saveEpisode(request.body);
-    respond(response, 201, { statusCode: 201, message: "Episode id=" + episode.id + " saved successfully" });
+    respond(response, 201, { statusCode: 201, message: "Episode id=" + episode.id + " saved successfully", id: episode.id });
   } catch (err) {
     respond(response, 500, {  statusCode: 500, message: err.message });
   }

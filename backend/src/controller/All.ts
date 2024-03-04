@@ -58,9 +58,9 @@ export async function simpleSave<T>(T: any, request: Request, response: Response
         var data = {... request.body} as T;
         const id = await saveOne<T>(T,data)
         if (id)
-            respond(response, 201, {statusCode: 201, message: "id="+id+" saved successfully"})
+            respond(response, 201, {statusCode: 201, message: "id="+id+" saved successfully", id})
         else
-            respond(response, 500, {statusCode: 500, message: "id="+id+" problem"})
+            respond(response, 500, {statusCode: 500, message: "id="+id+" problem", id})
     } catch(err) {
         respond(response, 500, {statusCode: 500, message: err.message});
     }

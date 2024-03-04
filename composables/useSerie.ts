@@ -1,13 +1,12 @@
 import { SERIES_AP, SERIE_AP } from "~~/base/Constants";
 import type ISerie from "~~/base/types/ISerie";
 import type IEpisode from "~/base/types/IEpisode";
-import type IPodcast from "~/base/types/IPodcast";
 
 
 const series = ref([] as Array<ISerie>)
 
 export function useSeries(alsoEmptySeries = true) {
-    const { loading, refresh} = useDatas( series, SERIES_AP+"?empty="+alsoEmptySeries )
+    const { loading, refresh } = useDatas( series, SERIES_AP+"?empty="+alsoEmptySeries )
 
     if (!series.value || series.value.length==0)
         refresh()

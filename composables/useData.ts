@@ -5,9 +5,11 @@ export function useDatas( datas: Ref<Array<any>>, apiSlug: string ) {
 
     const refresh = async () => {
         loading.value = true
+        console.log(apiBase + apiSlug)          
         await fetch( apiBase + apiSlug )
             .then(response => response.json())
-            .then(response => {
+            .then(response => {      
+                console.log(JSON.stringify(response))          
                 datas.value = response
                 loading.value = false
             })
@@ -26,6 +28,7 @@ export function useData( data: Ref<any>, apiSlug: string, query: string ) {
 
     const refresh = async () => {
         loading.value = true
+        console.log(apiBase + apiSlug + query)          
         await fetch( apiBase + apiSlug + query )
             .then(response => response.json())
             .then(response => {

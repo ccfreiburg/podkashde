@@ -19,12 +19,11 @@ const route = useRoute();
 const router = useRouter();
 const {user} = useAuth()
 
-onBeforeMount(() =>
-  router.replace({
-    ...router.currentRoute,
-    query: {},
-  })
-);
+const { podcast, refresh, remove } = usePodcast(route.params.slug as string);
+
+onBeforeMount(() => {
+  if (route.query.refresh) refresh();
+})
 
 onMounted(() => {
   if (!user.value) {
@@ -46,8 +45,6 @@ watch(user, (newVal) => {
       query: { msg: "login.sessionexpired" },
     });
 });
-
-const { podcast, refresh, remove } = usePodcast(route.params.slug as string);
 
 async function goBackSaved() {
   const myFetch = useFetchApi();

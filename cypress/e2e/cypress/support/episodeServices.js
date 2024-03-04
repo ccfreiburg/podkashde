@@ -1,9 +1,9 @@
 
-Cypress.Commands.add('deletePodcast', (slug) => {
+Cypress.Commands.add('deleteEpisode', (slug) => {
     const authData = JSON.parse(window.localStorage.getItem('authData'))
     if (!authData) throw 'authentication failed'
     cy.request({
-        url: Cypress.env('apiBase') + 'podcast',
+        url: Cypress.env('apiBase') + 'episode',
         method: 'DELETE',
         headers: {
             Credentials: true,
@@ -15,26 +15,24 @@ Cypress.Commands.add('deletePodcast', (slug) => {
     })
 })
 
-Cypress.Commands.add('createPodcast', (slug) => {
+var currentEpisode = {}
+
+Cypress.Commands.add('createEpisode', (slug, podcast) => {
     cy.fixture(slug).then(fixtureData => {
+        var currentEpisode = {...fixtureData}
+        currentEpisode.podcast = podcast
         const authData = JSON.parse(window.localStorage.getItem('authData'))
         if (!authData) throw 'authentication failed'
         cy.request({
-            url: Cypress.env('apiBase') + 'podcast',
+            url: Cypress.env('apiBase') + 'episode',
             method: 'POST',
             headers: {
                 Credentials: true,
                 Authorization: 'Bearer ' + authData.access_token,
             },
-            body: fixtureData
+            body: currentEpisode
         }).then( res => {
-            cy.request({
-                url: Cypress.env('apiBase') + 'podcast',
-                method: 'GET',
-                body: { id: res.body.id }
-            }).then( res => {
-                return res.body
-            })
+            currentEpisode.id = res.body.id
         })
     })
 })

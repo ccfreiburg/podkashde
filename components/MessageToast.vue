@@ -15,7 +15,7 @@
           class="relative w-3/5 h-16 p-1 text-gray-500 rounded-lg bg-gradient-to-r from-skin-from via-skin-via to-skin-to dark:text-gray-400 dark:bg-gray-800"
           role="alert"
         >
-        <div class="flex items-center w-full h-full bg-white rounded-md place-content-between ">
+        <div class="flex items-center w-full h-full bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark rounded-md place-content-between ">
           <div class="ml-3">{{ toasterMessage }}</div>
           <button
             type="button"

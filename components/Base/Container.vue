@@ -1,5 +1,5 @@
 <template>
-  <ContainerClean class='bg-skin-muted dark:bg-skin-muted-dark'>
+  <BaseContainerClean class='bg-skin-muted dark:bg-skin-muted-dark'>
       <slot />
-  </ContainerClean>
+  </BaseContainerClean>
 </template>
