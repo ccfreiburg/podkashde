@@ -26,7 +26,7 @@
                 {
                     "Name": "Current Series",
                     "locale": "en",
-                    "link": "/series",
+                    "link": "/listseries",
                     "local": true
                 },
                 {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- PageLayout :title="$t('serie.title')" :submenu="submenu" -->
+    <PageLayout :title="$t('serie.title')" :submenu="submenu">
     <BaseContainer>
       <div v-if="series?.length > 0" class="flex px-1 place-items-end place-content-end md:px-4">
         <div v-if="!searchHiden" class="flex flex-row items-center flex-nowrap">
@@ -48,7 +48,7 @@
       </div>
       <list-paginator :max="max" v-model:value="page" :itemsperpage="pagesize" />
     </BaseContainer>
-    <!-- </PageLayout> -->
+    </PageLayout>
   </div>
 </template>
 

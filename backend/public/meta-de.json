@@ -25,7 +25,7 @@
                 {
                     "Name": "Aktuelle Serien",
                     "locale": "de",
-                    "link": "/series",
+                    "link": "/listseries",
                     "local": true
                 },
                 {
