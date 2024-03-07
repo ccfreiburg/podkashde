@@ -40,11 +40,11 @@ export default defineNuxtConfig({
       enableDarkMode: process.env.NUXT_PUBLIC_ENABLE_DARK_MODE ?? false
     }
   },
-  nitro: {
-    routeRules: {
-      "/api/**": { proxy: 'localhost:3003' },
-      "/s/**": { proxy: 'localhost:3003' }
-    }
-  },
+  // nitro: {
+  //   routeRules: {
+  //     "/api/**": { proxy: 'localhost:3003' },
+  //     "/s/**": { proxy: 'localhost:3003' }
+  //   }
+  // },
   devtools: { enabled: false }
 })

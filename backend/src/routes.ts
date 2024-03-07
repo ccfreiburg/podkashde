@@ -37,11 +37,6 @@ export const AuthRoutes = [
         action: checkToken
     },
     {
-        path: getRouteSlug("LOGOUT_AP"),
-        method: "post",
-        action: logout
-    },
-    {
         path: getRouteSlug("ENUMERATIONS_AP"),
         method: "post",
         action: setEnums
@@ -108,6 +103,11 @@ export const AppRoutes = [
         path: getRouteSlug("LOGIN_AP"),
         method: "post",
         action: login
+    },
+    {
+        path: getRouteSlug("LOGOUT_AP"),
+        method: "post",
+        action: logout
     },
     {
         path: getRouteSlug("COUNT_AP"),

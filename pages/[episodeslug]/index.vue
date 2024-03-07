@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageLayout v-if="episode" :title="$t('episode.episode')" :submenu="submenu" @menuItemClicked="menuItemClicked">
+    <PageLayout  v-if="episode" :title="$t('episode.episode')" :submenu="submenu" @menuItemClicked="menuItemClicked">
     <div class="flex flex-col items-center ">
       <div class="relative z-20 flex flex-row w-11/12 mt-6 lg:w-4/5 md:h-60 md:mt-12">
         <img class="h-28 md:h-60 w-28 md:w-60 shrink-0" :src="ContentFile.getMediaUrl(episode.image)" />
@@ -121,15 +121,26 @@ const {user} =  useAuth()
 const myFetch = useFetchApi()
 const { locale } = useI18n()
 
+console.log('1')
+
 const slug = route.params.episodeslug as string;
 const showdetail = ref(false);
 
-const { podcasts } = await usePodcasts();
+const { podcasts, loading: podcastLoading } = usePodcasts();
 const { refresh, serie, podcast, episode, loading } = useEpisode(slug);
+
+watch( [podcastLoading, loading], () => {
+  if (!loading && !episode.value || Object.keys(episode.value).length === 0)
+    router.push({ path: "/", query: {refresh: 'true', msg: 'episode.notfound' }})
+  else
+    router.replace({
+      ...router.currentRoute,
+      query: {},
+    })
+})
 
 const submenu = ref()
 onBeforeMount(() => {
-  refresh();
   submenu.value = [
     {
       id: 0,
@@ -152,17 +163,6 @@ onBeforeMount(() => {
       layout: 'change',
     });
 });
-
-
-watch(loading, () => {
-  if (!loading && !episode.value || Object.keys(episode.value).length === 0)
-    router.push({ path: "/", query: {refresh: 'true', msg: 'episode.notfound' }})
-  else
-    router.replace({
-      ...router.currentRoute,
-      query: {},
-    })
-})
 
 const duration = () => durationInSecToStr(episode.value.duration);
 

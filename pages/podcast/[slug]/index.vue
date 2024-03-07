@@ -64,9 +64,9 @@ const { enumerations, loading: enumsLoading } = useEnumerations();
 const language = ref()
 const podcastGenre = ref()
 
-onBeforeMount(() => {
-  if (route.query.refresh) refresh();
-})
+const {on_mounted, on_before} = useMounted(refresh, user)
+onMounted( on_mounted )
+onBeforeMount( on_before )
 
 const doneLoading = () => {
   if (!podcastLoading.value && !enumsLoading.value) {

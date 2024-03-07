@@ -16,7 +16,6 @@ describe('', () => {
       cy.createPodcast(podcast_slug).then(podcast => {
         cy.createEpisode(episode_slug, podcast)
       })
-      cy.visitNuxtDev('/admin/' + episode_slug)
     })
   })
   afterEach('', () => {
@@ -24,6 +23,8 @@ describe('', () => {
     cy.deletePodcast(podcast_slug)
   })
   it('does display episode page', () => {
-    cy.contains('A New Podcast')
+    cy.visitNuxtDev('/admin/' + episode_slug)
+    cy.contains("Folge bearbeiten")
+    cy.contains("A New Podcast")
   })
 })

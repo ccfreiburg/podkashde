@@ -1,6 +1,7 @@
 <template>
   <div class="w-full h-full pb-10">
     <PageLayout>
+      <BaseContainer>
       <podcast-detail
         v-if="user"
         :podcast="podcast"
@@ -8,6 +9,7 @@
         @ondeleted="ondelete"
         @oncancel="goBack"
       />
+    </BaseContainer>
     </PageLayout>
   </div>
 </template>
@@ -17,34 +19,14 @@ import { GENERATE_RSS_AP } from "~~/base/Constants";
 
 const route = useRoute();
 const router = useRouter();
-const {user} = useAuth()
 
 const { podcast, refresh, remove } = usePodcast(route.params.slug as string);
 
-onBeforeMount(() => {
-  if (route.query.refresh) refresh();
-})
-
-onMounted(() => {
-  if (!user.value) {
-    router.push({
-      path: "/admin/login",
-      query: { refresh: "true", msg: "login.sessionexpired" },
-    });
-  } else
-    router.replace({
-      ...router.currentRoute,
-      query: {},
-    });
-});
-
-watch(user, (newVal) => {
-  if (!newVal)
-    router.push({
-      path: "/admin/login",
-      query: { msg: "login.sessionexpired" },
-    });
-});
+const {user} = await useAuth()
+const {on_mounted, on_before, on_user_changed} = useMounted(refresh, user)
+onMounted( on_mounted )
+onBeforeMount( on_before )
+watch(user, on_user_changed);
 
 async function goBackSaved() {
   const myFetch = useFetchApi();
@@ -62,7 +44,4 @@ async function ondelete() {
   (await usePodcasts()).refresh();
   router.push("/");
 }
-setTimeout(() => {
-  if (!user.value) router.push("/admin/login");
-}, 200);
 </script>

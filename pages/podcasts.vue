@@ -108,7 +108,6 @@
 import { FEED_SLUG } from '~~/base/Constants';
 import type IPodcast from '~~/base/types/IPodcast';
 import { ContentFile } from '~~/base/ContentFile'
-import {usePodcasts} from '~/composables/usePodcast';
 
 const { refresh, podcasts } = usePodcasts()
 const localePath = useLocalePath()

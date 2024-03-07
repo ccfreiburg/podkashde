@@ -60,13 +60,13 @@ const page = ref(1);
 const max = ref(1);
 const search = ref('');
 const searchHiden = ref(true);
-// const { user } = useAuth()
-// const { refresh, series } = useSeries();
-const series = ref([])
-const route = useRoute();
-const router = useRouter();
 const localePath = useLocalePath();
 
+const { user } = useAuth()
+const { series, refresh } = useSeries()
+const {on_mounted, on_before} = useMounted(refresh, user)
+onMounted( on_mounted )
+onBeforeMount( on_before )
 
 function sorter(a: ISerie, b: ISerie): number {
   return (
@@ -93,15 +93,7 @@ const currentPage = computed(() => {
     return index > start && index <= end;
   });
 });
-onBeforeMount(() => {
-  //if (route.query.refresh) refresh();
-});
-onMounted(() =>
-  router.replace({
-    ...router.currentRoute,
-    query: {},
-  })
-);
+
 const submenu = [
   {
     id: 0,

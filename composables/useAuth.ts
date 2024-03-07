@@ -2,11 +2,14 @@ import { jwtPayload } from 'jwt-payloader';
 import { LOGIN_AP, LOGOUT_AP, PASSWORD_AP, REFRESH_AP, TOKEN_REFRESH_TIME } from "../base/Constants"
 import type { IUser } from "../base/types/IUser"
 
+var refreshTime : number = TOKEN_REFRESH_TIME
+var refreshTimer:any = undefined
 
 interface IAuthenticationData { 
     user: IUser | undefined, 
     refresh_token: string, 
-    access_token: string 
+    access_token: string,
+    last_refreshed: number
 } 
 
 const loading = ref(true)
@@ -14,10 +17,10 @@ const user = ref()
 const initialValue = {
     user: undefined,
     refresh_token: "",
-    access_token: ""
+    access_token: "",
+    last_refreshed: 0
 }
 var authData : IAuthenticationData = initialValue
-var refreshTimer:any = undefined
 
 export default function useAuth() {
     const { apiBase } = useRuntimeConfig().public  
@@ -31,14 +34,14 @@ export default function useAuth() {
         }
     }
 
-    const unPersistData = () => {
-        if (!authData.user && process.client) {
+    const readPersistedData = () => {
+        if (process.client) {
             const json = localStorage.getItem('authData')
             authData = (json && json.startsWith("{")?JSON.parse(json):initialValue)
             user.value = authData.user
         }
     }
-    
+  
     const clearData = () => {
         user.value = undefined
         localStorage.clear()
@@ -46,8 +49,9 @@ export default function useAuth() {
     }
     
     const leaveAuthenticated = ( data: IAuthenticationData ) => {
+        setTimer(refreshTime)
+        data.last_refreshed = Date.now()
         persistData(data)
-        setTimer(TOKEN_REFRESH_TIME)
         return data.user != undefined
     }
 
@@ -86,18 +90,22 @@ export default function useAuth() {
     }
 
     const refreshTheToken = async () => {
-        unPersistData()
+        readPersistedData()
+        if (!hasAuthData()) return false
         const myFetch = useFetchApi()
-        const data = await myFetch( REFRESH_AP, {  method: 'POST', body: authData } ) as IAuthenticationData
-
-        return leaveAuthenticated(data)
+        try {
+            const data = await myFetch( REFRESH_AP, {  method: 'POST', body: authData } ) as IAuthenticationData
+            return leaveAuthenticated(data)
+        } catch {
+            clearData()
+            return false;
+        }
     }
 
     const reRefreshAccessToken = () => {
-        unPersistData()
-        if (!authData.refresh_token) {
-            return
-        }
+        console.log('tock')
+        readPersistedData()
+        if (!hasAuthData()) return false
         const request = {
             headers: {
               'content-Type': 'application/json',
@@ -105,15 +113,13 @@ export default function useAuth() {
             },
           };
         const jwt = jwtPayload(request)
-        const newRefreshTime = jwt.exp - TOKEN_REFRESH_TIME
+        const newRefreshTime = jwt.exp - refreshTime
         setTimer(newRefreshTime)
     }
 
     const setTimer = (time: number) => {
-        if (!refreshTimer)
-            refreshTimer = setTimeout(() => {
-                    refreshTheToken().then(() => reRefreshAccessToken(), ()=>{})
-                }, 
+        refreshTimer = setTimeout(
+                refreshTheToken,
                 time);
     }
 
@@ -123,17 +129,23 @@ export default function useAuth() {
             method: 'POST'
         })
     }
-
+    
+    const hasAuthData = () :boolean => {
+        return authData.access_token!="" && authData.refresh_token!=""
+    }
+    
     const haveUser = () => {
-        unPersistData()
         return user.value!=undefined
     }
     const getToken = () => {
-        unPersistData()
         return authData.access_token
     }
-    unPersistData()
-    setTimer(30)
+
+    readPersistedData()
+    if (haveUser() && authData.last_refreshed<Date.now()-refreshTime) 
+    
+    if (!refreshTimer)
+        setTimer(50)
     return {
         login,
         haveUser,
