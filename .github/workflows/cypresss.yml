@@ -16,6 +16,7 @@ jobs:
       - run: |
           yarn &&
           yarn build &&
+          chmod a+x startbe.sh &&
           ./startbe.sh
       - name: Run E2E tests
         uses: cypress-io/github-action@v6
