@@ -2,9 +2,9 @@ import {Request, Response} from "express";
 import * as fs from 'fs'
 import { getRandomFileName } from "../tools/DataFiles";
 
-const recorder = true
+const recorder = false
 
-var loglevel = 4
+var loglevel = 2
 
 export const deleteOldTempFiles = (directory: string, ageInMinutes: number) => {
     fs.readdirSync(directory).forEach(file => {
