@@ -41,7 +41,7 @@ export async function deleteQuery(T: any,request: Request, response: Response) {
     if (await deleteGen(T, request.body))
         respond(response, 201, {statusCode: 201, message: JSON.stringify(request.body) +" deleted successfully"})
     else 
-        respond(response, 500, {statusCode: 500, message: "Delete did not work"});
+        respond(response, 205, {statusCode: 205, message: "Delete did not work"});
 }
 
 export async function saveOne<T>(T: any, data: any ) : Promise<number | undefined> {

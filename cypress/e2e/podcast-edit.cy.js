@@ -5,7 +5,7 @@ import './cypress/support/podcastServices.js'
 describe('', () => {
     const slug = "a_new_podcast"
     before('', () => {
-        cy.viewport(1000, 1000)
+        cy.viewport(1000, 1400)
         //cy.intercept('GET', '/api/meta?locale=en', async (req) => req.reply( { fixture: 'meta-en.json' }) )
       })
   beforeEach('Edit Podcast Page', () => {
@@ -34,15 +34,17 @@ describe('', () => {
   })
   it('Change Image', () => {
     cy.intercept('POST','podcast').as('postPodcast')
-    cy.get('input[type=file]').selectFile('cypress/fixtures/pod-cover0.jpg', {
+    cy.intercept('POST','upload').as('upload')
+    cy.get('input[type=file]').selectFile('cypress/fixtures/pod-cover1.jpg', {
         action: "select",
         force: true,
       });
     cy.getInput('author').type('{Enter}')
+    cy.wait('@upload')
     cy.wait('@postPodcast')
     cy.location().should(loc => {
         expect(loc.pathname).to.equal('/podcast/'+slug)
     })
-    cy.getBySel('content-area').find('img').should('have.attr', 'src').should('include','pod-cover0.jpg')
+    cy.getBySel('content-area').find('img').should('have.attr', 'src').should('include','pod-cover1.jpg')
   })
 })

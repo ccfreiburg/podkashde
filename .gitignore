@@ -23,6 +23,8 @@ logs
 .env.*
 !.env.example
 
+cypress/e2e/screenshots
+
 public/s
 backend/node_modules 
 backend/public/s 
