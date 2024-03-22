@@ -22,7 +22,7 @@ const initialValue = {
 }
 var authData : IAuthenticationData = initialValue
 
-export default function useAuth() {
+export default function useAuth( onetimeToken: String | undefined = undefined ) {
     const { apiBase } = useRuntimeConfig().public  
 
     const persistData = (data : IAuthenticationData) => {
@@ -43,9 +43,9 @@ export default function useAuth() {
     }
   
     const clearData = () => {
-        user.value = undefined
         localStorage.clear()
         authData = initialValue
+        user.value = undefined
     }
     
     const leaveAuthenticated = ( data: IAuthenticationData ) => {
@@ -124,12 +124,16 @@ export default function useAuth() {
     }
 
     const logout = async () => {
-        clearData()
         await useFetchApi()(LOGOUT_AP, {
             method: 'POST'
         })
+        clearData()
     }
     
+    const isSuperAdmin = () :boolean => {
+        return (user.value && user.value.username.toLowerCase().startsWith('admin'))
+    }
+
     const hasAuthData = () :boolean => {
         return authData.access_token!="" && authData.refresh_token!=""
     }
@@ -149,6 +153,7 @@ export default function useAuth() {
     return {
         login,
         haveUser,
+        isSuperAdmin,
         getToken, 
         setFirstPassword,
         changePassword,

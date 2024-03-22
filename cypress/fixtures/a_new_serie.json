@@ -1,0 +1,13 @@
+{
+  "cover_file": "/img/cover.jpg",
+  "title": "A new Serie",
+  "slug": "a_new_serie",
+  "subtitle": "the sub title",
+  "description": "",
+  "state": 16,
+  "draft": false,
+  "lastbuild": "",
+  "external_id": -1,
+  "firstEpisode": null,
+  "lastEpisode": null
+}

@@ -6,9 +6,17 @@ describe('', () => {
   before('', () => {
   })
   beforeEach('Visit Home', () => {
-    cy.visitNuxtDev('/admin/new-podcast')
     cy.login()
+    cy.visitNuxtDev('/admin/new-podcast', [
+      {
+        method: 'GET',
+        url: '*meta?*',
+        id: 'meta'
+      }
+
+    ])
   })
+  
   it('New Podcast Page', () => {
     cy.contains('h1','Neu')
   })
@@ -36,8 +44,7 @@ describe('', () => {
     cy.contains('Bitte einen').should('not.exist')
   })
   it('Form without Errors saving', () => {
-    cy.intercept('POST','podcast').as('postPodcast')
-    cy.intercept('POST','upload').as('upload')
+    cy.intercept('GET','*generaterss?*').as('rss')
     cy.get('input[type=file]').selectFile('cypress/fixtures/pod-cover1.jpg', {
       action: "select",
       force: true,
@@ -49,8 +56,7 @@ describe('', () => {
     cy.getSelect('type').select(1)
     cy.getInput('owner_name').type('owner_name')
     cy.getInput('owner_email').type('owner@ema.il{Enter}')
-    cy.wait('@upload')
-    cy.wait('@postPodcast')
+    cy.waitIntercept('rss')
     cy.getBySel("podcast.title");
     cy.deletePodcast('title')
   })

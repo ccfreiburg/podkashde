@@ -4,7 +4,7 @@ describe('template spec', () => {
   beforeEach('Visit Home', () => {
     cy.intercept('GET', '/api/episodes').as('episodes')
     cy.visitNuxtDev('/en')
-    cy.wait('@episodes')
+    cy.waitIntercept('episodes')
   })
   it('Shows Title', () => {
     cy.contains('h1','Recent Episodes')

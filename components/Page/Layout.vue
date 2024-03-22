@@ -6,7 +6,7 @@
       :showMenuButton="!loading"
       :darkmode="darkmode"
       :logo="logo"
-      :enable-dark-option="enableDarkMode"
+      :enable_dark_option="enableDarkMode"
       @menuButtonClick="menuButtonClick"
       @colorModeChanged="switchColorMode"
       class="sticky top-0 z-40"
@@ -29,7 +29,7 @@
     <div :hidden="showMenu">
       <MessageToast></MessageToast>
       <PageSubMenu
-        v-if="user != null"
+        v-if="user && submenu"
         :items="submenu"
         @menuItemClicked="menuItemClicked"
       />

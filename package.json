@@ -9,7 +9,9 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "dev:be": "cd backend; yarn dev",
-    "dev:cy": "npx cypress open --env NUXT_MODE=development"
+    "dev:cy": "npx cypress open --env NUXT_MODE=development",
+    "run:cy": "npx cypress run --env NUXT_MODE=development",
+    "rec:cy": "npx cypress run --record --key 6b81c56a-4e73-4cfd-a36d-acab9f138d57 --env NUXT_MODE=development"
   },
   "devDependencies": {
     "@nuxtjs/color-mode": "^3.3.2",

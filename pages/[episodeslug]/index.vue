@@ -1,7 +1,7 @@
 <template>
   <div>
     <PageLayout  v-if="episode" :title="$t('episode.episode')" :submenu="submenu" @menuItemClicked="menuItemClicked">
-    <div class="flex flex-col items-center ">
+    <BaseContainerClean class="flex flex-col items-center ">
       <div class="relative z-20 flex flex-row w-11/12 mt-6 lg:w-4/5 md:h-60 md:mt-12">
         <img class="h-28 md:h-60 w-28 md:w-60 shrink-0" :src="ContentFile.getMediaUrl(episode.image)" />
         <div class="flex flex-col items-start justify-around pt-2 pb-8 pl-6 md:pl-12 rounded-r-md">
@@ -38,14 +38,16 @@
           </div>
         </div>
       </div>
-    </div>
+  </BaseContainerClean>
     <div class="relative flex flex-row w-full -z-0">
       <div class="absolute w-screen h-40 -top-4 md:-top-8 bg-skin-player"></div>
     </div>
     <div class="relative z-10 flex flex-col items-center">
-      <div class="w-11/12 pt-6 lg:w-4/5">
+    <BaseContainerClean>
+      <div class="w-full pt-8">
         <AudioPlayer :key="audioComponentKey" class="bg-skin-player text-skin-inverted" :file="ContentFile.getMediaUrl(episode.link)" @play="play"></AudioPlayer>
       </div>
+    </BaseContainerClean>
     </div>
     <div class="w-screen h-14 md:h-10"></div>
 
@@ -115,54 +117,49 @@ import { durationInSecToStr } from '~~/base/Converters';
 import { dateToString } from '~~/base/Converters'
 import { ContentFile } from '~/base/ContentFile';
 
-const route = useRoute()
-const router = useRouter()
-const {user} =  useAuth()
-const myFetch = useFetchApi()
-const { locale } = useI18n()
-
-console.log('1')
+const route = useRoute();
+const router = useRouter();
 
 const slug = route.params.episodeslug as string;
 const showdetail = ref(false);
 
 const { podcasts, loading: podcastLoading } = usePodcasts();
-const { refresh, serie, podcast, episode, loading } = useEpisode(slug);
+const { refresh, remove, serie, podcast, episode, loading } = useEpisode(slug);
+
+const {user, isSuperAdmin} = useAuth()
+const {on_mounted, on_before} = useMounted(refresh, user)
+onMounted( on_mounted )
+onBeforeMount( on_before )
+
+const { locale } = useI18n()
 
 watch( [podcastLoading, loading], () => {
-  if (!loading && !episode.value || Object.keys(episode.value).length === 0)
+  if (!loading && !episode.value || Object.keys(episode.value as Object).length === 0)
     router.push({ path: "/", query: {refresh: 'true', msg: 'episode.notfound' }})
-  else
-    router.replace({
-      ...router.currentRoute,
-      query: {},
-    })
 })
 
-const submenu = ref()
-onBeforeMount(() => {
-  submenu.value = [
-    {
-      id: 0,
-      name: 'episode.edit',
-      slug: '/admin/' + slug,
-      layout: 'edit',
-    },
-    {
-      id: 1,
-      name: 'delete',
-      slug: '#delete',
-      layout: 'delete',
-    },
-  ] as Array<{id: number, name: string, slug: string, layout: string}>;
-  if (user.value && user.value.username.startsWith('admin'))
+const submenu = ref([
+      {
+        id: 0,
+        name: 'episode.edit',
+        slug: '/admin/' + slug,
+        layout: 'edit',
+      },
+      {
+        id: 1,
+        name: 'delete',
+        slug: '#delete',
+        layout: 'delete',
+      }
+    ] as Array<{id: number, name: string, slug: string, layout: string}>
+  );
+  if (isSuperAdmin())
     submenu.value.push({
       id: 2,
       name: 'podcast.change',
       slug: '#change',
       layout: 'change',
     });
-});
 
 const duration = () => durationInSecToStr(episode.value.duration);
 
@@ -171,27 +168,22 @@ const error = ref("")
 
 async function menuItemClicked(value: string) {
   if (value === '#delete') {
-    const request: IPostdata = {
-      method: 'DELETE',
-      body: {
-        id: episode.value.id,
-      },
-    };
-    const result = await myFetch( EPISODE_AP, request);
-    if (result.resutlCode="201") {
-    var url = router.options.history.state.back as string;
-    if (url.includes('?')) url = url.substring(0, url.indexOf('?'));
-    router.push({
-      path: url,
-      query: { refresh: 'true', msg: 'episode.deleted' },
-    });
-  }
+    await remove()
+    if (!episode.value) {
+      var url = router.options.history.state.back as string;
+      if (url.includes('?')) url = url.substring(0, url.indexOf('?'));
+        router.push({
+          path: url,
+          query: { refresh: 'true', msg: 'episode.deleted' },
+      });
+    }
   } else if (value === '#change') {
     dialog.value = !dialog.value
   }
 }
 const audioComponentKey = ref(0)
 async function changePodcast(podcastid: number) {
+  const myFetch = useFetchApi()
   const newpodcast = podcasts.value.find((p) => p.id == podcastid);
   var result;
   try {

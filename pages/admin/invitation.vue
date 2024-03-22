@@ -27,22 +27,20 @@
   </div>
 </template>
 <script setup lang="ts">
-import { INVITE_TIME, INVITE_TOKEN, SETPASS_LINK, USERTOKEN_AP } from '~~/base/Constants';
-const router = useRouter();
-var user = await useAuth().useAuthUser()
-const myFetch = useFetchApi()
+import { INVITE_TOKEN, SETPASS_LINK, USERTOKEN_AP } from '~~/base/Constants';
+
+const {user} = useAuth()
+const {on_mounted, on_before, on_user_changed} = useMounted(()=>{}, user, true)
+onMounted( on_mounted )
+onBeforeMount( on_before )
+watch(user, on_user_changed);
+
 const username = ref('');
 const url = ref('');
 
 const generateUrl = async () => {
+  const myFetch = useFetchApi()
   const token = await myFetch( USERTOKEN_AP.replace("%%", username.value) + INVITE_TOKEN)
   url.value = useRuntimeConfig().public.appBase + SETPASS_LINK + token
 }
-onMounted(() =>
-  router.replace({
-    ...router.currentRoute,
-    query: {
-    }
-  }))
-setTimeout(() => { if (!user.value) router.push('/admin/login') }, 200)
 </script>

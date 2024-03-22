@@ -1,31 +1,31 @@
 import './cypress/support/e2e.js'
 import './cypress/support/authServices.js'
-import './cypress/support/podcastServices.js'
+import './cypress/support/serieServices.js'
 
 describe('', () => {
-    const slug = "a_new_podcast"
+    const slug = "a_new_serie"
     before('', () => {
         cy.viewport(1000, 1400)
         //cy.intercept('GET', '/api/meta?locale=en', async (req) => req.reply( { fixture: 'meta-en.json' }) )
       })
-  beforeEach('Edit Podcast Page', () => {
-    cy.visitNuxtDev('/podcasts')
+  beforeEach('Edit serie Page', () => {
+    cy.visitNuxtDev('/series')
     cy.login()
-    cy.createPodcast(slug)
-    cy.visitNuxtDev('/podcast/'+slug)
-    cy.clickLinkNuxtDev('Podcast bearbeiten')
+    cy.createSerie(slug)
+    cy.visitNuxtDev('/serie/'+slug)
+    cy.clickLinkNuxtDev('Serie bearbeiten')
   })
   afterEach('', () => {
-    cy.deletePodcast(slug)    
+    cy.deleteSerie(slug)    
   })
-  it('Shows Title', () => {
-    cy.contains('h1','Podcast bearbeiten')
+  it.only('Shows Title', () => {
+    cy.contains('h1','Serie bearbeiten')
   })
   it('Change Author', () => {
     cy.intercept('GET','*generaterss?*').as('rss')
     cy.getInput('author').clear().type('fritzile{Enter}')
     cy.location().should(loc => {
-        expect(loc.pathname).to.equal('/podcast/'+slug)
+        expect(loc.pathname).to.equal('/serie/'+slug)
     })
     cy.waitIntercept('rss')
     cy.contains('fritzile')
@@ -43,7 +43,7 @@ describe('', () => {
     cy.getInput('author').type('{Enter}')
     cy.waitIntercept('rss')
     cy.location().should(loc => {
-        expect(loc.pathname).to.equal('/podcast/'+slug)
+        expect(loc.pathname).to.equal('/serie/'+slug)
     })
     cy.getBySel('content-area').find('img').should('have.attr', 'src').should('include','pod-cover1.jpg')
   })

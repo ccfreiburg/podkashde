@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full px-10" v-on:keyup.enter="save" v-on:keyup.esc="cancel">
+  <div class="w-full h-full" v-on:keyup.enter="save" v-on:keyup.esc="cancel">
     <div class="flex justify-center w-full mt-6 mb-6 md:mt-12 md:mb-8">
       <BaseH1>
         {{
@@ -9,7 +9,7 @@
         }}
       </BaseH1>
     </div>
-    <BaseContainer>
+    <div>
       <slot />
       <!-- Buttons -->
       <div class="flex flex-row justify-end">
@@ -20,7 +20,7 @@
           {{ $t(type + ".save") }}
         </BaseButtonPrimary>
       </div>
-    </BaseContainer>
+    </div>
   </div>
 </template>
 <script lang="ts">

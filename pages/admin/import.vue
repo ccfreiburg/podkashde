@@ -126,7 +126,12 @@ import type { IFetchFileResult } from "~~/base/types/IFetchFileResult";
 import { addState, ContentState } from "~~/base/types/ContentState";
 
 const myFetch = useFetchApi();
-const user = await useAuth().useAuthUser();
+const {user} = useAuth()
+const {on_mounted, on_before, on_user_changed} = useMounted(()=>{}, user, true)
+onMounted( on_mounted )
+onBeforeMount( on_before )
+watch(user, on_user_changed);
+
 const CCF = "https://ccfreiburg.de/";
 const wpurl = ref(CCF);
 const loading = ref(false);

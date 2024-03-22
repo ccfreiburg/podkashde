@@ -1,42 +1,27 @@
 <template>
-  <div class="w-full h-full">
+  <div class="w-full h-full pb-10">
     <PageLayout>
+      <BaseContainer>
+
     <serie-detail v-if="user" :serie="serie" @save="save" @remove="removeSerie" @cancel="cancel" />
-  </PageLayout>
+  </BaseContainer>
+    </PageLayout>
   </div>
 </template>
 
-<script lang="ts">
-export default defineComponent({
-  async setup() {
+<script setup lang="ts">
     const route = useRoute();
     const router = useRouter();
-    onMounted( () => {
-  if (!user.value) {
-    router.push({
-      path: "/admin/login",
-      query: { refresh: 'true', msg: 'login.sessionexpired' },
-    })
-  } else
-  router.replace({
-    ...router.currentRoute,
-    query: {}
-})})
 
-    const user = await useAuth().useAuthUser()
-    watch(user, (newVal) => {
-      if (!newVal)
-        router.push({
-          path: "/admin/login",
-        query: { msg: 'login.sessionexpired' },
-        });
-    })
+    const { serie, refresh, remove } = useSerie(route.params.slug as string);
 
-    const { serie, refresh, remove } = await useSerie(route.params.slug as string);
+    const {user} = useAuth()
+    const {on_mounted, on_before, on_user_changed} = useMounted(refresh, user, true)
+    onMounted( on_mounted )
+    onBeforeMount( on_before )
+    watch(user, on_user_changed);
 
     async function save() {
-      await refresh()
-        (await useSeries()).refresh()
       router.push('/serie/' + route.params.slug);
     }
 
@@ -46,18 +31,6 @@ export default defineComponent({
 
     async function removeSerie() {
       await remove();
-      (await useSeries()).refresh()
-      router.push('/serie');
+      router.push('/series');
     }
-    setTimeout(()=>{ if (!user.value) router.push('/admin/login')}, 200)
-
-    return {
-      serie,
-      user,
-      save,
-      cancel,
-      removeSerie,
-    };
-  },
-});
 </script>

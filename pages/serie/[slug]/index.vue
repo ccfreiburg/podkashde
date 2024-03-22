@@ -5,7 +5,7 @@
     <SelectPodcastModal v-if="dialog" :error="error" :podcasts="podcasts" @cancel="() => dialog = false"
       @submit="changePodcast"></SelectPodcastModal>
 
-    <div class="flex flex-col items-center">
+    <div v-if="serie" class="flex flex-col items-center">
       <div class="flex flex-row w-11/12 md:w-2/3 md:h-60">
         <img class="relative z-10 h-20 md:h-60 shrink-0" :src="ContentFile.getMediaUrl(serie.cover_file)" />
         <div class="flex flex-col justify-around pt-1 pb-10 pl-4 md:pl-14 rounded-r-md">
@@ -30,7 +30,7 @@
       <div class="text-sm font-bold tracking-widest text-center md:pt-14 md:text-ml">
         {{ $t('serie.inthis') }}
       </div>
-      <episodes-list :episodes="episodes" />
+      <episodes-list v-if="episodes" :episodes="episodes" />
       <div class="h-screen"></div>
     </BaseContainer>
     </PageLayout>
@@ -43,19 +43,36 @@ import {
 } from '~~/base/Constants';
 import { ContentFile } from '~~/base/ContentFile'
 
-const myFetch = useFetchApi();
-const user = await useAuth().useAuthUser();
+const {user} = useAuth();
 const route = useRoute();
 const router = useRouter();
 const slug = route.params.slug as string;
-const { refresh, episodes, serie } = await useSerie(slug);
-const { podcasts } = await usePodcasts();
+const { refresh, remove, episodes, serie, loading } = useSerie(slug);
+
+const { podcasts, loading: podcastLoading } = usePodcasts();
 const submenu = ref([] as Array<any>);
+const myFetch = useFetchApi();
 
+const {on_mounted, on_before} = useMounted(refresh, user)
+onMounted( on_mounted )
+onBeforeMount( on_before )
 
-onBeforeMount(() => {
-  refresh();
-  submenu.value = [
+const doneLoading = () => {
+  if (!podcastLoading.value && !loading.value) {
+    if (!serie.value || Object.keys(serie.value).length === 0) {
+      router.push({ path: "/podcasts", query: {refresh: 'true', msg: 'serie.notfound' }})
+    } else {
+      router.replace({
+        ...router.currentRoute,
+        query: {},
+      })
+    }
+  }
+}
+doneLoading()
+watch( [podcastLoading, loading], doneLoading)
+
+submenu.value = [
     {
       id: 0,
       name: 'serie.edit',
@@ -69,44 +86,24 @@ onBeforeMount(() => {
       layout: 'delete',
     },
   ];
-  if (user.value && user.value.username.startsWith('admin'))
-    submenu.value.push({
+if (user.value && user.value.username.startsWith('admin'))
+  submenu.value.push({
       id: 2,
       name: 'podcast.change',
       slug: '#change',
       layout: 'change',
     });
-});
-
-onMounted(() => {
-  if (!serie.value || Object.keys(serie.value).length === 0)
-    router.push({ path: "/podcasts", query: {refresh: 'true', msg: 'serie.notfound' }})
-  else
-  router.replace({
-    ...router.currentRoute,
-    query: {},
-  })
-})
 
 const dialog = ref(false);
+
 async function menuItemClicked(value: string) {
-  if (value === '#delete') {
-    const postData = {
-      method: 'delete',
-      body: {
-        id: serie.value.id,
-        title: serie.value.title,
-      },
-    };
-    var postResult = await myFetch( SERIE_AP, postData) as any;
-    if (postResult.statusCode == 201) {
-      refresh()
-      router.go(-1)
-    }
+  if (value=="#delete") {
+      remove().then(() => router.push('/series?refresh=true'))
   } else if (value === '#change') {
     dialog.value = !dialog.value;
   }
 }
+
 const error = ref('')
 async function changePodcast(podcastid: number) {
   const podcast = podcasts.value.find((p) => p.id == podcastid);

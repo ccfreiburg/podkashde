@@ -1,6 +1,7 @@
 import { defineConfig } from "cypress";
 
 export default defineConfig({
+  projectId: "331z26",
   env: {
     appBase: 'http://localhost:3000',
     apiBase: 'http://localhost:3003/api/',

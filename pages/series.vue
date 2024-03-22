@@ -1,22 +1,24 @@
 <template>
   <div>
     <PageLayout :title="$t('serie.title')" :submenu="submenu">
-    <BaseContainer>
+    <BaseContainer class="pb-10">
       <div v-if="series?.length > 0" class="flex px-1 place-items-end place-content-end md:px-4">
         <div v-if="!searchHiden" class="flex flex-row items-center flex-nowrap">
-          <input-area class="pb-8" :name="'search'" label="" v-model:value="search" />
+          <input-area :name="'search'" label="" v-model:value="search" />
           <div @click="
             () => {
               search = '';
               searchHiden = true;
             }">
+            <div class="pt-6">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
               stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </div>
+          </div>
         </div>
-        <div v-else @click="searchHiden = !searchHiden">
+        <div v-else @click="searchHiden = !searchHiden" class="pt-8 pb-3">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
             stroke="currentColor" class="w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round"
@@ -27,6 +29,7 @@
       <div v-for="serie in currentPage" :key="serie.id">
         <NuxtLink :to="localePath('/serie/' + serie.slug)">
           <div
+            :data-testid="'serie.' + serie.slug"
             class="flex flex-col flex-wrap items-center p-4 mt-4 bg-skin-light dark:bg-skin-dark sm:flex-row sm:flex-nowrap sm:place-content-center">
             <img class="w-32 h-32" :src="ContentFile.getMediaUrl(serie.cover_file)" />
             <div class="flex flex-col items-center justify-around flex-grow py-2 sm:pl-12 sm:items-start">

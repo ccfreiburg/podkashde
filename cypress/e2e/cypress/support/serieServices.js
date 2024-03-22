@@ -1,9 +1,9 @@
 
-Cypress.Commands.add('deletePodcast', (slug) => {
+Cypress.Commands.add('deleteSerie', (slug) => {
     const authData = JSON.parse(window.localStorage.getItem('authData'))
     if (!authData) throw 'authentication failed'
     cy.request({
-        url: Cypress.env('apiBase') + 'podcast',
+        url: Cypress.env('apiBase') + 'serie',
         method: 'DELETE',
         headers: {
             Credentials: true,
@@ -15,22 +15,23 @@ Cypress.Commands.add('deletePodcast', (slug) => {
     })
 })
 
-Cypress.Commands.add('createPodcast', (slug) => {
+Cypress.Commands.add('createSerie', (slug) => {
     cy.fixture(slug).then(fixtureData => {
         const authData = JSON.parse(window.localStorage.getItem('authData'))
         if (!authData) throw 'authentication failed'
         cy.request({
-            url: Cypress.env('apiBase') + 'podcast',
+            url: Cypress.env('apiBase') + 'series',
             method: 'POST',
             headers: {
                 Credentials: true,
                 Authorization: 'Bearer ' + authData.access_token,
             },
-            body: fixtureData
+            body: [ fixtureData ]
         }).then( res => {
             cy.request({
-                url: Cypress.env('apiBase') + 'podcast?slug=' + slug,
-                method: 'GET'
+                url: Cypress.env('apiBase') + 'serie',
+                method: 'GET',
+                body: { id: res.body.id }
             }).then( res => {
                 return res.body
             })

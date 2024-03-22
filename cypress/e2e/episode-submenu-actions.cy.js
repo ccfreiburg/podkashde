@@ -12,7 +12,14 @@ describe('', () => {
   })
   beforeEach('', () => {
     cy.login().then(() => {
-      cy.visitNuxtDev('/podcasts')
+      cy.visitNuxtDev('/podcasts', [
+        {
+          method: 'GET',
+          url: '*meta?*',
+          id: 'meta'
+        }
+  
+      ])
       cy.createPodcast(podcast_slug).then(podcast => {
         cy.createEpisode(episode_slug, podcast)
       })
@@ -23,8 +30,26 @@ describe('', () => {
     cy.deletePodcast(podcast_slug)
   })
   it('does display episode page', () => {
-    cy.visitNuxtDev('/admin/' + episode_slug)
+    cy.visitNuxtDev('/admin/' + episode_slug, [
+      {
+        method: 'GET',
+        url: '*meta?*',
+        id: 'meta'
+      }
+
+    ])
     cy.contains("Folge bearbeiten")
     cy.contains("A New Podcast")
   })
-})
+  it.skip('Change Podcast for Episode', () => {
+    cy.visitNuxtDev('/admin/' + episode_slug, [
+      {
+        method: 'GET',
+        url: '*meta?*',
+        id: 'meta'
+      }
+
+    ])
+    // select new Podcast
+  })
+ })

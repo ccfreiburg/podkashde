@@ -30,17 +30,22 @@ describe('', () => {
     cy.contains('Bitte einen Slug eingeben, der noich nicht verwendet wurd')
   })
   it('Saves correct Episode with MP3 Tags into Podcast', ()=>{
-    cy.intercept('POST','episode').as('postEpisode')
-    cy.intercept('POST','upload').as('upload')
+    cy.intercept('POST','episode').as('episode')
+    cy.intercept('GET','*generaterss?*').as('rss')
+    cy.intercept('GET','*enum?*').as('enum')
+    cy.intercept('GET','*podcast?*').as('podcast')
     cy.get('input[name="audioFileInput"]').selectFile('cypress/fixtures/1test.mp3', {
       action: "select",
       force: true,
     });
     cy.getInput('creator').value = 'Alexander Röhm'
     cy.getInput('slug').type('{selectall}test_slug')
-    cy.getInput('slug').type('{Enter}')
-    cy.wait('@upload')
-    cy.wait('@postEpisode')
+    cy.getInput('title').type('{Enter}')
+    cy.wait(3000)
+    cy.waitIntercept('episode')
+    cy.waitIntercept('rss')
+    cy.waitIntercept('enum')
+    cy.waitIntercept('podcast')
     cy.contains('Podcast Folgen')
     cy.contains('diesem Podcast')
     cy.contains('Welchen Tod willst du sterben? Welches Leben willst du leben?')

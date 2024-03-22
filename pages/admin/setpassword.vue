@@ -1,8 +1,9 @@
 <template>
   <div v-if="currentuser" v-on:keyup.enter="submit">
     <PageLayout :title='$t("login.newpassword")'>
-    <BaseContainer>
-      <div v-if="(!isDone)" class="flex flex-col w-2/3">
+      <BaseContainer class="py-10">
+      <div v-if="(!isDone)" class="flex flex-row flex-wrap content-start justify-evenly">
+        <div class="flex flex-col w-2/3">
         <input-area v-if="(!isInvite)" name="passwordOld" type="password" :errors="errors" :label="'login.oldpassword'"
           v-model:value="passwordOld"></input-area>
         <input-area name="password1" type="password" :errors="errors" :label="'login.password'"
@@ -13,6 +14,7 @@
           <BaseButtonPrimary @click="submit">
             {{ $t("login.submitnewpassword") }}
           </BaseButtonPrimary>
+        </div>
         </div>
       </div>
       <div class="h-screen"></div>
@@ -25,17 +27,16 @@ import { useI18n } from "vue-i18n";
 import { INVITE_TOKEN } from "~~/base/Constants";
 import { CHECK_TOKEN_AP } from "~~/base/Constants";
 import type IValidationError from "~~/base/types/IValidationError";
-const currentuser = await useAuth().useAuthUser()
 const myFetch = useFetchApi()
+
+const { user: currentuser} = useAuth()
+
 const route = useRoute()
 const router = useRouter()
-const i18n = useI18n()
+
 const isInvite = ref(route.query.hasOwnProperty('token'))
-const isDone = ref(false)
-const token = route.query.token
-const localMessage = ref("")
 if (isInvite.value) {
-  const { access, user } = await myFetch( CHECK_TOKEN_AP + token)
+  const { access, user } = await myFetch( CHECK_TOKEN_AP + token) as any
   if (access !== INVITE_TOKEN)
     router.go(-1)
   if (!user)
@@ -43,6 +44,18 @@ if (isInvite.value) {
   else
     currentuser.value = user
 }
+
+const i18n = useI18n()
+const {on_mounted, on_before, on_user_changed} = useMounted(()=>{}, currentuser, true)
+onMounted( on_mounted )
+onBeforeMount( on_before )
+watch(currentuser, on_user_changed);
+
+    
+const isDone = ref(false)
+const token = route.query.token
+const localMessage = ref("")
+
 const passwordOld = ref("");
 const password1 = ref("");
 const password2 = ref("");
@@ -83,12 +96,5 @@ const submit = async () => {
     }
   }
 }
-onMounted(() =>
-  router.replace({
-    ...router.currentRoute,
-    query: {
-    }
-  }))
 
-setTimeout(() => { if (!currentuser.value) router.push('/admin/login') }, 200)
 </script>

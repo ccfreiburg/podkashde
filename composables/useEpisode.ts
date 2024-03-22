@@ -8,7 +8,7 @@ const podcast = ref<IPodcast | undefined>(undefined)
 const serie = ref<ISerie | undefined>(undefined)
 
 export default function useEpisode(slug:string) {
-    const { refresh: dataRefresh } = useData( episode, EPISODE_AP, "?slug="+slug )
+    const { remove, refresh: dataRefresh } = useData( episode, EPISODE_AP, "?slug="+slug )
     const loading = ref(true)
 
     const refresh = async () => {
@@ -24,6 +24,7 @@ export default function useEpisode(slug:string) {
         episode,
         podcast,
         serie,
+        remove,
         refresh,
         loading
     }

@@ -2,32 +2,26 @@
 import { emptyIEpisodeFactory } from "~~/base/types/IEpisode";
 const route = useRoute();
 const router = useRouter();
-const slug = route.params.slug as string
-onMounted( () =>
-  router.replace({
-    ...router.currentRoute,
-    query: {
-  }
-}))
-const {user} = useAuth()
-watch( user, (newVal) => {
-  if (!newVal)
-    router.push({
-        path: "/admin/login",
-        query: { msg: 'login.sessionexpired' },
-      });
-})
-const {podcast, gernerateRss } = usePodcast(slug);
+
+const {podcast, refresh, gernerateRss } = usePodcast(route.params.slug as string);
+
+const {user} = await useAuth()
+const {on_mounted, on_before, on_user_changed} = useMounted(refresh, user, true)
+onMounted( on_mounted )
+onBeforeMount( on_before )
+watch(user, on_user_changed);
+
 const {series} = useSeries(true);
 const episode = ref(emptyIEpisodeFactory());
+
 async function save() {
   await gernerateRss()
-  router.push("/podcast/" + slug + "?refresh=true");
+  router.push("/podcast/" + route.params.slug as string + "?refresh=true");
 }
+
 function cancel() {
   router.go(-1);
 }
-setTimeout(()=>{ if (!user.value) router.push('/admin/login')}, 200)
 </script>
 <template>
       <PageLayout>

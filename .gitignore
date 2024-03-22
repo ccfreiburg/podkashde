@@ -24,6 +24,9 @@ logs
 !.env.example
 
 cypress/e2e/screenshots
+cypress/e2e/logs
+cypress/screenshots
+cypress/logs
 
 public/s
 backend/node_modules 

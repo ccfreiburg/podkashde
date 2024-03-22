@@ -9,11 +9,11 @@
         {{ $t(error) }}
       </span>
     </div>
-    <input v-if="isInputElement()"
+    <input v-if="isInputElement()" 
       :class="getClass + 'h-10 border-[2px] border-skin-light dark:border-skin-dark dark:border-[1px] px-3 py-1 mt-1 rounded-md bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark focus:outline-none focus:ring-[1px] focus:ring-skin-fokus'"
       :type="type" :valid="error == ''" :id="name" :name="name" :disabled="$props.disabled" :readonly="$props.readonly"
       :value="value" @input="updateEvent" />
-    <textarea v-if="type === 'textarea'"
+    <textarea v-if="type === 'textarea'" 
       class="h-24 border-[2px] border-skin-light dark:border-skin-dark dark:border-[1px] px-3 py-1 mt-1 rounded-md bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark focus:outline-none focus:ring-[1px] focus:ring-skin-fokus"
       type="text" :id="name" :name="name" :value="value" @input="updateEvent" />
   </div>
@@ -39,6 +39,10 @@ export default defineComponent({
       default: false,
     },
     readonly: {
+      type: Boolean,
+      default: false,
+    },    
+    focus: {
       type: Boolean,
       default: false,
     },
@@ -67,7 +71,12 @@ export default defineComponent({
     function updateEvent(event: any) {
       ctx.emit("update:value", event.target.value);
     }
-
+    watch( ()=>props.focus, () => {
+      if (props.focus) {
+        const input = document.getElementById(props.name as string);
+        input?.focus()
+      }
+    } )
     return {
       isInputElement,
       updateEvent,

@@ -11,7 +11,7 @@ trap clean_up SIGINT EXIT
 
 cd backend
 yarn 
-node ./node_modules/.bin/ts-node src/index.ts > ../cypress/logs/back-end.log &
+node ./node_modules/.bin/ts-node src/index.ts > /dev/null &
 bePID=$!
 CHECKBE=""
 i=0
@@ -24,7 +24,7 @@ done
 cd ..
 yarn
 yarn build
-node .output/server/index.mjs > ./cypress/logs/front-end.log &
+node .output/server/index.mjs > /dev/null &
 fePID=$!
 CHECKFE=""
 i=0
@@ -37,4 +37,4 @@ done
 
 trap clean_up ERR
 
-npx cypress run 
+npx cypress run --record --key 6b81c56a-4e73-4cfd-a36d-acab9f138d57

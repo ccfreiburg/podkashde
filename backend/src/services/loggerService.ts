@@ -2,7 +2,7 @@ import {Request, Response} from "express";
 import * as fs from 'fs'
 import { getRandomFileName } from "../tools/DataFiles";
 
-const recorder = false
+const recorder = true
 
 var loglevel = 2
 

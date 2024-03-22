@@ -7,7 +7,7 @@ const { refresh, episode, podcast, loading: loadingEpisode } = useEpisode(slug);
 const { series, loading: loadingSeries } = useSeries();
 
 const {user} = await useAuth()
-const {on_mounted, on_before, on_user_changed} = useMounted(refresh, user)
+const {on_mounted, on_before, on_user_changed} = useMounted(refresh, user, true)
 onMounted( on_mounted )
 onBeforeMount( on_before )
 watch(user, on_user_changed);

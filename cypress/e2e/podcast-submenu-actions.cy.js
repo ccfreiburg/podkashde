@@ -9,7 +9,14 @@ describe('', () => {
         //cy.intercept('GET', '/api/meta?locale=en', async (req) => req.reply( { fixture: 'meta-en.json' }) )
       })
   beforeEach('', () => {
-    cy.visitNuxtDev('/podcasts')
+    cy.visitNuxtDev('/podcasts', [
+      {
+        method: 'GET',
+        url: '*meta?*',
+        id: 'meta'
+      }
+
+    ])
     cy.login()
     cy.createPodcast(slug)
     cy.visitNuxtDev('/podcast/'+slug)

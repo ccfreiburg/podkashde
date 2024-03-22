@@ -1,11 +1,10 @@
 import type { RouteLocationNormalized, Router } from "vue-router";
 
-export default function useMounted( refresh: Function, user: Ref<any> = ref(undefined), needsAuth: boolean = true) {
-    const router = useRouter()
-    const route = useRoute();
+export default function useMounted( refresh: Function = ()=>{}, user: Ref<any> = ref(undefined), needsAuth: boolean = true) {
     
     return {
         on_mounted: () => {
+            const router = useRouter()
             if (!user.value) {
                 router.push({
                     path: "/admin/login",
@@ -17,9 +16,11 @@ export default function useMounted( refresh: Function, user: Ref<any> = ref(unde
                     query: {}
             })},
         on_before: () => {
+            const route = useRoute();
             if (route.query.refresh) refresh();
         },
-        on_user_changed: (newVal: Ref<any>) => {
+        on_user_changed: (newVal: any) => {
+            const router = useRouter()
             if (!newVal)
               router.push({
                 path: "/admin/login",

@@ -1,10 +1,10 @@
 <template>
   <div v-on:keyup.enter="onlogin" v-on:keyup.esc="oncancel">
     <PageLayout :title="$t('login.title')">
-    <BaseContainer>
+    <BaseContainer class="py-10">
       <div class="flex flex-row flex-wrap content-start justify-evenly">
         <div class="flex flex-col w-2/3">
-          <InputArea class="w-full" name="user" v-model:value="username" :errors="errors" type="text" :label="'login.user'"></InputArea>
+          <InputArea class="w-full" name="user" :focus="setFokus" v-model:value="username" :errors="errors" type="text" :label="'login.user'"></InputArea>
           <InputArea name="password" type="password" v-model:value="password" :errors="errors" :label="'login.password'"></InputArea>
           <div class="flex flex-row">
             <div class="flex-grow">
@@ -20,18 +20,17 @@
 </template>
 <script setup lang="ts">
 import type IValidationError from '~~/base/types/IValidationError';
-import { useI18n } from 'vue-i18n';
 const router = useRouter();
-
 const i18n = useI18n();
+
 const { login } = useAuth();
 const errors = ref([] as Array<IValidationError>);
 
+const setFokus = ref(false)
 const username = ref("")
 const password = ref("")
 
 const onlogin = async () => {
-
   try {
     if (await login(username.value, password.value)) {
       const url = (i18n.locale.value == 'de' ? '' : '/' + i18n.locale.value) + '/podcasts'
@@ -49,10 +48,6 @@ const onlogin = async () => {
 const oncancel = async () => {
   router.go(-1);
 };
-onMounted(() =>
-  router.replace({
-    ...router.currentRoute,
-    query: {},
-  })
-);
+const {on_mounted} = useMounted(()=>{})
+onMounted( on_mounted )
 </script>
