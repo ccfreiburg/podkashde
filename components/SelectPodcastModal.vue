@@ -11,7 +11,7 @@
             {{ $t('podcast.change') }}
           </h5>
         </div>
-        <SingleSelect class="p-4" title="podcast" label="podcast.headline" v-model:value="selectedPodcast"
+        <SingleSelect class="p-4" title="podcast" label="podcast.headline" v-model:value="selectedPodcast" name="select_podcast"
           :options="podselect" :errors="[]"></SingleSelect>
         <div class="px-5 text-sm text-skin-error">
           {{ error }}
@@ -21,7 +21,7 @@
             <BaseButtonSecondary class="mr-4" @click="cancel">
               {{ $t("cancel") }}
             </BaseButtonSecondary>
-            <BaseButtonPrimary @click="submit">
+            <BaseButtonPrimary data-testid="submit" @click="submit">
               {{ $t('episode.saveEpisode') }}
             </BaseButtonPrimary>
           </div>

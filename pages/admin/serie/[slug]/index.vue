@@ -3,7 +3,7 @@
     <PageLayout>
       <BaseContainer>
 
-    <serie-detail v-if="user" :serie="serie" @save="save" @remove="removeSerie" @cancel="cancel" />
+    <serie-detail v-if="user && !loading" :serie="serie" @save="save" @remove="removeSerie" @cancel="cancel" />
   </BaseContainer>
     </PageLayout>
   </div>
@@ -13,7 +13,7 @@
     const route = useRoute();
     const router = useRouter();
 
-    const { serie, refresh, remove } = useSerie(route.params.slug as string);
+    const { serie, loading, refresh, remove } = useSerie(route.params.slug as string);
 
     const {user} = useAuth()
     const {on_mounted, on_before, on_user_changed} = useMounted(refresh, user, true)
@@ -22,6 +22,7 @@
     watch(user, on_user_changed);
 
     async function save() {
+      await refresh()
       router.push('/serie/' + route.params.slug);
     }
 

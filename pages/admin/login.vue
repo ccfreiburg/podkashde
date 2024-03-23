@@ -49,5 +49,8 @@ const oncancel = async () => {
   router.go(-1);
 };
 const {on_mounted} = useMounted(()=>{})
-onMounted( on_mounted )
+onMounted( () => {
+  on_mounted()
+  setFokus.value=true
+  })
 </script>

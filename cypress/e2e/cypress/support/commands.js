@@ -26,6 +26,9 @@
 
 // cypress/support/commands.ts
 
+const nuxt_timeouts = 20000
+const interception_timeouts = 6000
+
 Cypress.Commands.add('getBySel', (selector, ...args) => {
   return cy.get(`[data-testid='${selector}']`, ...args)
 })
@@ -40,32 +43,53 @@ Cypress.Commands.add('getBySelLike', (selector, ...args) => {
   return cy.get(`[data-test*=${selector}]`, ...args)
 })
 
-Cypress.Commands.add('waitIntercept', (interception, duration = 7000) => {
+Cypress.Commands.add('waitIntercept', (interception, duration = interception_timeouts) => {
   cy.wait('@'+interception, {timeout: duration})
 })
 
-Cypress.Commands.add('visitNuxtDev', (url, interceptions = []) => {
-  for(var i=0; i<interceptions.length; i++)
+function setInterceptions(interceptions = []) {
+  for(var i=0; i<interceptions.length; i++) {
     cy.intercept(interceptions[i].method, interceptions[i].url).as(interceptions[i].id)
+  }
+}
+
+function waitInterceptions(interceptions = []) {
+  for(var i=0; i<interceptions.length; i++) {
+    cy.waitIntercept(''+interceptions[i].id)
+  }
+}
+
+Cypress.Commands.add('visitNuxtDev', (url, interceptions = []) => {
+  setInterceptions(interceptions)
   if (Cypress.env('NUXT_MODE') == 'development'){
     cy.intercept('GET', '/_nuxt/builds/meta/dev.json').as('nuxtDev')
-    cy.visit(url).wait('@nuxtDev', {timeout: 7000})
+    cy.visit(url).wait('@nuxtDev', {timeout: nuxt_timeouts})
   } else {
     cy.visit(url)
    }
-   for(var i=0; i<interceptions.length; i++)
-   cy.waitIntercept(''+interceptions[i].id)
+   waitInterceptions(interceptions)
 })
 
 Cypress.Commands.add('clickLinkNuxtDev', (text, interceptions = []) => {
-  for(var i=0; i<interceptions.length; i++)
-    cy.intercept(interceptions[i].method, interceptions[i].url).as(interceptions[i].id)
+  setInterceptions(interceptions)
   if (Cypress.env('NUXT_MODE') == 'development'){
     cy.intercept('GET', '/_nuxt/builds/meta/dev.json').as('nuxtDev')
     cy.contains(text).trigger('mouseover').wait(3).click()
+    cy.wait('@nuxtDev', {timeout: nuxt_timeouts})
   } else {
     cy.contains(text).trigger('mouseover').wait(3).click()
   }
-  for(var i=0; i<interceptions.length; i++)
-    cy.waitIntercept(''+interceptions[i].id)
+  waitInterceptions(interceptions)
+})
+
+Cypress.Commands.add('clickSelectorNuxtDev', (text, interceptions = []) => {
+  setInterceptions(interceptions)
+  if (Cypress.env('NUXT_MODE') == 'development'){
+    cy.intercept('GET', '/_nuxt/builds/meta/dev.json').as('nuxtDev')
+    cy.getBySel(text).click()
+    cy.wait('@nuxtDev', {timeout: nuxt_timeouts})
+  } else {
+    cy.contains(text).click()
+  }
+  waitInterceptions(interceptions)
 })

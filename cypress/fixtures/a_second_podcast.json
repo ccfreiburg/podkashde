@@ -1,7 +1,7 @@
 {
   "cover_file": "/test/img/cover.jpg",
-  "title": "A New Podcast",
-  "slug": "a_new_podcast",
+  "title": "A second Podcast",
+  "slug": "a_second_podcast",
   "subtitle": "It also has a Sub-Title",
   "author": "Podcashde Testing",
   "summary": "This record is created by automated testing ",

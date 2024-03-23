@@ -3,7 +3,7 @@
     <PageLayout>
       <BaseContainer>
       <podcast-detail
-        v-if="user"
+        v-if="user && !loading"
         :podcast="podcast"
         @onsaved="goBackSaved"
         @ondeleted="ondelete"
@@ -19,7 +19,7 @@
 const route = useRoute();
 const router = useRouter();
 
-const { podcast, refresh, remove, gernerateRss } = usePodcast(route.params.slug as string);
+const { podcast, refresh, remove, loading, gernerateRss } = usePodcast(route.params.slug as string);
 
 const {user} = await useAuth()
 const {on_mounted, on_before, on_user_changed} = useMounted(refresh, user, true)

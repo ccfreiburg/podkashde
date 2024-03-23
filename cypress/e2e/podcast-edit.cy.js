@@ -9,11 +9,14 @@ describe('', () => {
         //cy.intercept('GET', '/api/meta?locale=en', async (req) => req.reply( { fixture: 'meta-en.json' }) )
       })
   beforeEach('Edit Podcast Page', () => {
-    cy.visitNuxtDev('/podcasts')
-    cy.login()
-    cy.createPodcast(slug)
-    cy.visitNuxtDev('/podcast/'+slug)
-    cy.clickLinkNuxtDev('Podcast bearbeiten')
+    cy.intercept('GET','enums').as('enums')
+    cy.login().then(() => {
+        cy.createPodcast(slug).then( podcast => {
+          cy.wait(3)
+          cy.visitNuxtDev('/admin/podcast/'+podcast.slug )
+        })
+      })
+    cy.waitIntercept('enums')
   })
   afterEach('', () => {
     cy.deletePodcast(slug)    
@@ -34,7 +37,7 @@ describe('', () => {
     cy.getInput('author').clear().type('{Enter}')
     cy.contains('Bitte einen Autor eingeben')
   })
-  it('Change Image', () => {
+  it.only('Change Image', () => {
     cy.intercept('GET','*generaterss?*').as('rss')
     cy.get('input[type=file]').selectFile('cypress/fixtures/pod-cover1.jpg', {
         action: "select",

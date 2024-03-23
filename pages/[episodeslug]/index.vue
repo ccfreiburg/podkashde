@@ -1,6 +1,8 @@
 <template>
   <div>
     <PageLayout  v-if="episode" :title="$t('episode.episode')" :submenu="submenu" @menuItemClicked="menuItemClicked">
+    <select-podcast-modal v-if="dialog" :error="error" :podcasts="podcasts" @cancel="() => dialog = false"
+      @submit="changePodcast"></select-podcast-modal>
     <BaseContainerClean class="flex flex-col items-center ">
       <div class="relative z-20 flex flex-row w-11/12 mt-6 lg:w-4/5 md:h-60 md:mt-12">
         <img class="h-28 md:h-60 w-28 md:w-60 shrink-0" :src="ContentFile.getMediaUrl(episode.image)" />
@@ -134,8 +136,8 @@ onBeforeMount( on_before )
 const { locale } = useI18n()
 
 watch( [podcastLoading, loading], () => {
-  if (!loading && !episode.value || Object.keys(episode.value as Object).length === 0)
-    router.push({ path: "/", query: {refresh: 'true', msg: 'episode.notfound' }})
+  if (!loading && !episode.value || episode.value && Object.keys(episode.value as Object).length === 0)
+     router.push({ path: "/", query: {refresh: 'true', msg: 'episode.notfound' }})
 })
 
 const submenu = ref([

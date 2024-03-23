@@ -9,39 +9,33 @@ describe('', () => {
         //cy.intercept('GET', '/api/meta?locale=en', async (req) => req.reply( { fixture: 'meta-en.json' }) )
       })
   beforeEach('Edit serie Page', () => {
-    cy.visitNuxtDev('/series')
-    cy.login()
-    cy.createSerie(slug)
-    cy.visitNuxtDev('/serie/'+slug)
-    cy.clickLinkNuxtDev('Serie bearbeiten')
+    cy.login().then( ()=> {
+      cy.createSerie(slug).then( ser => {
+        cy.visitNuxtDev('/admin/serie/'+ser.slug)
+      })
+    })
+    cy.contains('Serie bearbeiten')
   })
   afterEach('', () => {
     cy.deleteSerie(slug)    
   })
-  it.only('Shows Title', () => {
+  it('Shows Title', () => {
     cy.contains('h1','Serie bearbeiten')
   })
-  it('Change Author', () => {
-    cy.intercept('GET','*generaterss?*').as('rss')
-    cy.getInput('author').clear().type('fritzile{Enter}')
-    cy.location().should(loc => {
-        expect(loc.pathname).to.equal('/serie/'+slug)
-    })
-    cy.waitIntercept('rss')
+  it('Change Title', () => {
+    cy.getInput('title').clear().type('fritzile{Enter}')
     cy.contains('fritzile')
   })
   it('Empty Author creates validation error', () => {
-    cy.getInput('author').clear().type('{Enter}')
-    cy.contains('Bitte einen Autor eingeben')
+    cy.getInput('title').clear().type('{Enter}')
+    cy.contains('Bitte einen Titel')
   })
   it('Change Image', () => {
-    cy.intercept('GET','*generaterss?*').as('rss')
     cy.get('input[type=file]').selectFile('cypress/fixtures/pod-cover1.jpg', {
         action: "select",
         force: true,
       });
-    cy.getInput('author').type('{Enter}')
-    cy.waitIntercept('rss')
+    cy.getInput('title').type('{Enter}')
     cy.location().should(loc => {
         expect(loc.pathname).to.equal('/serie/'+slug)
     })

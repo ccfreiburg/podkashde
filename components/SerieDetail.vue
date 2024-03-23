@@ -60,7 +60,7 @@ export default defineComponent({
 
     function getFields() {
       var tmp = { ...fields.value };
-
+      delete tmp.episodes
       return tmp;
     };
 
@@ -112,10 +112,12 @@ export default defineComponent({
       );
 
       // server validation (if slug is unique)
-      var countUrl = COUNT_AP + "?slug=" + fields.value.slug + "&serie=true" +
-        (isEdit.value ? "&excludeId=" + fields.value.id : "")
-      var count = await myFetch(countUrl) as number;
-      if (count > 0) errors.value.push({ field: "slug", text: "serie.validation.slug" });
+      if (fields.value.slug !== props.serie?.slug) {
+        var countUrl = COUNT_AP + "?slug=" + fields.value.slug + "&serie=true" +
+          (isEdit.value ? "&excludeId=" + fields.value.id : "")
+        var count = await myFetch(countUrl) as number;
+        if (count > 0) errors.value.push({ field: "slug", text: "serie.validation.slug" });
+      }
 
       if (errors.value.length > 0) return;
 
