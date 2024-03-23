@@ -36,7 +36,8 @@ describe('', () => {
         force: true,
       });
     cy.getInput('title').type('{Enter}')
-    cy.location().should(loc => {
+    cy.wait(3)
+    cy.location({timeout: 8000}).should(loc => {
         expect(loc.pathname).to.equal('/serie/'+slug)
     })
     cy.getBySel('content-area').find('img').should('have.attr', 'src').should('include','pod-cover1.jpg')

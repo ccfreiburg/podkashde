@@ -32,11 +32,15 @@ describe('', () => {
     cy.contains('Bitte einen').should('not.exist')
   })
   it('Form without Errors saving', () => {
+    cy.intercept('GET','count*').as('count')
     cy.get('input[type=file]').selectFile('cypress/fixtures/pod-cover1.jpg', {
       action: "select",
       force: true,
     });
+    cy.wait(5)
     cy.getInput('title').type('title{Enter}')
+    cy.waitIntercept('count')
+    cy.wait(5)
     cy.getBySel("serie.title")
     cy.deleteSerie('title')
   })

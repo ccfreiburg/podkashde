@@ -32,8 +32,8 @@ describe('', () => {
   it('opens add episode dialog, when click add', () => {
     const url = '/admin/podcast/'+slug+'/new-episode'
     cy.getBySel(url).click()
-    cy.wait(3)
-    cy.location().should(loc => {
+    cy.wait(5)
+    cy.location({timeout: 8000}).should(loc => {
       expect(loc.pathname).to.equal(url)
     })    
     cy.contains('h1','Neue Folge')

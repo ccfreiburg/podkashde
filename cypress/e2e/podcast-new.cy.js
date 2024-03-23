@@ -56,6 +56,7 @@ describe('', () => {
     cy.getSelect('type').select(1)
     cy.getInput('owner_name').type('owner_name')
     cy.getInput('owner_email').type('owner@ema.il{Enter}')
+    cy.wait(5)
     cy.waitIntercept('rss')
     cy.getBySel("podcast.title");
     cy.deletePodcast('title')

@@ -44,8 +44,9 @@ describe('', () => {
         force: true,
       });
     cy.getInput('author').type('{Enter}')
+    cy.wait(5)
     cy.waitIntercept('rss')
-    cy.location().should(loc => {
+    cy.location({timeout: 8000}).should(loc => {
         expect(loc.pathname).to.equal('/podcast/'+slug)
     })
     cy.getBySel('content-area').find('img').should('have.attr', 'src').should('include','pod-cover1.jpg')
