@@ -24,6 +24,7 @@ describe('', () => {
   })
   it('Change Title', () => {
     cy.getInput('title').clear().type('fritzile{Enter}')
+    cy.wait(3)
     cy.contains('fritzile')
   })
   it('Empty Author creates validation error', () => {
@@ -31,13 +32,17 @@ describe('', () => {
     cy.contains('Bitte einen Titel')
   })
   it('Change Image', () => {
+    cy.intercept('POST','upload').as('upload')
+    cy.intercept('POST','series').as('series')
     cy.get('input[type=file]').selectFile('cypress/fixtures/pod-cover1.jpg', {
         action: "select",
         force: true,
       });
     cy.getInput('title').type('{Enter}')
-    cy.wait(3)
-    cy.location({timeout: 8000}).should(loc => {
+    cy.waitIntercept('series')
+    cy.waitIntercept('upload')
+    cy.wait(5)
+    cy.location().should(loc => {
         expect(loc.pathname).to.equal('/serie/'+slug)
     })
     cy.getBySel('content-area').find('img').should('have.attr', 'src').should('include','pod-cover1.jpg')

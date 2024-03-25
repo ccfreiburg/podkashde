@@ -36,6 +36,9 @@ Cypress.Commands.add('getBySel', (selector, ...args) => {
 Cypress.Commands.add('getInput', (selector, ...args) => {
   return cy.get(`input[name='${selector}']`, ...args)
 })
+Cypress.Commands.add('getTextArea', (selector, ...args) => {
+  return cy.get(`textarea[name='${selector}']`, ...args)
+})
 Cypress.Commands.add('getSelect', (selector, ...args) => {
   return cy.get(`select[name='${selector}']`, ...args)
 })

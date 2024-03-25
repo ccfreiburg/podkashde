@@ -34,7 +34,7 @@ describe('', () => {
   })
   it('Login', () => {
     cy.getInput('user').clear().type('Admin')
-    cy.getInput('password').clear().type('Admin')
+    cy.getInput('password').clear().type('AdminPassword')
     cy.getBySel('submit').click()
     cy.waitIntercept('apilogin').then((interception) => {
       expect(interception.response.statusCode).to.eq(200)

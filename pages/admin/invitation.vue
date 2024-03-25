@@ -1,19 +1,16 @@
 <template>
-  <div v-if="user">
-    <div class="flex justify-center w-full">
-      <div class="mt-6 mb-10 md:mt-10 md:mb-14">
-        <BaseH1>{{ $t('login.invitationtitle') }}</BaseH1>
-      </div>
-    </div>
-    <BaseContainer>
+    <PageLayout :title="$t('login.invitationtitle')">
+    <BaseContainer v-if="user" v-on:keyup.enter="generateUrl" class="pb-10">
       <div class="flex justify-center">
         <div class="flex flex-col w-2/3">
           <input-area class="w-full" name="username" type="text" :label="'login.user'"
             v-model:value="username"></input-area>
-          <div
+          <input-area class="w-full h-46" name="invitelinktext" type="textarea" :label="'login.invitelinktext'"
+            v-model:value="url"></input-area>
+          <!-- <div
             class="w-full dark:border-skin-dark dark:border-[1px] dark:bg-skin-dark border-skin-light border-2 bg-skin-light rounded-md mt-5 p-4 h-20 overflow-clip">
             {{ url }}
-          </div>
+          </div> -->
           <div class="flex justify-end">
             <BaseButtonPrimary @click="generateUrl">
               {{ $t('login.invitelink') }}
@@ -21,10 +18,8 @@
           </div>
         </div>
       </div>
-      <div class="h-screen"></div>
-
     </BaseContainer>
-  </div>
+    </PageLayout>
 </template>
 <script setup lang="ts">
 import { INVITE_TOKEN, SETPASS_LINK, USERTOKEN_AP } from '~~/base/Constants';

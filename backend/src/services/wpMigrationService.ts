@@ -1,11 +1,10 @@
-import { ObjectLiteral } from 'typeorm';
 import Episode from '../entities/Episode';
 import Serie from '../entities/Serie';
 import Podcast from '../entities/Podcast';
 import { joinEpisodePodcastAndSerie } from './episodeService';
 import { getByIdGen, getExtQueryGen, saveGen } from './genericService';
 
-export async function migrateEpisode(episode: Episode, podcastId: number) : Promise<Episode> {
+export async function migrateWpEpisode(episode: Episode, podcastId: number) : Promise<Episode> {
 
   const getRelation = async (T:any, id: number, externalId: number) => {
     if (id>0)
@@ -29,3 +28,4 @@ export async function migrateEpisode(episode: Episode, podcastId: number) : Prom
     await saveGen<Podcast>(Podcast,podcast);
   return { ...episode, id } as Episode
 }
+

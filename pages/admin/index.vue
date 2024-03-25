@@ -22,7 +22,7 @@
             :to="localePath('/admin/invitation')">
             {{ $t('menu.invitataion') }}
           </NuxtLink>
-          <NuxtLink class="text-center" v-if="(user && user.username.startsWith('Admin'))" data-testid="NavBar.menuItem"
+          <NuxtLink class="text-center" v-if="(false && user && user.username.startsWith('Admin'))" data-testid="NavBar.menuItem"
             :to="localePath('/admin/import')">
             {{ $t('menu.import') }}
           </NuxtLink>

@@ -3,10 +3,10 @@ import {  PODCASTS_AP } from "~~/base/Constants";
 
 const podcasts = ref([] as Array<IPodcast>)
 
-export default function usePodcasts() {
+export default function usePodcasts(directLoad = true) {
     const { loading, refresh} = useDatas( podcasts, PODCASTS_AP )
 
-    if (!podcasts.value || podcasts.value.length==0)
+    if (directLoad && (!podcasts.value || podcasts.value.length==0))
         refresh()
 
     return {

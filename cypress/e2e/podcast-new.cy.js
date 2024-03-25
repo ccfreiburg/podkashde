@@ -45,6 +45,7 @@ describe('', () => {
   })
   it('Form without Errors saving', () => {
     cy.intercept('GET','*generaterss?*').as('rss')
+    cy.intercept('POST','podcast').as('podcast')
     cy.get('input[type=file]').selectFile('cypress/fixtures/pod-cover1.jpg', {
       action: "select",
       force: true,
@@ -57,6 +58,7 @@ describe('', () => {
     cy.getInput('owner_name').type('owner_name')
     cy.getInput('owner_email').type('owner@ema.il{Enter}')
     cy.wait(5)
+    cy.waitIntercept('podcast')
     cy.waitIntercept('rss')
     cy.getBySel("podcast.title");
     cy.deletePodcast('title')

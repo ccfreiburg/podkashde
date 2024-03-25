@@ -3,14 +3,29 @@ export async function logout() {
     cy.clearAllLocalStorage()  
 }
 
-Cypress.Commands.add('login', () => {
+Cypress.Commands.add('login', (password = 'AdminPassword') => {
     cy.request({ url: Cypress.env('apiBase') + 'auth/login',  
             method: 'POST',  
             body: {
                 username: 'Admin',
-                password: 'Admin'
+                password
             }}
         ).then((response) => { 
             window.localStorage.setItem('authData', JSON.stringify(response.body))
+            return true
          })
     })
+
+Cypress.Commands.add('loginFlex', (username, password) => {
+        cy.request({ url: Cypress.env('apiBase') + 'auth/login',  
+                method: 'POST',  
+                body: {
+                    username,
+                    password
+                }}
+            ).then((response) => { 
+                window.localStorage.setItem('authData', JSON.stringify(response.body))
+                return true
+             })
+        })
+    

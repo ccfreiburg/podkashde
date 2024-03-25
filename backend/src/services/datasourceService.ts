@@ -65,7 +65,7 @@ async function addAdmin(db: DataSource) {
   adminuser.name='Administrator'
   adminuser.email=''
   const salt = bcrypt.genSaltSync(5);
-  adminuser.password = bcrypt.hashSync(process.env.ADMIN_PASSWORD || "Admin", salt);
+  adminuser.password = bcrypt.hashSync(process.env.ADMIN_PASSWORD || "AdminPassword", salt);
   const ret = await db.manager.save(adminuser);
   logger(3,"Created Admin " + adminuser.username)
   return ret

@@ -29,12 +29,13 @@ import { CHECK_TOKEN_AP } from "~~/base/Constants";
 import type IValidationError from "~~/base/types/IValidationError";
 const myFetch = useFetchApi()
 
-const { user: currentuser} = useAuth()
 
 const route = useRoute()
 const router = useRouter()
-
+const token = route.query.token
 const isInvite = ref(route.query.hasOwnProperty('token'))
+const currentuser = ref(undefined)
+
 if (isInvite.value) {
   const { access, user } = await myFetch( CHECK_TOKEN_AP + token) as any
   if (access !== INVITE_TOKEN)
@@ -43,17 +44,19 @@ if (isInvite.value) {
     router.go(-1)
   else
     currentuser.value = user
+} else {
+  const { user: tmp } = useAuth()
+  currentuser.value = tmp.value
 }
 
 const i18n = useI18n()
-const {on_mounted, on_before, on_user_changed} = useMounted(()=>{}, currentuser, true)
+const {on_mounted, on_before, on_user_changed} = useMounted(()=>{}, currentuser, !isInvite)
 onMounted( on_mounted )
 onBeforeMount( on_before )
 watch(currentuser, on_user_changed);
 
     
 const isDone = ref(false)
-const token = route.query.token
 const localMessage = ref("")
 
 const passwordOld = ref("");

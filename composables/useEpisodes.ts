@@ -4,10 +4,10 @@ import { useDatas } from './useData'
 
 const episodes = ref([] as Array<IEpisode>)
 
-export default function useEpisodes() {
+export default function useEpisodes(directLoad = true) {
     const { loading, refresh} = useDatas( episodes, EPISODES_AP )
 
-    if (!episodes.value)
+    if (directLoad && !episodes.value)
         refresh()
 
     return {

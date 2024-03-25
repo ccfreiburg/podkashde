@@ -119,7 +119,10 @@ export function episodeFromWpMetadata(
   podcastImage,
   enumerations
 ): IEpisode {
-    var pubdate = strToDate(wpEpisode.meta.date_recorded);
+ // console.log(JSON.stringify(wpEpisode))
+    var pubdate = strToDate((wpEpisode.meta.date_recorded.length>0?wpEpisode.meta.date_recorded:wpEpisode.date))
+    if (!pubdate)
+      pubdate = new Date();
     var image = wpEpisode.meta.cover_image;
     if (image.length < 1) image = podcastImage;
     var postimage = image;
@@ -129,7 +132,7 @@ export function episodeFromWpMetadata(
     )
       postimage = wpEpisode.episode_featured_image;
     var keyword = wpEpisode.tags.map((id) => enumerations.getTag(id).displaytext).join(', ')
-    var creator = enumerations.getAuthor(wpEpisode.speaker[0]).displaytext;
+    var creator = (wpEpisode.speaker?enumerations.getAuthor(wpEpisode.speaker[0]).displaytext:'');
     if (creator.length<1)
       creator = autorFromDescription(wpEpisode.excerpt.rendered)
     var cross_ref = verseFromDescription(wpEpisode.content.rendered)

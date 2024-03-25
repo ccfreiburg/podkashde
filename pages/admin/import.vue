@@ -159,7 +159,7 @@ var checkedSeries = [] as Array<Object>;
 var wpPodcastEpisodes = [] as Array<Object>;
 
 async function post<T>(endpoint: string, data: T) {
-  const postData = {
+  const postData = { 
     method: "post",
     body: data as T,
   };
@@ -260,9 +260,12 @@ async function fetchFile(
 async function importPodcast(podcast: any) {
   statusLog.value.push({ message: "Saving podcast " + podcast.title + " to server" })
   var contentState = ContentState.allmeta;
-  const { podcasts } = await usePodcasts()
-  const { episodes } = await useEpisodes()
-  const { series } = await useSeries()
+  const { podcasts, refresh: loadPodcasts } = usePodcasts()
+  await loadPodcasts()
+  const { episodes, refresh: loadEpisodes } = useEpisodes()
+  await loadEpisodes()
+  const { series, refresh: loadSeries } = useSeries()
+  await loadSeries()
   var podkashde = podcastFromWpMetadata(podcasts.value, podcast, enums.value)
   if (isCheckedImportCovers.value) {
     podkashde.cover_file = await downloadFile(SERVER_IMG_PATH, podkashde.slug, podkashde.cover_file)
@@ -296,7 +299,7 @@ async function importPodcast(podcast: any) {
     }
     pk_episode.state = contentState;
     statusLog.value.push({ message: "Saving episode " + pk_episode.title + " to server" })
-    await post(EPISODEWP_AP, { episode: pk_episode })
+    await post(EPISODEWP_AP, { episode: pk_episode, podcastId: podcast.id })
   }
   myFetch( GENERATE_RSS_AP, { query: { slug: podkashde.slug } })
 }

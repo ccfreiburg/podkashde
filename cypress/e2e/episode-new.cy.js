@@ -30,6 +30,7 @@ describe('', () => {
     cy.contains('Bitte einen Slug eingeben, der noich nicht verwendet wurd')
   })
   it('Saves correct Episode with MP3 Tags into Podcast', ()=>{
+    cy.intercept('POST','upload').as('upload')
     cy.intercept('POST','episode').as('episode')
     cy.intercept('GET','*generaterss?*').as('rss')
     cy.intercept('GET','*enum?*').as('enum')
@@ -41,8 +42,9 @@ describe('', () => {
     cy.getInput('creator').value = 'Alexander Röhm'
     cy.getInput('slug').type('{selectall}test_slug')
     cy.getInput('title').type('{Enter}')
-    cy.wait(3000)
-    cy.waitIntercept('episode')
+    cy.wait(8)
+    cy.waitIntercept('upload')
+    cy.waitIntercept('upload')
     cy.waitIntercept('rss')
     cy.waitIntercept('enum')
     cy.waitIntercept('podcast')

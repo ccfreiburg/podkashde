@@ -32,6 +32,7 @@
     "sessionexpired": "Session has expired. Please login ...",
     "loginfailed": "Wrong password or user does not exist",
     "invitelink": "Get invitation link",
+    "invitelinktext": "Invitation link",
     "invitationtitle": "Invite user",
     "passwordset": "The new password has been set successfully",
     "validation": {

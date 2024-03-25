@@ -32,6 +32,7 @@
     "sessionexpired": "Anmeldung veraltet. Bitte neu anmelden...",
     "loginfailed": "Passwort oder Nutzername falsch",
     "invitelink": "Einladungslink erstellen",
+    "invitelinktext": "Einladungslink",
     "passwordset": "Das neue Passwort wurde erfolgreich gesetzt",
     "invitationtitle": "Nutzer einladen",
     "validation": {

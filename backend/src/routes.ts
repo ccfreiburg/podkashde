@@ -11,6 +11,7 @@ import Serie from "./entities/Serie";
 import { getRouteSlug } from "./tools/Configuration";
 import { getMetadata } from "./controller/Settings";
 import { generateRssAction } from "./controller/Podcast";
+import { migrateEpisode } from "./controller/Migrate";
 
 /**
  * All application routes.
@@ -95,6 +96,11 @@ export const AuthRoutes = [
         path: getRouteSlug("GENERATE_RSS_AP"),
         method: "get",
         action:  generateRssAction
+    }, 
+    {
+        path: getRouteSlug("EPISODEWP_AP"),
+        method: "post",
+        action:  migrateEpisode
     }, 
 ]
 

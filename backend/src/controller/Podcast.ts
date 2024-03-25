@@ -1,7 +1,5 @@
 import * as fs from 'fs';
 import { Request, Response } from "express";
-import { moveEpisode, saveEpisode } from "../services/episodeService";
-import { migrateEpisode } from "../services/wpMigrationService";
 import { respond } from "../tools/Controller";
 import { getAllGen, getExtQueryGen } from "../services/genericService";
 import Podcast from "../entities/Podcast";
