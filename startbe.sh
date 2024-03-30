@@ -9,8 +9,8 @@ function clean_up()
 trap clean_up SIGINT EXIT
 
 cd backend
-yarn 
-node ./node_modules/.bin/ts-node src/index.ts > /dev/null &
+yarn
+yarn start
 bePID=$!
 CHECKBE=""
 i=0
