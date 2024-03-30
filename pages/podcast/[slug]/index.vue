@@ -64,7 +64,7 @@ const { enumerations, loading: enumsLoading } = useEnumerations();
 const language = ref()
 const podcastGenre = ref()
 
-const {on_mounted, on_before} = useMounted(refresh, user)
+const {on_mounted, on_before} = useMounted(refresh, user, false)
 onMounted( on_mounted )
 onBeforeMount( on_before )
 

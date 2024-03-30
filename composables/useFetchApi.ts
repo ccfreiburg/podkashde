@@ -1,7 +1,7 @@
 
 export default function useFetchApi() {
     const { getToken } = useAuth()
-    const {apiBase} = useRuntimeConfig().public
+    const { apiBase } = useRuntimeConfig().public
     return async (url: string,options: { headers?: any, body?:any, method?:any, query?:any } = {}) => {
         const headers = (options.hasOwnProperty('headers')?{ ... options.headers }:{})
         const fetchOptions =  {

@@ -1,6 +1,5 @@
 export const DATA_PATH ="public";
 export const ARCHIV_PATH ="archiv";
-export const PUBLIC_RESOURCES = 'public';
 export const FEED_SLUG = '/s/feed/';
 export const SERVER_IMG_PATH = '/s/covers/';
 export const SERVER_MP3_PATH = '/s/audio/';

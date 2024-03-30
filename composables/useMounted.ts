@@ -5,7 +5,7 @@ export default function useMounted( refresh: Function = ()=>{}, user: Ref<any> =
     return {
         on_mounted: () => {
             const router = useRouter()
-            if (!user.value) {
+            if (!user.value && needsAuth) {
                 router.push({
                     path: "/admin/login",
                     query: { refresh: 'true', msg: 'login.sessionexpired' },

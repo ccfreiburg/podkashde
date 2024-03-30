@@ -10,12 +10,12 @@ import { logger, requestLoggerMiddleware } from "./services/loggerService";
 import authMiddleware from "./authMiddleware";
 import { NextFunction } from "express-serve-static-core";
 import { initDataSource } from "./services/datasourceService";
+import { DATABASE_PATH, DATA_PATH } from "./tools/Configuration";
 const cookieParser = require('cookie-parser');
 const proxy = require('express-http-proxy');
 
 // create connection with database
 initDataSource().then(() => {
-
     // create express app
     const app = express();
     app.use("/s", express.static('./public/s'));
@@ -24,7 +24,7 @@ initDataSource().then(() => {
     app.use(cookieParser());
     
     app.use(function(req, res, next) {
-        res.header('Access-Control-Allow-Origin', req.get('Origin') || 'http://localhost:3000');
+        res.header('Access-Control-Allow-Origin', req.get('Origin') ?? 'http://localhost:3000');
         res.header('Access-Control-Allow-Credentials', 'true');
         res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
         res.header('Access-Control-Expose-Headers', 'Content-Length');

@@ -9,16 +9,17 @@ import { generateRss } from "../tools/RssGenerator";
 import { FEED_SLUG } from "../tools/Configuration";
 import { createDir, dataPath } from "../tools/DataFiles";
 
-function getBase(request: Request) {
-  const url = new URL(request.url, `http://${request.headers.host}`); 
-  return url.origin
-}
-
 export async function generateRssAction(request: Request, response: Response) {
     try {
-      const query = request.params;
-      const podcast = await getExtQueryGen(Podcast, { where: query, relations: ["episodes"]}) as Podcast
-      const baseUrl = process.env.podcastRssUrl || getBase(request)
+      const slug = request.query.slug as string;
+      const baseUrl = process.env.podcastRssUrl ?? request.query.mediaBase as string
+
+      const podcast = await getExtQueryGen(Podcast, { 
+        where: {
+            slug
+        }, 
+        relations: ["episodes"]
+      }) as Podcast
 
 
       const enums = await getAllGen(Enumerator) as Array<Enumerator>

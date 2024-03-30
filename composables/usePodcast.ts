@@ -17,11 +17,7 @@ export default function usePodcast(slug:string) {
         loading.value = false
     }
 
-    const gernerateRss = async () => {
-        if (!podcast.value) return
-        const myFetch = useFetchApi()
-        await myFetch( GENERATE_RSS_AP, { query: { slug: podcast.value.slug }})
-    }
+    const {generate} = useRss(slug)
 
     if (!podcast.value)
         refresh()
@@ -30,7 +26,7 @@ export default function usePodcast(slug:string) {
         episodes,
         podcast,
         remove,
-        gernerateRss,
+        gernerateRss: generate,
         refresh,
         loading
     }

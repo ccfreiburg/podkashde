@@ -129,7 +129,7 @@ const { podcasts, loading: podcastLoading } = usePodcasts();
 const { refresh, remove, serie, podcast, episode, loading } = useEpisode(slug);
 
 const {user, isSuperAdmin} = useAuth()
-const {on_mounted, on_before} = useMounted(refresh, user)
+const {on_mounted, on_before} = useMounted(refresh, user, false)
 onMounted( on_mounted )
 onBeforeMount( on_before )
 
@@ -170,8 +170,10 @@ const error = ref("")
 
 async function menuItemClicked(value: string) {
   if (value === '#delete') {
+    const {generate} = useRss(podcast.value?.slug || '')
     await remove()
     if (!episode.value) {
+      generate()
       var url = router.options.history.state.back as string;
       if (url.includes('?')) url = url.substring(0, url.indexOf('?'));
         router.push({
@@ -185,8 +187,10 @@ async function menuItemClicked(value: string) {
 }
 const audioComponentKey = ref(0)
 async function changePodcast(podcastid: number) {
+  const {generate: genOldPodcastRss} = useRss(podcast.value?.slug || '')
   const myFetch = useFetchApi()
-  const newpodcast = podcasts.value.find((p) => p.id == podcastid);
+  const newpodcast = podcasts.value.find((p) => p.id == podcastid) as any;
+  const {generate: genNewPodcastRss} = useRss(newpodcast.slug)
   var result;
   try {
     const postData = {
@@ -199,6 +203,8 @@ async function changePodcast(podcastid: number) {
     };
     result = await myFetch( EPISODEMOVE_AP, postData);
     await refresh()
+    genNewPodcastRss()
+    genOldPodcastRss()
     audioComponentKey.value++
     dialog.value = false;
   } catch (err) {

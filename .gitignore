@@ -32,7 +32,10 @@ public/s
 backend/node_modules 
 backend/public/s 
 backend/dist 
-backend/data 
+backend/data/*.sqlite
 backend/yarn.lock
+backend/.env
+
+frontend
 
 yarn.lock

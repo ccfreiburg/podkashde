@@ -53,7 +53,7 @@ const { podcasts, loading: podcastLoading } = usePodcasts();
 const submenu = ref([] as Array<any>);
 const myFetch = useFetchApi();
 
-const {on_mounted, on_before} = useMounted(refresh, user)
+const {on_mounted, on_before} = useMounted(refresh, user, false)
 onMounted( on_mounted )
 onBeforeMount( on_before )
 

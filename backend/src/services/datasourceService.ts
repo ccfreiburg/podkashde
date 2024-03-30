@@ -3,13 +3,14 @@ import Enumerator, { getEnumerator } from "../entities/Enumerator";
 import * as bcrypt from "bcrypt"
 import User from "../entities/User";
 import { logger } from "./loggerService";
+import { DATABASE_FILE, DATABASE_PATH } from "../tools/Configuration";
 
 export default function getRepository(T) { return dataSource.getRepository(T) }
 export function getDbManager() { return dataSource.manager }
 
 const appDataSource = new DataSource({
 	"type": "sqlite",
-	"database": "data/podcasts.sqlite",
+	"database": DATABASE_PATH + "/" + DATABASE_FILE,
 	"synchronize": true,
 	"logging": false,
 	"entities": [
@@ -61,11 +62,11 @@ async function addAdmin(db: DataSource) {
   if (user.length>0)
     return;
   const adminuser = new User();
-  adminuser.username= process.env.ADMIN_USER || "Admin";
+  adminuser.username= process.env.ADMIN_USER ?? "Admin";
   adminuser.name='Administrator'
   adminuser.email=''
   const salt = bcrypt.genSaltSync(5);
-  adminuser.password = bcrypt.hashSync(process.env.ADMIN_PASSWORD || "AdminPassword", salt);
+  adminuser.password = bcrypt.hashSync(process.env.ADMIN_PASSWORD ?? "AdminPassword", salt);
   const ret = await db.manager.save(adminuser);
   logger(3,"Created Admin " + adminuser.username)
   return ret

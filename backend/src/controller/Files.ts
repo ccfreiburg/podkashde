@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { Request, Response } from "express";
 import { getFileFromUrl } from "../services/filesService";
-import { ARCHIV_PATH, DATA_PATH, FEED_SLUG, UPLOAD_TEMP_PATH, getBaseUrl } from "../tools/Configuration";
+import { ARCHIV_PATH, DATA_PATH, UPLOAD_TEMP_PATH } from "../tools/Configuration";
 import { getPathForMediaFile } from "../services/episodeService";
 import { copyFile, createDir, findFile, moveFile } from "../tools/DataFiles";
 import busboy = require('busboy');
@@ -43,7 +43,7 @@ export async function copyFromLocalArchive(request: Request, response: Response)
 export async function uploadFile(request: Request, response: Response) {
 
 try {
-    createDir(UPLOAD_TEMP_PATH)
+    createDir(DATA_PATH+UPLOAD_TEMP_PATH)
     const { filename, path, uploaded } = await paseFormdata(request,response)
     if (moveFile(uploaded, path, filename))
       return respond(response, 201, {statusCode: 201, message: 'Created '+path+filename});
@@ -62,7 +62,7 @@ export async function paseFormdata(request: Request, response: Response) : Promi
           var { filename, encoding, mimeType } = info
           if (filename.length==0)
             filename = "tmp"
-          const path = UPLOAD_TEMP_PATH+filename;
+          const path = DATA_PATH+UPLOAD_TEMP_PATH+filename;
           var ws = fs.createWriteStream(path)
           filedata = {
             fieldname: name,

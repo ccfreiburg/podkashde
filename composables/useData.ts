@@ -37,7 +37,7 @@ export function useData( data: Ref<any>, apiSlug: string, query: string ) {
     const remove = async () => {
         const myFetch = useFetchApi()
         await myFetch( apiSlug, { method: 'DELETE', body: { id: data.value?.id } } )
-        await refresh()
+        data.value = undefined
     }
 
     const save = async () => {

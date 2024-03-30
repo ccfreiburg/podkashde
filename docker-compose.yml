@@ -1,0 +1,14 @@
+version: '3.1'
+
+services:
+  podcashde-new:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: podcashde-new
+    env_file: .env.docker
+    ports:
+      - 8333:80
+    volumes:
+      - ./backend/public:/var/www
+      - ./backend/data:/data
