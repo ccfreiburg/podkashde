@@ -10,7 +10,7 @@ trap clean_up SIGINT EXIT
 
 cd backend
 yarn 
-node ./node_modules/.bin/ts-node src/index.ts > ../cypress/logs/back-end.log &
+node ./node_modules/.bin/ts-node src/index.ts > /dev/null &
 bePID=$!
 CHECKBE=""
 i=0
