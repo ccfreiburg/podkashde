@@ -10,7 +10,7 @@ trap clean_up SIGINT EXIT
 
 cd backend
 yarn
-yarn start
+yarn start &
 bePID=$!
 CHECKBE=""
 i=0
