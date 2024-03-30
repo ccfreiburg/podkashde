@@ -11,9 +11,11 @@ import { createDir, dataPath } from "../tools/DataFiles";
 
 export async function generateRssAction(request: Request, response: Response) {
     try {
+      console.log(process.env.podcastRssUrl)
+      console.log(request.query)
+      console.log(request.query.mediaBase)
       const slug = request.query.slug as string;
       const baseUrl = process.env.podcastRssUrl ?? request.query.mediaBase as string
-
       const podcast = await getExtQueryGen(Podcast, { 
         where: {
             slug

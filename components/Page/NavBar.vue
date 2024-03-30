@@ -8,7 +8,7 @@
                           2xl:mx-10
                           flex justify-between">
         <div class="relative flex flex-row items-center w-1/6 flex-nowrap">
-          <button @click="toggle('language')" class="inline-flex items-center text-sm font-medium text-center rounded-lg"
+          <button data-testid="show-locale-dropdown" @click="toggle('language')" class="inline-flex items-center text-sm font-medium text-center rounded-lg"
             type="button"> 
             <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg">
@@ -25,7 +25,7 @@
           <div v-show="showDropdown" class="absolute border-2 rounded shadow bg-skin-light dark:bg-skin-dark top-10 left-6 w-44">
             <ul class="py-1 text-sm">
               <li class="p-1" v-for="navLocale in locales.map((item)=>item.code) as string[]" :key="navLocale">
-                <NuxtLink v-if="otherLanguagesNav.hasOwnProperty(navLocale)" :to="otherLanguagesNav[navLocale]" @click="localeChanged(navLocale)">
+                <NuxtLink v-if="otherLanguagesNav.hasOwnProperty(navLocale)" :data-testid="'switch-locale-'+navLocale"  :to="otherLanguagesNav[navLocale]" @click="localeChanged(navLocale)">
                   {{ $t(navLocale) }}
                 </NuxtLink>
                 <div v-else>{{ $t(navLocale) }}</div>

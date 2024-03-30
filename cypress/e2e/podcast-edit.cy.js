@@ -37,14 +37,14 @@ describe('', () => {
     cy.getInput('author').clear().type('{Enter}')
     cy.contains('Bitte einen Autor eingeben')
   })
-  it.only('Change Image', () => {
+  it('Change Image', () => {
     cy.intercept('GET','*generaterss?*').as('rss')
     cy.get('input[type=file]').selectFile('cypress/fixtures/pod-cover1.jpg', {
         action: "select",
         force: true,
       });
     cy.getInput('author').type('{Enter}')
-    cy.wait(5)
+    cy.wait(8)
     cy.waitIntercept('rss')
     cy.location({timeout: 8000}).should(loc => {
         expect(loc.pathname).to.equal('/podcast/'+slug)

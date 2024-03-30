@@ -39,9 +39,10 @@ describe('', () => {
         force: true,
       });
     cy.getInput('title').type('{Enter}')
+    cy.wait(5)
     cy.waitIntercept('series')
     cy.waitIntercept('upload')
-    cy.wait(5)
+    cy.wait(8)
     cy.location().should(loc => {
         expect(loc.pathname).to.equal('/serie/'+slug)
     })

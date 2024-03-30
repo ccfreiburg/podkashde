@@ -17,7 +17,8 @@ describe('template spec', () => {
   });
   it('Language Button clicked shows Deutsch', () => {
     cy.wait(2000)
-    cy.contains('English').click()
+    cy.getBySel('show-locale-dropdown').click({ force: true })
+    cy.getBySel('switch-locale-de').click({ force: true })
     cy.contains('Deutsch').click()
     cy.contains('h1','Kürzlich erschienen')
   });

@@ -7,7 +7,6 @@
 </template>
 
 <script setup lang="ts">
-import { GENERATE_RSS_AP } from '~/base/Constants';
 import { emptyIPodcastFactory } from '~~/base/types/IPodcast';
 
 const {user} = useAuth()
@@ -21,8 +20,6 @@ const podcast = ref(emptyIPodcastFactory());
 const router = useRouter();
 
 async function goBackSaved() {
-  const myFetch = useFetchApi();
-  await myFetch(GENERATE_RSS_AP, { query: { slug: podcast.value.slug } });
   router.push('/podcasts?refresh=true');
 }
 

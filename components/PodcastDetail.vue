@@ -181,7 +181,11 @@ export default defineComponent({
             postResult.statusCode = 500
           }
         }
-        if (postResult.statusCode == 201) ctx.emit("onsaved", fields.value.title)
+        if (postResult.statusCode == 201) {
+          const {generate} = useRss(fields.value.slug);
+          await generate();
+          ctx.emit("onsaved", fields.value.title)
+        }
       }
     }
 

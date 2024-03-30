@@ -1,7 +1,7 @@
 <template>
   <div>
     <PageLayout :title="$t('podcast.title')" :submenu="submenu" @menuItemClicked="menuItemClicked">
-    <div v-if="!(podcastLoading || enumsLoading)" class="flex flex-col items-center">
+    <div v-if="!(podcastLoading || enumsLoading) && podcast" class="flex flex-col items-center">
       <div class="flex flex-row w-11/12 md:w-2/3 md:h-60">
         <img class="relative z-10 h-20 md:h-60 shrink-0" :src="ContentFile.getMediaUrl(podcast.cover_file)" />
         <div class="flex flex-col justify-around pt-1 pb-10 pl-4 md:pl-14 rounded-r-md">

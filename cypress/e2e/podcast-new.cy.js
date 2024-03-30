@@ -33,8 +33,10 @@ describe('', () => {
     cy.contains('Bitte die Email der verantwortlichen Person eingeben')
   })
   it('Only cover image missing', () => {
+    const slug = "a_new_podcast-podcast-new-3"
     cy.getInput('title').type('title')
     cy.getInput('author').type('author')
+    cy.getInput('slug').clear().type(slug)
     cy.getSelect('language').select(1)
     cy.getSelect('category').select(1)
     cy.getSelect('type').select(1)
@@ -44,6 +46,7 @@ describe('', () => {
     cy.contains('Bitte einen').should('not.exist')
   })
   it('Form without Errors saving', () => {
+    const slug = "a_new_podcast-podcast-new-4"
     cy.intercept('GET','*generaterss?*').as('rss')
     cy.intercept('POST','podcast').as('podcast')
     cy.get('input[type=file]').selectFile('cypress/fixtures/pod-cover1.jpg', {
@@ -52,6 +55,7 @@ describe('', () => {
     });
     cy.getInput('title').type('title')
     cy.getInput('author').type('author')
+    cy.getInput('slug').clear().type(slug)
     cy.getSelect('language').select(1)
     cy.getSelect('category').select(1)
     cy.getSelect('type').select(1)
@@ -60,14 +64,15 @@ describe('', () => {
     cy.wait(5)
     cy.waitIntercept('podcast')
     cy.waitIntercept('rss')
-    cy.getBySel("podcast.title");
-    cy.deletePodcast('title')
+    cy.getBySel("podcast."+slug);
+    cy.deletePodcast(slug)
   })
   it('Displays Error when slug already exists', () => {
     const slug = "a_new_podcast"
     cy.createPodcast(slug)
     cy.intercept('GET','count*').as('count')
-    cy.getInput('slug').type(slug+"{Enter}").wait('@count')
+    cy.getInput('slug').clear().type(slug+"{Enter}")
+    cy.waitIntercept('count')
     cy.contains('Bitte einen eindeutingen Slug')
     cy.deletePodcast(slug)
   })

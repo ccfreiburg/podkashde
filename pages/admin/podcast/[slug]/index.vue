@@ -3,7 +3,7 @@
     <PageLayout>
       <BaseContainer>
       <podcast-detail
-        v-if="user && !loading"
+        v-if="user && podcast && !loading"
         :podcast="podcast"
         @onsaved="goBackSaved"
         @ondeleted="ondelete"
