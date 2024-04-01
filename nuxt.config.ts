@@ -19,6 +19,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/i18n', '@nuxtjs/tailwindcss', '@nuxtjs/color-mode'
   ],
+  extends: [ 'nuxt-umami' ],
   i18n: {
     strategy: 'prefix_except_default',
     defaultLocale: 'de',

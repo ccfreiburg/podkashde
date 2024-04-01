@@ -212,7 +212,6 @@ async function changePodcast(podcastid: number) {
   }
 }
 function play() {
-  const { $umami } = useNuxtApp();
-  $umami("Playing " + episode.value.title)
+  umTrackEvent("Playing " + episode.value.title)
 }
 </script>

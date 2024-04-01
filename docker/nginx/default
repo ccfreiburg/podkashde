@@ -18,7 +18,7 @@ server {
         tcp_nodelay       on;
     	keepalive_timeout 65;
         access_log /var/log/nginx/mp3access.log custom buffer=1k flush=1m;
-    	root /var/www/public;
+    	root /var/www/;
     }
 
     location /s/ {
