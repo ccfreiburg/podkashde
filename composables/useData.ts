@@ -21,6 +21,7 @@ export function useDatas( datas: Ref<Array<any>>, apiSlug: string ) {
 }
 
 export function useData( data: Ref<any>, apiSlug: string, query: string ) {
+
     const {apiBase} = useRuntimeConfig().public
     const loading = ref(!data.value)
 

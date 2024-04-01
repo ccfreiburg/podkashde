@@ -19,7 +19,7 @@ export default function usePodcast(slug:string) {
 
     const {generate} = useRss(slug)
 
-    if (!podcast.value)
+    if (!podcast.value || podcast.value.slug!==slug)
         refresh()
     
     return {

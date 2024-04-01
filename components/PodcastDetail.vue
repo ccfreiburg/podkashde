@@ -166,7 +166,6 @@ export default defineComponent({
         try {
           if (imgMetadata.value.selectedFile) {
             postData.body = getImageInFormData()
-            console.log(postData)
             postResult = await myFetch( UPLOAD_AP, postData)
           }
         } catch (err) {

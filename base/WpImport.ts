@@ -119,7 +119,6 @@ export function episodeFromWpMetadata(
   podcastImage,
   enumerations
 ): IEpisode {
- // console.log(JSON.stringify(wpEpisode))
     var pubdate = strToDate((wpEpisode.meta.date_recorded.length>0?wpEpisode.meta.date_recorded:wpEpisode.date))
     if (!pubdate)
       pubdate = new Date();

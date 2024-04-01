@@ -11,6 +11,9 @@ const {on_mounted, on_before, on_user_changed} = useMounted(refresh, user, true)
 onMounted( on_mounted )
 onBeforeMount( on_before )
 watch(user, on_user_changed);
+onBeforeUpdate(()=> {
+  console.log("Hi")
+  refresh()})
 
 const myFetch = useFetchApi()
 const router = useRouter()

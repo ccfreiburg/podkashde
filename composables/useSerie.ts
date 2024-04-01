@@ -16,7 +16,7 @@ export default function useSerie(slug:string) {
         loading.value = false
     }
 
-    if (!serie.value)
+    if (!serie.value || serie.value.slug!==slug)
         refresh()
     
     return {

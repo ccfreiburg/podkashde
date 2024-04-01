@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageLayout  v-if="episode" :title="$t('episode.episode')" :submenu="submenu" @menuItemClicked="menuItemClicked">
+    <PageLayout  v-if="episode" :submenu="submenu" @menuItemClicked="menuItemClicked">
     <select-podcast-modal v-if="dialog" :error="error" :podcasts="podcasts" @cancel="() => dialog = false"
       @submit="changePodcast"></select-podcast-modal>
     <BaseContainerClean class="flex flex-col items-center ">

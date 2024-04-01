@@ -103,7 +103,6 @@ export default function useAuth( onetimeToken: String | undefined = undefined ) 
     }
 
     const reRefreshAccessToken = () => {
-        console.log('tock')
         readPersistedData()
         if (!hasAuthData()) return false
         const request = {

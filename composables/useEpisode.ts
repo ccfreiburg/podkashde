@@ -18,7 +18,7 @@ export default function useEpisode(slug:string) {
         serie.value = episode.value?.serie as ISerie
         loading.value = false
     }
-    if (!episode.value)
+    if (!episode.value || episode.value.slug!==slug)
         refresh()
     return {
         episode,
