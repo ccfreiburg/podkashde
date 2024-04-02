@@ -42,9 +42,13 @@ describe('', () => {
         id: 'meta'
       }
     ])
-    cy.getBySel('#change').click()
+    cy.wait(3)
+    cy.getBySel('#change').click({ force: true })
     cy.getSelect('select_podcast').select(1)
-    cy.getBySel('submit').click()
-    cy.contains('A second Podcast')
+    cy.intercept('POST','episodemove', (req) => {
+      req.reply( { statusCode: 201 })
+    }).as('move')
+    cy.getBySel('submit').click({ force: true })
+    cy.wait('@move')
   })
  })

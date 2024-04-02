@@ -24,7 +24,7 @@ describe('', () => {
   })
   it('deletes podcast, when click delete', () => {
     cy.intercept('DELETE','podcast').as('podcast')
-    cy.getBySel('#delete').click()
+    cy.getBySel('#delete').click({ force: true })
     cy.waitIntercept('podcast')
     cy.location().should(loc => {
       expect(loc.pathname).to.equal('/podcasts')

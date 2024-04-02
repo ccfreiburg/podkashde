@@ -56,6 +56,10 @@ export default defineNuxtConfig({
       enableDarkMode: setEnvBool(process.env.NUXT_PUBLIC_ENABLE_DARK_MODE, false)
     }
   },
+  // appConfig: {
+  // umami: {
+  //   autoTrack: setEnvBool(NUXT_PUBLIC_UMAMI_ID)
+  // }},
   // nitro: {
   //   routeRules: {
   //     "/api/**": { proxy: 'localhost:3003' },

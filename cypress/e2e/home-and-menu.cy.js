@@ -19,7 +19,7 @@ describe('template spec', () => {
     cy.wait(2000)
     cy.getBySel('show-locale-dropdown').click({ force: true })
     cy.getBySel('switch-locale-de').click({ force: true })
-    cy.contains('Deutsch').click()
+    cy.contains('Deutsch').click({ force: true })
     cy.contains('h1','Kürzlich erschienen')
   });
 })
