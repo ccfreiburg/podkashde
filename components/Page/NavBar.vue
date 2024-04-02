@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav ref="navelement" class="flex flex-col items-center pt-4 pb-2 shadow-md bg-skin-ligt dark:bg-skin-dark text-skin-base dark:text-skin-dark ">
+    <nav ref="navelement" class="flex flex-col items-center pt-4 pb-2 shadow-md bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark ">
       <div class="w-10/12
                           md:w-11/12
                           xl:w-8/12
