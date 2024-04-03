@@ -53,7 +53,7 @@
     </div>
     <div class="w-screen h-20 bg-skin-muted"></div>
 
-    <BaseContainerClean class="bg-skin-muted dark:bg-skin-dark text-skin-base dark:text-skin-dark text-sm tracking-wide md:text-base">
+    <BaseContainerClean class="pb-16 bg-skin-muted dark:bg-skin-dark text-skin-base dark:text-skin-dark text-sm tracking-wide md:text-base">
       <div class="text-skin-muted">{{ $t('episode.episode') }}</div>
       <div class="flex flex-col justify-between sm:flex-row">
         <div class="flex flex-row flex-wrap">
@@ -77,7 +77,7 @@
       <div class="pt-6 text-skin-muted">
         {{ $t('episode.label.description') }}
       </div>
-      <div>{{ episode.cross_ref }} // {{ episode.creator }} // <a :href="episode.video_link">Video Version</a></div>
+      <!-- <div>{{ episode.cross_ref }} // {{ episode.creator }} // <a :href="episode.video_link">Video Version</a></div> -->
       <div v-if="episode.description != null" v-html="episode.description" />
       <div v-if="episode.summary != null" class="pt-2 break-normal" v-html="episode.summary"></div>
     </BaseContainerClean>
