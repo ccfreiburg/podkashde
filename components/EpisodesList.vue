@@ -1,23 +1,6 @@
 <template>
   <div class="flex flex-col w-full text-xs md:text-md lg:text-base">
-    <div v-if="(episodes?.length > 0)" class="flex px-1 pt-1 place-items-end place-content-end md:px-2">
-      <div v-if="!searchHiden" class="flex flex-row items-center flex-nowrap">
-        <input-area class="pb-8" :name="'search'" label="" v-model:value="search" />
-        <div @click="() => { search = ''; searchHiden = true }">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-            class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </div>
-      </div>
-      <div v-else @click="toggleSearch" class="pt-2">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-          class="w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-        </svg>
-      </div>
-    </div>
+    <SearchBar v-if="episodes?.length > 0" v-model:value="search"></SearchBar>
     <div class="flex flex-col" v-for="(episode, index) in sortedFilteredList" :key="index">
       <NuxtLink :to="localePath(episode.nuxtlink)">
         <div class="flex flex-col items-center py-2 mt-1 text-xs md:px-2 md:rounded-xl lg:text-sm xl:text-lg 2xl:text-xl place-content-center place-items-center hover:bg-skin-light dark:hover:bg-skin-dark sm:flex-row sm:bg-transparent">
@@ -80,7 +63,6 @@ export default {
     const {locale} = useI18n();
     const localePath = useLocalePath();
     const search = ref("")
-    const searchHiden = ref(true)
     const itemsperpage = ref(NUM_ITEMS_PER_PAGE)
     const page = ref(1)
     const max = ref(props.episodes?.length)
@@ -123,20 +105,8 @@ export default {
       return sortlist.filter(pageFilter)
     }
     );
-    const toggleSearch = function () {
-      searchHiden.value = !searchHiden.value;
-      nextTick(() => {
-        if (!searchHiden.value) {
-          const el = document.getElementById('search')
-          if (el)
-            el.focus()
-        }
-      })
-    }
     return {
       sortedFilteredList,
-      searchHiden,
-      toggleSearch,
       search,
       itemsperpage,
       page,

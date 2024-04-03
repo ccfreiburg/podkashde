@@ -8,7 +8,7 @@ function setEnv( direct: string | undefined, defaultval = "",  indirect: string 
   return defaultval
 }
 
-function setEnvBool( envvar: string | undefined, defaultval: boolean ) : string | undefined {
+function setEnvBool( envvar: string | undefined, defaultval: boolean ) : boolean {
   if (envvar && envvar.length>0)
     return envvar
   else
@@ -56,10 +56,10 @@ export default defineNuxtConfig({
       enableDarkMode: setEnvBool(process.env.NUXT_PUBLIC_ENABLE_DARK_MODE, false)
     }
   },
-  // appConfig: {
-  // umami: {
-  //   autoTrack: setEnvBool(NUXT_PUBLIC_UMAMI_ID)
-  // }},
+  appConfig: {
+    umami: {
+      autoTrack: !setEnvBool(process.env.NUXT_PUBLIC_UMAMI_ID)
+  }},
   // nitro: {
   //   routeRules: {
   //     "/api/**": { proxy: 'localhost:3003' },

@@ -218,6 +218,9 @@ export default defineComponent({
     function _handlePlayingUI(e) {
       currentTime.value = parseInt(audio.value.currentTime);
     }
+    watch(() => props.file, () => {
+      audiosrc.value = props.file;
+    })
     const preload = ref(null)
     onMounted(() => {
       audio.value.addEventListener('timeupdate', _handlePlayingUI);

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-full">
     <PageLayout  v-if="episode" :submenu="submenu" @menuItemClicked="menuItemClicked">
     <select-podcast-modal v-if="dialog" :error="error" :podcasts="podcasts" @cancel="() => dialog = false"
       @submit="changePodcast"></select-podcast-modal>
@@ -47,15 +47,15 @@
     <div class="relative z-10 flex flex-col items-center">
     <BaseContainerClean>
       <div class="w-full pt-8">
-        <AudioPlayer :key="audioComponentKey" class="bg-skin-player text-skin-inverted" :file="ContentFile.getMediaUrl(episode.link)" @play="play"></AudioPlayer>
+        <AudioPlayer :key="audioComponentKey" class="bg-skin-player text-skin-inverted" :file="mediaFile" @play="play"></AudioPlayer>
       </div>
     </BaseContainerClean>
     </div>
-    <div class="w-screen h-14 md:h-10"></div>
+    <div class="w-screen h-20 bg-skin-muted"></div>
 
-    <BaseContainerClean class="bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark">
+    <BaseContainerClean class="bg-skin-muted dark:bg-skin-dark text-skin-base dark:text-skin-dark text-sm tracking-wide md:text-base">
       <div class="text-skin-muted">{{ $t('episode.episode') }}</div>
-      <div class="flex flex-col justify-between sm:flex-row ">
+      <div class="flex flex-col justify-between sm:flex-row">
         <div class="flex flex-row flex-wrap">
           {{ $t('episode.label.duration') + ' ' + duration() }}
         </div>
@@ -77,11 +77,12 @@
       <div class="pt-6 text-skin-muted">
         {{ $t('episode.label.description') }}
       </div>
+      <div>{{ episode.cross_ref }} // {{ episode.creator }} // <a :href="episode.video_link">Video Version</a></div>
       <div v-if="episode.description != null" v-html="episode.description" />
       <div v-if="episode.summary != null" class="pt-2 break-normal" v-html="episode.summary"></div>
     </BaseContainerClean>
 
-      <BaseContainerClean v-if="user != null" class="pt-10 bg-skin-light dark:bg-skin-dark text-skin-base dark:text-skin-dark">
+      <BaseContainerClean v-if="user != null" class="py-10 bg-skin-muted dark:bg-skin-dark text-skin-base dark:text-skin-dark">
         <div class="text-skin-accent dark:text-skin-dark" @click="showdetail = !showdetail">
           {{ showdetail ? 'less details' : 'more details' }}
         </div>
@@ -111,6 +112,9 @@
         </div>
       </BaseContainerClean>
     </PageLayout>
+    <div class="w-full h-full bg-skin-muted dark:bg-skin-dark text-skin-base dark:text-skin-dark">
+        
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -138,6 +142,11 @@ const { locale } = useI18n()
 watch( [podcastLoading, loading], () => {
   if (!loading && !episode.value || episode.value && Object.keys(episode.value as Object).length === 0)
      router.push({ path: "/", query: {refresh: 'true', msg: 'episode.notfound' }})
+})
+
+const mediaFile = ref(undefined)
+watch(episode, () => {
+  mediaFile.value = ContentFile.getMediaUrl(episode.value?.link)
 })
 
 const submenu = ref([
@@ -211,7 +220,8 @@ async function changePodcast(podcastid: number) {
     error.value = err.message;
   }
 }
-function play() {
-  umTrackEvent("Playing " + episode.value.title)
+function play() { 
+  if (useRuntimeConfig().public.nuxtUmamiId)
+    umTrackEvent("Playing " + episode.value.title)
 }
 </script>
