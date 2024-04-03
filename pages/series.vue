@@ -43,7 +43,7 @@ const localePath = useLocalePath();
 
 const { user } = useAuth()
 const { series, refresh } = useSeries()
-const {on_mounted, on_before} = useMounted(refresh, user)
+const {on_mounted, on_before} = useMounted(refresh, user, false)
 onMounted( on_mounted )
 onBeforeMount( on_before )
 
