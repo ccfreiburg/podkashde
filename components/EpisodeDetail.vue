@@ -39,7 +39,7 @@
           <div class="flex flex-col flex-grow w-full">
             <audio-file-selector :audioFileName="fields.link" @audioFileSelected="audioFileSelected" :error="errors"
               :label="'episode.label.file'" />
-            <single-select :name="'serie'" :label="'episode.label.serie'" :options="series" :errors="errors"
+            <single-select :name="'serie'" :label="'episode.label.serie'" :options="series_options" :errors="errors"
               v-model:value="serie_id" />
           </div>
         </div>
@@ -363,6 +363,7 @@ export default defineComponent({
       }
       return cssclass;
     };
+    const series_options = ref(props.series.map((s) => { return { "enumvalue_id": s.id, "displaytext": s.title } as Partial<IEnumerator> }))
     return {
       isEdit,
       imageSelected,
@@ -377,7 +378,7 @@ export default defineComponent({
       pubdateText,
       errors,
       getClass,
-      series: props.series.map((s) => { return { "enumvalue_id": s.id, "displaytext": s.title } as Partial<IEnumerator> }),
+      series_options,
       save,
       remove,
       cancel,

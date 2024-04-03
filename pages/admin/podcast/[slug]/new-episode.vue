@@ -4,6 +4,7 @@ const route = useRoute();
 const router = useRouter();
 
 const {podcast, refresh, gernerateRss } = usePodcast(route.params.slug as string);
+const {series} = useSeries(true,true);
 
 const {user} = await useAuth()
 const {on_mounted, on_before, on_user_changed} = useMounted(refresh, user, true)
@@ -11,7 +12,6 @@ onMounted( on_mounted )
 onBeforeMount( on_before )
 watch(user, on_user_changed);
 
-const {series} = useSeries(true);
 const episode = ref(emptyIEpisodeFactory());
 
 async function save() {
