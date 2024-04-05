@@ -1,6 +1,7 @@
 <template>
-  <div v-on:keyup.enter="onlogin" v-on:keyup.esc="oncancel">
-    <PageLayout :title="$t('login.title')">
+    <PageLayout :title="$t('login.title')" class="w-full h-full" :class="(spinner ? 'overflow-hidden' : 'overflow-auto')" v-on:keyup.enter="onlogin"
+    v-on:keyup.esc="oncancel">
+    <Spinner :active="spinner"></Spinner>
     <BaseContainer class="py-10">
       <div class="flex flex-row flex-wrap content-start justify-evenly">
         <div class="flex flex-col w-2/3">
@@ -16,7 +17,6 @@
       </div>
     </BaseContainer>
   </PageLayout>
-  </div>
 </template>
 <script setup lang="ts">
 import type IValidationError from '~~/base/types/IValidationError';
@@ -27,11 +27,15 @@ const { login } = useAuth();
 const errors = ref([] as Array<IValidationError>);
 
 const setFokus = ref(false)
+const spinner = ref(false)
 const username = ref("")
 const password = ref("")
 
+watch( [username, password], () => { errors.value = [] } )
+
 const onlogin = async () => {
   try {
+    spinner.value=true
     if (await login(username.value, password.value)) {
       const url = (i18n.locale.value == 'de' ? '' : '/' + i18n.locale.value) + '/podcasts'
       router.push({
@@ -43,6 +47,8 @@ const onlogin = async () => {
     console.log(err)
     errors.value.push({ field: 'user', text: i18n.t('login.loginfailed') });
     errors.value.push({ field: 'password', text: " " });
+  } finally {
+    spinner.value=false
   }
 };
 const oncancel = async () => {

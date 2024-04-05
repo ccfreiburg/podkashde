@@ -8,11 +8,18 @@ function setEnv( direct: string | undefined, defaultval = "",  indirect: string 
   return defaultval
 }
 
-function setEnvBool( envvar: string | undefined, defaultval: boolean ) : boolean {
-  if (envvar && envvar.length>0)
+function setEnvBool( envvar: string | undefined, defaultval: boolean | undefined = undefined ) : boolean {
+  if (envvar && envvar.length>0 && envvar.toLowerCase()!=="false")
+    return true 
+  else
+    return defaultval ?? false
+}
+
+function setEnvUndefinedWhenEmpty( envvar: string | undefined ) :string | undefined {
+  if (envvar && envvar.length>0 && envvar.toLowerCase()!=="false")
     return envvar
   else
-    return (defaultval?"true":undefined)
+    return undefined
 }
 
 export default defineNuxtConfig({
@@ -53,12 +60,12 @@ export default defineNuxtConfig({
       skin: setEnv(process.env.NUXT_PUBLIC_SKIN,''),
       logo: setEnv(process.env.NUXT_PUBLIC_LOGO, '/img/logo.png'),
       logoDark: setEnv(process.env.NUXT_PUBLIC_LOGO_DARK, '/img/logo-w.png'),
-      enableDarkMode: setEnvBool(process.env.NUXT_PUBLIC_ENABLE_DARK_MODE, false)
+      enableDarkMode: setEnvUndefinedWhenEmpty(process.env.NUXT_PUBLIC_ENABLE_DARK_MODE)
     }
   },
   appConfig: {
     umami: {
-      autoTrack: !setEnvBool(process.env.NUXT_PUBLIC_UMAMI_ID)
+      autoTrack: setEnvBool(process.env.NUXT_PUBLIC_UMAMI_ID)
   }},
   // nitro: {
   //   routeRules: {
