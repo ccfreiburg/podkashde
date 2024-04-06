@@ -51,6 +51,14 @@ export default defineNuxtConfig({
     classSuffix: '',
     classPrefix: '',
   },
+  // css: [ './assets/css/tailwind.css' 
+  // ],
+  // app: {
+  //   pageTransition: {
+  //     name: 'page',
+  //     mode: 'out-in'
+  //   }
+  // },
   runtimeConfig: {
     public: {
       url: process.env.NUXT_PUBLIC_URL,

@@ -72,7 +72,7 @@ import type IPostdata from "~~/base/types/IPostdata";
 import validation from "~~/base/PodcastDetailValidation";
 import ImageMetadata from "~~/base/types/ImageMetadata";
 import type IValidationError from "~~/base/types/IValidationError";
-import { saveSlugFormText } from "~~/base/Converters";
+import { getSaveFilename, saveSlugFormText } from "~~/base/Converters";
 
 export default defineComponent({
   props: {
@@ -112,7 +112,7 @@ export default defineComponent({
 
     watch(() => fields.value.title, () => generateSlug())
 
-    function getImageInFormData() {
+    function getImageInFormData(newFilename: string) {
       const fd = new FormData();
       if (imgMetadata.value.selectedFile) {
         fd.append("path", SERVER_IMG_PATH + fields.value.slug);
@@ -121,7 +121,7 @@ export default defineComponent({
           imgMetadata.value.selectedFile,
           imgMetadata.value.selectedFile.name
         );
-        fd.append("filename", imgMetadata.value.selectedFile.name);
+        fd.append("filename", newFilename);
       }
       return fd;
     }
@@ -138,14 +138,17 @@ export default defineComponent({
       event.stopImmediatePropagation();
       
       const myFetch = useFetchApi()
+      
+      var newFilename = ""
+
       if (imgMetadata.value.selectedFile) {
+        newFilename = getSaveFilename(imgMetadata.value.selectedFile.name)
         fields.value.cover_file =
           SERVER_IMG_PATH +
           fields.value.slug +
-          "/" +
-          imgMetadata.value.selectedFile.name
+          "/" + newFilename
       }
-
+      
       errors.value = validation(
         fields.value,
         imgMetadata.value.imgWidth,
@@ -165,7 +168,7 @@ export default defineComponent({
         var postResult: any = { statusCode: 201 }
         try {
           if (imgMetadata.value.selectedFile) {
-            postData.body = getImageInFormData()
+            postData.body = getImageInFormData(newFilename)
             postResult = await myFetch( UPLOAD_AP, postData)
           }
         } catch (err) {

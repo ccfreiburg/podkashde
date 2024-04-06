@@ -1,6 +1,6 @@
 <template>
   <PageFormDetail type="serie" :fields="fields" @frmsave="save" @frmremove="remove" @frmcancel="cancel">
-    <ImageSelector filename="fields.cover_file" :preview="imgMetadata.preview" @imageSelected="imageSelected" />
+    <ImageSelector :filename="fields.cover_file" :preview="imgMetadata.preview" @imageSelected="imageSelected" />
     <!-- Fields-->
     <InputArea :name="'title'" :label="'serie.label.title'" :errors="errors" v-model:value="fields.title" />
     <InputArea :name="'subtitle'" :label="'serie.label.subtitle'" :errors="errors" v-model:value="fields.subtitle" />
@@ -30,6 +30,7 @@ import type ISerie from "../base/types/ISerie";
 import ImageMetadata from "~~/base/types/ImageMetadata";
 import type IValidationError from "~~/base/types/IValidationError";
 import { COUNT_AP, SERIES_AP, SERIES_IMG_PATH, SERVER_IMG_PATH, UPLOAD_AP } from "~~/base/Constants";
+import { getSaveFilename } from "~/backend/src/tools/Converters";
 
 export default defineComponent({
   props: {
@@ -68,7 +69,7 @@ export default defineComponent({
       const fd = new FormData();
       if (fileObj) {
         fd.append("cover", fileObj, fileObj.name);
-        fd.append("filename", fileObj.name);
+        fd.append("filename", getSaveFilename(fileObj.name));
         fd.append("path", path)
       }
       return fd;
@@ -87,7 +88,7 @@ export default defineComponent({
         result = await myFetch( UPLOAD_AP, postData) as any;
       }
       if ((result as any).statusCode == 201 && fileObj) {
-        linkToContent = path + "/" + fileObj.name;
+        linkToContent = path + "/" + getSaveFilename(fileObj.name);
       }
       return {
         link: linkToContent,

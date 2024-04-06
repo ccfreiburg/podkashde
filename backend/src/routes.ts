@@ -12,6 +12,7 @@ import { getRouteSlug } from "./tools/Configuration";
 import { getMetadata } from "./controller/Settings";
 import { generateRssAction } from "./controller/Podcast";
 import { migrateEpisode } from "./controller/Migrate";
+import { updateSerieAfterEpisodeChange } from "./controller/Serie";
 
 /**
  * All application routes.
@@ -76,6 +77,11 @@ export const AuthRoutes = [
         path: getRouteSlug("SERIES_AP"),
         method: "post",
         action:  (req, res) => simpleSaveMultiple<Serie>(Serie,req,res)
+    },     
+    {
+        path: getRouteSlug("SERIE_AP"),
+        method: "post",
+        action:  (req, res) => updateSerieAfterEpisodeChange(req,res)
     }, 
     {
         path: getRouteSlug("FETCHLOCAL_AP"),

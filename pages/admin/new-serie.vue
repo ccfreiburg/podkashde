@@ -21,7 +21,7 @@ const serie = ref(emptyISerieFactory());
 const router = useRouter();
 
 async function save(slug: string) {
-  router.push("/series");
+  router.push("/series?refresh=true");
 }
 
 function cancel() {

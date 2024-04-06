@@ -11,7 +11,7 @@ describe('', () => {
   beforeEach('Edit serie Page', () => {
     cy.login().then( ()=> {
       cy.createSerie(slug).then( ser => {
-        cy.visitNuxtDev('/admin/serie/'+ser.slug)
+        cy.visitNuxtDev('/admin/serie/'+slug)
       })
     })
     cy.contains('Serie bearbeiten')

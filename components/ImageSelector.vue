@@ -55,7 +55,7 @@ export default defineComponent({
 
     const preview = computed(() => {
       if (imgMetadata.value && imgMetadata.value.preview)
-        return imgMetadata.value.preview;
+        return imgMetadata.value.preview // (ContentFile.isQualifiedUrl(imgMetadata.value.preview)?:imgMetadata.value.preview);
       return "";
     })
 
@@ -68,7 +68,15 @@ export default defineComponent({
         imgMetadata.value.imgWidth = img.naturalWidth;
         imgMetadata.value.imgHeight = img.naturalHeight;
         callback();
-      };
+      }
+      img.onerror = () => {
+        imgMetadata.value.preview = undefined;
+        imgMetadata.value.selectedFile = undefined;
+        imgMetadata.value.blob = undefined;
+        imgMetadata.value.imgWidth = 0;
+        imgMetadata.value.imgHeight = 0;
+        callback();
+      }
       img.src = source;
     }
 
