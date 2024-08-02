@@ -1,0 +1,264 @@
+{
+  "defaultBase": "https://ccfreiburg.de",
+  "en": [
+    {
+      "name": "Visit us",
+      "description": "Plan your visit to Calvary Chapel Freiburg",
+      "entries": [
+        {
+          "name": "Services",
+          "order": 10,
+          "slug": "worship-services"
+        },
+        {
+          "name": "Locations",
+          "order": 20,
+          "slug": "buildings"
+        },
+        {
+          "name": "Heimathafen",
+          "order": 30,
+          "slug": "en-heimathafen"
+        },
+        {
+          "name": "Events",
+          "order": 40,
+          "slug": "special-events"
+        }
+      ]
+    },
+    {
+      "name": "Connect",
+      "description": "Connect with us and become part of Calvary Chapel Freiburg",
+      "entries": [
+        {
+          "name": "Small Groups",
+          "order": 10,
+          "slug": "article/kleingruppen"
+        },
+        {
+          "name": "Encouraging People",
+          "order": 20,
+          "slug": "encouraging-people"
+        },
+        {
+          "name": "Royal Rangers 393 (DE)",
+          "order": 30,
+          "slug": "https://rr393.de"
+        },
+        {
+          "name": "EchtZeit",
+          "order": 40,
+          "slug": "article/echtzeit"
+        },
+        {
+          "name": "Young Adults",
+          "order": 40,
+          "slug": "young-adults"
+        },
+        {
+          "name": "Mens Ministry",
+          "order": 40,
+          "slug": "mens-ministry"
+        },
+        {
+          "name": "Summer Camp (DE)",
+          "order": 40,
+          "slug": "https://ccfreiburg.de/sola/"
+        }
+      ]
+    },
+    {
+      "name": "Hör rein",
+      "description": "Höre unsere Predigen, Inputs und  Biblestudies oder lies Neues und Andachten",
+      "entries": [
+        {
+          "name": "Recent Sermons",
+          "order": 10,
+          "slug": "https://podcast.ccfreiburg.de/en/recent"
+        },
+        {
+          "name": "Current Series",
+          "order": 20,
+          "slug": "https://podcast.ccfreiburg.de/en/serie"
+        },
+        {
+          "name": "Podcasts",
+          "order": 10,
+          "slug": "https://podcast.ccfreiburg.de/en/podcasts"
+        },
+        {
+          "name": "Podcast Admin",
+          "order": 10,
+          "slug": "https://podcast.ccfreiburg.de/en/admin"
+        }
+      ]
+    },
+    {
+      "name": "About us",
+      "description": "Get to know us",
+      "entries": [
+        {
+          "name": "Our Leadership",
+          "order": 10,
+          "slug": "our-leadership/"
+        },
+        {
+          "name": "Our Core Values",
+          "order": 20,
+          "slug": "our-core-values"
+        },
+        {
+          "name": "Membership",
+          "order": 20,
+          "slug": "membership"
+        },
+        {
+          "name": "Give",
+          "order": 30,
+          "slug": "giving"
+        },
+        {
+          "name": "Contact",
+          "order": 40,
+          "slug": "contact"
+        }
+      ]
+    }
+  ],
+  "de": [
+    {
+      "name": "Komm vorbei",
+      "description": "Plane deinen Besuch in der Calvary Chapel Freiburg",
+      "entries": [
+        {
+          "name": "Gottesdienste",
+          "order": 10,
+          "slug": "gottesdienste"
+        },
+        {
+          "name": "Gebäude",
+          "order": 10,
+          "slug": "gebaeude"
+        },
+        {
+          "name": "Heimathafen",
+          "order": 10,
+          "slug": "heimathafen"
+        },
+        {
+          "name": "Events",
+          "order": 10,
+          "slug": "events"
+        }
+      ]
+    },
+    {
+      "name": "Connect",
+      "description": "Tritt mit uns in Verbindung und werde teil der Calvary Chapel Freiburg",
+      "entries": [
+        {
+          "name": "Kleingruppen",
+          "order": 10,
+          "slug": "article/kleingruppen"
+        },
+        {
+          "name": "Menschen fördern",
+          "order": 10,
+          "slug": "menschen-foerdern"
+        },
+        {
+          "name": "Royal Rangers 393",
+          "order": 10,
+          "slug": "https://rr393.de"
+        },
+        {
+          "name": "Echtzeit",
+          "order": 10,
+          "slug": "article/echtzeit/"
+        },
+        {
+          "name": "Junge Erwachsene",
+          "order": 10,
+          "slug": "junge-erwachsene"
+        },
+        {
+          "name": "Männerarbeit",
+          "order": 10,
+          "slug": "maennerarbeit"
+        },
+        {
+          "name": "Sommerlager",
+          "order": 10,
+          "slug": "sola"
+        }
+      ]
+    },
+    {
+      "name": "Hör rein",
+      "description": "Höre unsere Predigen, Inputs und  Biblestudies oder lies Neues und Andachten",
+      "entries": [
+        {
+          "name": "Aktuelle Predigten",
+          "order": 10,
+          "slug": "https://podcast.ccfreiburg.de/recent",
+          "local": false
+        },
+        {
+          "name": "Aktuelle Serien",
+          "order": 20,
+          "slug": "serie",
+          "local": true
+        },
+        {
+          "name": "Podcasts",
+          "order": 10,
+          "slug": "podcasts",
+          "local": true
+        },
+        {
+          "name": "Podcast Admin",
+          "order": 10,
+          "slug": "admin",
+          "local": true
+        }
+      ]
+    },
+    {
+      "name": "Erfahre mehr",
+      "description": "Weitere Informationen zur Calvary Chapel Feiburg, unsere Geschichte, Werte ...",
+      "entries": [
+        {
+          "name": "Unsere Leitung",
+          "order": 10,
+          "slug": "unsere-leitung"
+        },
+        {
+          "name": "Calvary was?",
+          "order": 20,
+          "slug": "calvary-was"
+        },
+        {
+          "name": "Unsere Grundwerte",
+          "order": 40,
+          "slug": "unsere-grundwerte"
+        },
+        {
+          "name": "Geben",
+          "order": 50,
+          "slug": "geben"
+        },
+        {
+          "name": "Kontakt",
+          "order": 60,
+          "slug": "kontakt"
+        },
+        {
+          "name": "Mitgliedschaft",
+          "order": 70,
+          "slug": "mitgliedschaft"
+        }
+      ]
+    }
+  ]
+}

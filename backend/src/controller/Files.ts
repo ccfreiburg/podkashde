@@ -43,12 +43,15 @@ export async function copyFromLocalArchive(request: Request, response: Response)
 export async function uploadFile(request: Request, response: Response) {
 
 try {
+    var error = "create dir"
     createDir(DATA_PATH+UPLOAD_TEMP_PATH)
+    var error = "parse form data"
     const { filename, path, uploaded } = await paseFormdata(request,response)
+    var error = "move file"
     if (moveFile(uploaded, path, filename))
       return respond(response, 201, {statusCode: 201, message: 'Created '+path+filename});
   } catch (err) {
-    return respond(response, 500, {statusCode: 500, message: err.message});
+    return respond(response, 500, {statusCode: 500, message: error + ' ' + err.message});
   }
   return respond(response, 500, {statusCode: 500, message: 'No File found'});
 }

@@ -29,8 +29,7 @@ import validation from "~~/base/SeriesDetailValidation";
 import type ISerie from "../base/types/ISerie";
 import ImageMetadata from "~~/base/types/ImageMetadata";
 import type IValidationError from "~~/base/types/IValidationError";
-import { COUNT_AP, SERIES_AP, SERIES_IMG_PATH, SERVER_IMG_PATH, UPLOAD_AP } from "~~/base/Constants";
-import { getSaveFilename } from "~/backend/src/tools/Converters";
+import { COUNT_AP, SERIES_AP, SERIES_IMG_PATH, SERVER_IMG_PATH } from "~~/base/Constants";
 
 export default defineComponent({
   props: {
@@ -54,6 +53,7 @@ export default defineComponent({
     const imgMetadata = ref(new ImageMetadata());
     function imageSelected(data: ImageMetadata) {
       imgMetadata.value = { ...data };
+      console.log(data)
       if (data.imgWidth == 0) {
         fields.value.cover_file = "";
       }
@@ -65,47 +65,8 @@ export default defineComponent({
       return tmp;
     };
 
-    function getFileInFormData(fileObj: File, path) {
-      const fd = new FormData();
-      if (fileObj) {
-        fd.append("cover", fileObj, fileObj.name);
-        fd.append("filename", getSaveFilename(fileObj.name));
-        fd.append("path", path)
-      }
-      return fd;
-    }
-
-    async function upload(server_path: string, fileObj: File) {
-      var linkToContent = "";
-      const path = server_path + SERIES_IMG_PATH;
-      var result = {};
-
-      if (fileObj) {
-        var postData = {
-          method: "post",
-          body: getFileInFormData(fileObj, path)
-        }; 
-        result = await myFetch( UPLOAD_AP, postData) as any;
-      }
-      if ((result as any).statusCode == 201 && fileObj) {
-        linkToContent = path + "/" + getSaveFilename(fileObj.name);
-      }
-      return {
-        link: linkToContent,
-        result: result,
-        nothingToDo: !fileObj,
-      }
-    }
-
     async function save() {
-      if (imgMetadata.value.selectedFile) {
-        fields.value.cover_file =
-          SERVER_IMG_PATH +
-          SERIES_IMG_PATH +
-          "/" +
-          imgMetadata.value.selectedFile.name;
-      }
-      // validate fields
+       // validate fields
       errors.value = validation(
         fields.value,
         imgMetadata.value.imgWidth,
@@ -123,8 +84,10 @@ export default defineComponent({
       if (errors.value.length > 0) return;
 
       // Upload Image
-      if (imgMetadata.value.selectedFile) {
-        var { result, link, nothingToDo } = await upload(SERVER_IMG_PATH, imgMetadata.value.selectedFile)
+      const upload = useUploader()
+      var { result, link, nothingToDo } = await upload(SERVER_IMG_PATH+SERIES_IMG_PATH, imgMetadata.value.selectedFile)
+      console.log(JSON.stringify(result))
+      if (!nothingToDo) {
         if ((result as any).statusCode != 201) {
           errors.value.push({ field: "", text: "upload" })
           return

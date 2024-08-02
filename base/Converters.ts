@@ -54,10 +54,11 @@ export function dateToIsoString(date: Date) : string {
 }
 
 export function dateToString(date: Date, locale: string) : string {
+  const month = date.getMonth()+1
   if (locale=="de")
-    return (date.getDate() + "." + date.getMonth()+1 +"." +date.getFullYear())
+    return (date.getDate() + "." + month +"." +date.getFullYear())
   else if (locale=="en")
-    return (date.getMonth()+1 +"/" +date.getDate() + "/" +date.getFullYear())
+    return ( month +"/" +date.getDate() + "/" +date.getFullYear())
   else 
     return dateToIsoString(date)
 }

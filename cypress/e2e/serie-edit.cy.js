@@ -34,18 +34,16 @@ describe('', () => {
   it('Change Image', () => {
     cy.intercept('POST','upload').as('upload')
     cy.intercept('POST','series').as('series')
-    cy.get('input[type=file]').selectFile('cypress/fixtures/pod-cover1.jpg', {
+    cy.get('input[type=file]').selectFile('cypress/fixtures/serie-cover4.jpg', {
         action: "select",
         force: true,
       });
     cy.getInput('title').type('{Enter}')
-    cy.wait(5)
+    cy.waitIntercept('upload',12000)
     cy.waitIntercept('series')
-    cy.waitIntercept('upload')
-    cy.wait(8)
-    cy.location().should(loc => {
-        expect(loc.pathname).to.equal('/serie/'+slug)
+    cy.location({timeout: 9000}).should(loc => {
+      expect(loc.pathname).to.equal('/serie/'+slug)
     })
-    cy.getBySel('content-area').find('img').should('have.attr', 'src').should('include','pod-cover1.jpg')
+    cy.getBySel('content-area').find('img').should('have.attr', 'src').should('include','serie-cover4.jpg')
   })
 })

@@ -188,7 +188,7 @@ export default defineComponent({
 
     function getFields() {
       var tmp = { ...fields.value };
-      delete tmp.podcast.episodes;
+      if (!fields.value.podcast?.episodes) delete tmp.podcast?.episodes;
       if (!fields.value.serie) delete tmp.serie;
       return tmp;
     };
@@ -196,7 +196,7 @@ export default defineComponent({
     function getFileInFormData(path: string, fileObj: File) {
       const fd = new FormData();
       if (fileObj) {
-        fd.append("path", path + props.podcast.slug);
+        fd.append("path", path + props.podcast?.slug);
         const fn = getSaveFilename(fileObj.name)
         fd.append("filename", fn);
         fd.append("cover", fileObj, fileObj.name);

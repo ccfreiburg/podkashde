@@ -10,10 +10,17 @@ describe('', () => {
         //cy.intercept('GET', '/api/meta?locale=en', async (req) => req.reply( { fixture: 'meta-en.json' }) )
       })
   beforeEach('', () => {
-    cy.visitNuxtDev('/podcasts')
-    cy.login()
-    cy.createPodcast(podcast_slug)
-    cy.visitNuxtDev('/admin/podcast/'+podcast_slug+'/new-episode')
+    cy.intercept('GET','meta').as('meta')
+    cy.login().then(() => {
+        cy.createPodcast(podcast_slug)
+      })
+    cy.visitNuxtDev('/admin/podcast/'+podcast_slug+'/new-episode', [
+      {
+        method: 'GET',
+        url: '*meta?*',
+        id: 'meta'
+      }
+    ])
   })
   afterEach('', () => {
     cy.deletePodcast(podcast_slug)    

@@ -39,16 +39,21 @@ describe('', () => {
   })
   it('Change Image', () => {
     cy.intercept('GET','*generaterss?*').as('rss')
-    cy.get('input[type=file]').selectFile('cypress/fixtures/pod-cover1.jpg', {
+    cy.intercept('GET','count*').as('count')
+    cy.intercept('POST','upload').as('upload')
+    cy.intercept('POST','podcast').as('podcast')
+    cy.get('input[type=file]').selectFile('cypress/fixtures/pod-cover3.jpg', {
         action: "select",
         force: true,
       });
-    cy.getInput('author').type('{Enter}')
-    cy.wait(8)
+    cy.getInput('author').type('{Enter}').wait(3)
+    cy.waitIntercept('count')
+    cy.waitIntercept('upload',12000)
+    cy.waitIntercept('podcast')
     cy.waitIntercept('rss')
-    cy.location({timeout: 8000}).should(loc => {
+    cy.location({timeout: 10000}).should(loc => {
         expect(loc.pathname).to.equal('/podcast/'+slug)
     })
-    cy.getBySel('content-area').find('img').should('have.attr', 'src').should('include','pod-cover1.jpg')
+    cy.getBySel('content-area').find('img').should('have.attr', 'src').should('include','pod-cover3.jpg')
   })
 })

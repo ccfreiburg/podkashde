@@ -33,14 +33,14 @@ describe('', () => {
   })
   it('Form without Errors saving', () => {
     cy.intercept('POST','series').as('series')
-    cy.get('input[type=file]').selectFile('cypress/fixtures/pod-cover1.jpg', {
+    cy.intercept('POST','upload').as('upload')
+    cy.get('input[type=file]').selectFile('cypress/fixtures/serie-cover3.jpg', {
       action: "select",
       force: true,
     });
-    cy.wait(5)
     cy.getInput('title').type('title{Enter}')
+    cy.waitIntercept('upload',12000)
     cy.waitIntercept('series')
-    cy.wait(5)
     cy.getBySel("serie.title")
     cy.deleteSerie('title')
   })

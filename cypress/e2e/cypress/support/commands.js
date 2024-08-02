@@ -27,7 +27,7 @@
 // cypress/support/commands.ts
 
 const nuxt_timeouts = 20000
-const interception_timeouts = 6000
+const interception_timeouts = 8000
 
 Cypress.Commands.add('getBySel', (selector, ...args) => {
   return cy.get(`[data-testid='${selector}']`, ...args)

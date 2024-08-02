@@ -44,7 +44,10 @@ describe('', () => {
   it('Invite User', () => {
     cy.visitNuxtDev('/admin/invitation')
     cy.contains('Nutzer einladen')
+    cy.intercept('GET', '/api/auth/usertoken?*').as('usertoken')
     cy.getInput('username').type('regularjoe{Enter}')
+    cy.waitIntercept('usertoken')
+    cy.wait(2)
     cy.getTextArea('invitelinktext').invoke('val')
       .then(actualValue => {
         cy.visitNuxtDev(actualValue)

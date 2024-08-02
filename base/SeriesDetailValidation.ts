@@ -16,8 +16,8 @@ export default function validation(
 ): Array<IValidationError> {
   var errors = [] as Array<IValidationError>;
   if (
-    !(imgWidth == REQUIRED_IMG_WIDTH && imgHeight == REQUIRED_IMG_HEIGHT) ||
-    !fields['cover_file'] || fields.cover_file.length < 1
+    (imgWidth != REQUIRED_IMG_WIDTH || imgHeight != REQUIRED_IMG_HEIGHT) &&
+    (!fields['cover_file'] || fields.cover_file.length < 1)
   )
     errors.push({
       field: 'img',

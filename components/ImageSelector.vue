@@ -67,6 +67,7 @@ export default defineComponent({
       img.onload = () => {
         imgMetadata.value.imgWidth = img.naturalWidth;
         imgMetadata.value.imgHeight = img.naturalHeight;
+        console.log('hi')
         callback();
       }
       img.onerror = () => {
@@ -74,6 +75,7 @@ export default defineComponent({
         imgMetadata.value.selectedFile = undefined;
         imgMetadata.value.blob = undefined;
         imgMetadata.value.imgWidth = 0;
+        console.log('hi+')
         imgMetadata.value.imgHeight = 0;
         callback();
       }

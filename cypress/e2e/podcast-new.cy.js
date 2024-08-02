@@ -48,8 +48,9 @@ describe('', () => {
   it('Form without Errors saving', () => {
     const slug = "a_new_podcast-podcast-new-4"
     cy.intercept('GET','*generaterss?*').as('rss')
+    cy.intercept('POST','upload').as('upload')
     cy.intercept('POST','podcast').as('podcast')
-    cy.get('input[type=file]').selectFile('cypress/fixtures/pod-cover1.jpg', {
+    cy.get('input[type=file]').selectFile('cypress/fixtures/pod-cover2.jpg', {
       action: "select",
       force: true,
     });
@@ -60,8 +61,8 @@ describe('', () => {
     cy.getSelect('category').select(1)
     cy.getSelect('type').select(1)
     cy.getInput('owner_name').type('owner_name')
-    cy.getInput('owner_email').type('owner@ema.il{Enter}')
-    cy.wait(5)
+    cy.getInput('owner_email').type('owner@ema.il{Enter}').wait(3)
+    cy.waitIntercept('upload',12000)
     cy.waitIntercept('podcast')
     cy.waitIntercept('rss')
     cy.getBySel("podcast."+slug);
