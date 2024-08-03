@@ -4,6 +4,7 @@ import { createDir, dataPath, writeRss } from "../tools/DataFiles";
 import Enumerations from "../tools/Enumerations";
 import { generateRss } from "../tools/RssGenerator";
 import getRepository from "./datasourceService";
+import { getQueryGen, updateGen } from "./genericService";
 
 export function getPodcast(from : any): Podcast {
     var podcast = new Podcast();
@@ -40,7 +41,14 @@ export function getPodcast(from : any): Podcast {
     return podcast;
   }
 
-  
+  export const setLastUpdate = async ( id: number ) : Promise<string> => {
+    const podcast = await getQueryGen(Podcast, { id: id })
+    podcast.lastbuild = Date.now().toLocaleString()
+    podcast.updatedAt = Date.now()
+    updateGen(Podcast, podcast as Podcast)
+    return podcast.lastbuild
+  }
+
   
 //   if (object.hasOwnProperty("updatedAt"))
 //   (object as any).updatedAt = new Date();

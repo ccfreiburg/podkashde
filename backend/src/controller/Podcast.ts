@@ -8,6 +8,7 @@ import { getEnumFunctions } from "../tools/Enumerations";
 import { generateRss } from "../tools/RssGenerator";
 import { FEED_SLUG } from "../tools/Configuration";
 import { createDir, dataPath } from "../tools/DataFiles";
+import { setLastUpdate } from '../services/podcastService';
 
 export async function generateRssAction(request: Request, response: Response) {
     try {
@@ -29,6 +30,7 @@ export async function generateRssAction(request: Request, response: Response) {
       createDir(dir)
       const target_file = dir + podcast.slug+".xml"
       fs.writeFileSync(target_file, xml)
+      setLastUpdate(podcast.id)
       respond(response, 201, { message: "RSS for podcast slug=" + podcast.slug + " successfully generated" });
     } catch (error) {
       respond(response, 500, {

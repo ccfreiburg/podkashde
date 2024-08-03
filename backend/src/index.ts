@@ -18,9 +18,9 @@ const proxy = require('express-http-proxy');
 initDataSource().then(() => {
     // create express app
     const app = express();
-    app.use("/s", express.static('./public/s'));
-    app.use("/img", express.static('./public/img'));
-    app.use("/test", express.static('./public/test'));
+    app.use("/s", express.static(DATA_PATH+'/s'));
+    app.use("/img", express.static(DATA_PATH+'/img'));
+    app.use("/test", express.static(DATA_PATH+'/test'));
     app.use(bodyParser.json());
     app.use(cookieParser());
     

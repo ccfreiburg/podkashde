@@ -50,7 +50,7 @@
           :labelChecked="$t('episode.label.block_true')" :labelUnChecked="$t('episode.label.block_false')" />
         <switch-box :checked="fields.explicit" @checkedChanged="(val) => fields.explicit = val"
           :labelChecked="$t('episode.label.explicit_true')" :labelUnChecked="$t('episode.label.explicit_false')" />
-        <input-area :name="'cross_ref'" :label="'episode.label.cross_ref'" v-model:value="fields.cross_ref"
+        <input-area :name="'cross_ref'" :label="'episode.label.cross_ref'" v-model:value="(fields.cross_ref)"
           @change="setShortInfo" />
         <input-area :name="'video_link'" :label="'episode.label.video_link'" v-model:value="fields.video_link"
           @change="setShortInfo" />
@@ -113,6 +113,8 @@ export default defineComponent({
     const myFetch = useFetchApi()
     const errors = ref([] as Array<IValidationError>);
     const fields = ref({ ...props.episode } as IEpisode);
+    if (!fields.value.cross_ref) fields.value.cross_ref = ''
+    if (!fields.value.video_link) fields.value.video_link = ''
     const isEdit = computed(() => (fields.value as any).id != undefined);
     const uploadIndicator = ref(false)
     const keepImage = ref(isEdit.value)
@@ -266,7 +268,7 @@ export default defineComponent({
 
 
       // Upload Image
-      if (imgMetadata.value.preview != serie.cover_file && (imgMetadata.value.selectedFile || audioMetadata.value.imgblob != undefined)) {
+      if (!imgMetadata.value.preview.endsWith(serie.cover_file) && (imgMetadata.value.selectedFile || audioMetadata.value.imgblob != undefined)) {
         var { result, link, nothingToDo } = await upload(SERVER_IMG_PATH, imgMetadata.value.selectedFile, audioMetadata.value.imgblob)
         if (result.statusCode != 201) {
           errors.value.push({ field: "", text: "episode.validation.upload" })

@@ -159,7 +159,6 @@ export const AppRoutes = [
                                     order: {
                                     lastEpisode: 'DESC'
                                     },
-                                    relations: ['episodes'],
                                 }, req, res)
     }, 
     {

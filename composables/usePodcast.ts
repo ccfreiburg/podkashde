@@ -14,6 +14,7 @@ export default function usePodcast(slug:string) {
         loading.value = true
         await dataRefresh()
         episodes.value = podcast.value?.episodes as Array<IEpisode>
+        delete podcast.value.episodes
         loading.value = false
     }
 

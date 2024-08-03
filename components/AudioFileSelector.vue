@@ -76,7 +76,6 @@ export default defineComponent({
           audioFile.value.imgblob = array2blob(  
             id3tag.image.data,
             id3tag.image.mime)
-          console.log(audioFile.value.cover_preview)
         }
       }  catch(err) {
         console.log(err)
