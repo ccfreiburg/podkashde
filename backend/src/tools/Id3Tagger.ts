@@ -39,9 +39,11 @@ function getTagsFromPodcast( episode: Episode ) : id3.Tags {
 
 export default function writeTags( episode: Episode ) : true|Error {
   var tags = getTagsFromPodcast(episode)
-  tags = embedCoverImage(tags, dataPath(episode.image))
+  const imgpath = dataPath(episode.image)
+  const mp3path = dataPath(episode.link)
+  tags = embedCoverImage(tags, imgpath)
   try {
-    const result = id3.write(tags, dataPath(episode.link))
+    const result = id3.write(tags, mp3path)
     return result
   } catch(err) {
     console.log(err)

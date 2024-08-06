@@ -238,7 +238,7 @@ export default defineComponent({
           postResult.statusCode = 500
         }
       }
-      if (postResult.statusCode == 201 && (fileObj || blob)) {
+      if ((postResult.statusCode == 201 || postResult.statusCode == 200) && (fileObj || blob)) {
         linkToContent =
           server_path + props.podcast?.slug + "/" + (postData.body as FormData).get('filename');
       }
@@ -268,9 +268,11 @@ export default defineComponent({
 
 
       // Upload Image
-      if (!imgMetadata.value.preview.endsWith(serie.cover_file) && (imgMetadata.value.selectedFile || audioMetadata.value.imgblob != undefined)) {
+      if (serie.cover_file.length>0 && imgMetadata.value.preview.endsWith(serie.cover_file)) {
+        fields.value.image = serie.cover_file;
+      } else if (imgMetadata.value.selectedFile || audioMetadata.value.imgblob != undefined) {
         var { result, link, nothingToDo } = await upload(SERVER_IMG_PATH, imgMetadata.value.selectedFile, audioMetadata.value.imgblob)
-        if (result.statusCode != 201) {
+        if (result.statusCode != 201 && result.statusCode != 200) {
           errors.value.push({ field: "", text: "episode.validation.upload" })
           return
         } 

@@ -11,7 +11,7 @@ import { logger } from "./services/loggerService";
 import { respond } from "./tools/Controller";
 
 export default async function authMiddleware(req: Request, res: Response, next: NextFunction) {
-  const dbg = 3
+  const dbg = 4
   var token = ""
   if (req.headers.authorization && req.headers.authorization.startsWith("Bearer ") && req.headers.authorization.length > 10 ) {
     logger( dbg, "Auth Middleware authorization " +  JSON.stringify(req.headers.authorization).substring(0,30));
@@ -63,7 +63,7 @@ export default async function authMiddleware(req: Request, res: Response, next: 
 
         sendAuthToken(res, await generateAccessToken(user));
       }
-      logger(2, "Auth... going on")
+      logger(4, "Auth... going on")
       next()
       return;
     } catch (error) {

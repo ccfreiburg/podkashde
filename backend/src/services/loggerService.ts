@@ -4,7 +4,7 @@ import { getRandomFileName } from "../tools/DataFiles";
 
 const recorder = false
 
-var loglevel = 4
+var loglevel = 3
 
 export const deleteOldTempFiles = (directory: string, ageInMinutes: number) => {
     fs.readdirSync(directory).forEach(file => {
@@ -22,7 +22,10 @@ export const logger = (level:number, message: string) => {
 }
 
 export function logResponse(response: Response, code: number, body: any) {
-    logger(2, "response code: " +code+ " body " + JSON.stringify(body).substring(0, 50) + "  ... ")
+    if (code>=500)
+        logger(2, "response code: " +code+ " body " + JSON.stringify(body))
+    else
+        logger(2, "response code: " +code+ " body " + JSON.stringify(body).substring(0, 50) + "  ... ")
     if (code>=200 && code<400 && recorder) {
         fs.writeFileSync('./data/responses/'+response.req.method+'-'+response.req.url.split('/')[2]+'-'+getRandomFileName()+".json", JSON.stringify(body))
         deleteOldTempFiles('./data/responses/',5)

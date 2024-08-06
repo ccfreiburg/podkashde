@@ -37,6 +37,7 @@ describe('', () => {
     cy.contains('Bitte einen Slug eingeben, der noich nicht verwendet wurd')
   })
   it('Saves correct Episode with MP3 Tags into Podcast', ()=>{
+    cy.deleteEpisode('test_slug')
     cy.intercept('POST','upload').as('upload')
     cy.intercept('POST','episode').as('episode')
     cy.intercept('GET','*generaterss?*').as('rss')
@@ -52,9 +53,9 @@ describe('', () => {
     cy.wait(8)
     cy.waitIntercept('upload')
     cy.waitIntercept('upload')
+    cy.waitIntercept('episode')
     cy.waitIntercept('rss')
     cy.waitIntercept('enum')
-    cy.waitIntercept('podcast')
     cy.contains('Podcast Folgen')
     cy.contains('diesem Podcast')
     cy.contains('Welchen Tod willst du sterben? Welches Leben willst du leben?')
