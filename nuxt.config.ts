@@ -73,7 +73,8 @@ export default defineNuxtConfig({
   },
   appConfig: {
     umami: {
-      autoTrack: setEnvBool(process.env.NUXT_PUBLIC_UMAMI_ID)
+      autoTrack: setEnvBool(process.env.NUXT_PUBLIC_UMAMI_ID),
+      version: 2
   }},
   // nitro: {
   //   routeRules: {
