@@ -219,7 +219,7 @@ async function changePodcast(podcastid: number) {
   }
 }
 function play() { 
-  if (useRuntimeConfig().public.nuxtUmamiId)
-    umTrackEvent("Playing " + episode.value.title)
+  if (useRuntimeConfig().public.umamiActive)
+    umTrackEvent("Play " + episode.value.title.substring(0,45))
 }
 </script>

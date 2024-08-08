@@ -68,7 +68,8 @@ export default defineNuxtConfig({
       skin: setEnv(process.env.NUXT_PUBLIC_SKIN,''),
       logo: setEnv(process.env.NUXT_PUBLIC_LOGO, '/img/logo.png'),
       logoDark: setEnv(process.env.NUXT_PUBLIC_LOGO_DARK, '/img/logo-w.png'),
-      enableDarkMode: setEnvUndefinedWhenEmpty(process.env.NUXT_PUBLIC_ENABLE_DARK_MODE)
+      enableDarkMode: setEnvUndefinedWhenEmpty(process.env.NUXT_PUBLIC_ENABLE_DARK_MODE),
+      umamiActive: setEnvBool(process.env.NUXT_PUBLIC_UMAMI_ID)
     }
   },
   appConfig: {
