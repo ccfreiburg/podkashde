@@ -64,12 +64,4 @@ jobs:
           build-args: |
             BUILDTIME=${{ fromJSON(steps.docker_meta.outputs.json).labels['org.opencontainers.image.created'] }}
             VERSION=${{ fromJSON(steps.docker_meta.outputs.json).labels['org.opencontainers.image.version'] }}
-<<<<<<< HEAD
             REVISION=${{ fromJSON(steps.docker_meta.outputs.json).labels['org.opencontainers.image.revision'] }}
-=======
-            REVISION=${{ fromJSON(steps.docker_meta.outputs.json).labels['org.opencontainers.image.revision'] }}
-<<<<<<< HEAD
->>>>>>> bc98674 (Create branch-image.yml (#12))
-=======
->>>>>>> c2db8b4 (rename action)
->>>>>>> 87dc82e (rename action)
