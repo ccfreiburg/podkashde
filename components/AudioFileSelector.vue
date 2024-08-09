@@ -13,11 +13,12 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-import universalParse from "id3-parser/lib/universal/index.js";
+import parse from 'id3-parser';
+import { convertFileToBuffer } from 'id3-parser/lib/util';
 import AudioFileMetadata from "~~/base/types/AudioFileMetadata";
-import IEpisode from "~~/base/types/IEpisode";
-import { IID3Tag } from "id3-parser/lib/interface";
-
+import type IEpisode from "~~/base/types/IEpisode";
+//import type { IID3Tag } from "id3-parser/lib/interface";
+import type IValidationError from "~/base/types/IValidationError";
 export default defineComponent({
   props: {
     audioFileName: String,
@@ -41,7 +42,7 @@ export default defineComponent({
       return `data:${format};base64,${window.btoa(base64String)}`;
     }
     
-    function array2blob(data: Uint8Array, format: string) : Blob {
+    function array2blob(data: Buffer, format: string) : Blob {
       return new Blob( [data], { type: format});
     }
     
@@ -65,7 +66,7 @@ export default defineComponent({
       );
       audioFile.value.size = event.target.files[0].size;
       try {
-        var id3tag = await universalParse(event.target.files[0]);
+        var id3tag = await convertFileToBuffer(event.target.files[0] as File).then(parse) as any ;
         if (id3tag.title)  
           audioFile.value.fields = fieldsFromId3(id3tag);
         if (id3tag.image) {
@@ -82,7 +83,7 @@ export default defineComponent({
       ctx.emit("audioFileSelected", audioFile.value);
     }
 
-    function fieldsFromId3(data: IID3Tag): Partial<IEpisode> {
+    function fieldsFromId3(data: any): Partial<IEpisode> {
       var ret: Partial<IEpisode> = {
       title: data.title,
       keyword: data.album,
@@ -98,7 +99,6 @@ export default defineComponent({
       audioFileInput,
       audioInputValue,
       audioFileSelected,
-      cssclass: props.cssclass,
     };
   },
 });

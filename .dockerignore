@@ -7,6 +7,8 @@ tests
 .github
 .env
 public/s
+backend/public/s
+frontend
 public-docker
 temp
 tmp
@@ -14,4 +16,5 @@ tmp
 settings.json
 docker/runtime
 docker/log
+old
 archiv

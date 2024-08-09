@@ -1,185 +1,162 @@
-import jwt_decode from "jwt-decode"
-import { AUTHUSER_AP, LOGIN_AP, LOGOUT_AP, PASSWORD_AP, REFRESH_AP } from "../base/Constants"
-import { IUser } from "../base/types/IUser"
+import { jwtPayload } from 'jwt-payloader';
+import { LOGIN_AP, LOGOUT_AP, PASSWORD_AP, REFRESH_AP, TOKEN_REFRESH_TIME } from "../base/Constants"
+import type { IUser } from "../base/types/IUser"
 
-export default () => {
-    const useAuthToken = () => useState('auth_token_pk', () => null)
-    const useAuthUser = () => useState('auth_user_pk', () => null)
-    const useAuthLoading = () => useState('auth_loading_pk', () => true)
+var refreshTime : number = TOKEN_REFRESH_TIME
+var refreshTimer:any = undefined
 
-    const setToken = (newToken: string) => {
-        const authToken = useAuthToken()
-        authToken.value = newToken
+interface IAuthenticationData { 
+    user: IUser | undefined, 
+    refresh_token: string, 
+    access_token: string,
+    last_refreshed: number
+} 
+
+const loading = ref(true)
+const user = ref()
+const initialValue = {
+    user: undefined,
+    refresh_token: "",
+    access_token: "",
+    last_refreshed: 0
+}
+var authData : IAuthenticationData = initialValue
+
+export default function useAuth( onetimeToken: String | undefined = undefined ) {
+    const { apiBase } = useRuntimeConfig().public  
+
+    const persistData = (data : IAuthenticationData) => {
+        if (!data.user || data.access_token.length<1) return
+        authData = data
+        user.value = data.user
+        if (process.client) {
+            localStorage.setItem('authData', JSON.stringify(authData))
+        }
     }
 
-    const setUser = (newUser: IUser) => {
-        const authUser = useAuthUser()
-        authUser.value = newUser
+    const readPersistedData = () => {
+        if (process.client) {
+            const json = localStorage.getItem('authData')
+            authData = (json && json.startsWith("{")?JSON.parse(json):initialValue)
+            user.value = authData.user
+        }
+    }
+  
+    const clearData = () => {
+        localStorage.clear()
+        authData = initialValue
+        user.value = undefined
+    }
+    
+    const leaveAuthenticated = ( data: IAuthenticationData ) => {
+        setTimer(refreshTime)
+        data.last_refreshed = Date.now()
+        persistData(data)
+        return data.user != undefined
     }
 
-    const setIsAuthLoading = (value: boolean) => {
-        const authLoading = useAuthLoading()
-        authLoading.value = value
+    const login = async (username: string, password: string) => {      
+        const data = await $fetch( apiBase + LOGIN_AP, {
+                method: 'POST',
+                body: {
+                    username,
+                    password
+                }
+            }) as IAuthenticationData
+        return leaveAuthenticated(data)
     }
 
-    const login = (username: string, password: string) => {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const data = await $fetch(LOGIN_AP, {
-                    method: 'POST',
-                    body: {
-                        username,
-                        password
-                    }
-                })
-
-                setToken(data.access_token)
-                setUser(data.user)
-                setTimer(360000)
-                resolve(true)
-            } catch (error) {
-                reject(error)
+    const setFirstPassword = async (token: string, password: string) => {
+        const data = await useFetchApi()( PASSWORD_AP, {
+            method: 'POST',
+            body: {
+                token,
+                password
             }
-        })
+        }) as IAuthenticationData
+        return leaveAuthenticated(data)
     }
 
-    const setFirstPassword = (token: string, password: string) => {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const data = await $fetch(PASSWORD_AP, {
-                    method: 'POST',
-                    body: {
-                        token,
-                        password
-                    }
-                })
-
-                setToken(data.access_token)
-                setUser(data.user)
-
-                resolve(true)
-            } catch (error) {
-                reject(error)
+    const changePassword = async (username: string, password: string, oldpassword: string) => {
+        const data = await useFetchApi()( PASSWORD_AP, {
+            method: 'POST',
+            body: {
+                username,
+                password,
+                oldpassword
             }
-        })
-      
+        }) as IAuthenticationData
+        return leaveAuthenticated(data)
     }
 
-    const changePassword = (username: string, password: string, oldpassword: string) => {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const data = await $fetch(PASSWORD_AP, {
-                    method: 'POST',
-                    body: {
-                        username,
-                        password,
-                        oldpassword
-                    }
-                })
-
-                setToken(data.access_token)
-                setUser(data.user)
-
-                resolve(true)
-            } catch (error) {
-                reject(error)
-            }
-        })
-      
-    }
-    const refreshToken = () => {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const data = await $fetch(REFRESH_AP)
-
-                setToken(data.access_token)
-                setUser(data.user)
-
-                resolve(true)
-            } catch (error) {
-                setToken(null)
-                setUser(null)
-                reject(error)
-            }
-        })
-    }
-
-    const getUser = () => {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const data = await $fetch(REFRESH_AP)
-
-                setUser(data.user)
-                resolve(true)
-            } catch (error) {
-                reject(error)
-            }
-        })
+    const refreshTheToken = async () => {
+        readPersistedData()
+        if (!hasAuthData()) return false
+        const myFetch = useFetchApi()
+        try {
+            const data = await myFetch( REFRESH_AP, {  method: 'POST', body: authData } ) as IAuthenticationData
+            return leaveAuthenticated(data)
+        } catch {
+            clearData()
+            return false;
+        }
     }
 
     const reRefreshAccessToken = () => {
-        const authToken = useAuthToken()
-
-        if (!authToken.value) {
-            return
-        }
-
-        const jwt = jwt_decode(authToken.value)
-
-        const newRefreshTime = jwt.exp - 60000
+        readPersistedData()
+        if (!hasAuthData()) return false
+        const request = {
+            headers: {
+              'content-Type': 'application/json',
+              authorization: `Bearer ${authData.refresh_token}`,
+            },
+          };
+        const jwt = jwtPayload(request)
+        const newRefreshTime = jwt.exp - refreshTime
         setTimer(newRefreshTime)
     }
 
-    const setTimer = (time: Number) => {
-        setTimeout(() => {
-                refreshToken().then(() => reRefreshAccessToken(), ()=>{})
-            }, 
-            time) //newRefreshTime);
+    const setTimer = (time: number) => {
+        refreshTimer = setTimeout(
+                refreshTheToken,
+                time);
     }
 
-    const initAuth = () => {
-        return new Promise(async (resolve, reject) => {
-            setIsAuthLoading(true)
-            try {
-                await refreshToken()
-                // await getUser()
-
-                reRefreshAccessToken()
-
-                resolve(true)
-            } catch (error) {
-                console.log(error)
-                reject(error)
-            } finally {
-                setIsAuthLoading(false)
-            }
+    const logout = async () => {
+        await useFetchApi()(LOGOUT_AP, {
+            method: 'POST'
         })
+        clearData()
+    }
+    
+    const isSuperAdmin = () :boolean => {
+        return (user.value && user.value.username.toLowerCase().startsWith('admin'))
     }
 
-    const logout = () => {
-        return new Promise(async (resolve, reject) => {
-            try {
-                await useFetchApi(LOGOUT_AP, {
-                    method: 'POST'
-                })
-
-                setToken(null)
-                setUser(null)
-                resolve()
-            } catch (error) {
-                reject(error)
-            }
-        })
+    const hasAuthData = () :boolean => {
+        return authData.access_token!="" && authData.refresh_token!=""
+    }
+    
+    const haveUser = () => {
+        return user.value!=undefined
+    }
+    const getToken = () => {
+        return authData.access_token
     }
 
+    readPersistedData()
+    if (haveUser() && authData.last_refreshed<Date.now()-refreshTime) 
+    
+    if (!refreshTimer)
+        setTimer(50)
     return {
         login,
-        useAuthUser,
-        useAuthToken,
-        initAuth,
-        useAuthLoading,
+        haveUser,
+        isSuperAdmin,
+        getToken, 
         setFirstPassword,
         changePassword,
+        user,
         logout
     }
 }

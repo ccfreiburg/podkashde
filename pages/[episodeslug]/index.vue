@@ -1,16 +1,15 @@
 <template>
-  <div>
-    <messge-toast></messge-toast>
+  <div class="h-full">
+    <PageLayout  v-if="episode" :submenu="submenu" @menuItemClicked="menuItemClicked">
     <select-podcast-modal v-if="dialog" :error="error" :podcasts="podcasts" @cancel="() => dialog = false"
       @submit="changePodcast"></select-podcast-modal>
-    <sub-menu v-if="user != null" :items="submenu" @menuItemClicked="menuItemClicked" />
-    <div class="flex flex-col items-center ">
-      <div class="relative z-20 w-11/12 lg:w-4/5 md:h-60 mt-6 md:mt-12 flex flex-row">
-        <img class="h-28 md:h-60 w-28 md:w-60 shrink-0" :src="episode.image" />
-        <div class="pl-6 md:pl-12 pt-2 pb-8 flex flex-col justify-around items-start rounded-r-md">
+    <BaseContainerClean class="flex flex-col items-center ">
+      <div class="relative z-20 flex flex-row w-11/12 mt-6 lg:w-4/5 md:h-60 md:mt-12">
+        <img class="h-28 md:h-60 w-28 md:w-60 shrink-0" :src="ContentFile.getMediaUrl(episode.image)" />
+        <div class="flex flex-col items-start justify-around pt-2 pb-8 pl-6 md:pl-12 rounded-r-md">
           <div>
             <div
-              class="grow-0 text-xs font-bold uppercase md:text-sm tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-skin-from via-skin-via to-skin-to">
+              class="text-xs font-bold tracking-wide text-transparent uppercase grow-0 md:text-sm bg-clip-text bg-gradient-to-r from-skin-from via-skin-via to-skin-to">
               <NuxtLink :to="('/serie/' + serie?.slug)">
                 {{ serie?.title }}
               </NuxtLink>
@@ -22,49 +21,47 @@
             </div>
           </div>
           <div class="flex flex-col">
-            <div class="text-sm md:text-xl font-semibold tracking-wider" v-html="episode.title" />
-            <div class="text-xs md:text-sm tracking-wide text-skin-muted dark:text-skin-muted-dark"
+            <div class="text-sm font-semibold tracking-wider md:text-xl" v-html="episode.title" />
+            <div class="text-xs tracking-wide md:text-sm text-skin-muted dark:text-skin-muted-dark"
               v-html="episode.subtitle" />
           </div>
-          <div class="text-xs md:text-sm tracking-wider">
+          <div class="text-xs tracking-wider md:text-sm">
             {{ episode.creator }}
           </div>
           <div class="flex flex-row flex-wrap">
             <div v-if="episode.explicit"
-              class="text-xs text-skin-inverted font-bold px-2 m-1 rounded-md bg-gradient-to-r from-skin-from via-skin-via to-skin-to">
+              class="px-2 m-1 text-xs font-bold rounded-md text-skin-inverted bg-gradient-to-r from-skin-from via-skin-via to-skin-to">
               {{ $t('episode.explicit') }}
             </div>
             <div v-if="episode.block"
-              class="text-xs text-skin-inverted font-bold px-2 m-1 rounded-md bg-gradient-to-r from-skin-from via-skin-via to-skin-to">
+              class="px-2 m-1 text-xs font-bold rounded-md text-skin-inverted bg-gradient-to-r from-skin-from via-skin-via to-skin-to">
               {{ $t('episode.blocked') }}
             </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="w-full relative flex flex-row -z-0">
-      <div class="w-screen h-40 absolute -top-4 md:-top-8 bg-skin-player"></div>
+  </BaseContainerClean>
+    <div class="relative flex flex-row w-full -z-0">
+      <div class="absolute w-screen h-40 -top-4 md:-top-8 bg-skin-player"></div>
     </div>
     <div class="relative z-10 flex flex-col items-center">
-      <div class="w-11/12 lg:w-4/5 pt-6">
-        <audio-player :key="audioComponentKey" class="bg-skin-player text-skin-inverted" :file="link"
-          @play="play"></audio-player>
+    <BaseContainerClean>
+      <div class="w-full pt-8">
+        <AudioPlayer :key="audioComponentKey" class="bg-skin-player text-skin-inverted" :file="mediaFile" @play="play"></AudioPlayer>
       </div>
+    </BaseContainerClean>
     </div>
-    <div class="h-4 w-screen bg-skin-light"></div>
-
-    <BaseContainer class="text-skin-base dark:text-skin-dark px-2">
+    <BaseContainerClean class="pt-20 pb-16 bg-skin-muted dark:bg-skin-dark text-skin-base dark:text-skin-dark text-sm tracking-wide md:text-base">
       <div class="text-skin-muted">{{ $t('episode.episode') }}</div>
-      <div class="flex flex-row justify-between">
+      <div class="flex flex-col justify-between sm:flex-row">
         <div class="flex flex-row flex-wrap">
           {{ $t('episode.label.duration') + ' ' + duration() }}
         </div>
-        <div class="mx-3 flex flex-row flex-wrap">
+        <div class="flex flex-row flex-wrap sm:mx-3">
           {{
             $t('episode.label.pubdate') +
             ' ' +
-            new Date(episode.pubdate).toLocaleDateString()
+            dateToString(new Date(episode.pubdate), locale)
           }}
         </div>
         <div class="flex flex-row flex-wrap">
@@ -78,10 +75,13 @@
       <div class="pt-6 text-skin-muted">
         {{ $t('episode.label.description') }}
       </div>
+      <!-- <div>{{ episode.cross_ref }} // {{ episode.creator }} // <a :href="episode.video_link">Video Version</a></div> -->
       <div v-if="episode.description != null" v-html="episode.description" />
       <div v-if="episode.summary != null" class="pt-2 break-normal" v-html="episode.summary"></div>
-      <div v-if="user != null" class="pt-10">
-        <div class="text-skin-accent" @click="showdetail = !showdetail">
+    </BaseContainerClean>
+
+      <BaseContainerClean v-if="user != null" class="py-10 bg-skin-muted dark:bg-skin-dark text-skin-base dark:text-skin-dark">
+        <div class="text-skin-accent dark:text-skin-dark" @click="showdetail = !showdetail">
           {{ showdetail ? 'less details' : 'more details' }}
         </div>
         <div v-if="showdetail">
@@ -108,56 +108,67 @@
             </tbody>
           </table>
         </div>
-      </div>
-      <div class="h-screen"></div>
-    </BaseContainer>
+      </BaseContainerClean>
+    </PageLayout>
+    <div class="w-full h-full bg-skin-muted dark:bg-skin-dark text-skin-base dark:text-skin-dark">
+        
+    </div>
   </div>
 </template>
 <script setup lang="ts">
 import { EPISODEMOVE_AP, EPISODE_AP } from '~~/base/Constants';
 import { durationInSecToStr } from '~~/base/Converters';
-import { useEpisode } from '~~/composables/episodedata';
+import { dateToString } from '~~/base/Converters'
+import { ContentFile } from '~/base/ContentFile';
 
 const route = useRoute();
 const router = useRouter();
-const user = await useAuth().useAuthUser();
 
-const showdetail = ref(false);
 const slug = route.params.episodeslug as string;
-const { refresh, serie, podcast, remove, episode } = await useEpisode(slug);
-const { podcasts } = await usePodcasts();
-const link = ref(episode.value.link)
-const submenu = ref([])
-onBeforeMount(() => {
-  refresh();
-  submenu.value = [
-    {
-      id: 0,
-      name: 'episode.edit',
-      slug: '/admin/' + slug,
-      layout: 'edit',
-    },
-    {
-      id: 1,
-      name: 'delete',
-      slug: '#delete',
-      layout: 'delete',
-    },
-  ];
-  if (user.value && user.value.username.startsWith('admin'))
+const showdetail = ref(false);
+
+const { podcasts, loading: podcastLoading } = usePodcasts();
+const { refresh, remove, serie, podcast, episode, loading } = useEpisode(slug);
+
+const {user, isSuperAdmin} = useAuth()
+const {on_mounted, on_before} = useMounted(refresh, user, false)
+onMounted( on_mounted )
+onBeforeMount( on_before )
+
+const { locale } = useI18n()
+
+watch( [podcastLoading, loading], () => {
+  if (!loading && !episode.value || episode.value && Object.keys(episode.value as Object).length === 0)
+     router.push({ path: "/", query: {refresh: 'true', msg: 'episode.notfound' }})
+})
+
+const mediaFile = ref(undefined)
+watch(episode, () => {
+  mediaFile.value = ContentFile.getMediaUrl(episode.value?.link)
+})
+
+const submenu = ref([
+      {
+        id: 0,
+        name: 'episode.edit',
+        slug: '/admin/' + slug,
+        layout: 'edit',
+      },
+      {
+        id: 1,
+        name: 'delete',
+        slug: '#delete',
+        layout: 'delete',
+      }
+    ] as Array<{id: number, name: string, slug: string, layout: string}>
+  );
+  if (isSuperAdmin())
     submenu.value.push({
       id: 2,
       name: 'podcast.change',
       slug: '#change',
       layout: 'change',
     });
-});
-onMounted(() =>
-  router.replace({
-    ...router.currentRoute,
-    query: {},
-  })
-);
 
 const duration = () => durationInSecToStr(episode.value.duration);
 
@@ -166,27 +177,27 @@ const error = ref("")
 
 async function menuItemClicked(value: string) {
   if (value === '#delete') {
-    const request: IPostdata = {
-      method: 'DELETE',
-      body: {
-        id: episode.value.id,
-      },
-    };
-    await $fetch(EPISODE_AP, request);
-    (await useEpisodes()).refresh();
-    var url = router.options.history.state.back as string;
-    if (url.includes('?')) url = url.substring(0, url.indexOf('?'));
-    router.push({
-      path: url,
-      query: { refresh: 'true', msg: 'episode.deleted' },
-    });
+    const {generate} = useRss(podcast.value?.slug || '')
+    await remove()
+    if (!episode.value) {
+      generate()
+      var url = router.options.history.state.back as string;
+      if (url.includes('?')) url = url.substring(0, url.indexOf('?'));
+        router.push({
+          path: url,
+          query: { refresh: 'true', msg: 'episode.deleted' },
+      });
+    }
   } else if (value === '#change') {
     dialog.value = !dialog.value
   }
 }
 const audioComponentKey = ref(0)
 async function changePodcast(podcastid: number) {
-  const newpodcast = podcasts.value.find((p) => p.id == podcastid);
+  const {generate: genOldPodcastRss} = useRss(podcast.value?.slug || '')
+  const myFetch = useFetchApi()
+  const newpodcast = podcasts.value.find((p) => p.id == podcastid) as any;
+  const {generate: genNewPodcastRss} = useRss(newpodcast.slug)
   var result;
   try {
     const postData = {
@@ -197,17 +208,18 @@ async function changePodcast(podcastid: number) {
         serie: serie.value,
       },
     };
-    result = await $fetch(EPISODEMOVE_AP, postData);
+    result = await myFetch( EPISODEMOVE_AP, postData);
     await refresh()
-    link.value = episode.value.link
+    genNewPodcastRss()
+    genOldPodcastRss()
     audioComponentKey.value++
     dialog.value = false;
   } catch (err) {
     error.value = err.message;
   }
 }
-function play() {
-  const { $umami } = useNuxtApp();
-  $umami("Playing " + episode.value.title)
+function play() { 
+  if (useRuntimeConfig().public.umamiActive)
+    umTrackEvent("Play " + episode.value.title.substring(0,45))
 }
 </script>

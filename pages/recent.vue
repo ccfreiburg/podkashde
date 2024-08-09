@@ -1,27 +1,23 @@
 <template>
   <div>
-    <messge-toast></messge-toast>
-    <div class="flex justify-center w-full mt-6 mb-10 md:mt-12 md:mb-14">
-      <BaseH1>{{ $t('episode.recent') }}</BaseH1>
-    </div>
-    <BaseContainer>
-      <episodes-list :episodes="episodes" />
-    </BaseContainer>
+    <PageLayout :title="$t('episode.recent') ">
+    <BaseContainerClean class="bg-skin-muted dark:bg-skin-muted-dark">
+      <EpisodesList v-if="episodes" :episodes="episodes" />
+    </BaseContainerClean>
+    </PageLayout>
   </div>
 </template>
 <script setup lang="ts">
-import { useEnumerations } from '~~/composables/enumerationdata';
-const { refresh, episodes } = await useEpisodes();
-const router = useRouter()
-const route = useRoute()
-
+const { refresh, episodes } = useEpisodes();
 onBeforeMount(() => {
-  if (route.query.refresh) refresh();
+  const route = useRoute()
+  refresh();
 })
-onMounted(() =>
+onMounted(() =>{
+  const router = useRouter()
   router.replace({
     ...router.currentRoute,
     query: {
     }
-  }))
+  })})
 </script>

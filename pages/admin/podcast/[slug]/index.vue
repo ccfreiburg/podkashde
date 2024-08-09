@@ -1,51 +1,44 @@
 <template>
-  <div v-if="user" class="w-full h-full pb-10">
-    <messge-toast></messge-toast>
-
-    <podcast-detail
-      :podcast="podcast"
-      @onsaved="goBackSaved"
-      @ondeleted="ondelete"
-      @oncancel="goBack"
-    />
+  <div class="w-full h-full pb-10">
+    <PageLayout>
+      <BaseContainer>
+      <podcast-detail
+        v-if="user && podcast && !loading"
+        :podcast="podcast"
+        @onsaved="goBackSaved"
+        @ondeleted="ondelete"
+        @oncancel="goBack"
+      />
+    </BaseContainer>
+    </PageLayout>
   </div>
 </template>
 
 <script setup lang="ts">
-import { GENERATE_RSS_AP } from '~~/base/Constants';
 
-    const route = useRoute();
-    const router = useRouter();
-    onBeforeMount(() =>
-      router.replace({
-        ...router.currentRoute,
-        query: {},
-      })
-    )
-    const user = useAuth().useAuthUser()
-    watch( user, (newVal) => {
-    if (!newVal)
-      router.push({
-        path: "/admin/login",
-        query: { msg: 'login.sessionexpired' },
-      });
-    })
-    const { podcast, refresh, remove } = await usePodcast(route.params.slug as string);
+const route = useRoute();
+const router = useRouter();
 
-    async function goBackSaved() {
-      await $fetch(GENERATE_RSS_AP, { query: { slug: route.params.slug } });
-      await refresh()
-      router.push('/podcast/' + route.params.slug);
-    }
+const { podcast, refresh, remove, loading, gernerateRss } = usePodcast(route.params.slug as string);
 
-    function goBack() {
-      router.push('/podcast/' + route.params.slug);
-    }
+const {user} = await useAuth()
+const {on_mounted, on_before, on_user_changed} = useMounted(refresh, user, true)
+onMounted( on_mounted )
+onBeforeMount( on_before )
+watch(user, on_user_changed);
 
-    async function ondelete() {
-      await remove();
-      (await usePodcasts()).refresh()
-      router.push('/');
-    }
-  setTimeout(()=>{ if (!user.value) router.push('/admin/login')}, 200)
- </script>
+async function goBackSaved() {
+  await refresh()
+  await gernerateRss()
+  router.push("/podcast/" + route.params.slug);
+}
+
+function goBack() {
+  router.push("/podcast/" + route.params.slug);
+}
+
+async function ondelete() {
+  await remove();
+  router.push("/");
+}
+</script>

@@ -9,7 +9,7 @@
       --color-text-muted: 80, 80, 80;
       --color-text-muted-dark: 175, 155, 175;
       --color-text-inverted: 235, 250, 204;
-      --color-text-accent: 25, 0, 24;
+      --color-text-accent: 99, 102, 241;
       --color-bg-light: 255, 245, 255;
       --color-bg-dark: 10, 3, 13;
       --color-bg-muted: 220, 215, 235;
@@ -338,4 +338,19 @@
 .progressbar::-moz-range-progress {
   height: 4px;
   background: rgb(216, 216, 216);
+}
+
+.page-enter-active, 
+.page-enter-leave {
+  transition: all 0.5s;
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(100%) scale(0.9); 
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-100%) scale(0.9); 
 }

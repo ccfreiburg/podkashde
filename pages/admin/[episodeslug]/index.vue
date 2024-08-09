@@ -1,37 +1,23 @@
 <script setup lang="ts">
 import { GENERATE_RSS_AP } from "~~/base/Constants";
-import { useEpisode } from "~~/composables/episodedata";
-const router = useRouter();
-const user = useAuth().useAuthUser()
-onMounted( () =>
-router.replace({
-  ...router.currentRoute,
-  query: {
-  }
-}))
-
-watch( user, (newVal) => {
-    if (!newVal)
-      router.push({
-        path: "/admin/login",
-        query: { msg: 'login.sessionexpired' },
-      });
-    })
 
 const route = useRoute();
 const slug = route.params.episodeslug as string;
-const { refresh, episode } = await useEpisode(slug);
-const { podcast, refresh: prefresh } = await usePodcast(episode.value?.podcast?.slug as string)
-const { series } = await useSeries();
+const { refresh, episode, podcast, loading: loadingEpisode } = useEpisode(slug);
+const { series, loading: loadingSeries } = useSeries();
 
-onBeforeMount( () => {
-  if (route.query.refresh) refresh();
-})
+const {user} = await useAuth()
+const {on_mounted, on_before, on_user_changed} = useMounted(refresh, user, true)
+onMounted( on_mounted )
+onBeforeMount( on_before )
+watch(user, on_user_changed);
+
+const myFetch = useFetchApi()
+const router = useRouter()
 
 async function onsaved() {
-  $fetch(GENERATE_RSS_AP, { query: { slug: podcast.value.slug }})
+  await myFetch( GENERATE_RSS_AP, { query: { slug: podcast.value?.slug }})
   await refresh()
-  await prefresh()
   var url = router.options.history.state.back as string;
     if (url.includes("?"))
       url = url.substring(0,url.indexOf('?'))
@@ -40,18 +26,19 @@ async function onsaved() {
 function oncancel() {
   router.go(-1);
 }
-setTimeout(()=>{ if (!user.value) router.push('/admin/login')}, 200)
 </script>
 <template>
-    <div v-if="user" class="pb-10">
-<messge-toast></messge-toast>
-
-        <episode-detail 
+  <div class="pb-10">
+    <PageLayout v-if="series && episode">
+      <BaseContainer>
+        <EpisodeDetail v-if="user" 
           :podcast="podcast" 
           :episode="episode" 
           :series="series" 
           @save="onsaved"
           @episode-cancel="oncancel"
           />
+        </BaseContainer>
+      </PageLayout>
     </div>
 </template>

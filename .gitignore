@@ -1,25 +1,41 @@
-.idea/
-.vscode/
-node_modules/
-build/
-tmp/
-temp/
-.tmp/
-.nuxt
-dist
+# Nuxt dev/build outputs
 .output
-*.log*
+.data
+.nuxt
 .nitro
 .cache
+dist
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
 .env
-*.lock
-upload/
-coverage
-secret
+.env.*
+!.env.example
+
+cypress/e2e/screenshots
+cypress/e2e/logs
+cypress/screenshots
+cypress/logs
+
 public/s
-public-docker
-org.*
-settings.json
-docker-compose.yml
-docker/runtime
-archiv
+backend/node_modules 
+backend/public/s 
+backend/dist 
+backend/data/*.sqlite
+backend/yarn.lock
+backend/.env
+
+frontend
+
+yarn.lock

@@ -1,5 +1,4 @@
 import { Podcast } from 'podcast';
-import { useSettings } from '~~/composables/settingsdata';
 import { FEED_SLUG, SERVER_IMG_PATH, SERVER_MP3_PATH } from './Constants';
 import { ContentFile } from './ContentFile';
 import IPodcast from './types/IPodcast';

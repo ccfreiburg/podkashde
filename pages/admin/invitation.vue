@@ -1,19 +1,16 @@
 <template>
-  <div v-if="user">
-    <div class="w-full flex justify-center">
-      <div class="mt-6 md:mt-10 mb-10 md:mb-14">
-        <BaseH1>{{ $t('login.invitationtitle') }}</BaseH1>
-      </div>
-    </div>
-    <BaseContainer>
+    <PageLayout :title="$t('login.invitationtitle')">
+    <BaseContainer v-if="user" v-on:keyup.enter="generateUrl" class="pb-10">
       <div class="flex justify-center">
-        <div class="w-2/3 flex flex-col">
+        <div class="flex flex-col w-2/3">
           <input-area class="w-full" name="username" type="text" :label="'login.user'"
             v-model:value="username"></input-area>
-          <div
+          <input-area class="w-full h-46" name="invitelinktext" type="textarea" :label="'login.invitelinktext'"
+            v-model:value="url"></input-area>
+          <!-- <div
             class="w-full dark:border-skin-dark dark:border-[1px] dark:bg-skin-dark border-skin-light border-2 bg-skin-light rounded-md mt-5 p-4 h-20 overflow-clip">
             {{ url }}
-          </div>
+          </div> -->
           <div class="flex justify-end">
             <BaseButtonPrimary @click="generateUrl">
               {{ $t('login.invitelink') }}
@@ -21,30 +18,24 @@
           </div>
         </div>
       </div>
-      <div class="h-screen"></div>
-
     </BaseContainer>
-  </div>
+    </PageLayout>
 </template>
 <script setup lang="ts">
-import { INVITE_TIME, INVITE_TOKEN, SETPASS_LINK, USERTOKEN_AP } from '~~/base/Constants';
-const router = useRouter();
-const settings = await useSettings();
+import { INVITE_TOKEN, SETPASS_LINK, USERTOKEN_AP } from '~~/base/Constants';
 
-const baseUrl = settings.value.baseUrl
+const {user} = useAuth()
+const {on_mounted, on_before, on_user_changed} = useMounted(()=>{}, user, true)
+onMounted( on_mounted )
+onBeforeMount( on_before )
+watch(user, on_user_changed);
+
 const username = ref('');
 const url = ref('');
 
 const generateUrl = async () => {
-  const token = await $fetch(USERTOKEN_AP.replace("%%", username.value) + INVITE_TOKEN)
-  url.value = baseUrl + SETPASS_LINK + token
+  const myFetch = useFetchApi()
+  const token = await myFetch( USERTOKEN_AP.replace("%%", username.value) + INVITE_TOKEN)
+  url.value = useRuntimeConfig().public.appBase + SETPASS_LINK + token
 }
-onMounted(() =>
-  router.replace({
-    ...router.currentRoute,
-    query: {
-    }
-  }))
-var user = useAuth().useAuthUser()
-setTimeout(() => { if (!user.value) router.push('/admin/login') }, 200)
 </script>

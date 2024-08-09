@@ -1,0 +1,66 @@
+{
+    "menu": [
+        {
+            "Description": "Höre unsere Predigen, Inputs und  Biblestudies oder lies Neues und Andachten",
+            "Name": "Hör rein",
+            "Replaces": "Hör rein",
+            "link": "/recent",
+            "menu_items": [
+                {
+                    "Name": "Aktuelle Predigten",
+                    "locale": "de",
+                    "link": "/recent",
+                    "local": true
+                },
+                {
+                    "Name": "Aktuelle Serien",
+                    "locale": "de",
+                    "link": "/series",
+                    "local": true
+                },
+                {
+                    "Name": "Podcasts",
+                    "locale": "de",
+                    "link": "/podcasts",
+                    "local": true
+                }
+            ]
+        },
+        {
+            "Description": "Podcasts, Serien und Folgen verwalten ",
+            "Name": "Administrator",
+            "admin": true,
+            "link": "/admin",
+            "menu_items": [
+                {
+                    "Name": "Andministrator Login",
+                    "locale": "de",
+                    "loggedin": false,
+                    "link": "/admin/login",
+                    "local": true
+                },
+                {
+                    "Name": "Passwort ändern",
+                    "loggedin": true,
+                    "locale": "de",
+                    "link": "/admin/setpassword",
+                    "local": true
+                },
+                {
+                    "Name": "Benutzer einladen",
+                    "locale": "de",
+                    "loggedin": true,
+                    "link": "/admin/invitation",
+                    "local": true
+                },
+                {
+                    "Name": "Abmelden",
+                    "locale": "de",
+                    "loggedin": true,
+                    "link": "#logout",
+                    "local": true
+                }
+            ]
+        }
+    ]
+}

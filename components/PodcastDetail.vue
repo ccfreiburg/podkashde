@@ -1,11 +1,9 @@
 <template>
-  <div v-if="fields" class="w-full h-full" v-on:keyup.enter="savePodcast" v-on:keyup.esc="cancel">
-    <div class="flex justify-center w-full mt-6 mb-6 md:mt-12 md:mb-8">
+  <div v-if="fields" class="w-full" v-on:keyup.enter="savePodcast" v-on:keyup.esc="cancel">
       <BaseH1>
         {{(isEdit ? $t("podcast.edit") : $t("podcast.new"))}}
       </BaseH1>
-    </div>
-    <BaseContainer>
+    <div v-if="!loading">
       <image-selector :filename="fields.cover_file" @imageSelected="imageSelected" />
       <!-- Fields-->
       <div class="flex flex-col">
@@ -18,11 +16,11 @@
           v-model:value="fields.summary" />
         <input-area :name="'description'" :type="'textarea'" :label="'podcast.label.description'" :errors="errors"
           v-model:value="fields.description" />
-        <single-select :name="'language'" :label="'podcast.label.language'" :options="enumerations.languages"
+        <single-select :name="'language'" :label="'podcast.label.language'" :options="enumerations.languages()"
           :errors="errors" v-model:value="fields.language_id" />
-        <single-select :name="'category'" :label="'podcast.label.category'" :options="enumerations.podcastGenres"
+        <single-select :name="'category'" :label="'podcast.label.category'" :options="enumerations.podcastGenres()"
           :errors="errors" :long="true" v-model:value="fields.category_id" />
-        <single-select :name="'type'" :label="'podcast.label.type'" :options="enumerations.podcastTypes"
+        <single-select :name="'type'" :label="'podcast.label.type'" :options="enumerations.podcastTypes()"
           :errors="errors" v-model:value="fields.type_id" />
         <div class="my-3">
           <switch-box :checked="fields.explicit" @checkedChanged="(val) => fields.explicit = val"
@@ -45,7 +43,7 @@
           v-model:value="fields.stitcher_url" />
         <switch-box :checked="fields.draft" @checkedChanged="(val) => fields.draft = val"
           :labelChecked="$t('podcast.label.draft_true')" :labelUnChecked="$t('podcast.label.draft_false')" />
-        <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
+        <div v-if="errors.length > 0" class="mt-5 ml-5 text-red-600 test-xs">
           <p>{{ $t("podcast.label.errors") }}</p>
           <ul class="ml-5">
             <li class="list-disc" v-for="(err, index) in errors" :key="index">
@@ -63,19 +61,18 @@
           </BaseButtonPrimary>
         </div>
       </div>
-    </BaseContainer>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
-import { PODCAST_AP, UPLOAD_AP, SERVER_IMG_PATH, FILES_AP } from "~~/base/Constants";
-import IPodcast from "~~/base/types/IPodcast";
-import IPostdata from "~~/base/types/IPostdata";
+import { PODCAST_AP, UPLOAD_AP, SERVER_IMG_PATH, COUNT_AP } from "~~/base/Constants";
+import type IPodcast from "~~/base/types/IPodcast";
+import type IPostdata from "~~/base/types/IPostdata";
 import validation from "~~/base/PodcastDetailValidation";
 import ImageMetadata from "~~/base/types/ImageMetadata";
-import IValidationError from "~~/base/types/IValidationError";
-import { saveSlugFormText } from "~~/base/Converters";
+import type IValidationError from "~~/base/types/IValidationError";
+import { getSaveFilename, saveSlugFormText } from "~~/base/Converters";
 
 export default defineComponent({
   props: {
@@ -85,7 +82,7 @@ export default defineComponent({
   async setup(props, ctx) {
     const imgMetadata = ref(new ImageMetadata())
     const errors = ref([] as Array<IValidationError>)
-    const { enumerations } = await useEnumerations()
+    const { enumerations, loading } = useEnumerations()
     const fields = ref({ ...props.podcast } as IPodcast)
 
     const isEdit = computed(() => {
@@ -115,7 +112,7 @@ export default defineComponent({
 
     watch(() => fields.value.title, () => generateSlug())
 
-    function getImageInFormData() {
+    function getImageInFormData(newFilename: string) {
       const fd = new FormData();
       if (imgMetadata.value.selectedFile) {
         fd.append("path", SERVER_IMG_PATH + fields.value.slug);
@@ -124,7 +121,7 @@ export default defineComponent({
           imgMetadata.value.selectedFile,
           imgMetadata.value.selectedFile.name
         );
-        fd.append("filename", imgMetadata.value.selectedFile.name);
+        fd.append("filename", newFilename);
       }
       return fd;
     }
@@ -139,44 +136,58 @@ export default defineComponent({
     async function savePodcast(event) {
       event.preventDefault();
       event.stopImmediatePropagation();
+      
+      const myFetch = useFetchApi()
+      
+      var newFilename = ""
+
       if (imgMetadata.value.selectedFile) {
+        newFilename = getSaveFilename(imgMetadata.value.selectedFile.name)
         fields.value.cover_file =
           SERVER_IMG_PATH +
           fields.value.slug +
-          "/" +
-          imgMetadata.value.selectedFile.name
+          "/" + newFilename
       }
-      console.log("1 hal")
-
+      
       errors.value = validation(
         fields.value,
         imgMetadata.value.imgWidth,
         imgMetadata.value.imgHeight
       )
+
+      // server validation (if slug is unique) 
+      var countUrl = COUNT_AP + "?slug=" + fields.value.slug + "&podcast=true" + (isEdit.value ? "&excludeId=" + fields.value.id : "")
+      var count = await myFetch( countUrl ) as number;
+      if (count > 0) errors.value.push({ field: "slug", text: "podcast.validation.slug" });
+      
       if (errors.value.length == 0) {
         const postData: IPostdata = {
           method: "POST",
           body: {},
         };
-        var postResult: any = { status: 201 }
+        var postResult: any = { statusCode: 201 }
         try {
           if (imgMetadata.value.selectedFile) {
-            postData.body = getImageInFormData()
-            postResult = await $fetch(UPLOAD_AP, postData)
+            postData.body = getImageInFormData(newFilename)
+            postResult = await myFetch( UPLOAD_AP, postData)
           }
         } catch (err) {
-          postResult.status = 500
+          postResult.statusCode = 500
           errors.value.push({ field: "", text: 'podcast.validation.saveingimg' })
         }
-        if (postResult.status == 201) {
+        if (postResult.statusCode==201) {
           try {
             postData.body = getFields();
-            postResult = await $fetch(PODCAST_AP, postData)
+            postResult = await myFetch( PODCAST_AP, postData)
           } catch (err) {
-            postResult.status = 500
+            postResult.statusCode = 500
           }
         }
-        if (postResult.status == 201) ctx.emit("onsaved", fields.value.title)
+        if (postResult.statusCode == 201) {
+          const {generate} = useRss(fields.value.slug);
+          await generate();
+          ctx.emit("onsaved", fields.value.title)
+        }
       }
     }
 
@@ -192,6 +203,7 @@ export default defineComponent({
       errors,
       fields,
       enumerations,
+      loading,
       hasError,
       getError,
       isEdit,

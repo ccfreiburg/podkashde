@@ -1,3 +1,3 @@
-export const VERSION ="0.0.0";
-export const BUILDTIME=""
-export const REVISION=""
+export const VERSION = "4"
+export const REVISION = "0" 
+export const BUILDTIME = "today"

@@ -43,7 +43,7 @@ export function strToDate(str: string): Date {
   return new Date(result);
 }
 
-export function dateToIsoString(date: Date) {
+export function dateToIsoString(date: Date) : string {
   return (
     date.getFullYear() +
     "-" +
@@ -53,16 +53,33 @@ export function dateToIsoString(date: Date) {
   );
 }
 
+export function dateToString(date: Date, locale: string) : string {
+  const month = date.getMonth()+1
+  if (locale=="de")
+    return (date.getDate() + "." + month +"." +date.getFullYear())
+  else if (locale=="en")
+    return ( month +"/" +date.getDate() + "/" +date.getFullYear())
+  else 
+    return dateToIsoString(date)
+}
+
+export function urlFriendlyString(text: string) :string {
+  return saveSlugFormText(text)
+}
+
 export function saveSlugFormText(text: string, lowercase = true): string {
   var slug = (lowercase?text.toLowerCase():text);
   return slug
     .replace(/([:;\.,]+\s?)+/g, "_")
     .replace(/([!'/()*"~#@?%&\\:;,<>\*\+\|]|\DE\/EN)+/g, "")
     .replace(" deen", "")
-    .replace("ä", "ae")
-    .replace("ö", "oe")
-    .replace("ü", "ue")
-    .replace("ß", "ss")
+    .replaceAll("ä", "ae")
+    .replaceAll("ö", "oe")
+    .replaceAll("ü", "ue")
+    .replaceAll("Ä", "Ae")
+    .replaceAll("Ö", "Oe")
+    .replaceAll("Ü", "Ue")
+    .replaceAll("ß", "ss")
     .replace(/\s+/g, "_");
 }
 

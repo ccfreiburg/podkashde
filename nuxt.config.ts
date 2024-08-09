@@ -1,24 +1,32 @@
-import fs from "fs-extra"
-import path from "path"
-import type { Nitro } from 'nitropack';
-import { defineNuxtConfig } from "nuxt/config";
+// https://nuxt.com/docs/api/configuration/nuxt-config
 
-// https://v3.nuxtjs.org/api/configuration/nuxt.config
+function setEnv( direct: string | undefined, defaultval = "",  indirect: string | undefined = undefined, indirect_postfix: string = "") : string {
+  if (direct && direct.length > 0)
+    return direct
+  if (indirect && indirect.length > 0)
+    return indirect + indirect_postfix
+  return defaultval
+}
+
+function setEnvBool( envvar: string | undefined, defaultval: boolean | undefined = undefined ) : boolean {
+  if (envvar && envvar.length>0 && envvar.toLowerCase()!=="false")
+    return true 
+  else
+    return defaultval ?? false
+}
+
+function setEnvUndefinedWhenEmpty( envvar: string | undefined ) :string | undefined {
+  if (envvar && envvar.length>0 && envvar.toLowerCase()!=="false")
+    return envvar
+  else
+    return undefined
+}
+
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/color-mode', '@nuxtjs/i18n','nuxt-umami'],
-  ssr: true,
-  target: 'server',
-  head: {
-    title: "Podcasts",
-    meta: {
-      charset: "UTF-8",
-    }
-  },
-  generate: {
-    exclude: [
-      /^\/admin/ // path starts with /admin
-    ]
-  },
+  modules: [
+    '@nuxtjs/i18n', '@nuxtjs/tailwindcss', '@nuxtjs/color-mode'
+  ],
+  extends: [ 'nuxt-umami' ],
   i18n: {
     strategy: 'prefix_except_default',
     defaultLocale: 'de',
@@ -36,89 +44,44 @@ export default defineNuxtConfig({
     ],
     lazy: true,
     langDir: 'locales',
-    vueI18n: {
-      fallbackLocale: 'de'
-    }
-  },
-  umami: {
-    enable: true, // enable the module? true by default
-    autoTrack: true,
-    doNotTrack: false,
-    cache: false,
-    domains: process.env.UMAMI_DOMAINS || 'podcast.ccfreiburg.de',
-    websiteId: process.env.UMAMI_KEY || '4b79e0da-e70b-430b-b0ea-978691c32f55',
-    scriptUrl: process.env.UMAMI_AP || 'https://analytics.ccfreiburg.de/umami.js',
-  },
-  tailwindcss: {
-    cssPath: '~/assets/css/tailwind.css',
-    configPath: 'tailwind.config.js',
-    exposeConfig: false,
-    injectPosition: 0,
-    viewer: true,
   },
   colorMode: {
-    darkMode: 'class',
-    preference: 'light', 
-    fallback: 'light', 
+    preference: 'system', // default value of $colorMode.preference
+    fallback: 'light', // fallback value if not system preference found
     classSuffix: '',
     classPrefix: '',
   },
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {
-          grid: true,
-          flexbox: true
-      },
-    },
+  // css: [ './assets/css/tailwind.css' 
+  // ],
+  // app: {
+  //   pageTransition: {
+  //     name: 'page',
+  //     mode: 'out-in'
+  //   }
+  // },
+  runtimeConfig: {
+    public: {
+      url: process.env.NUXT_PUBLIC_URL,
+      appBase: setEnv(process.env.NUXT_PUBLIC_APP_BASE, 'http://localhost:3000', process.env.NUXT_PUBLIC_URL),
+      apiBase: setEnv(process.env.NUXT_PUBLIC_API_BASE, 'http://localhost:3003/api/', process.env.NUXT_PUBLIC_URL, "/api/") ,
+      mediaBase: setEnv(process.env.NUXT_PUBLIC_MEDIA_BASE, 'http://localhost:3003', process.env.NUXT_PUBLIC_URL),
+      skin: setEnv(process.env.NUXT_PUBLIC_SKIN,''),
+      logo: setEnv(process.env.NUXT_PUBLIC_LOGO, '/img/logo.png'),
+      logoDark: setEnv(process.env.NUXT_PUBLIC_LOGO_DARK, '/img/logo-w.png'),
+      enableDarkMode: setEnvUndefinedWhenEmpty(process.env.NUXT_PUBLIC_ENABLE_DARK_MODE),
+      umamiActive: setEnvBool(process.env.NUXT_PUBLIC_UMAMI_ID)
+    }
   },
-  nitro: {
-    preset: 'node-server',
-    hooks: {
-      compiled(nitro: Nitro) {
-        const packages = []
-        packages.push({
-          dest:path.join(
-          nitro.options.output.dir,
-          'server',
-          'node_modules',
-          'parse5'),
-          src: path.join(
-          '.',
-          'node_modules',
-          'parse5',
-          'dist',
-          'cjs')
-        })
-        packages.push({
-          dest:path.join(
-          nitro.options.output.dir,
-          'server',
-          'node_modules',
-          'entities'),
-          src: path.join(
-          '.',
-          'node_modules',
-          'entities')
-        })        
-        packages.push({
-          dest:path.join(
-          nitro.options.output.dir,
-          'server',
-          'node_modules',
-          'sqlite3'),
-          src: path.join(
-          '.',
-          'node_modules',
-          'sqlite',
-          'lib')
-        })
-        try {
-          packages.forEach(pack => {
-            fs.copySync(pack.src, pack.dest, {overwrite: true})           
-          });
-        } catch (err) {}
-      },
-    },
-  }
+  appConfig: {
+    umami: {
+      autoTrack: setEnvBool(process.env.NUXT_PUBLIC_UMAMI_ID),
+      version: 2
+  }},
+  // nitro: {
+  //   routeRules: {
+  //     "/api/**": { proxy: 'localhost:3003' },
+  //     "/s/**": { proxy: 'localhost:3003' }
+  //   }
+  // },
+  devtools: { enabled: false }
 })

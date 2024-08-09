@@ -18,4 +18,11 @@ export class ContentFile {
   public static getFilename(target: string): string {
     return target.split("/").slice(-1)[0];
   }
+
+  public static getMediaUrl(path: string): string {
+    const config = useRuntimeConfig()
+    const ret = (path && path.length>3?config.public.mediaBase + path:"");
+    return ret
+  }
+
 }

@@ -1,16 +1,16 @@
 <template>
-  <FormDetail type="serie" :fields="fields" @frmsave="save" @frmremove="remove" @frmcancel="cancel">
-    <image-selector :filename="fields.cover_file" :preview="imgMetadata.preview" @imageSelected="imageSelected" />
+  <PageFormDetail type="serie" :fields="fields" @frmsave="save" @frmremove="remove" @frmcancel="cancel">
+    <ImageSelector :filename="fields.cover_file" :preview="imgMetadata.preview" @imageSelected="imageSelected" />
     <!-- Fields-->
-    <input-area :name="'title'" :label="'serie.label.title'" :errors="errors" v-model:value="fields.title" />
-    <input-area :name="'subtitle'" :label="'serie.label.subtitle'" :errors="errors" v-model:value="fields.subtitle" />
-    <input-area :name="'slug'" :disabled="isEdit" :label="'serie.label.slug'" :errors="errors"
+    <InputArea :name="'title'" :label="'serie.label.title'" :errors="errors" v-model:value="fields.title" />
+    <InputArea :name="'subtitle'" :label="'serie.label.subtitle'" :errors="errors" v-model:value="fields.subtitle" />
+    <InputArea :name="'slug'" :disabled="isEdit" :label="'serie.label.slug'" :errors="errors"
       v-model:value="fields.slug" />
-    <input-area :name="'description'" :type="'textarea'" :label="'serie.label.description'" :errors="errors"
+    <InputArea :name="'description'" :type="'textarea'" :label="'serie.label.description'" :errors="errors"
       v-model:value="fields.description" />
-    <switch-box :checked="fields.draft" @checkedChanged="(val) => fields.draft = val"
+    <SwitchBox :checked="fields.draft" @checkedChanged="(val) => fields.draft = val"
       :labelChecked="$t('serie.label.draft_true')" :labelUnChecked="$t('serie.label.draft_false')" />
-    <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
+    <div v-if="errors.length > 0" class="mt-5 ml-5 text-red-600 test-xs">
       <p>{{ $t("serie.label.errors") }}</p>
       <ul class="ml-5">
         <li class="list-disc" v-for="(err, index) in errors" :key="index">
@@ -18,18 +18,18 @@
         </li>
       </ul>
     </div>
-  </FormDetail>
+  </PageFormDetail>
 </template>
 <script lang="ts">
-import { PropType } from "vue";
+import type { PropType } from "vue";
 import {
   saveSlugFormText,
 } from "~~/base/Converters";
 import validation from "~~/base/SeriesDetailValidation";
-import ISerie from "../base/types/ISerie";
+import type ISerie from "../base/types/ISerie";
 import ImageMetadata from "~~/base/types/ImageMetadata";
-import IValidationError from "~~/base/types/IValidationError";
-import { COUNT_AP, FILES_AP, SERIES_AP, SERIES_IMG_PATH, SERVER_IMG_PATH, UPLOAD_AP } from "~~/base/Constants";
+import type IValidationError from "~~/base/types/IValidationError";
+import { COUNT_AP, SERIES_AP, SERIES_IMG_PATH, SERVER_IMG_PATH } from "~~/base/Constants";
 
 export default defineComponent({
   props: {
@@ -37,6 +37,7 @@ export default defineComponent({
   },
   name: "SerieDetail",
   async setup(props, { emit }) {
+    const myFetch = useFetchApi()
     const errors = ref([] as Array<IValidationError>);
 
     const fields = ref({ ...props.serie } as ISerie);
@@ -52,6 +53,7 @@ export default defineComponent({
     const imgMetadata = ref(new ImageMetadata());
     function imageSelected(data: ImageMetadata) {
       imgMetadata.value = { ...data };
+      console.log(data)
       if (data.imgWidth == 0) {
         fields.value.cover_file = "";
       }
@@ -59,51 +61,12 @@ export default defineComponent({
 
     function getFields() {
       var tmp = { ...fields.value };
-
+      delete tmp.episodes
       return tmp;
     };
 
-    function getFileInFormData(fileObj: File, path) {
-      const fd = new FormData();
-      if (fileObj) {
-        fd.append("cover", fileObj, fileObj.name);
-        fd.append("filename", fileObj.name);
-        fd.append("path", path)
-      }
-      return fd;
-    }
-
-    async function upload(server_path: string, fileObj: File) {
-      var linkToContent = "";
-      const path = server_path + SERIES_IMG_PATH;
-      var postResult = null;
-      var postData = {
-        method: "post",
-        body: null,
-      };
-      if (fileObj) {
-        postData.body = getFileInFormData(fileObj, path);
-        postResult = await $fetch(UPLOAD_AP, postData);
-      }
-      if (postResult.status == 201 && fileObj) {
-        linkToContent = path + "/" + fileObj.name;
-      }
-      return {
-        link: linkToContent,
-        result: postResult,
-        nothingToDo: !fileObj,
-      }
-    }
-
-    async function save(event) {
-      if (imgMetadata.value.selectedFile) {
-        fields.value.cover_file =
-          SERVER_IMG_PATH +
-          SERIES_IMG_PATH +
-          "/" +
-          imgMetadata.value.selectedFile.name;
-      }
-      // validate fields
+    async function save() {
+       // validate fields
       errors.value = validation(
         fields.value,
         imgMetadata.value.imgWidth,
@@ -111,18 +74,22 @@ export default defineComponent({
       );
 
       // server validation (if slug is unique)
-      var countUrl = COUNT_AP + "?slug=" + fields.value.slug + "&serie=true" +
-        (isEdit.value ? "&excludeId=" + fields.value.id : "")
-      var count: number = await $fetch(countUrl);
-      if (count > 0) errors.value.push({ field: "slug", text: "serie.validation.slug" });
+      if (fields.value.slug !== props.serie?.slug) {
+        var countUrl = COUNT_AP + "?slug=" + fields.value.slug + "&serie=true" +
+          (isEdit.value ? "&excludeId=" + fields.value.id : "")
+        var count = await myFetch(countUrl) as number;
+        if (count > 0) errors.value.push({ field: "slug", text: "serie.validation.slug" });
+      }
 
       if (errors.value.length > 0) return;
 
       // Upload Image
-      if (imgMetadata.value.selectedFile) {
-        var { result, link, nothingToDo } = await upload(SERVER_IMG_PATH, imgMetadata.value.selectedFile)
-        if (result.status != 201) {
-          errors.value.push({ field: "", text: "upoad" })
+      const upload = useUploader()
+      var { result, link, nothingToDo } = await upload(SERVER_IMG_PATH+SERIES_IMG_PATH, imgMetadata.value.selectedFile)
+      console.log(JSON.stringify(result))
+      if (!nothingToDo) {
+        if ((result as any).statusCode != 201) {
+          errors.value.push({ field: "", text: "upload" })
           return
         }
         fields.value.cover_file = link;
@@ -133,8 +100,8 @@ export default defineComponent({
         method: "post",
         body: [getFields()]
       }
-      result = await $fetch(SERIES_AP, postData);
-      if (result.status != 201) {
+      result = await myFetch( SERIES_AP, postData) as any;
+      if ((result as any).statusCode != 201) {
         errors.value.push({ field: "", text: "saving" })
         return
       }
@@ -146,10 +113,10 @@ export default defineComponent({
     function cancel() {
       emit("cancel");
     }
-    function hasError(fieldname) {
+    function hasError(fieldname: string) {
       return errors.value.find((error) => error.field === fieldname);
     };
-    function getClass(fieldname) {
+    function getClass(fieldname: string) {
       var cssclass = "field";
       if (hasError(fieldname)) {
         cssclass = "field error";

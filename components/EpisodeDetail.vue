@@ -1,23 +1,8 @@
 <template>
   <div class="w-full h-full" :class="(uploadIndicator ? 'overflow-hidden' : 'overflow-auto')" v-on:keyup.enter="save"
     v-on:keyup.esc="cancel">
-    <div v-if="uploadIndicator"
-      class="fixed top-0 z-50 w-screen h-screen flex justify-center items-center bg-skin-light dark:bg-skin-dark opacity-70">
-      <div class="flex flex-col items-center">
-        <div class="my-10">Uploading ...</div>
-        <svg aria-hidden="true"
-          class="inline w-8 h-8 mr-2 text-skin-muted animate-spin dark:text-skin-muted-dark fill-skin-fill"
-          viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-            fill="currentColor" />
-          <path
-            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-            fill="currentFill" />
-        </svg>
-      </div>
-    </div>
-    <div class="mt-6 md:mt-12 w-full flex justify-center">
+    <Spinner :active="uploadIndicator">Uploading ...</Spinner>
+    <div class="flex justify-center w-full mt-6 md:mt-12">
       <BaseH1>
         {{
   isEdit
@@ -27,20 +12,19 @@
       </BaseH1>
     </div>
     <div
-      class="w-full mb-8 md:mb-10 flex flex-col content-center justify-center text-skin-muted dark:text-skin-muted-dark">
-      <div class="mt-2 tracking-widest text-ml text-center">{{ $t('episode.forpodcast') }}</div>
-      <div class="mt-1 tracking-widest text-ml text-center">{{ podcast.title }}</div>
+      class="flex flex-col content-center justify-center w-full mb-8 md:mb-10 text-skin-muted dark:text-skin-muted-dark">
+      <div class="mt-2 tracking-widest text-center text-ml">{{ $t('episode.forpodcast') }}</div>
+      <div v-if="podcast" class="mt-1 tracking-widest text-center text-ml">{{ podcast.title }}</div>
     </div>
-    <BaseContainer>
-      <div class="w-full flex flex-col">
-        <div class="w-full flex flex-col lg:flex-row">
+      <div class="flex flex-col w-full">
+        <div class="flex flex-col w-full lg:flex-row">
           <div>
             <image-selector :filename="fields.image" :preview="imgMetadata.preview" @imageSelected="imageSelected" />
           </div>
-          <div class="w-full flex flex-col flex-grow">
+          <div class="flex flex-col flex-grow w-full">
             <audio-file-selector :audioFileName="fields.link" @audioFileSelected="audioFileSelected" :error="errors"
               :label="'episode.label.file'" />
-            <single-select :name="'serie'" :label="'episode.label.serie'" :options="series" :errors="errors"
+            <single-select :name="'serie'" :label="'episode.label.serie'" :options="series_options" :errors="errors"
               v-model:value="serie_id" />
           </div>
         </div>
@@ -66,14 +50,14 @@
           :labelChecked="$t('episode.label.block_true')" :labelUnChecked="$t('episode.label.block_false')" />
         <switch-box :checked="fields.explicit" @checkedChanged="(val) => fields.explicit = val"
           :labelChecked="$t('episode.label.explicit_true')" :labelUnChecked="$t('episode.label.explicit_false')" />
-        <input-area :name="'cross_ref'" :label="'episode.label.cross_ref'" v-model:value="fields.cross_ref"
+        <input-area :name="'cross_ref'" :label="'episode.label.cross_ref'" v-model:value="(fields.cross_ref)"
           @change="setShortInfo" />
         <input-area :name="'video_link'" :label="'episode.label.video_link'" v-model:value="fields.video_link"
           @change="setShortInfo" />
         <switch-box :checked="fields.draft" @checkedChanged="(val) => fields.draft = val"
           :labelChecked="$t('episode.label.draft_true')" :labelUnChecked="$t('episode.label.draft_false')" />
 
-        <div v-if="errors.length > 0" class="mt-5 ml-5 test-xs text-red-600">
+        <div v-if="errors.length > 0" class="mt-5 ml-5 text-red-600 test-xs">
           <p>{{ $t("episode.label.errors") }}</p>
           <ul class="ml-5">
             <li class="list-disc" v-for="(err, index) in errors" :key="index">
@@ -82,7 +66,7 @@
           </ul>
         </div>
         <!-- Buttons -->
-        <div class="flex flex-row justify-end">
+        <div class="flex flex-row justify-end pb-10">
           <BaseButtonSecondary class="mr-4" @click="cancel">
             {{ $t("cancel") }}
           </BaseButtonSecondary>
@@ -91,11 +75,10 @@
           </BaseButtonPrimary>
         </div>
       </div>
-    </BaseContainer>
   </div>
 </template>
 <script lang="ts">
-import { PropType, nextTick } from "vue";
+import type { PropType } from "vue";
 import {
   dateToIsoString,
   strToDurationInSec,
@@ -104,27 +87,34 @@ import {
   durationInSecToStr,
   getSaveFilename,
 } from "~~/base/Converters";
-import IPodcast from "~~/base/types/IPodcast";
-import IEpisode from "~~/base/types/IEpisode";
+import type IPodcast from "~~/base/types/IPodcast";
+import type IEpisode from "~~/base/types/IEpisode";
 import validation from "~~/base/EpisodeDetailValidation";
-import ISerie, { emptyISerieFactory } from "../base/types/ISerie";
+import type ISerie from "../base/types/ISerie";
+import { emptyISerieFactory } from "../base/types/ISerie";
 import AudioFileMetadata from "~~/base/types/AudioFileMetadata";
 import ImageMetadata from "~~/base/types/ImageMetadata";
-import IValidationError from "~~/base/types/IValidationError";
+import type IValidationError from "~~/base/types/IValidationError";
 import { COUNT_AP, EPISODE_AP, FILES_AP, SERIE_AP, SERVER_IMG_PATH, SERVER_MP3_PATH, UPLOAD_AP } from "~~/base/Constants";
-import IEnumerator from "~~/base/types/IEnumerator";
-import episode from "~~/server/api/episode";
+import type IEnumerator from "~~/base/types/IEnumerator";
+import { ContentFile } from "~/base/ContentFile";
 
 export default defineComponent({
   props: {
     episode: Object as PropType<IEpisode>,
     podcast: Object as PropType<IPodcast>,
-    series: Object as PropType<Array<ISerie>>,
+    series: {
+      type: Array<ISerie>,
+      default: []
+    }
   },
   name: "episode",
   async setup(props, { emit }) {
+    const myFetch = useFetchApi()
     const errors = ref([] as Array<IValidationError>);
     const fields = ref({ ...props.episode } as IEpisode);
+    if (!fields.value.cross_ref) fields.value.cross_ref = ''
+    if (!fields.value.video_link) fields.value.video_link = ''
     const isEdit = computed(() => (fields.value as any).id != undefined);
     const uploadIndicator = ref(false)
     const keepImage = ref(isEdit.value)
@@ -145,7 +135,7 @@ export default defineComponent({
         return;
       fields.value.keyword = serie.title;
       fields.value.image = serie.cover_file;
-      imgMetadata.value.preview = serie.cover_file;
+      imgMetadata.value.preview = ContentFile.getMediaUrl(serie.cover_file);
       keepImage.value = true
     })
 
@@ -161,7 +151,7 @@ export default defineComponent({
       }
       if (!keepImage.value) {
         imgMetadata.value.blob = data.imgblob
-        imgMetadata.value.preview = data.cover_preview
+        imgMetadata.value.preview = data.cover_preview 
         keepImage.value = true
       }
       audioMetadata.value = { ...data }
@@ -200,7 +190,7 @@ export default defineComponent({
 
     function getFields() {
       var tmp = { ...fields.value };
-      delete tmp.podcast.episodes;
+      if (!fields.value.podcast?.episodes) delete tmp.podcast?.episodes;
       if (!fields.value.serie) delete tmp.serie;
       return tmp;
     };
@@ -208,7 +198,7 @@ export default defineComponent({
     function getFileInFormData(path: string, fileObj: File) {
       const fd = new FormData();
       if (fileObj) {
-        fd.append("path", path + props.podcast.slug);
+        fd.append("path", path + props.podcast?.slug);
         const fn = getSaveFilename(fileObj.name)
         fd.append("filename", fn);
         fd.append("cover", fileObj, fileObj.name);
@@ -230,9 +220,9 @@ export default defineComponent({
       return fd
     }
 
-    async function upload(server_path: string, fileObj: File, blob: Blob | undefined = undefined) {
+    async function upload(server_path: string, fileObj: File | undefined, blob: Blob | undefined = undefined) {
       var linkToContent = "";
-      var postResult = {};
+      var postResult: any;
       var postData = {
         method: "post",
         body: null as any,
@@ -243,14 +233,14 @@ export default defineComponent({
         postData.body = getBufferInFormData(server_path, blob)
       if (postData.body) {
         try {
-          postResult = await $fetch(UPLOAD_AP, postData);
+          postResult = await myFetch(  UPLOAD_AP, postData);
         } catch (err) {
-          postResult.status = 500
+          postResult.statusCode = 500
         }
       }
-      if (postResult.status == 201 && (fileObj || blob)) {
+      if ((postResult.statusCode == 201 || postResult.statusCode == 200) && (fileObj || blob)) {
         linkToContent =
-          server_path + props.podcast.slug + "/" + (postData.body as FormData).get('filename');
+          server_path + props.podcast?.slug + "/" + (postData.body as FormData).get('filename');
       }
       return {
         link: linkToContent,
@@ -260,6 +250,7 @@ export default defineComponent({
     }
 
     async function doTheSaving() {
+      try {
       // set relations
       fields.value.serie =
         serie && "id" in serie ? serie : null;
@@ -268,7 +259,7 @@ export default defineComponent({
       // Upload Mp3
       if (audioMetadata.value.selectedFile) {
         var { result, link } = await upload(SERVER_MP3_PATH, audioMetadata.value.selectedFile)
-        if (result.status != 201) {
+        if (result.statusCode != 201) {
           errors.value.push({ field: "", text: "episode.validation.upload" })
           return
         }
@@ -277,12 +268,14 @@ export default defineComponent({
 
 
       // Upload Image
-      if (imgMetadata.value.preview != serie.cover_file && (imgMetadata.value.selectedFile || audioMetadata.value.imgblob != undefined)) {
+      if (serie.cover_file.length>0 && imgMetadata.value.preview.endsWith(serie.cover_file)) {
+        fields.value.image = serie.cover_file;
+      } else if (imgMetadata.value.selectedFile || audioMetadata.value.imgblob != undefined) {
         var { result, link, nothingToDo } = await upload(SERVER_IMG_PATH, imgMetadata.value.selectedFile, audioMetadata.value.imgblob)
-        if (result.status != 201) {
+        if (result.statusCode != 201 && result.statusCode != 200) {
           errors.value.push({ field: "", text: "episode.validation.upload" })
           return
-        }
+        } 
         fields.value.image = link;
       }
 
@@ -291,19 +284,22 @@ export default defineComponent({
         method: "post",
         body: getFields()
       }
-      result = await $fetch(EPISODE_AP, postData);
-      if (result.status != 201) {
+      result = await myFetch( EPISODE_AP, postData);
+      if (result.statusCode != 201) {
         errors.value.push({ field: "", text: "saving" })
         return
       }
       if (serie_id != previousSeries_id && previousSeries_id > 0) {
-        const slug = await $fetch(SERIE_AP, { method: "post", body: { id: previousSeries_id } })
+        const slug = await myFetch( SERIE_AP, { method: "post", body: { id: previousSeries_id } })
           ; (await useSerie(slug)).refresh()
       }
-      hideIdicator()
       emit("save", fields.value.title);
+    } catch (err) {
+      console.log(err)
+    } finally {
+      hideIdicator()
     }
-
+  }
     async function save(event) {
       event.preventDefault();
       event.stopImmediatePropagation();
@@ -322,7 +318,7 @@ export default defineComponent({
       // server validation (if slug is unique)
       var countUrl = COUNT_AP + "?slug=" + fields.value.slug +
         (isEdit.value ? "&excludeId=" + fields.value.id : "")
-      var count: number = await $fetch(countUrl);
+      var count: number = await myFetch( countUrl);
       if (count > 0) errors.value.push({ field: "slug", text: "episode.validation.slug" });
 
       if (errors.value.length > 0) return;
@@ -356,6 +352,7 @@ export default defineComponent({
       }
       return cssclass;
     };
+    const series_options = ref(props.series.map((s) => { return { "enumvalue_id": s.id, "displaytext": s.title } as Partial<IEnumerator> }))
     return {
       isEdit,
       imageSelected,
@@ -370,7 +367,7 @@ export default defineComponent({
       pubdateText,
       errors,
       getClass,
-      series: props.series.map((s) => { return { "enumvalue_id": s.id, "displaytext": s.title } as Partial<IEnumerator> }),
+      series_options,
       save,
       remove,
       cancel,

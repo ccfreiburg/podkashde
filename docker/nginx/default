@@ -18,15 +18,25 @@ server {
         tcp_nodelay       on;
     	keepalive_timeout 65;
         access_log /var/log/nginx/mp3access.log custom buffer=1k flush=1m;
-    	root /var/www/public;
+    	root /var/www/;
     }
 
     location /s/ {
         # all other static file
-    	root /var/www/public;
+    	root /var/www/;
+    }
+    
+    location /img/ {
+        # all other static file
+    	root /var/www/;
     }
 
-    location /archiv {
+    location /json/ {
+        # all other static file
+    	root /var/www/;
+    }
+
+    location /archiv/ {
         # backup archive 
         autoindex on;
         root /var/www;
@@ -38,9 +48,16 @@ server {
         proxy_buffering off;
         proxy_set_header Host $host;
     	proxy_set_header X-Real-IP $remote_addr;
-    	proxy_pass http://localhost:3000;
+    	proxy_pass http://localhost:3003;
         access_log /var/log/nginx/mp3access.log custom buffer=1k flush=1m;
         # access_log /var/log/nginx/mediaaccess.log;
+    }
+
+    location /api/ {
+        proxy_buffering off;
+        proxy_set_header Host $host;
+    	proxy_set_header X-Real-IP $remote_addr;
+    	proxy_pass http://localhost:3003;
     }
 
     location / {

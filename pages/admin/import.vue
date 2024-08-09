@@ -1,17 +1,17 @@
 <template>
   <div class="m-3">
     <!-- Modal Dialog -->
-    <div v-show="loading" class="fixed pin z-50 overflow-auto inset-0 bg-gray-600 bg-opacity-50 h-full w-full"
+    <div v-show="loading" class="fixed inset-0 z-50 w-full h-full overflow-auto bg-gray-600 bg-opacity-50 pin"
       id="modal">
-      <div class="relative h-screen flex justify-center items-center">
+      <div class="relative flex items-center justify-center h-screen">
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg">
           <!-- Modal header -->
-          <div class="flex flex-col justify-between items-start p-4 rounded-t border-b">
+          <div class="flex flex-col items-start justify-between p-4 border-b rounded-t">
             <h3 class="text-xl font-semibold text-gray-900">
               {{ $t('import.loading') }}
             </h3>
-            <div class="mt-4 h-80 overflow-scroll flex flex-col">
+            <div class="flex flex-col mt-4 overflow-scroll h-80">
               <div v-for="(status, index) in statusLog" :key="index" class="text-sm">
                 {{ status.message }}
               </div>
@@ -20,42 +20,31 @@
         </div>
       </div>
     </div>
-
-    <div class="flex flex-col">
-      <BaseH1>
-        {{ $t("import.title") }}
-      </BaseH1>
+    <PageLayout :title="$t('import.title')">
       <div>
-        <p class="text-sm mt-2 mb-4 font-thin">{{ $t("import.subtitle") }}</p>
+        <p class="mt-2 mb-4 text-sm font-thin">{{ $t("import.subtitle") }}</p>
       </div>
       <BaseContainer>
         <!-- Enter API Url for Wordpress -->
         <div class="flex flex-row items-end mt-3">
           <input-area class="flex-grow" :name="'wpurl'" :label="'import.label.wpurl'" :errors="[]"
             v-model:value="wpurl" />
-          <BaseButtonPrimary class="ml-5 mt-5 mr-3" @click="loadMetadata">{{ $t("import.metadata") }}
+          <BaseButtonPrimary class="mt-5 ml-5 mr-3" @click="loadMetadata">{{ $t("import.metadata") }}
           </BaseButtonPrimary>
         </div>
         <!-- Select Podcasts from Categories -->
-        <div class="
-        mt-10
-        text-sm
-        flex
-        sm:flex-row
-        flex-col
-        place-content-stretch
-      ">
-          <multi-select class="sm:w-1/2 w-full" title="WordPress Categories" :showAllways="true"
+        <div class="flex flex-col mt-10 text-sm sm:flex-row place-content-stretch">
+          <multi-select class="w-full sm:w-1/2" title="WordPress Categories" :showAllways="true"
             :options="wpMetadata.series" @checked="onCheckSeries"></multi-select>
-          <div class="flex flex-col sm:w-1/2 w-full px-3">
+          <div class="flex flex-col w-full px-3 sm:w-1/2">
 
             <single-select :options="podcastOptions" :name="'test'" label="podcast.change"
               v-model:value="selectedPodcast"></single-select>
             <base-button-secondary class="h-20 s-full" @click="selectWpSeries">{{ (selectedPodcast > 0 ?
             $t("import.selectSeries") :
             $t("import.selectWpSeries")) }}</base-button-secondary>
-            <div class="mt-3 h-full border-2 rounded-md mt-4">
-              <div class="text-ml p-1">Selected</div>
+            <div class="h-full mt-3 mt-4 border-2 rounded-md">
+              <div class="p-1 text-ml">Selected</div>
               <div class="p-1">
                 <div v-for="(podcast, index) in wpPodcasts" :key="index">
                   {{ podcast.text }}
@@ -66,18 +55,11 @@
         </div>
 
         <!-- Analyse Data -->
-        <div class="mt-10 flex flex-col justify-end">
+        <div class="flex flex-col justify-end mt-10">
           <h1 class="text-xl">{{ $t("import.preview") }}</h1>
-          <div class="
-        mt-10
-        text-sm
-        flex
-        sm:flex-row
-        flex-col
-        place-content-stretch
-      ">
+          <div class="flex flex-col mt-10 text-sm sm:flex-row place-content-stretch">
             <BaseButtonSecondary @click="loadPreview">{{ $t("import.preview") }}</BaseButtonSecondary>
-            <div class="ml-8 w-fill flex flex-col">
+            <div class="flex flex-col ml-8 w-fill">
               <div>{{ wpMetadata.speakers.length }} - speakers</div>
               <div>{{ wpMetadata.tags.length }} - tags</div>
               <div>{{ wpMetadata.series.length }} - series</div>
@@ -88,15 +70,9 @@
             </div>
           </div>
         </div>
-        <div class="
-        mt-10
-        flex
-        flex-col
-        place-content-stretch
-        items-stretch
-      ">
+        <div class="flex flex-col items-stretch mt-10 place-content-stretch">
           <h1 class="text-xl">{{ $t("import.options") }}</h1>
-          <div class="flex flex-col sm:flex-row justify-end content-between">
+          <div class="flex flex-col content-between justify-end sm:flex-row">
             <div class="flex flex-col">
               <switch-box :checked="isCheckedImportFromArchiv"
                 @checkedChanged="(val) => isCheckedImportFromArchiv = val" :labelChecked="$t('import.importArchive')" />
@@ -113,7 +89,7 @@
         </div>
         <div class="h-10"></div>
       </BaseContainer>
-    </div>
+    </PageLayout>
   </div>
 </template>
 <script setup lang="ts">
@@ -139,21 +115,24 @@ import {
   seriesfromWpMetadata,
 } from "~~/base/WpImport";
 import { ContentFile } from "~~/base/ContentFile";
-import { IWpKeyValue, useWpEpisodeCount, useWpEpisodes, useWpMetadata, WpMetadata } from "~~/composables/wpimportdata";
+import type { IWpKeyValue } from "~~/composables/wpimportdata";
+import { useWpEpisodeCount, useWpEpisodes, useWpMetadata, WpMetadata } from "~~/composables/wpimportdata";
 import { EnumKey } from "~~/base/Enumerations";
-import ProgressInfo from "~~/base/types/ProgressInfo";
-import IEnumerator from "~~/base/types/IEnumerator";
-import IPodcast from "~~/base/types/IPodcast";
-import ISerie from "~~/base/types/ISerie";
-import { IFetchFileResult } from "~~/base/types/IFetchFileResult";
+import type ProgressInfo from "~~/base/types/ProgressInfo";
+import type IEnumerator from "~~/base/types/IEnumerator";
+import type IPodcast from "~~/base/types/IPodcast";
+import type ISerie from "~~/base/types/ISerie";
+import type { IFetchFileResult } from "~~/base/types/IFetchFileResult";
 import { addState, ContentState } from "~~/base/types/ContentState";
 
+const myFetch = useFetchApi();
+const {user} = useAuth()
+const {on_mounted, on_before, on_user_changed} = useMounted(()=>{}, user, true)
+onMounted( on_mounted )
+onBeforeMount( on_before )
+watch(user, on_user_changed);
+
 const CCF = "https://ccfreiburg.de/";
-
-definePageMeta({
-  middleware: "authentication",
-});
-
 const wpurl = ref(CCF);
 const loading = ref(false);
 const wpPodcasts = ref([] as Array<Object>);
@@ -180,12 +159,12 @@ var checkedSeries = [] as Array<Object>;
 var wpPodcastEpisodes = [] as Array<Object>;
 
 async function post<T>(endpoint: string, data: T) {
-  const postData = {
+  const postData = { 
     method: "post",
     body: data as T,
   };
-  var postResult: Response = await $fetch(endpoint, postData);
-  if (postResult.status != 201)
+  var postResult: Response = await myFetch( endpoint, postData);
+  if (postResult.statusCode != 201)
     throw ("A problem saving the data on server")
 }
 
@@ -233,7 +212,7 @@ async function downloadFile(serverPath: string, slug: string, file: string, alts
       altslug
     );
   // If download successfull return new address of cover_image 
-  if (ret.path && ret.status == 201 || ret.status == 423) {
+  if (ret.path && ret.statusCode== 201 || ret.statusCode== 423) {
     return ret.path as string;
   }
   else
@@ -243,7 +222,7 @@ async function downloadFile(serverPath: string, slug: string, file: string, alts
 async function fetchArchive(serverPath: string, slug: string, file: string): Promise<IFetchFileResult> {
   const name = ContentFile.getFilename(file)
   statusLog.value.push({ message: "Looking for " + name + " in archive" })
-  return await $fetch(FROMARCHIVE_AP, {
+  return await myFetch( FROMARCHIVE_AP, {
     method: "post",
     body: {
       serverPath,
@@ -272,7 +251,7 @@ async function fetchFile(
         altpath: (altslug ? ContentFile.getPathFromUrl(serverPath, altslug) : "")
       } as Object,
     };
-    const ret = (await $fetch(FETCHLOCAL_AP, postData)) as IFetchFileResult;
+    const ret = (await myFetch( FETCHLOCAL_AP, postData)) as IFetchFileResult;
     return ret;
   }
   return { status: 501, message: "Something went wrong" }
@@ -281,8 +260,12 @@ async function fetchFile(
 async function importPodcast(podcast: any) {
   statusLog.value.push({ message: "Saving podcast " + podcast.title + " to server" })
   var contentState = ContentState.allmeta;
-  const { podcasts } = await usePodcasts()
-  const { episodes } = await useEpisodes()
+  const { podcasts, refresh: loadPodcasts } = usePodcasts()
+  await loadPodcasts()
+  const { episodes, refresh: loadEpisodes } = useEpisodes()
+  await loadEpisodes()
+  const { series, refresh: loadSeries } = useSeries()
+  await loadSeries()
   var podkashde = podcastFromWpMetadata(podcasts.value, podcast, enums.value)
   if (isCheckedImportCovers.value) {
     podkashde.cover_file = await downloadFile(SERVER_IMG_PATH, podkashde.slug, podkashde.cover_file)
@@ -293,7 +276,7 @@ async function importPodcast(podcast: any) {
   await refresh() // enums refresh
   for await (var episode of wpEpisodes.value) {
     contentState = ContentState.allmeta;
-    var seriesId = episode.series.find((serieId) => serieId != podkashde.external_id);
+    var seriesId = series.value.find((serieId) => serieId != podkashde.external_id);
     var pk_episode = episodeFromWpMetadata(
       episodes.value,
       episode,
@@ -316,9 +299,9 @@ async function importPodcast(podcast: any) {
     }
     pk_episode.state = contentState;
     statusLog.value.push({ message: "Saving episode " + pk_episode.title + " to server" })
-    await post(EPISODEWP_AP, { episode: pk_episode })
+    await post(EPISODEWP_AP, { episode: pk_episode, podcastId: podcast.id })
   }
-  $fetch(GENERATE_RSS_AP, { query: { slug: podkashde.slug } })
+  myFetch( GENERATE_RSS_AP, { query: { slug: podkashde.slug } })
 }
 
 async function importSerie(wpserie: any, podkashde: IPodcast) {
@@ -360,7 +343,7 @@ async function importSerie(wpserie: any, podkashde: IPodcast) {
     statusLog.value.push({ message: "Saving episode " + pk_episode.title + " to server" })
     await post(EPISODEWP_AP, { podcastId: podkashde.id, episode: pk_episode })
   }
-  $fetch(GENERATE_RSS_AP, { query: { slug: podkashde.slug } })
+  myFetch( GENERATE_RSS_AP, { query: { slug: podkashde.slug } })
 }
 
 // Event Handlers
