@@ -68,4 +68,8 @@ jobs:
             REVISION=${{ fromJSON(steps.docker_meta.outputs.json).labels['org.opencontainers.image.revision'] }}
 =======
             REVISION=${{ fromJSON(steps.docker_meta.outputs.json).labels['org.opencontainers.image.revision'] }}
+<<<<<<< HEAD
 >>>>>>> c2db8b4 (rename action)
+=======
+>>>>>>> bc98674 (Create branch-image.yml (#12))
+>>>>>>> 51388bb (Create branch-image.yml (#12))
