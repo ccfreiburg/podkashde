@@ -69,7 +69,7 @@ export default defineComponent({
   },
   async setup(props, ctx) {
     const { locale } = useI18n();
-    const { menu, settings, loading } = useMetaData(locale.value, true);
+    const { menu, loading } = useMetaData(locale.value, true);
     const { user } = useAuth();
     const showMenu = ref(false);
 
@@ -114,7 +114,6 @@ onMounted(() => {
       showMenu,
       logo,
       menu,
-      settings,
       loading,
       user
     }

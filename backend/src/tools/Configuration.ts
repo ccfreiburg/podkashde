@@ -3,6 +3,9 @@ require('dotenv').config()
 export const DATABASE_PATH = process.env.DATABASE_PATH ?? 'data';
 export const DATA_PATH = process.env.DATA_PATH ?? 'public';
 export const DATABASE_FILE = process.env.DATABASE_FILE ?? "podcasts.sqlite"
+export const EXT_MENU_AP = process.env.EXT_MENU_AP ?? ""
+export const EXT_MENU_FILTER = process.env.EXT_MENU_FILTER ?? ""
+export const EXT_MENU_BASEURL = process.env.EXT_MENU_BASEURL ?? ""
 export const DATAFILES_PATH = '/files/'
 export const SERVER_IMG_PATH = '/s/covers/';
 export const SERVER_POSTIMG_PATH = '/s/posts/';

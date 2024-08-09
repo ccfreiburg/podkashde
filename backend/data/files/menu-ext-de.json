@@ -1,15 +1,4 @@
 {
-    "settings": {
-        "baseUrl": "http://localhost:3000",
-        "defaultRoute": "/recent",
-        "menuSource": "",
-        "skin": "",
-        "logo": "/img/logo.png",
-        "logo_w": "/img/logo-w.png",
-        "enableDarkOption": false,
-        "closeOnScroll": false,
-        "nondefault": false
-    },
     "menu": [
         {
             "Description": "Höre unsere Predigen, Inputs und  Biblestudies oder lies Neues und Andachten",
