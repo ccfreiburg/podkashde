@@ -36,7 +36,8 @@
         </div>
         <div class="content-center flex-grow text-center align-middle">
           <NuxtLink :to="localePath('/')" class="inline-block">
-            <img :src="$props.logo" class="m-1 w-28 sm:w-48" />
+            <img :src="$props.logo" class="dark:hidden m-1 w-28 sm:w-48" />
+            <img :src="$props.logodark" class="dark:block hidden m-1 w-28 sm:w-48" />
           </NuxtLink>
         </div>
         <div class="flex flex-row items-center w-1/6 place-content-end">
@@ -89,10 +90,7 @@ export default defineComponent({
       default: { de: '/', en: '/en' }
     },
     logo: String,
-    darkmode: {
-      type: Boolean,
-      default: true
-    },
+    logodark: String,
     enableDarkOption: {
       type: Boolean,
       default: true

@@ -86,7 +86,6 @@ export default defineComponent({
       // Upload Image
       const upload = useUploader()
       var { result, link, nothingToDo } = await upload(SERVER_IMG_PATH+SERIES_IMG_PATH, imgMetadata.value.selectedFile)
-      console.log(JSON.stringify(result))
       if (!nothingToDo) {
         if ((result as any).statusCode != 201) {
           errors.value.push({ field: "", text: "upload" })
