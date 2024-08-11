@@ -26,7 +26,6 @@ async function getExternalMenu( locale: string ) : Promise<any> {
 }
 async function getLocalMenu( locale: string ) : Promise<any> {
     const meta = JSON.parse(fs.readFileSync(DATABASE_PATH + DATAFILES_PATH + 'meta-'+locale+'.json',{encoding:'utf8', flag:'r'}));
-    console.log(EntityMetadata)
     return meta.menu
 }
 

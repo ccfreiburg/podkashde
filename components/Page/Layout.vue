@@ -4,8 +4,8 @@
       :closeOnScroll="false"
       :menuVisible="showMenu"
       :showMenuButton="!loading"
-      :darkmode="darkmode"
       :logo="logo"
+      :logodark="logodark"
       :enable_dark_option="enableDarkMode"
       @menuButtonClick="menuButtonClick"
       @colorModeChanged="switchColorMode"
@@ -102,17 +102,16 @@ onMounted(() => {
     colorMode.value = 'light'
   }
 })
-    const logo = computed( () => (darkmode.value ? 
-      ContentFile.getMediaUrl(useRuntimeConfig().public.logoDark) : 
-      ContentFile.getMediaUrl(useRuntimeConfig().public.logo)) )
+    const logodark = ContentFile.getMediaUrl(useRuntimeConfig().public.logoDark)
+    const logo =  ContentFile.getMediaUrl(useRuntimeConfig().public.logo)
     return {
       menuButtonClick,
       menuItemClicked,
       switchColorMode,
-      darkmode,
       enableDarkMode,
       showMenu,
       logo,
+      logodark,
       menu,
       loading,
       user
