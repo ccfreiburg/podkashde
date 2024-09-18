@@ -46,7 +46,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v4
         with:
-          images: ghcr.io/ccfreiburg/podkashde
+          images: devccf/podkashde
           tags: |
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{version}}
@@ -64,9 +64,8 @@ jobs:
       - name: Login to GHCR
         uses: docker/login-action@v2
         with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GHCR_PASSWORD }}
+          username: devccf
+          password: ${{ secrets.POST_IMAGES_TOKEN }}
 
       - name: Build image
         uses: docker/build-push-action@v3
