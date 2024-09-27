@@ -24,5 +24,7 @@ do
     sleep 2s
     i=$((i+1))
 done
-
+ls /app
+ls /data
+ls /var/www
 node /app/.output/server/index.mjs 
