@@ -52,6 +52,7 @@ RUN printf 'export const VERSION = "'$VERSION'"\n' >> version.ts
 
 # update each dependency in package.json to the latest version
 RUN yarn 
+RUN yarn build
 
 EXPOSE 80
 

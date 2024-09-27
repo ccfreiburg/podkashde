@@ -21,6 +21,7 @@ logs
 # Local env files
 .env
 .env.*
+*.env
 !.env.example
 
 cypress/e2e/screenshots

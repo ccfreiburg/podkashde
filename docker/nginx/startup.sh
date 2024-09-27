@@ -12,8 +12,7 @@ trap clean_up INT EXIT
 
 env
 
-cd /app
-cd backend
+cd /app/backend
 yarn start &
 bePID=$!
 
@@ -26,6 +25,4 @@ do
     i=$((i+1))
 done
 
-cd ..
-yarn build
 node .output/server/index.mjs 
