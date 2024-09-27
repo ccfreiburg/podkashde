@@ -25,4 +25,4 @@ do
     i=$((i+1))
 done
 
-node .output/server/index.mjs 
+node /app/.output/server/index.mjs 
