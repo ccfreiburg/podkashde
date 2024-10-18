@@ -57,7 +57,8 @@ export const deleteRefreshToken = (response: Response) => {
 } 
 
 export const sendAuthToken = (response: Response, token: string) => {
-    response.cookie('auth_token', token, { path: '/', httpOnly: true, sameSite: true, domain: 'localhost:3003' })
+    response.cookie('auth_token', token, { 
+        path: '/', httpOnly: true, sameSite: true, domain: 'localhost' })
 } 
 
 export const deleteAuthToken = (response: Response) => {
