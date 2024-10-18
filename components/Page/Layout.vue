@@ -9,6 +9,7 @@
       :enable_dark_option="enableDarkMode"
       @menuButtonClick="menuButtonClick"
       @colorModeChanged="switchColorMode"
+      @localeChanged="localeChanged"
       class="sticky top-0 z-40"
     />
     <div v-if="showMenu" class="w-full h-full shadow-md">
@@ -69,7 +70,7 @@ export default defineComponent({
   },
   async setup(props, ctx) {
     const { locale } = useI18n();
-    const { menu, loading } = useMetaData(locale.value, true);
+    const { menu, loading, refreshLocale } = useMetaData(locale.value, true);
     const { user } = useAuth();
     const showMenu = ref(false);
 
@@ -95,6 +96,10 @@ function switchColorMode() {
 
 const enableDarkMode = useRuntimeConfig().public.enableDarkMode
 
+const localeChanged = async (loc:any) => {
+  await refreshLocale(loc)
+}
+
 onMounted(() => {
   if (enableDarkMode)
     darkmode.value = (colorMode.value == 'dark')
@@ -108,6 +113,7 @@ onMounted(() => {
       menuButtonClick,
       menuItemClicked,
       switchColorMode,
+      localeChanged,
       enableDarkMode,
       showMenu,
       logo,

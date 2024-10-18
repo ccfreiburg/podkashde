@@ -5,6 +5,7 @@ import { sendResponse } from '../tools/Controller';
 import { Any, EntityMetadata } from 'typeorm';
 
 var menu = []
+var latest_locale = ""
 
 function linkGenerator( section: any ) : any {
     const linker =  item => { 
@@ -30,10 +31,11 @@ async function getLocalMenu( locale: string ) : Promise<any> {
 }
 
 export async function getMetadata(request: Request, response: Response) {
-    const locale = request.query.locale
-    if (menu.length<1) {
-        const ext_menu = await getExternalMenu(locale as string)
-        const loc_menu = await getLocalMenu(locale as string)
+    const locale = request.query.locale as string
+    if (menu.length<1 || latest_locale!=locale) {
+        latest_locale = locale
+        const ext_menu = await getExternalMenu(locale)
+        const loc_menu = await getLocalMenu(locale)
         menu = ext_menu.concat(loc_menu)       
     }
     sendResponse( response, { menu })
