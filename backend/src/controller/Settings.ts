@@ -22,7 +22,8 @@ function linkGenerator( section: any ) : any {
         if (!item.link || item.link.length <1) {
             const link = getLink(item)
             if (link)
-                item.link = (link.startsWith("http")?link:EXT_MENU_BASEURL + link)
+                item.link = (link.startsWith("http")?link:EXT_MENU_BASEURL + 
+                        (link.startsWith("/")&&EXT_MENU_BASEURL.endsWith("/")?link.substring(1):link))
         }
     }
     linker(section)
