@@ -1,24 +1,24 @@
 {
     "menu": [{
-            "Description": "Höre aktuelle und zuletzt erschienene Folgen",
-            "Name": "Hör rein",
+            "description": "Höre aktuelle und zuletzt erschienene Folgen",
+            "title": "Hör rein",
             "Replaces": "Hör rein",
             "link": "/recent",
             "menu_items": [
                 {
-                    "Name": "Aktuelle Folgen",
+                    "title": "Aktuelle Folgen",
                     "locale": "de",
                     "link": "/recent",
                     "local": true
                 },
                 {
-                    "Name": "Aktuelle Serien",
+                    "title": "Aktuelle Serien",
                     "locale": "de",
                     "link": "/series",
                     "local": true
                 },
                 {
-                    "Name": "Podcasts",
+                    "title": "Podcasts",
                     "locale": "de",
                     "link": "/podcasts",
                     "local": true
@@ -26,34 +26,34 @@
             ]
         },
         {
-            "Description": "Podcasts, Serien und Folgen verwalten ",
-            "Name": "Administrator",
+            "description": "Podcasts, Serien und Folgen verwalten ",
+            "title": "Administrator",
             "admin": true,
             "link": "/admin",
             "menu_items": [
                 {
-                    "Name": "Andministrator Login",
+                    "title": "Andministrator Login",
                     "locale": "de",
                     "loggedin": false,
                     "link": "/admin/login",
                     "local": true
                 },
                 {
-                    "Name": "Passwort ändern",
+                    "title": "Passwort ändern",
                     "loggedin": true,
                     "locale": "de",
                     "link": "/admin/setpassword",
                     "local": true
                 },
                 {
-                    "Name": "Benutzer einladen",
+                    "title": "Benutzer einladen",
                     "locale": "de",
                     "loggedin": true,
                     "link": "/admin/invitation",
                     "local": true
                 },
                 {
-                    "Name": "Abmelden",
+                    "title": "Abmelden",
                     "locale": "de",
                     "loggedin": true,
                     "link": "#logout",

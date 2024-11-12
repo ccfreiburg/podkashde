@@ -7,12 +7,24 @@ import { Any, EntityMetadata } from 'typeorm';
 var menu = []
 var latest_locale = ""
 
+// Copy from ccf-web-frontend
+function getLink( data: any ) : string | undefined {    
+    if (!data) return undefined
+    if (data.url) return data.url
+    if (data.page) return (data.page.locale=="de"? "/" + data.page.slug:"/" + data.page.locale + "/" + data.page.slug)
+    if (data.article) return (data.article.locale=="de"? "/article/" + data.article.slug : "/" +data.article.locale + "/article/" + data.article.slug)
+  return undefined
+}
+//
+
 function linkGenerator( section: any ) : any {
     const linker =  item => { 
-        if (!item.link || item.link.length <1)
-            if (item.page && item.page.slug && item.page.slug.length > 0)
-                item.link = EXT_MENU_BASEURL + item.page.slug
+        if (!item.link || item.link.length <1) {
+            const link = getLink(item)
+            if (link)
+                item.link = (link.startsWith("http")?link:EXT_MENU_BASEURL + link)
         }
+    }
     linker(section)
     section.menu_items.forEach(element => linker(element));
     return section

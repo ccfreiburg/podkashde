@@ -7,7 +7,7 @@
                 <BaseH1>
                   <div class="flex flex-row flex-nowrap">
                   <div>
-                    {{ section.Name }}
+                    {{ section.title }}
                   </div>
                   <div>
 
@@ -21,14 +21,14 @@
                 </BaseH1>
               </MenuLink>
               <p class="mt-5 mb-5 text-normal tracking-wide font-bold text-[#888888]">
-                {{ section.Description }}
+                {{ section.description }}
               </p>
               <div class="flex flex-row flex-wrap justify-center">
               <div v-for="(entry, index) in section.menu_items" :key="index">
                 <MenuButton v-if="!section.admin || notxor(entry.loggedin, user)"  :item="entry" @menuItemClicked="menuItemClicked">
                   <div class="flex flex-row flex-nowrap">
                   <div>
-                    {{ entry.Name }}&nbsp;
+                    {{ entry.title }}&nbsp;
                   </div>
                   <div>
 

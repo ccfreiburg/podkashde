@@ -1,25 +1,25 @@
 {
     "menu": [
         {
-            "Description": "Listen to our content",
-            "Name": "Listen",
+            "description": "Listen to our content",
+            "title": "Listen",
             "Replaces": "Listen",
             "link": "/recent",
             "menu_items": [
                 {
-                    "Name": "Recent Episodes",
+                    "title": "Recent Episodes",
                     "locale": "en",
                     "link": "/recent",
                     "local": true
                 },
                 {
-                    "Name": "Current Series",
+                    "title": "Current Series",
                     "locale": "en",
                     "link": "/series",
                     "local": true
                 },
                 {
-                    "Name": "Podcasts",
+                    "title": "Podcasts",
                     "locale": "en",
                     "link": "/podcasts",
                     "local": true
@@ -27,34 +27,34 @@
             ]
         },
         {
-            "Description": "Manage podcasts, series and episodes",
-            "Name": "Administration",
+            "description": "Manage podcasts, series and episodes",
+            "title": "Administration",
             "admin": true,
             "link": "/admin",
             "menu_items": [
                 {
-                    "Name": "Andmin Login",
+                    "title": "Andmin Login",
                     "locale": "en",
                     "loggedin": false,
                     "link": "/admin/login",
                     "local": true
                 },
                 {
-                    "Name": "Change Password",
+                    "title": "Change Password",
                     "loggedin": true,
                     "locale": "en",
                     "link": "/admin/setpassword",
                     "local": true
                 },
                 {
-                    "Name": "Invite User",
+                    "title": "Invite User",
                     "locale": "en",
                     "loggedin": true,
                     "link": "/admin/invitation",
                     "local": true
                 },
                 {
-                    "Name": "Logout",
+                    "title": "Logout",
                     "locale": "en",
                     "loggedin": true,
                     "link": "#logout",
