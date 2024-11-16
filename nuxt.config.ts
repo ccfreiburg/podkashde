@@ -24,9 +24,9 @@ function setEnvUndefinedWhenEmpty( envvar: string | undefined ) :string | undefi
 
 export default defineNuxtConfig({
   modules: [
-    '@nuxtjs/i18n', '@nuxtjs/tailwindcss', '@nuxtjs/color-mode'
+    '@nuxtjs/i18n', '@nuxtjs/tailwindcss', '@nuxtjs/color-mode', 'nuxt-umami'
   ],
-  extends: [ 'nuxt-umami' ],
+
   i18n: {
     strategy: 'prefix_except_default',
     defaultLocale: 'de',
@@ -45,12 +45,14 @@ export default defineNuxtConfig({
     lazy: true,
     langDir: 'locales',
   },
+
   colorMode: {
     preference: 'system', // default value of $colorMode.preference
     fallback: 'light', // fallback value if not system preference found
     classSuffix: '',
     classPrefix: '',
   },
+
   // css: [ './assets/css/tailwind.css' 
   // ],
   // app: {
@@ -59,6 +61,20 @@ export default defineNuxtConfig({
   //     mode: 'out-in'
   //   }
   // },
+  umami: {
+    id: setEnv(process.env.NUXT_PUBLIC_UMAMI_ID,''),
+    host: setEnv(process.env.NUXT_PUBLIC_UMAMI_HOST,''),
+    autoTrack: true,
+    // proxy: 'cloak',
+    // useDirective: true,
+    // ignoreLocalhost: true,
+    // excludeQueryParams: false,
+    // domains: ['cool-site.app', 'my-space.site'],
+    // customEndpoint: '/my-custom-endpoint',
+    // enabled: false,
+    // logErrors: true,
+  },
+
   runtimeConfig: {
     public: {
       url: process.env.NUXT_PUBLIC_URL,
@@ -72,16 +88,20 @@ export default defineNuxtConfig({
       umamiActive: setEnvBool(process.env.NUXT_PUBLIC_UMAMI_ID)
     }
   },
+
   appConfig: {
     umami: {
       autoTrack: setEnvBool(process.env.NUXT_PUBLIC_UMAMI_ID),
       version: 2
   }},
+
   // nitro: {
   //   routeRules: {
   //     "/api/**": { proxy: 'localhost:3003' },
   //     "/s/**": { proxy: 'localhost:3003' }
   //   }
   // },
-  devtools: { enabled: false }
+  devtools: { enabled: false },
+
+  compatibilityDate: '2024-11-16'
 })
