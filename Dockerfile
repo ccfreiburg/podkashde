@@ -8,6 +8,9 @@ ENV DATABASE_PATH=/data
 ENV DATABASE_FILE=podcasts.sqlite
 ENV DATA_PATH=/var/www
 
+ENV NUXT_PUBLIC_UMAMI_HOST ${NUXT_PUBLIC_UMAMI_HOST}
+ENV NUXT_PUBLIC_UMAMI_ID ${NUXT_PUBLIC_UMAMI_ID}
+
 RUN apt-get update && apt-get install -y \
     curl dumb-init logrotate nginx vim \
     && rm -rf /var/lib/apt/lists/*
