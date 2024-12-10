@@ -50,6 +50,9 @@ jobs:
 
       - name: Build image
         uses: docker/build-push-action@v3
+        env:
+          NUXT_PUBLIC_UMAMI_HOST: ${{ secrets.NUXT_PUBLIC_UMAMI_HOST }}
+          NUXT_PUBLIC_UMAMI_ID: ${{ secrets.NUXT_PUBLIC_UMAMI_ID }}‚
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
