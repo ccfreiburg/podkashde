@@ -23,10 +23,8 @@ function setEnvUndefinedWhenEmpty( envvar: string | undefined ) :string | undefi
 }
 
 export default defineNuxtConfig({
-  modules: [
-    '@nuxtjs/i18n', '@nuxtjs/tailwindcss', '@nuxtjs/color-mode', 'nuxt-umami'
-  ],
-
+  modules: [ '@nuxtjs/i18n', '@nuxtjs/tailwindcss', '@nuxtjs/color-mode' ],
+  extends: [ 'nuxt-umami' ],
   i18n: {
     strategy: 'prefix_except_default',
     defaultLocale: 'de',
@@ -88,12 +86,12 @@ export default defineNuxtConfig({
       umamiActive: setEnvBool(process.env.NUXT_PUBLIC_UMAMI_ID)
     }
   },
-
   appConfig: {
     umami: {
       autoTrack: setEnvBool(process.env.NUXT_PUBLIC_UMAMI_ID),
       version: 2
-  }},
+    }
+  },
 
   // nitro: {
   //   routeRules: {
