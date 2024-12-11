@@ -50,15 +50,14 @@ jobs:
 
       - name: Build image
         uses: docker/build-push-action@v3
-        env:
-          NUXT_PUBLIC_UMAMI_HOST: ${{ secrets.NUXT_PUBLIC_UMAMI_HOST }}
-          NUXT_PUBLIC_UMAMI_ID: ${{ secrets.NUXT_PUBLIC_UMAMI_ID }}‚
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
           build-args: |
+            NUXT_PUBLIC_UMAMI_HOST=${{ secrets.NUXT_PUBLIC_UMAMI_HOST }}
+            NUXT_PUBLIC_UMAMI_ID=${{ secrets.NUXT_PUBLIC_UMAMI_ID }}
             BUILDTIME=${{ fromJSON(steps.docker_meta.outputs.json).labels['org.opencontainers.image.created'] }}
             VERSION=${{ fromJSON(steps.docker_meta.outputs.json).labels['org.opencontainers.image.version'] }}
             REVISION=${{ fromJSON(steps.docker_meta.outputs.json).labels['org.opencontainers.image.revision'] }}
