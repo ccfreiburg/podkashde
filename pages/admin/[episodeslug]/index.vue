@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { GENERATE_RSS_AP } from "~~/base/Constants";
 
 const route = useRoute();
 const slug = route.params.episodeslug as string;
@@ -16,7 +15,8 @@ const myFetch = useFetchApi()
 const router = useRouter()
 
 async function onsaved() {
-  await myFetch( GENERATE_RSS_AP, { query: { slug: podcast.value?.slug }})
+  const { generate } = useRss(podcast.value?.slug as string);
+  await generate()
   await refresh()
   var url = router.options.history.state.back as string;
     if (url.includes("?"))
