@@ -1,5 +1,5 @@
-import IEpisode from './IEpisode';
-import ISerie from './ISerie';
+import type IEpisode from './IEpisode';
+import type ISerie from './ISerie';
 
 export default interface IPodcast {
   id?: number;

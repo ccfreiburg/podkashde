@@ -1,14 +1,11 @@
 import Enumerations, { EnumKey } from "./Enumerations";
 import {ContentState} from "./types/ContentState"
-import Episode, { getEpisode } from "~~/server/db/entities/Episode";
-import Podcast, { setPodcast } from "~~/server/db/entities/Podcast";
 import { strToDate } from "./Converters";
-import IPodcast from "./types/IPodcast";
-import IEpisode from "./types/IEpisode";
-import IEnumerator from "./types/IEnumerator";
-import ISerie from "./types/ISerie";
-import IBibleAddress from "./types/IBibleAddress.ts"
-import { link } from "fs/promises";
+import type IPodcast from "./types/IPodcast";
+import type IEpisode from "./types/IEpisode";
+import type IEnumerator from "./types/IEnumerator";
+import type ISerie from "./types/ISerie";
+import type IBibleAddress from "./types/IBibleAddress.ts"
 
 export function enumsfromWpMetadata(
   getIdFunction,
