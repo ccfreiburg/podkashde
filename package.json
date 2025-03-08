@@ -15,19 +15,20 @@
     "clean:cy": "rm -r ./backend/public/s && rm ./backend/data/podcasts.sqlite"
   },
   "devDependencies": {
-    "@nuxtjs/color-mode": "^3.4.2",
-    "@nuxtjs/i18n": "^8.3.3",
-    "@nuxtjs/tailwindcss": "^6.12.1",
-    "cypress": "13.6.6",
-    "nuxt": "^3.12.4",
-    "typescript": "^5.3.3",
-    "vue": "^3.4.36",
-    "vue-router": "^4.4.3"
+    "@nuxtjs/color-mode": "^3.5.2",
+    "@nuxtjs/i18n": "^9.2.1",
+    "@nuxtjs/tailwindcss": "^6.13.1",
+    "@types/node": "^18",
+    "cypress": "14.0.0",
+    "nuxt": "^3.16.0",
+    "typescript": "^5.8.2",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
   },
   "dependencies": {
     "id3-parser": "^3.0.0",
-    "jwt-payloader": "^1.0.1",
-    "nuxt-umami": "^3.1.1"
+    "jwt-payloader": "^1.0.4",
+    "nuxt-umami": "^3.2.0"
   },
   "resolutions": {
     "string-width": "4.2.3"

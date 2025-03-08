@@ -40,7 +40,7 @@ export default defineNuxtConfig({
       }
     ],
     lazy: true,
-    langDir: 'locales',
+    langDir: './locales',
   },
 
   colorMode: {

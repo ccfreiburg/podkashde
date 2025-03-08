@@ -49,7 +49,11 @@ export async function getMetadata(request: Request, response: Response) {
         latest_locale = locale
         const ext_menu = await getExternalMenu(locale)
         const loc_menu = await getLocalMenu(locale)
-        menu = ext_menu.concat(loc_menu)       
+        const ext_menu_flt = ext_menu.filter(
+            (item) => loc_menu.find((item_loc) => 
+                (item_loc.Replaces==item.title))==undefined
+        )
+        menu = ext_menu_flt.concat(loc_menu)
     }
     sendResponse( response, { menu })
 }
