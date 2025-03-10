@@ -4,10 +4,11 @@
     <BaseContainerClean class="pt-4 pb-10 bg-skin-muted dark:bg-skin-muted-dark">
       <div v-for="podcast in sortedPodcasts" :key="podcast.id">
         <div :data-testid="'podcast.' + podcast.slug"
-          class="flex flex-row flex-wrap p-4 mt-4 bg-skin-light dark:bg-skin-dark sm:flex-nowrap place-content-center">
-          <div class="flex-shrink-0 w-32 h-32">
+          class="flex flex-col flex-wrap p-4 mt-4 bg-skin-light dark:bg-skin-dark 
+                  sm:flex-row sm:flex-nowrap place-content-center">
+          <div class="w-40">
             <NuxtLink :to="localePath('/podcast/' + podcast.slug)">
-              <img class="object-scale-down w-32 h-32" :src="ContentFile.getMediaUrl(podcast.cover_file)" />
+              <img class="object-cover" :src="ContentFile.getMediaUrl(podcast.cover_file)" />
             </NuxtLink>
           </div>
           <div class="flex flex-col items-start justify-around flex-grow px-4 py-2 sm:pl-12 rounded-r-md">

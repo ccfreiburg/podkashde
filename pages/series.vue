@@ -8,7 +8,9 @@
           <div
             :data-testid="'serie.' + serie.slug"
             class="flex flex-col flex-wrap items-center p-4 mt-4 bg-skin-light dark:bg-skin-dark sm:flex-row sm:flex-nowrap sm:place-content-center">
-            <img class="w-32 h-32" :src="ContentFile.getMediaUrl(serie.cover_file)" />
+            <div class="w-40">
+              <img class="object-cover" :src="ContentFile.getMediaUrl(serie.cover_file)" />
+            </div>
             <div class="flex flex-col items-center justify-around flex-grow py-2 sm:pl-12 sm:items-start">
               <div class="text-center sm:text-start">
                 <div class="text-xs font-semibold tracking-wider sm:text-xl sm:pb-2">
