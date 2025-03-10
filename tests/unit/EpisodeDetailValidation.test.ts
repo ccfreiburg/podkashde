@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import IEpisode from "../../base/types/IEpisode";
+import type {IEpisode} from "../../base/types/IEpisode";
 import validation from "../../base/EpisodeDetailValidation";
 import { REQUIRED_IMG_WIDTH, REQUIRED_IMG_HEIGHT } from '../../base/Constants';
 

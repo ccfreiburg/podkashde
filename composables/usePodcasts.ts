@@ -1,4 +1,4 @@
-import type IPodcast from "~/base/types/IPodcast";
+import type {IPodcast} from "~/base/types/IPodcast";
 import {  PODCASTS_AP } from "~~/base/Constants";
 
 const podcasts = ref([] as Array<IPodcast>)

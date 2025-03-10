@@ -1,7 +1,7 @@
-import IPodcast from "./IPodcast";
-import ISerie from "./ISerie";
+import type {IPodcast} from "./IPodcast";
+import type {ISerie} from "./ISerie";
 
-export default interface IEpisode {
+export interface IEpisode {
     id?: number;
     image: string;
     postimage?: string;

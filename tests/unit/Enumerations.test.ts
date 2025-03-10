@@ -1,5 +1,5 @@
 import { describe, expect, it, afterEach } from "vitest";
-import IEnumerator from "../../base/types/IEnumerator";
+import type {IEnumerator} from "../../base/types/IEnumerator";
 import Enumerations from "../../base/Enumerations";
 
 describe("enumerations", async () => {

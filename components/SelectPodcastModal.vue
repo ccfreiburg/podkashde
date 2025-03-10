@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import type { PropType } from "vue";
-import type IPodcast from "~~/base/types/IPodcast";
+import type {IPodcast} from "~~/base/types/IPodcast";
 
 export default defineComponent({
   props: {

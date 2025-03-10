@@ -1,6 +1,6 @@
 import { REQUIRED_IMG_WIDTH, REQUIRED_IMG_HEIGHT } from './Constants';
-import ISerie from './types/ISerie';
-import IValidationError from './types/IValidationError';
+import type {ISerie} from './types/ISerie';
+import type {IValidationError} from './types/IValidationError';
 
 const i18nstructure = "serie.validation.";
 

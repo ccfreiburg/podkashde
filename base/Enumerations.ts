@@ -1,4 +1,5 @@
-import IEnumerator, { getEmptyEnum } from "./types/IEnumerator";
+import type {IEnumerator} from "./types/IEnumerator"
+import { getEmptyEnum } from "./types/IEnumerator"
 
 export enum EnumKey {
   Language = 0,

@@ -87,16 +87,16 @@ import {
   durationInSecToStr,
   getSaveFilename,
 } from "~~/base/Converters";
-import type IPodcast from "~~/base/types/IPodcast";
-import type IEpisode from "~~/base/types/IEpisode";
+import type {IPodcast} from "~~/base/types/IPodcast";
+import type {IEpisode} from "~~/base/types/IEpisode";
 import validation from "~~/base/EpisodeDetailValidation";
-import type ISerie from "../base/types/ISerie";
+import type {ISerie} from "../base/types/ISerie";
 import { emptyISerieFactory } from "../base/types/ISerie";
 import AudioFileMetadata from "~~/base/types/AudioFileMetadata";
 import ImageMetadata from "~~/base/types/ImageMetadata";
 import type IValidationError from "~~/base/types/IValidationError";
 import { COUNT_AP, EPISODE_AP, FILES_AP, SERIE_AP, SERVER_IMG_PATH, SERVER_MP3_PATH, UPLOAD_AP } from "~~/base/Constants";
-import type IEnumerator from "~~/base/types/IEnumerator";
+import type {IEnumerator} from "~~/base/types/IEnumerator";
 import { ContentFile } from "~/base/ContentFile";
 
 export default defineComponent({

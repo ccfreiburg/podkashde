@@ -16,7 +16,7 @@ import { defineComponent } from "vue";
 import parse from 'id3-parser';
 import { convertFileToBuffer } from 'id3-parser/lib/util';
 import AudioFileMetadata from "~~/base/types/AudioFileMetadata";
-import type IEpisode from "~~/base/types/IEpisode";
+import type {IEpisode} from "~~/base/types/IEpisode";
 //import type { IID3Tag } from "id3-parser/lib/interface";
 import type IValidationError from "~/base/types/IValidationError";
 export default defineComponent({

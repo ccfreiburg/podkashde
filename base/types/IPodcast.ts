@@ -1,7 +1,7 @@
-import type IEpisode from './IEpisode';
-import type ISerie from './ISerie';
+import type {IEpisode} from './IEpisode';
+import type {ISerie} from './ISerie';
 
-export default interface IPodcast {
+export interface IPodcast {
   id?: number;
   cover_file: string;
   title: string;

@@ -26,7 +26,7 @@ import {
   saveSlugFormText,
 } from "~~/base/Converters";
 import validation from "~~/base/SeriesDetailValidation";
-import type ISerie from "../base/types/ISerie";
+import type {ISerie} from "../base/types/ISerie";
 import ImageMetadata from "~~/base/types/ImageMetadata";
 import type IValidationError from "~~/base/types/IValidationError";
 import { COUNT_AP, SERIES_AP, SERIES_IMG_PATH, SERVER_IMG_PATH } from "~~/base/Constants";

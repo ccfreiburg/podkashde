@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest"
 import { fireEvent, render } from "@testing-library/vue"
 import InputArea from "../../components/InputArea.vue"
-import IValidationError from "~~/base/types/IValidationError"
+import type {IValidationError} from "~~/base/types/IValidationError"
 import {createI18n} from 'vue-i18n'
 
 

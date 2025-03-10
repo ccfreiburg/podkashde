@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import IPodcast from "../../base/types/IPodcast";
+import type {IPodcast} from "../../base/types/IPodcast";
 import validation from "../../base/PodcastDetailValidation";
 import { REQUIRED_IMG_WIDTH, REQUIRED_IMG_HEIGHT } from '../../base/Constants';
 

@@ -67,7 +67,7 @@
 
 <script lang="ts">
 import { PODCAST_AP, UPLOAD_AP, SERVER_IMG_PATH, COUNT_AP } from "~~/base/Constants";
-import type IPodcast from "~~/base/types/IPodcast";
+import type {IPodcast} from "~~/base/types/IPodcast";
 import type IPostdata from "~~/base/types/IPostdata";
 import validation from "~~/base/PodcastDetailValidation";
 import ImageMetadata from "~~/base/types/ImageMetadata";

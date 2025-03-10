@@ -1,6 +1,6 @@
 import { REQUIRED_IMG_WIDTH, REQUIRED_IMG_HEIGHT } from './Constants';
-import IValidationError from './types/IValidationError';
-import ISerie from "./types/ISerie";
+import type {IValidationError} from './types/IValidationError';
+import type {ISerie} from "./types/ISerie";
 import serie_validation from "./SeriesDetailValidation"
 import podcast_validation from "./PodcastDetailValidation"
 import episode_validation from "./EpisodeDetailValidation"

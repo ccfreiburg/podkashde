@@ -1,7 +1,7 @@
 import { ContentState } from "./ContentState";
-import IEpisode from "./IEpisode";
+import type {IEpisode} from "./IEpisode";
 
-export default interface ISerie {
+export interface ISerie {
   id?: number;
   title: string;
   subtitle: string;

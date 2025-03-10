@@ -1,5 +1,5 @@
 import { SERIES_AP } from "~~/base/Constants";
-import type ISerie from "~~/base/types/ISerie";
+import type {ISerie} from "~~/base/types/ISerie";
 
 
 const series = ref([] as Array<ISerie>)

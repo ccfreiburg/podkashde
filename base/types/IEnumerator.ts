@@ -1,4 +1,4 @@
-export default interface IEnumerator {
+export interface IEnumerator {
     displaytext: string;
     shorttext: string;
     parentCategory: string;

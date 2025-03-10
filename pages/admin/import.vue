@@ -120,8 +120,8 @@ import { useWpEpisodeCount, useWpEpisodes, useWpMetadata, WpMetadata } from "~~/
 import { EnumKey } from "~~/base/Enumerations";
 import type ProgressInfo from "~~/base/types/ProgressInfo";
 import type IEnumerator from "~~/base/types/IEnumerator";
-import type IPodcast from "~~/base/types/IPodcast";
-import type ISerie from "~~/base/types/ISerie";
+import type {IPodcast} from "~~/base/types/IPodcast";
+import type {ISerie} from "~~/base/types/ISerie";
 import type { IFetchFileResult } from "~~/base/types/IFetchFileResult";
 import { addState, ContentState } from "~~/base/types/ContentState";
 

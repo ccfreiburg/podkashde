@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import IEpisode from "../../base/types/IEpisode";
-import IPodcast from "../../base/types/IPodcast";
-import ISerie from "../../base/types/ISerie";
+import type {IEpisode} from "../../base/types/IEpisode";
+import type {IPodcast} from "../../base/types/IPodcast";
+import type {ISerie} from "../../base/types/ISerie";
 import validation from "../../base/DetailValidation";
 import { REQUIRED_IMG_WIDTH, REQUIRED_IMG_HEIGHT } from '../../base/Constants';
 

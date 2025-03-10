@@ -49,7 +49,7 @@ export const decodeAccessToken = (token: string) => {
 }
 
 export const sendRefreshToken = (response: Response, token: string) => {
-    response.cookie('refresh_token', token, { path: '/', httpOnly: true, sameSite: true, domain: 'localhost:3003' })
+    response.cookie('refresh_token', token, { path: '/', httpOnly: true, sameSite: true }) //  domain: 'localhost:3003' })
 } 
 
 export const deleteRefreshToken = (response: Response) => {
@@ -58,7 +58,7 @@ export const deleteRefreshToken = (response: Response) => {
 
 export const sendAuthToken = (response: Response, token: string) => {
     response.cookie('auth_token', token, { 
-        path: '/', httpOnly: true, sameSite: true, domain: 'localhost' })
+        path: '/', httpOnly: true, sameSite: true }) //, domain: 'localhost' })
 } 
 
 export const deleteAuthToken = (response: Response) => {

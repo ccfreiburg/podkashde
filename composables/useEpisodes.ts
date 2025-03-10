@@ -1,5 +1,5 @@
 import {EPISODES_AP} from '~~/base/Constants'
-import type IEpisode from '~~/base/types/IEpisode'
+import type {IEpisode} from '~~/base/types/IEpisode'
 import { useDatas } from './useData'
 
 const episodes = ref([] as Array<IEpisode>)

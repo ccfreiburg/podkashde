@@ -1,6 +1,6 @@
 import { SERIE_AP } from "~~/base/Constants";
-import type ISerie from "~~/base/types/ISerie";
-import type IEpisode from "~/base/types/IEpisode";
+import type {ISerie} from "~~/base/types/ISerie";
+import type {IEpisode} from "~/base/types/IEpisode";
 
 const episodes = ref<Array<IEpisode> | undefined>(undefined)
 const serie = ref<ISerie | undefined>(undefined)

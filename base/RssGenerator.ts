@@ -1,7 +1,7 @@
 import { Podcast } from 'podcast';
 import { FEED_SLUG, SERVER_IMG_PATH, SERVER_MP3_PATH } from './Constants';
 import { ContentFile } from './ContentFile';
-import IPodcast from './types/IPodcast';
+import type {IPodcast} from './types/IPodcast';
 
 var testing = false;
 export function setTesting() { testing = true }

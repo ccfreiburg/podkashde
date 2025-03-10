@@ -1,5 +1,5 @@
-import type IEpisode from "~/base/types/IEpisode";
-import type IPodcast from "~/base/types/IPodcast";
+import type {IEpisode} from "~/base/types/IEpisode";
+import type {IPodcast} from "~/base/types/IPodcast";
 import { PODCAST_AP, GENERATE_RSS_AP } from "~~/base/Constants";
 
 

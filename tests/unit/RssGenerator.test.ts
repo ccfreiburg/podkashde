@@ -1,9 +1,9 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import { generateRss, setTesting } from "../../base/RssGenerator";
-import IPodcast from "~~/base/types/IPodcast";
+import type {IPodcast} from "~~/base/types/IPodcast";
 import xml2js from "xml2js"
 import { FEED_SLUG, SERVER_IMG_PATH, SERVER_MP3_PATH } from "../../base/Constants";
-import IEpisode from "~~/base/types/IEpisode";
+import type {IEpisode} from "~~/base/types/IEpisode";
 
 const BASE_URL = 'http://localhost:3000';
 setTesting()

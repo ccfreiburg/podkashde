@@ -1,5 +1,5 @@
 import { REQUIRED_IMG_WIDTH, REQUIRED_IMG_HEIGHT } from '../base/Constants';
-import type IEpisode from './types/IEpisode';
+import type {IEpisode} from './types/IEpisode';
 import type IValidationError from './types/IValidationError';
 
 const i18naccessor = "episode.validation."

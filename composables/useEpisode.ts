@@ -1,7 +1,7 @@
 import {EPISODE_AP} from '~~/base/Constants'
-import type IEpisode from '~~/base/types/IEpisode'
-import type IPodcast from '~~/base/types/IPodcast'
-import type ISerie from '~~/base/types/ISerie'
+import type {IEpisode} from '~~/base/types/IEpisode'
+import type {IPodcast} from '~~/base/types/IPodcast'
+import type {ISerie} from '~~/base/types/ISerie'
 
 const episode = ref<IEpisode | undefined>(undefined)
 const podcast = ref<IPodcast | undefined>(undefined)

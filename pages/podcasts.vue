@@ -106,7 +106,7 @@
 
 <script setup lang="ts">
 import { FEED_SLUG } from '~~/base/Constants';
-import type IPodcast from '~~/base/types/IPodcast';
+import type {IPodcast} from '~~/base/types/IPodcast';
 import { ContentFile } from '~~/base/ContentFile'
 
 const { refresh, podcasts } = usePodcasts()

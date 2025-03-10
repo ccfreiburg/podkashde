@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import type IEpisode from '~~/base/types/IEpisode';
+import type {IEpisode} from '~~/base/types/IEpisode';
 import { NUM_ITEMS_PER_PAGE } from '~~/base/Constants';
 import { ContentFile } from '~~/base/ContentFile'
 import { dateToString } from '~~/base/Converters'

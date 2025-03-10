@@ -1,6 +1,6 @@
 import { REQUIRED_IMG_WIDTH, REQUIRED_IMG_HEIGHT } from '../base/Constants';
-import IPodcast from './types/IPodcast';
-import IValidationError from './types/IValidationError';
+import type {IPodcast} from './types/IPodcast';
+import type {IValidationError} from './types/IValidationError';
 
 const i18nstructure = "podcast.validation.";
 

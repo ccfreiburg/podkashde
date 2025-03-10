@@ -1,10 +1,10 @@
 import Enumerations, { EnumKey } from "./Enumerations";
 import {ContentState} from "./types/ContentState"
 import { strToDate } from "./Converters";
-import type IPodcast from "./types/IPodcast";
-import type IEpisode from "./types/IEpisode";
+import type {IPodcast} from "./types/IPodcast";
+import type {IEpisode} from "./types/IEpisode";
 import type IEnumerator from "./types/IEnumerator";
-import type ISerie from "./types/ISerie";
+import type {ISerie} from "./types/ISerie";
 import type IBibleAddress from "./types/IBibleAddress.ts"
 
 export function enumsfromWpMetadata(
