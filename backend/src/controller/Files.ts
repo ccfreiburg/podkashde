@@ -56,39 +56,56 @@ try {
   return respond(response, 500, {statusCode: 500, message: 'No File found'});
 }
 
-export async function paseFormdata(request: Request, response: Response) : Promise<{ uploaded: string, path: string, filename: string }> {
-    return new Promise((resolve) => {
-        var filedata = {} as any
-        const fields = {} as any
-        const busb = busboy({ headers: request.headers })
-        busb.on('file', (name: string, file: any, info: any) => {
-          var { filename, encoding, mimeType } = info
-          if (filename.length==0)
-            filename = "tmp"
-          const path = DATA_PATH+UPLOAD_TEMP_PATH+filename;
-          var ws = fs.createWriteStream(path)
-          filedata = {
-            fieldname: name,
-            path,
-            filename,
-            encoding,
-            mimeType
-          }
-          file.on('close',()=>{
-            ws.close()
-          })
-          file.on('data',(chunk)=>{
-            ws.write(chunk)
-          })
-        })
-        busb.on('field', (name : string, value: object, info: any) => {
-          fields[name] = value
-        })
-        busb.on('close', () => {
-          resolve({ uploaded: filedata.path, path: fields.path, filename: fields.filename })
-        })
-        request.pipe(busb)
-        return
-      })
+export async function paseFormdata(
+  request: Request,
+  response: Response
+): Promise<{ uploaded: string, path: string, filename: string }> {
+  return new Promise((resolve, reject) => {
+    const filedata: any = {}
+    const fields: any = {}
+    const busb = busboy({ headers: request.headers })
+    let fileWritePromise: Promise<void> | null = null
 
+    busb.on('file', (name: string, file: any, info: any) => {
+      let { filename, encoding, mimeType } = info
+      if (!filename || filename.length === 0) filename = "tmp"
+
+      const filePath = DATA_PATH + UPLOAD_TEMP_PATH + filename
+      const ws = fs.createWriteStream(filePath)
+      filedata.path = filePath
+      filedata.filename = filename
+      filedata.fieldname = name
+      filedata.encoding = encoding
+      filedata.mimeType = mimeType
+
+      // Ensure we resolve only after the write stream finishes
+      fileWritePromise = new Promise<void>((fileResolve, fileReject) => {
+        file.pipe(ws)
+        ws.on('finish', fileResolve)
+        ws.on('error', fileReject)
+        file.on('error', fileReject)
+      })
+    })
+
+    busb.on('field', (name: string, value: string, info: any) => {
+      fields[name] = value
+    })
+
+    busb.on('close', async () => {
+      try {
+        if (fileWritePromise) {
+          await fileWritePromise
+        }
+        resolve({
+          uploaded: filedata.path,
+          path: fields.path,
+          filename: fields.filename
+        })
+      } catch (err) {
+        reject(err)
+      }
+    })
+
+    request.pipe(busb)
+  })
 }

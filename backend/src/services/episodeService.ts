@@ -20,6 +20,8 @@ export async function saveEpisode(episode : Episode): Promise<Episode> {
   } else {
     const id = await saveGen<Episode>(Episode, episode)
     const epi = getEpisode({ ...episode, id }) as Episode
+    if (episode.serie)
+      setLastAndFirst(episode.serie.id)
     writeTags(epi)
     return epi;
   }

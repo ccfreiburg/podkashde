@@ -1,18 +1,27 @@
 import Serie from "../entities/Serie"
-import { getQueryGen, updateGen } from "./genericService"
+import { getExtQueryGen, updateGen } from "./genericService"
 
 export const setLastAndFirst = async ( id: number ) : Promise<string> => {
-    const serie = await getQueryGen(Serie, { id: id })
-    var minmax = serie.episodes?.reduce( (minmax, episode) => {
-      const d = new Date(episode.pubdate)
+  var tmpQuery = {
+          where: { id: id },
+          relations: ["episodes"],
+        };
+    const serie = await getExtQueryGen(Serie,tmpQuery )
+    const dateMinMax = (d, minmax) => {
       if (d< minmax.min)
         minmax.min = d
       if (d > minmax.max)
         minmax.max = d
       return minmax
+    }
+    var minmax = serie.episodes?.reduce( (minmax, episode) => {
+      const d = new Date(episode.pubdate)
+      return dateMinMax(d, minmax)
     }, { min: new Date(), max: new Date(1900)})
     serie.lastEpisode = minmax?.max
     serie.firstEpisode = minmax?.min
+    delete serie.episodes
+    console.log(serie)
     updateGen(Serie, serie as Serie)
     return serie.slug
   }

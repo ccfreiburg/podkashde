@@ -29,7 +29,10 @@ cypress/e2e/logs
 cypress/screenshots
 cypress/logs
 
+public/data
 public/s
+public/img
+
 backend/node_modules 
 backend/public/s 
 backend/dist 
@@ -37,6 +40,10 @@ backend/data/*.sqlite
 backend/yarn.lock
 backend/.env
 
-frontend
+backend/test/data
+backend/test/public/s
+backend/data/public
+backend/data/*.sqlite
 
+frontend
 yarn.lock

@@ -48,7 +48,6 @@ const { series, refresh } = useSeries()
 const {on_mounted, on_before} = useMounted(refresh, user, false)
 onMounted( on_mounted )
 onBeforeMount( on_before )
-
 function sorter(a: ISerie, b: ISerie): number {
   return (
     (b.lastEpisode ? new Date(b.lastEpisode).getTime() : 0) -
