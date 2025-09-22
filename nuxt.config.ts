@@ -61,18 +61,8 @@ export default defineNuxtConfig({
   umami: {
     id: setEnv(process.env.NUXT_PUBLIC_UMAMI_ID,''),
     host: setEnv(process.env.NUXT_PUBLIC_UMAMI_HOST,''),
-    //autoTrack: true,
-    autoTrack: false,
-    // proxy: 'cloak',
-    // useDirective: true,
-    // ignoreLocalhost: true,
-    // excludeQueryParams: false,
-    // domains: ['cool-site.app', 'my-space.site'],
-    // customEndpoint: '/my-custom-endpoint',
-    // enabled: false,
-    // logErrors: true,
+    autoTrack: true,
   },
-
   runtimeConfig: {
     public: {
       url: process.env.NUXT_PUBLIC_URL,
