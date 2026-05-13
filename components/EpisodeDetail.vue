@@ -42,10 +42,7 @@
           v-model:value="fields.slug" />
         <input-area :name="'creator'" :label="'episode.label.creator'" :errors="errors" v-model:value="fields.creator"
           @change="setShortInfo" />
-        <input-area :name="'summary'" :type="'textarea'" :label="'episode.label.summary'" :errors="errors"
-          v-model:value="fields.summary" />
-        <input-area :name="'description'" :type="'textarea'" :label="'episode.label.description'" :errors="errors"
-          v-model:value="fields.description" />
+        <!-- Removed summary and description fields -->
         <switch-box :checked="fields.block" @checkedChanged="(val) => fields.block = val"
           :labelChecked="$t('episode.label.block_true')" :labelUnChecked="$t('episode.label.block_false')" />
         <switch-box :checked="fields.explicit" @checkedChanged="(val) => fields.explicit = val"

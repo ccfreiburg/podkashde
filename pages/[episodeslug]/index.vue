@@ -73,11 +73,16 @@
         </div>
       </div>
       <div class="pt-6 text-skin-muted">
-        {{ $t('episode.label.description') }}
+        Info
       </div>
-      <!-- <div>{{ episode.cross_ref }} // {{ episode.creator }} // <a :href="episode.video_link">Video Version</a></div> -->
-      <div v-if="episode.description != null" v-html="episode.description" />
-      <div v-if="episode.summary != null" class="pt-2 break-normal" v-html="episode.summary"></div>
+      <div class="pt-2 break-normal">
+        <span v-if="episode.cross_ref">{{ episode.cross_ref }}</span>
+        <span v-if="episode.creator"> <span v-if="episode.cross_ref"> // </span>{{ episode.creator }}</span>
+        <span v-if="episode.video_link">
+          <span v-if="episode.cross_ref || episode.creator"> // </span>
+          <a :href="episode.video_link" target="_blank">Video Version</a>
+        </span>
+      </div>
     </BaseContainerClean>
 
       <BaseContainerClean v-if="user != null" class="py-10 bg-skin-muted dark:bg-skin-dark text-skin-base dark:text-skin-dark">
